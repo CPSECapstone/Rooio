@@ -9,7 +9,7 @@
         android:id="@+id/login_button"
         android:layout_width="219dp"
         android:layout_height="41dp"
-        android:layout_marginBottom="72dp"
+        android:layout_marginBottom="74dp"
         android:background="@drawable/button_border"
         android:fontFamily="monospace"
         android:text="@string/login"
