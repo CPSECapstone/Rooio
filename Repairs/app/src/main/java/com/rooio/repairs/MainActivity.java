@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         mTextView = findViewById(R.id.activity_main_text_view);
         //AccountManager am = get(this);
         //Account[] accounts = am.getAccountsByType("com.google");
-        ;//
+        //
         // mAccount = accounts[0];
         // Retrieve the Clover account
         if (mAccount == null) {
