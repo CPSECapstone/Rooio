@@ -1,5 +1,4 @@
 # Rooio [![Build Status](https://dev.azure.com/CPSECapstone/Rooio/_apis/build/status/Repairs%20Application%20-%20CI?branchName=master)](https://dev.azure.com/CPSECapstone/Rooio/_build/latest?definitionId=7&branchName=master)
-======
 
 To clone this repository, click the clone or download button, and use git clone to create the local repository.
 
