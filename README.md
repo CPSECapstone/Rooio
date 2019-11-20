@@ -38,7 +38,8 @@ The path to the adb is usually user\textbackslash AppData\textbackslash Local\te
 Then run the emulator, and while it is running type into the Android Studio terminal: adb devices.
 Also while the emulator is running, do step 5 and 6 of the installation commands.
 
-**Continuous Integration**
+Continuous Integration
+----------------------
 After setting up the Clover emulator inside Android studio, the application should be able to run with full functionality. Any changes should be done on a branch and not directly to master.
 
 Any commit to master triggers a CI build in Azure DevOps. The status of the most recent build can be seen on the GitHub repository, and the Azure badge can be used to access the project pipelines.
