@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:layout_marginBottom="200dp"
-        android:text="Password must contain atleast 6 Alphanumeric Characters"
+        android:text="Password must contain at least 6 Alphanumeric Characters"
         app:layout_constraintBottom_toBottomOf="@+id/password_field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.499"
