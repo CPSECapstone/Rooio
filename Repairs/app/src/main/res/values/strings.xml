@@ -8,4 +8,7 @@
     <string name="username">username</string>
     <string name="password">password</string>
     <string name="login">Login</string>
+    <string name="title_activity_login_location">Login_location</string>
+    <string name="add_another_service_location">+ Add Another Service Location</string>
+
 </resources>

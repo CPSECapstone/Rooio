@@ -1,6 +1,7 @@
 package com.rooio.repairs;
 
 import android.accounts.Account;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -8,16 +9,11 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.view.View;
-import android.app.Activity;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.View;
-import java.lang.Object;
+
 import java.util.regex.Pattern;
-import android.widget.Button;
+
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.clover.sdk.util.CloverAccount;
@@ -26,7 +22,8 @@ import com.clover.sdk.v1.ClientException;
 import com.clover.sdk.v1.ServiceException;
 import com.clover.sdk.v3.inventory.InventoryConnector;
 import com.clover.sdk.v3.inventory.Item;
-import com.google.android.material.textfield.TextInputLayout;
+
+import org.w3c.dom.Text;
 
 public class Login extends AppCompatActivity {
 
@@ -36,8 +33,8 @@ public class Login extends AppCompatActivity {
         private EditText username;
         private EditText password;
         private Button login;
-        private TextView success;
         private TextView unsuccess;
+        private TextView unsuccess3;
 
 
 
@@ -48,24 +45,26 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        login = (Button) findViewById(R.id.login_button);
+        login = (Button) findViewById(R.id.login);
         username = (EditText) findViewById(R.id.username_field);
         password = (EditText) findViewById(R.id.password_field);
-        success = (TextView) findViewById(R.id.success);
         unsuccess = (TextView) findViewById(R.id.unsuccess);
+        unsuccess3 = (TextView) findViewById(R.id.unsuccess3);
 
+        unsuccess3.setText("Must be atleast 6 alphanumeric characters.");
+        unsuccess.setText("");
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if((validate(username.getText().toString(), password.getText().toString())) == true){
-                    success.setText("Successful Login");
-                    unsuccess.setText("");
+                    Intent intent1 = new Intent(Login.this, LocationLogin.class);
+                    startActivity(intent1);
 
                 }
                 else{
-                    unsuccess.setText("Unsuccessful Login");
-                    success.setText("");
+                    unsuccess3.setText("");
+                    unsuccess.setText("Username and/or Password is Incorrect. Must be atleast 6 alphanumeric characters");
 
                 }
             }
