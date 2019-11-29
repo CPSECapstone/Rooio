@@ -9,14 +9,18 @@ trigger:
 pool:
   vmImage: 'macos-latest'
 
+# Assemble a debug APK
 steps:
 - task: Gradle@2
   inputs:
     workingDirectory: 'Repairs'
     gradleWrapperFile: 'Repairs/gradlew'
     gradleOptions: '-Xmx3072m'
+    publishJUnitResults: false
+    testResultsFiles: '**/TEST-*.xml'
     tasks: 'assembleDebug'
 
+# Runs all unit tests
 - task: Gradle@2
   inputs:
     workingDirectory: 'Repairs'
@@ -25,6 +29,29 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'testDebugUnitTest'
+
+# Create a JaCoCo code coverage report
+- task: Gradle@2
+  inputs:
+    workingDirectory: 'Repairs'
+    gradleWrapperFile: 'Repairs/gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: false
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: 'jacocoTestReport'
+
+# Publish code coverage results
+# Publish Cobertura or JaCoCo code coverage results from a build
+- task: PublishCodeCoverageResults@1
+  inputs:
+    #codeCoverageTool: 'JaCoCo' # Options: cobertura, jaCoCo
+    summaryFileLocation: '**/jacocoTestReport.xml'
+    #pathToSources: # Optional
+    reportDirectory: 'Repairs/app/build/reports/jacoco/jacocoTestReport/html'
+    #additionalCodeCoverageFiles: # Optional
+    #failIfCoverageEmpty: false # Optional
+
+# Copy APK over to pipeline
 - task: CopyFiles@2
   inputs:
     contents: '**/*.apk'
