@@ -16,5 +16,5 @@ steps:
     gradleWrapperFile: 'Repairs/gradlew'
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: true
-    testResultsFiles: '${System.DefaultWorkingDirectory}/Rooio/Repairs/**/TEST-*.xml'
+    testResultsFiles: 'Rooio/Repairs/**/TEST-*.xml'
     tasks: 'assembleDebug'
