@@ -24,7 +24,7 @@ steps:
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'JaCoCo'
-    summaryFileLocation: 'Repairs/app/build/test-results/testDebugUnitTest/TEST-*.xml'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/app/build/test-results/testDebugUnitTest/TEST-*.xml'
     #pathToSources: # Optional
     #reportDirectory: # Optional
     #additionalCodeCoverageFiles: # Optional
