@@ -16,5 +16,5 @@ steps:
     gradleWrapperFile: 'Repairs/gradlew'
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: true
-    testResultsFiles: '${System.DefaultWorkingDirectory}/app/build/reports/coverage/debug/report.xml'
+    testResultsFiles: 'TEST-*.xml'
     tasks: 'assembleDebug'
