@@ -47,7 +47,7 @@ steps:
     #codeCoverageTool: 'JaCoCo' # Options: cobertura, jaCoCo
     summaryFileLocation: '**/jacocoTestReport.xml'
     #pathToSources: # Optional
-    reportDirectory: 'Repairs/app/build/reports/jacoco/jacocoTestReport/html'
+    reportDirectory: '**/jacocoTestReport/html'
     #additionalCodeCoverageFiles: # Optional
     #failIfCoverageEmpty: false # Optional
 
