@@ -39,8 +39,6 @@ steps:
     #codeCoverageTool: 'JaCoCo' # Options: cobertura, jaCoCo
     summaryFileLocation: '**/jacocoTestReport.xml'
     pathToSources: 'Repairs'
-    reportDirectory: '**/jacocoTestReport/html'
-    #additionalCodeCoverageFiles: # Optional
     failIfCoverageEmpty: true
 - task: CopyFiles@2
   inputs:
