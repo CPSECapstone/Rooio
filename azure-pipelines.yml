@@ -16,7 +16,7 @@ steps:
     gradleWrapperFile: 'Repairs/gradlew'
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
+    testResultsFiles: 'Repairs/app/build/test-results/TEST-*.xml'
     tasks: 'assembleDebug'
 
 # Publish code coverage results
