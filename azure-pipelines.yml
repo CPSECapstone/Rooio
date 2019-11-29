@@ -25,7 +25,7 @@ steps:
   inputs:
     codeCoverageTool: 'JaCoCo'
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/app/build/test-results/testDebugUnitTest/TEST-*.xml'
-    #pathToSources: # Optional
+    pathToSources: '$(System.DefaultWorkingDirectory)'
     #reportDirectory: # Optional
     #additionalCodeCoverageFiles: # Optional
     #failIfCoverageEmpty: false # Optional
