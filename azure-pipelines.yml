@@ -15,6 +15,17 @@ steps:
     workingDirectory: 'Repairs'
     gradleWrapperFile: 'Repairs/gradlew'
     gradleOptions: '-Xmx3072m'
-    publishJUnitResults: true
-    testResultsFiles: 'Repairs/app/build/test-results/testDebugUnitTest/TEST-*.xml'
+    publishJUnitResults: false
+    testResultsFiles: '**/TEST-*.xml'
     tasks: 'assembleDebug'
+
+# Publish code coverage results
+# Publish Cobertura or JaCoCo code coverage results from a build
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'JaCoCo'
+    summaryFileLocation: 'Repairs/app/build/test-results/testDebugUnitTest/TEST-*.xml'
+    #pathToSources: # Optional
+    #reportDirectory: # Optional
+    #additionalCodeCoverageFiles: # Optional
+    #failIfCoverageEmpty: false # Optional
