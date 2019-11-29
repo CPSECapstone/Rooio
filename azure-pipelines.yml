@@ -16,8 +16,6 @@ steps:
     workingDirectory: 'Repairs'
     gradleWrapperFile: 'Repairs/gradlew'
     gradleOptions: '-Xmx3072m'
-    publishJUnitResults: false
-    testResultsFiles: '**/TEST-*.xml'
     tasks: 'assembleDebug'
 
 # Runs all unit tests
@@ -33,6 +31,6 @@ steps:
 # Copy APK over to pipeline
 - task: CopyFiles@2
   inputs:
-    contents: '**/*.apk'
+    contents: '**/app-release.apk'
     targetFolder: '$(build.artifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
