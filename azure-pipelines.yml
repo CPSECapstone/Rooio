@@ -15,7 +15,13 @@ steps:
     workingDirectory: 'Repairs'
     gradleWrapperFile: 'Repairs/gradlew'
     gradleOptions: '-Xmx3072m'
+<<<<<<< HEAD
     tasks: 'clean assembleDebug'
+=======
+    publishJUnitResults: false
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: 'assembleDebug'
+>>>>>>> parent of 0f251a9... Update azure-pipelines.yml for Azure Pipelines
 
 - task: Gradle@2
   inputs:
