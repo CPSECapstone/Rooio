@@ -37,14 +37,10 @@ adb devices.
 > While the emulator is running, do steps 5 and 6 of the installation commands.
 
 #### Windows Users
-> The path to the adb is something like the following, and is located in the app data for the Android SDK.
-
+> This is the directory where adb.exe is located typically. Search in other directories if it cannot be found, and add the path to your environment variables under Path.
 ```
-user\AppData\Local\Android\Sdk\platform-tools
+%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools
 ```
-
-> This is the directory where adb.exe is located. Search in other directories if it cannot be found, and add this path to your environment variables.
-
 > Then run the emulator, and while it is running type the following into the Android Studio terminal. 
 ```
 adb devices
