@@ -42,6 +42,6 @@ steps:
     failIfCoverageEmpty: true
 - task: CopyFiles@2
   inputs:
-    contents: '**/app-release.apk'
+    contents: '**/app-debug.apk'
     targetFolder: '$(build.artifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
