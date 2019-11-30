@@ -21,7 +21,7 @@ The information below consists of helpful tips to reference while going through 
 > The ‘adb devices’ command probably won’t work at first. You need to find the path where your adb is located. 
 
 #### Mac Users
-These two commands will most likely work for Mac users, make sure you change “username” to your username. Also type in these commands in the same order as presented below.
+> These two commands will most likely work for Mac users, make sure you change “username” to your username. Also type in these commands in the same order as presented below.
 
 ```
 export ANDROID\_HOME=/Users/username/Library/Android/sdk 
@@ -30,26 +30,26 @@ export ANDROID\_HOME=/Users/username/Library/Android/sdk
 export PATH=\$\{PATH\}:\$ANDROID\_HOME/tools:\$ANDROID\_HOME/platform-tools 
 ```
 
-Then run the emulator, and while it is running type into the Android Studio terminal
+> Then run the emulator, and while it is running type the following into the Android Studio terminal.
 ```
 adb devices.
 ```
-While the emulator is running, do steps 5 and 6 of the installation commands.
+> While the emulator is running, do steps 5 and 6 of the installation commands.
 
 #### Windows Users
-The path to the adb is something like the following, and is located in the app data for the Android SDK.
+> The path to the adb is something like the following, and is located in the app data for the Android SDK.
 
 ```
 user\AppData\Local\Android\Sdk\platform-tools
 ```
 
-This is the directory where adb.exe is located. Search in other directories if it cannot be found, and add this path to your environment variables.
+> This is the directory where adb.exe is located. Search in other directories if it cannot be found, and add this path to your environment variables.
 
-Then run the emulator, and while it is running type into the Android Studio terminal: 
+> Then run the emulator, and while it is running type the following into the Android Studio terminal. 
 ```
 adb devices
 ```
-While the emulator is running, do steps 5 and 6 of the installation commands.
+> While the emulator is running, do steps 5 and 6 of the installation commands.
 
 ## Testing the application
 
