@@ -18,3 +18,30 @@ steps:
     publishJUnitResults: false
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'assembleDebug'
+- task: Gradle@2
+  inputs:
+    workingDirectory: 'Repairs'
+    gradleWrapperFile: 'Repairs/gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: 'testDebugUnitTest'
+- task: Gradle@2
+  inputs:
+    workingDirectory: 'Repairs'
+    gradleWrapperFile: 'Repairs/gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: false
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: 'jacocoTestReport'
+- task: PublishCodeCoverageResults@1
+  inputs:
+    #codeCoverageTool: 'JaCoCo' # Options: cobertura, jaCoCo
+    summaryFileLocation: '**/jacocoTestReport.xml'
+    pathToSources: 'Repairs'
+    failIfCoverageEmpty: true
+- task: CopyFiles@2
+  inputs:
+    contents: '**/app-debug.apk'
+    targetFolder: '$(build.artifactStagingDirectory)'
+- task: PublishBuildArtifacts@1

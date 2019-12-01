@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Repairs</string>
+    <string name="mainbox">TextView</string>
+    <string name="choose_service_location">Choose Service Location</string>
+    <string name="address">ADDRESS</string>
+    <string name="service_location">Service Location</string>
+    <string name="add_location">Add Location</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="login">Login</string>
 </resources>
