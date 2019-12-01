@@ -38,12 +38,10 @@ steps:
   inputs:
     #codeCoverageTool: 'JaCoCo' # Options: cobertura, jaCoCo
     summaryFileLocation: '**/jacocoTestReport.xml'
-    #pathToSources: # Optional
-    reportDirectory: '**/jacocoTestReport/html'
-    #additionalCodeCoverageFiles: # Optional
-    #failIfCoverageEmpty: false # Optional
+    pathToSources: 'Repairs'
+    failIfCoverageEmpty: true
 - task: CopyFiles@2
   inputs:
-    contents: '**/app-release.apk'
+    contents: '**/app-debug.apk'
     targetFolder: '$(build.artifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
