@@ -37,7 +37,7 @@ public abstract class RestApi extends AppCompatActivity {
         HashMap<String, String> params = new HashMap<>();
         params.put("username", username.getText().toString());
         params.put("password", password.getText().toString());
-        
+
  // --- requestPost function call
         requestPost(url, params, false);
 
@@ -103,7 +103,7 @@ TODO: --------------------------------------------------------------------------
 
 TODO: ----------------------------------------------------------------------------------------------
 
-// Example Json handling function
+// -- Example Json handling function
     public void storeToken(JSONObject responseObj){
         String token = null;
         try {
