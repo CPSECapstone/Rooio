@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public abstract class RestApi extends AppCompatActivity {
 
-    String userToken = null;
+    static String userToken = null;
 
     public void setUserToken(String userToken) {
         this.userToken = userToken;
@@ -27,9 +27,9 @@ public abstract class RestApi extends AppCompatActivity {
         this.userLocationID = userLocationID;
     }
 
-    public abstract void requestPost(String url, HashMap<String, String> params, final boolean headersFlag);
-
-    public abstract void requestGet(String url, final boolean headersFlag);
+//    public abstract void requestPost(String url, HashMap<String, String> params, final boolean headersFlag);
+//
+//    public abstract void requestGet(String url, final boolean headersFlag);
 }
 /*
 ---- Example requestPost function call and prestaging:
