@@ -26,10 +26,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -62,7 +64,8 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
         //Array to hold all the addresses
         address_list = new ArrayList<String>();
 
-        requestGet(url,true);
+        requestGetArray(url,true);
+//        test.setText("Token: " + getUserToken());
 
         adapter = new ArrayAdapter<String>(LocationLogin.this, android.R.layout.simple_list_item_1, address_list);
         lv.setAdapter(adapter);
@@ -162,15 +165,15 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
     }
 
-    public void requestGet(String url, final boolean headersFlag){
+    public void requestGetArray(String url, final boolean headersFlag){
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        JSONObject responseObj = response;
+                    public void onResponse(JSONArray response) {
+                        JSONArray responseObj = response;
 
 //          TODO: ----->  Start specialized json handling function
                         test.setText("hello");
@@ -183,7 +186,11 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
                     public void onErrorResponse(VolleyError error) {
 
 //          TODO: ----->  Error Handling functions
+<<<<<<< HEAD
                         //test.setText("Not working");
+=======
+                        test.setText("Token: " + getUserToken()+ "\n" + error.toString());
+>>>>>>> edd5324030ab752d627b09c1ef6dbc6a3a134e25
 
 //                ----->
                     }}) {

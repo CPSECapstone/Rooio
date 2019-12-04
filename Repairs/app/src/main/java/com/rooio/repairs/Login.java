@@ -209,7 +209,12 @@ public class Login extends RestApi {
 
 //          TODO: ----->  Start specialized json handling function
 
+                        unsuccess.setText("");
+                        unsuccess3.setText("Loading");
+
                         storeToken(responseObj);
+
+//                        unsuccess3.setText(getUserToken());
 
                         Intent intent1 = new Intent(Login.this, LocationLogin.class);
                         startActivity(intent1);
@@ -221,7 +226,9 @@ public class Login extends RestApi {
 
 //          TODO: ----->  Error Handling functions
 
+                        unsuccess3.setText("");
                         unsuccess.setText("Incorrect Username and/or Password.");
+
 
                     }}) {
 
@@ -251,13 +258,13 @@ public class Login extends RestApi {
     public void storeToken(JSONObject responseObj){
         String token = null;
         try {
-            token = (String)responseObj.get("Token");
+            token = (String)responseObj.get("token");
         } catch (JSONException e) {
             e.printStackTrace();
         }
+//        unsuccess.setText(token);
         setUserToken(token);
-    }
 
-    public void requestGet(String url, final boolean headersFlag){}
+    }
 
 }
