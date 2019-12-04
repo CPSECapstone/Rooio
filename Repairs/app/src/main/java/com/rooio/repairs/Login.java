@@ -230,6 +230,7 @@ public class Login extends RestApi {
 
 //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
                 if (headersFlag){
+
                     Map<String, String> headers = new HashMap<>();
                     headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
                     return headers;

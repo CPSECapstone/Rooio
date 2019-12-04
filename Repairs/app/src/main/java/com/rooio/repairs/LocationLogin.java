@@ -173,7 +173,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
                         JSONObject responseObj = response;
 
 //          TODO: ----->  Start specialized json handling function
-                        test.setText(responseObj.toString());
+                        test.setText("hello");
 
 //                ----->
                     }
@@ -183,7 +183,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
                     public void onErrorResponse(VolleyError error) {
 
 //          TODO: ----->  Error Handling functions
-                        test.setText("Not working");
+                        //test.setText("Not working");
 
 //                ----->
                     }}) {
@@ -193,6 +193,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
 //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
                 if (headersFlag){
+
                     Map<String, String> headers = new HashMap<>();
                     headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
                     return headers;
