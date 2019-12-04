@@ -1,5 +1,6 @@
 package com.rooio.repairs;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
@@ -27,6 +28,8 @@ public abstract class RestApi extends AppCompatActivity {
     }
 
     public abstract void requestPost(String url, HashMap<String, String> params, final boolean headersFlag);
+
+    public abstract void requestGet(String url, final boolean headersFlag);
 }
 /*
 ---- Example requestPost function call and prestaging:
@@ -86,7 +89,7 @@ TODO: --------------------------------------------------------------------------
 //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
                         if (headersFlag){
                             Map<String, String> headers = new HashMap<>();
-                            headers.put("Authorization", getUserToken());  //<-- Token in Abstract Class RestApi
+                            headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
                             return headers;
 
 //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
@@ -107,7 +110,7 @@ TODO: --------------------------------------------------------------------------
     public void storeToken(JSONObject responseObj){
         String token = null;
         try {
-            token = (String)responseObj.get("userToken");
+            token = (String)responseObj.get("Token");
         } catch (JSONException e) {
             e.printStackTrace();
         }
