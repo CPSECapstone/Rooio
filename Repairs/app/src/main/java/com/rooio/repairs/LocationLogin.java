@@ -5,14 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class LocationLogin extends AppCompatActivity {
+public class LocationLogin extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
     EditText et;
     Button bt;
@@ -49,6 +54,8 @@ public class LocationLogin extends AppCompatActivity {
         //Launch listener for "Add New Location"
         onBtnClick();
 
+        lv.setOnItemClickListener(this);
+
     }
 
     public void onBtnClick(){
@@ -59,5 +66,16 @@ public class LocationLogin extends AppCompatActivity {
                 startActivity(intent1);
             }
         });
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        TextView tv = (TextView)view;
+        Toast.makeText(this, "You chose"+tv.getText()+position, Toast.LENGTH_SHORT).show();
+
+        Intent intent1 = new Intent(LocationLogin.this, PreferredProvidersLogin.class);
+        startActivity(intent1);
+
     }
 }

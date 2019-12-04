@@ -51,7 +51,7 @@ public class Login extends AppCompatActivity {
         unsuccess = (TextView) findViewById(R.id.unsuccess);
         unsuccess3 = (TextView) findViewById(R.id.unsuccess3);
 
-        unsuccess3.setText("Must be atleast 6 alphanumeric characters.");
+        unsuccess3.setText("Password must be atleast 6 alphanumeric characters.");
         unsuccess.setText("");
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +64,7 @@ public class Login extends AppCompatActivity {
                 }
                 else{
                     unsuccess3.setText("");
-                    unsuccess.setText("Username and/or Password is Incorrect. Must be atleast 6 alphanumeric characters");
+                    unsuccess.setText("Incorrect Username and/or Password. Password must be atleast 6 alphanumeric characters");
 
                 }
             }
