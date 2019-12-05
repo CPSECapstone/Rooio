@@ -106,6 +106,57 @@ TODO: --------------------------------------------------------------------------
 
 TODO: ----------------------------------------------------------------------------------------------
 
+    public void requestGetArray(String url, final boolean headersFlag) {
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        JSONArray responseObj = response;
+
+//          TODO: ----->  Start specialized json handling function
+                        
+//                ----->
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+//          TODO: ----->  Error Handling functions
+
+                        test.setText("Token: " + getUserToken() + "\n" + error.toString());
+
+//                ----->
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+//                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+                if (headersFlag) {
+
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
+                    return headers;
+
+//                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+                } else {
+                    return Collections.emptyMap();
+                }
+            }
+        };
+
+//  --> Equivalent of sending the request. Required to WORK...
+        queue.add(jsonObjectRequest);
+
+    }
+
+TODO: ----------------------------------------------------------------------------------------------
+
 // -- Example Json handling function
     public void storeToken(JSONObject responseObj){
         String token = null;

@@ -204,7 +204,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
 //          TODO: ----->  Error Handling functions
 
-                        test.setText("Token: " + getUserToken() + "\n" + error.toString());
+//                        test.setText("Token: " + getUserToken() + "\n" + error.toString());
 
 //                ----->
                     }
