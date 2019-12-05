@@ -139,7 +139,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
                         JSONObject responseObj = response;
 
 //          TODO: ----->  Start specialized json handling function
-                        test.setText("Yayyyyy");
+//                        test.setText("Yayyyyy");
 
 //                ----->
                     }
