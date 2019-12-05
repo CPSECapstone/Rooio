@@ -37,15 +37,15 @@ import org.json.JSONObject;
 
 import org.w3c.dom.Text;
 
-public class LocationLogin extends RestApi implements AdapterView.OnItemClickListener{
+public class LocationLogin extends RestApi implements AdapterView.OnItemClickListener {
 
     EditText et;
     Button bt;
     ListView lv;
-    ArrayList<String> address_list;
     ArrayAdapter<String> adapter;
 
     TextView test;
+    static ArrayList<String> address_list = new ArrayList<String>();
 
     String incoming_name = null;
 
@@ -55,31 +55,41 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_login);
 
-        bt = (Button)findViewById(R.id.add_location);
-        lv = (ListView)findViewById(R.id.Service);
-        test = (TextView)findViewById(R.id.test);
+        bt = (Button) findViewById(R.id.add_location);
+        lv = (ListView) findViewById(R.id.Service);
+        test = (TextView) findViewById(R.id.test);
 
         String url = "https://capstone.api.roopairs.com/v0/service-locations/";
 
-        //Array to hold all the addresses
-        address_list = new ArrayList<String>();
 
-        requestGetArray(url,true);
-//        test.setText("Token: " + getUserToken());
-
-        adapter = new ArrayAdapter<String>(LocationLogin.this, android.R.layout.simple_list_item_1, address_list);
-        lv.setAdapter(adapter);
-
-        //Check for new addresses added from AddLocation Page
         Intent incoming_intent = getIntent();
         incoming_name = incoming_intent.getStringExtra("result");
-        if(incoming_name!=null){
+        if (incoming_name != null) {
 
             //getPost here
 
             address_list.add(incoming_name);
+            adapt();
+            adapter.notifyDataSetChanged();
+            //     -- Example params initiations
+            HashMap<String, String> params = new HashMap<>();
+            params.put("physical_address", incoming_name);
+
+            requestPost(url, params, true);
+
+
+
         }
-        adapter.notifyDataSetChanged();
+        else{
+            requestGetArray(url, true);
+
+        }
+
+//        adapter = new ArrayAdapter<String>(LocationLogin.this, android.R.layout.simple_list_item_1, address_list);
+//        lv.setAdapter(adapter);
+
+        //Check for new addresses added from AddLocation Page
+
 
         //Launch listener for "Add New Location"
         onBtnClick();
@@ -88,7 +98,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
     }
 
-    public void onBtnClick(){
+    public void onBtnClick() {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,15 +111,15 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        TextView tv = (TextView)view;
-        Toast.makeText(this, "You chose"+tv.getText()+position, Toast.LENGTH_SHORT).show();
+        TextView tv = (TextView) view;
+        Toast.makeText(this, "You chose" + tv.getText() + position, Toast.LENGTH_SHORT).show();
 
         Intent intent1 = new Intent(LocationLogin.this, PreferredProvidersLogin.class);
         startActivity(intent1);
 
     }
 
-    public void requestPost(String url, HashMap<String,String> params, final boolean headersFlag){
+    public void requestPost(String url, HashMap<String, String> params, final boolean headersFlag) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
@@ -129,7 +139,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
                         JSONObject responseObj = response;
 
 //          TODO: ----->  Start specialized json handling function
-
+                        test.setText("Yayyyyy");
 
 //                ----->
                     }
@@ -142,13 +152,14 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
 
 //                ----->
-                    }}) {
+                    }
+                }) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
 
 //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                if (headersFlag){
+                if (headersFlag) {
                     Map<String, String> headers = new HashMap<>();
                     headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
                     return headers;
@@ -165,7 +176,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
     }
 
-    public void requestGetArray(String url, final boolean headersFlag){
+    public void requestGetArray(String url, final boolean headersFlag) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
@@ -176,8 +187,14 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
                         JSONArray responseObj = response;
 
 //          TODO: ----->  Start specialized json handling function
-                        test.setText("hello");
+                        try {
+                            addElements(responseObj);
 
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        adapt();
+                        //test.setText(responseObj.toString());
 //                ----->
                     }
                 }, new Response.ErrorListener() {
@@ -186,20 +203,18 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
                     public void onErrorResponse(VolleyError error) {
 
 //          TODO: ----->  Error Handling functions
-<<<<<<< HEAD
-                        //test.setText("Not working");
-=======
-                        test.setText("Token: " + getUserToken()+ "\n" + error.toString());
->>>>>>> edd5324030ab752d627b09c1ef6dbc6a3a134e25
+
+                        test.setText("Token: " + getUserToken() + "\n" + error.toString());
 
 //                ----->
-                    }}) {
+                    }
+                }) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
 
 //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                if (headersFlag){
+                if (headersFlag) {
 
                     Map<String, String> headers = new HashMap<>();
                     headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
@@ -215,5 +230,20 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 //  --> Equivalent of sending the request. Required to WORK...
         queue.add(jsonObjectRequest);
 
+    }
+
+    public void addElements(JSONArray response) throws JSONException {
+        test.setText((Integer.toString(response.length())));
+        for (int i = 0; i < response.length(); i++) {
+            JSONObject restaurant = response.getJSONObject(i);
+            String physical_address = (String) restaurant.get("physical_address");
+            address_list.add(physical_address);
+
+        }
+    }
+
+    public void adapt(){
+        adapter = new ArrayAdapter<String>(LocationLogin.this, android.R.layout.simple_list_item_1, address_list);
+        lv.setAdapter(adapter);
     }
 }
