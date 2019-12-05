@@ -110,8 +110,8 @@
 
         <TextView
             android:id="@+id/test"
-            android:layout_width="198dp"
-            android:layout_height="33dp"
+            android:layout_width="697dp"
+            android:layout_height="135dp"
             android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

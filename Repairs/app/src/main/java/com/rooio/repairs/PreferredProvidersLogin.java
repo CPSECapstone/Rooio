@@ -67,18 +67,13 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
                 if (incoming_name != null) {
 
                         //getPost here
-
-
                         adapt();
                         adapter.notifyDataSetChanged();
                         //     -- Example params initiations
                         HashMap<String, String> params = new HashMap<>();
                         params.put("phone", incoming_name);
-                        
+
                         requestPost(url, params, true);
-
-
-
                 }
                 else{
                         requestGetArray(url, true);
@@ -119,7 +114,7 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
 
         }
 
-        public void requestPost(String url, HashMap<String, String> params, final boolean headersFlag) {
+        public void requestPost(final String url, HashMap<String, String> params, final boolean headersFlag) {
                 // Instantiate the RequestQueue.
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
@@ -155,7 +150,9 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
                                 public void onErrorResponse(VolleyError error) {
 
 //          TODO: ----->  Error Handling functions
-                                test.setText("error123"+error.toString());
+
+                                        requestGetArray(url, true);
+//                                      test.setText("error123"+error.toString());
 
 //                ----->
                                 }
