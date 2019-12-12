@@ -1,6 +1,6 @@
-What went well?
-Productivity
-Staying on top of our game
+What went well?\n
+Productivity\n
+Staying on top of our game\n
 Planning out workload (on Jira)
 Team socials (our team dynamic <3)
 Customer communication & meetings
