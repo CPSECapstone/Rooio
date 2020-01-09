@@ -112,7 +112,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         TextView tv = (TextView) view;
-        Toast.makeText(this, "You chose" + tv.getText() + position, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "You chose " + tv.getText() + position, Toast.LENGTH_SHORT).show();
 
         Intent intent1 = new Intent(LocationLogin.this, PreferredProvidersLogin.class);
         startActivity(intent1);

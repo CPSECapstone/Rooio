@@ -66,7 +66,7 @@
             android:layout_width="973dp"
             android:layout_height="255dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
@@ -74,9 +74,6 @@
                 android:id="@+id/add_another_provider"
                 android:layout_width="352dp"
                 android:layout_height="42dp"
-                android:layout_marginStart="372dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="382dp"
                 android:background="@drawable/blank_border"
                 android:fontFamily="monospace"
                 android:text="@string/add_another_service_provider"
@@ -88,10 +85,30 @@
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.43"
+                app:layout_constraintHorizontal_bias="0.27"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Service"
-                app:layout_constraintVertical_bias="0.78" />
+                app:layout_constraintTop_toBottomOf="@+id/Service2"
+                app:layout_constraintVertical_bias="0.62" />
+
+            <Button
+                android:id="@+id/Done"
+                android:layout_width="219dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/button_border"
+                android:fontFamily="monospace"
+                android:text="Done"
+                android:textAllCaps="false"
+                android:textColor="#06C47B"
+                android:textColorHighlight="#00F8F6F6"
+                android:textColorHint="#00FCFBFB"
+                android:textColorLink="#00FDFCFC"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.29"
+                app:layout_constraintStart_toEndOf="@+id/add_another_provider"
+                app:layout_constraintTop_toBottomOf="@+id/Service2" />
 
             <ListView
                 android:id="@+id/Service2"
@@ -113,9 +130,11 @@
             android:layout_width="697dp"
             android:layout_height="135dp"
             android:text="TextView"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+            tools:visibility="invisible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
