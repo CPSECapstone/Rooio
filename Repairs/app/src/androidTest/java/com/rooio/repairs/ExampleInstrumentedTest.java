@@ -43,10 +43,10 @@ public class ExampleInstrumentedTest {
     }
 
     @Test
-    public void wrongUsername() {
+    public void invalidPassword() {
         onView(withId(R.id.username_field)).perform(typeText("hacker"));
         onView(withId(R.id.login)).perform(click());
-        onView(withText("Incorrect Username and/or Password. Password must be at least 6 alphanumeric characters")).check(matches(isDisplayed()));
+        onView(withText("Password must be at least 6 alphanumeric characters")).check(matches(isDisplayed()));
     }
     
 }
