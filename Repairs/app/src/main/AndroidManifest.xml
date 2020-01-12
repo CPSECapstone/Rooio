@@ -12,7 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Splash_Screen"></activity>
         <!-- <activity android:name="PreferredProviders"> -->
         <!-- <intent-filter> -->
         <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -21,6 +20,13 @@
         <!-- android:theme="@style/AppTheme.NoActionBar"> -->
         <!-- </intent-filter> -->
         <!-- </activity> -->
+        <activity android:name=".Splash_Screen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".PreferredProvidersLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
