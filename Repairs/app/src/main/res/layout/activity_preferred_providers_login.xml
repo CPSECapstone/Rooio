@@ -5,12 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ECF0F1"
-    tools:context=".Login">
+    tools:context=".LocationLogin">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="965dp"
-        android:layout_height="359dp"
+        android:layout_width="969dp"
+        android:layout_height="493dp"
         android:layout_marginStart="22dp"
         android:layout_marginTop="62dp"
         android:layout_marginEnd="20dp"
@@ -20,7 +19,8 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/guideline3">
+        app:layout_constraintTop_toBottomOf="@+id/guideline3"
+        app:layout_constraintVertical_bias="0.194">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
@@ -38,13 +38,12 @@
                 android:id="@+id/Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Connect Your Account"
+                android:text="@string/preferred_service_provider"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.492" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/imageView"
@@ -67,52 +66,38 @@
             android:layout_width="973dp"
             android:layout_height="255dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
-
-            <EditText
-                android:id="@+id/username_field"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="386dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="359dp"
-                android:layout_marginBottom="11dp"
-                android:ems="10"
-                android:hint="@string/username"
-                android:inputType="textPersonName"
-                android:textAlignment="center"
-                app:layout_constraintBottom_toTopOf="@+id/password_field"
+            <Button
+                android:id="@+id/add_another_provider"
+                android:layout_width="352dp"
+                android:layout_height="42dp"
+                android:background="@drawable/blank_border"
+                android:fontFamily="monospace"
+                android:text="@string/add_another_service_provider"
+                android:textAllCaps="false"
+                android:textColor="#8D8D8D"
+                android:textColorHighlight="#00F8F6F6"
+                android:textColorHint="#00FCFBFB"
+                android:textColorLink="#00FDFCFC"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.27"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/password_field"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="359dp"
-                android:layout_marginBottom="39dp"
-                android:ems="10"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:textAlignment="center"
-                app:layout_constraintBottom_toTopOf="@+id/login"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/Service2"
+                app:layout_constraintVertical_bias="0.62" />
 
             <Button
-                android:id="@+id/login"
-                android:layout_width="162dp"
-                android:layout_height="37dp"
-                android:layout_marginBottom="48dp"
+                android:id="@+id/Done"
+                android:layout_width="219dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/button_border"
                 android:fontFamily="monospace"
-                android:text="@string/login"
+                android:text="Done"
                 android:textAllCaps="false"
                 android:textColor="#06C47B"
                 android:textColorHighlight="#00F8F6F6"
@@ -121,34 +106,35 @@
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.52"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintHorizontal_bias="0.29"
+                app:layout_constraintStart_toEndOf="@+id/add_another_provider"
+                app:layout_constraintTop_toBottomOf="@+id/Service2" />
 
-            <TextView
-                android:id="@+id/unsuccess"
-                android:layout_width="616dp"
-                android:layout_height="19dp"
-                android:layout_marginStart="182dp"
-                android:layout_marginEnd="176dp"
-                android:textAlignment="center"
-                android:textColor="#E4E40B0B"
+            <ListView
+                android:id="@+id/Service2"
+                android:layout_width="685dp"
+                android:layout_height="88dp"
+                android:layout_marginStart="43dp"
+                android:layout_marginEnd="43dp"
+                android:background="@drawable/edittextbackground"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/unsuccess3"
-                android:layout_width="616dp"
-                android:layout_height="19dp"
-                android:layout_marginStart="182dp"
-                android:layout_marginEnd="176dp"
-                android:textAlignment="center"
-                android:textColor="#E4494949"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.251" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/test"
+            android:layout_width="697dp"
+            android:layout_height="135dp"
+            android:text="TextView"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+            tools:visibility="invisible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -179,5 +165,4 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="1432dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

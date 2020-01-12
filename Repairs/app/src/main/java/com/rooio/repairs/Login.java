@@ -1,71 +1,76 @@
 package com.rooio.repairs;
 
-import android.accounts.Account;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.view.View;
-import android.app.Activity;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.View;
-import java.lang.Object;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
-import android.widget.Button;
+
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 
-import com.clover.sdk.util.CloverAccount;
-import com.clover.sdk.v1.BindingException;
-import com.clover.sdk.v1.ClientException;
-import com.clover.sdk.v1.ServiceException;
-import com.clover.sdk.v3.inventory.InventoryConnector;
-import com.clover.sdk.v3.inventory.Item;
-import com.google.android.material.textfield.TextInputLayout;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
-public class Login extends AppCompatActivity {
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
 
-        private Account mAccount;
-        private InventoryConnector mInventoryConnector;
-        private TextView mTextView;
-        private EditText username;
-        private EditText password;
-        private Button login;
-        private TextView success;
-        private TextView unsuccess;
+public class Login extends RestApi {
 
-
-
+    private EditText username;
+    private EditText password;
+    private Button login;
+    private TextView unsuccess;
+    private TextView unsuccess3;
 
     @Override
-        protected void onCreate (Bundle savedInstanceState) {
+    protected void onCreate (Bundle savedInstanceState) {
         Log.v("myTag", "This is in create");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        login = (Button) findViewById(R.id.login_button);
+        login = (Button) findViewById(R.id.login);
         username = (EditText) findViewById(R.id.username_field);
         password = (EditText) findViewById(R.id.password_field);
-        success = (TextView) findViewById(R.id.success);
         unsuccess = (TextView) findViewById(R.id.unsuccess);
+        unsuccess3 = (TextView) findViewById(R.id.unsuccess3);
 
+        unsuccess3.setText("Password must be at least 6 alphanumeric characters.");
+        unsuccess.setText("");
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if((validate(username.getText().toString(), password.getText().toString())) == true){
-                    success.setText("Successful Login");
-                    unsuccess.setText("");
+
+                    // --- API Swagger url link
+                    String url = "https://capstone.api.roopairs.com/v0/auth/login/";
+
+                    // --- Build params HashMap for Rest Json Body
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put("username", username.getText().toString());
+                    params.put("password", password.getText().toString());
+
+                    // --- requestPost function call
+                    requestPost(url, params, false);
+
+
 
                 }
                 else{
-                    unsuccess.setText("Unsuccessful Login");
-                    success.setText("");
+                    unsuccess3.setText("");
+                    unsuccess.setText("Password must be at least 6 alphanumeric characters");
 
                 }
             }
@@ -102,72 +107,78 @@ public class Login extends AppCompatActivity {
         return flag;
     }
 
-        @Override
-        protected void onResume () {
-        Log.v("myTag", "This is resume");
-        super.onResume();
+    public void requestPost(String url, HashMap<String,String> params, final boolean headersFlag){
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
-        mTextView = findViewById(R.id.activity_main_text_view);
-        //AccountManager am = get(this);
-        //Account[] accounts = am.getAccountsByType("com.google");
-        ;//
-        // mAccount = accounts[0];
-        // Retrieve the Clover account
-        if (mAccount == null) {
-            mAccount = CloverAccount.getAccount(this);
-            if (mAccount == null) {
-                return;
-            }
-        }
+//     -- Transforms params HashMap into Json Object
+        JSONObject jsonObject = new JSONObject(params);
 
-        // Connect InventoryConnector
-        connect();
 
-        // Get Item
-        new Login.InventoryAsyncTask().execute();
-    }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONObject responseObj = response;
 
-        @Override
-        protected void onDestroy () {
-        super.onDestroy();
-        disconnect();
-    }
+//          TODO: ----->  Start specialized json handling function
 
-        private void connect () {
-        disconnect();
-        if (mAccount != null) {
-            mInventoryConnector = new InventoryConnector(this, mAccount, null);
-            mInventoryConnector.connect();
-        }
-    }
+                        unsuccess.setText("");
+                        unsuccess3.setText("Loading");
 
-        private void disconnect () {
-        if (mInventoryConnector != null) {
-            mInventoryConnector.disconnect();
-            mInventoryConnector = null;
-        }
-    }
+                        storeToken(responseObj);
 
-        private class InventoryAsyncTask extends AsyncTask<Void, Void, Item> {
+//                        unsuccess3.setText(getUserToken());
+
+                        Intent intent1 = new Intent(Login.this, LocationLogin.class);
+                        startActivity(intent1);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+//          TODO: ----->  Error Handling functions
+
+                        unsuccess3.setText("");
+                        unsuccess.setText("Incorrect Username and/or Password.");
+
+
+                    }}) {
 
             @Override
-            protected final Item doInBackground(Void... params) {
-                try {
-                    //Get inventory item
+            public Map<String, String> getHeaders() throws AuthFailureError {
 
-                    return mInventoryConnector.getItems().get(0);
+//                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+                if (headersFlag){
 
-                } catch (RemoteException | ClientException | ServiceException | BindingException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
+                    return headers;
 
-            @Override
-            protected final void onPostExecute(Item item) {
-                if (item != null) {
-                    mTextView.setText(item.getName());
+//                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+                } else {
+                    return Collections.emptyMap();
                 }
             }
+        };
+
+//  --> Equivalent of sending the request. Required to WORK...
+        queue.add(jsonObjectRequest);
+
+    }
+
+    // -- Example Json handling function
+    public void storeToken(JSONObject responseObj){
+        String token = null;
+        try {
+            token = (String)responseObj.get("token");
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+//        unsuccess.setText(token);
+        setUserToken(token);
+
+    }
+
 }
