@@ -19,4 +19,9 @@
     <string name="enter_phone_number">Enter the phone number of one of your preferred service providers to start requesting service from them</string>
     <string name="preferred_service_provider">Preferred Service Providers</string>
     <string name="add_another_service_provider">+ Add Another Service Provider</string>
+    <string-array name="industry_type">
+        <item>Residential</item>
+        <item>Commercial</item>
+        <item>Industrial</item>
+    </string-array>
 </resources>
