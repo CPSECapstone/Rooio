@@ -115,7 +115,7 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
                         @Override
                         public void onClick(View v) {
 
-                                Intent intent3 = new Intent(PreferredProvidersLogin.this, Splash_Screen.class);
+                                Intent intent3 = new Intent(PreferredProvidersLogin.this, Dashboard.class);
                                 startActivity(intent3);
                         }
                 });

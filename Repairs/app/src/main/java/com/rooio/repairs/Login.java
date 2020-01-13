@@ -33,6 +33,7 @@ public class Login extends RestApi {
     private Button login;
     private TextView unsuccess;
     private TextView unsuccess3;
+    private Button createaccount;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class Login extends RestApi {
         password = (EditText) findViewById(R.id.password_field);
         unsuccess = (TextView) findViewById(R.id.unsuccess);
         unsuccess3 = (TextView) findViewById(R.id.unsuccess3);
+        createaccount = (Button) findViewById(R.id.CreateAccount);
 
         unsuccess3.setText("Password must be at least 6 alphanumeric characters.");
         unsuccess.setText("");
@@ -75,6 +77,15 @@ public class Login extends RestApi {
                 }
             }
         });
+
+        createaccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent5 = new Intent(Login.this, Registration.class);
+                startActivity(intent5);
+            }
+        });
+
 
     }
 

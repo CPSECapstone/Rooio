@@ -36,7 +36,6 @@ steps:
     tasks: 'jacocoTestReport'
 - task: PublishCodeCoverageResults@1
   inputs:
-    #codeCoverageTool: 'JaCoCo' # Options: cobertura, jaCoCo
     summaryFileLocation: '**/jacocoTestReport.xml'
     pathToSources: 'Repairs'
     failIfCoverageEmpty: true
@@ -44,4 +43,6 @@ steps:
   inputs:
     contents: '**/app-debug.apk'
     targetFolder: '$(build.artifactStagingDirectory)'
+
+
 - task: PublishBuildArtifacts@1
