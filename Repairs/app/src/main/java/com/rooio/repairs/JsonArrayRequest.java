@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+// Custom Class needed for jsonArray requests with jsonObject bodies.
 /** A request for retrieving a {@link JSONArray} response body at a given URL. */
 public class JsonArrayRequest extends JsonRequest<JSONArray> {
 

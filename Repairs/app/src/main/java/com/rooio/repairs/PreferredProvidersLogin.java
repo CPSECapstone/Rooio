@@ -53,15 +53,6 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
                 Intent incoming_intent = getIntent();
                 incoming_name = incoming_intent.getStringExtra("result2");
 
-                Function<JSONArray,Void> responseFunc = (jsonArray) -> {
-                        try {
-                                getProvider(jsonArray);
-                        } catch (JSONException e){
-                                e.printStackTrace();
-                        }
-                        return null;
-                };
-
                 Function<String, Void> errorFunc = (string) -> {
                         test.setText(string);
                         return null;
@@ -78,11 +69,28 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
 
 //                        requestPost(url, params, true);
 
+                        Function<JSONArray,Void> responseFunc = (jsonArray) -> {
+                                try {
+                                        getProvider(jsonArray);
+                                } catch (JSONException e){
+                                        e.printStackTrace();
+                                }
+                                return null;
+                        };
                         requestPostJsonArray(url, params, responseFunc, errorFunc,true);
                 }
                 else{
-                        test.setText("null");
+//                        test.setText("null");
 //                        requestGetArray(url, true);
+
+                        Function<JSONArray,Void> responseFunc = (jsonArray) -> {
+                                try {
+                                        addElements(jsonArray);
+                                } catch (JSONException e){
+                                        e.printStackTrace();
+                                }
+                                return null;
+                        };
                         requestGetJsonArray(url, responseFunc, errorFunc, true);
 
                 }
@@ -141,8 +149,8 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
                         JSONObject restaurant = response.getJSONObject(i);
                         String physical_address = (String) restaurant.get("name");
                         address_list.add(physical_address);
-
                 }
+                adapt();
         }
 
         public void adapt(){
