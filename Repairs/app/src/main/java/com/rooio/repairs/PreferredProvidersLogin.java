@@ -2,8 +2,6 @@ package com.rooio.repairs;
 
 
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,29 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-import java.util.ArrayList;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
+import androidx.arch.core.util.Function;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+//import com.android.volley.toolbox.JsonArrayRequest;
 
 public class PreferredProvidersLogin extends RestApi implements AdapterView.OnItemClickListener {
 
@@ -66,6 +52,12 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
 //                test.setText(getUserToken());
                 Intent incoming_intent = getIntent();
                 incoming_name = incoming_intent.getStringExtra("result2");
+
+                Function<String, Void> errorFunc = (string) -> {
+                        test.setText(string);
+                        return null;
+                };
+
                 if ((incoming_name != null ) &  (incoming_name != "")){
                         test.setText("not null");
                         //getPost here
@@ -75,11 +67,31 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
                         HashMap<String, String> params = new HashMap<>();
                         params.put("phone", incoming_name);
 
-                        requestPost(url, params, true);
+//                        requestPost(url, params, true);
+
+                        Function<JSONArray,Void> responseFunc = (jsonArray) -> {
+                                try {
+                                        getProvider(jsonArray);
+                                } catch (JSONException e){
+                                        e.printStackTrace();
+                                }
+                                return null;
+                        };
+                        requestPostJsonArray(url, params, responseFunc, errorFunc,true);
                 }
                 else{
-                        test.setText("null");
-                        requestGetArray(url, true);
+//                        test.setText("null");
+//                        requestGetArray(url, true);
+
+                        Function<JSONArray,Void> responseFunc = (jsonArray) -> {
+                                try {
+                                        addElements(jsonArray);
+                                } catch (JSONException e){
+                                        e.printStackTrace();
+                                }
+                                return null;
+                        };
+                        requestGetJsonArray(url, responseFunc, errorFunc, true);
 
                 }
 
@@ -122,133 +134,12 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         }
 
-        public void requestPost(final String url, HashMap<String, String> params, final boolean headersFlag) {
-                // Instantiate the RequestQueue.
-                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
-//     -- Example params initiations
-//        HashMap<String, String> params = new HashMap<>();
-//        params.put("username", username.getText().toString());
-//        params.put("password", password.getText().toString());
-
-//     -- Transforms params HashMap into Json Object
-                JSONObject jsonObject = new JSONObject(params);
-
-
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                        (Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                        JSONObject responseObj = response;
-
-
-//          TODO: ----->  Start specialized json handling function
-//                                        try {
-//                                                getProvider(responseObj);
-//
-//                                        } catch (JSONException e) {
-//                                                e.printStackTrace();
-//                                        }
-//                                        adapt();
-//                ----->
-                                }
-                        }, new Response.ErrorListener() {
-
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-
-//          TODO: ----->  Error Handling functions
-
-                                        requestGetArray(url, true);
-//                                      test.setText("error123"+error.toString());
-
-//                ----->
-                                }
-                        }) {
-
-                        @Override
-                        public Map<String, String> getHeaders() throws AuthFailureError {
-
-//                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                                if (headersFlag) {
-                                        Map<String, String> headers = new HashMap<>();
-                                        headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
-                                        return headers;
-
-//                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
-                                } else {
-                                        return Collections.emptyMap();
-                                }
-                        }
-                };
-
-//  --> Equivalent of sending the request. Required to WORK...
-                queue.add(jsonObjectRequest);
-
-        }
-
-        public void requestGetArray(String url, final boolean headersFlag) {
-                // Instantiate the RequestQueue.
-                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-
-                JsonArrayRequest jsonObjectRequest = new JsonArrayRequest
-                        (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-                                @Override
-                                public void onResponse(JSONArray response) {
-                                        JSONArray responseObj = response;
-
-//          TODO: ----->  Start specialized json handling function
-                                        try {
-                                                test.setText(responseObj.toString());
-                                                addElements(responseObj);
-
-                                        } catch (JSONException e) {
-                                                e.printStackTrace();
-                                        }
-                                        adapt();
-                                        //test.setText(responseObj.toString());
-//                ----->
-                                }
-                        }, new Response.ErrorListener() {
-
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-
-//          TODO: ----->  Error Handling functions
-
-                        //test.setText("Token: " + getUserToken() + "\n" + error.toString());
-
-//                ----->
-                                }
-                        }) {
-
-                        @Override
-                        public Map<String, String> getHeaders() throws AuthFailureError {
-
-//                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                                if (headersFlag) {
-
-                                        Map<String, String> headers = new HashMap<>();
-                                        headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
-                                        return headers;
-
-//                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
-                                } else {
-                                        return Collections.emptyMap();
-                                }
-                        }
-                };
-
-//  --> Equivalent of sending the request. Required to WORK...
-                queue.add(jsonObjectRequest);
-
-        }
-
-        public void getProvider(JSONObject response) throws JSONException {
+        public void getProvider(JSONArray response) throws JSONException {
                 //test.setText(response.toString());
-                String provider_name = (String) response.get("name");
+                String provider_name = (String) response.getJSONObject(0).get("name");
                 address_list.add(provider_name);
-
+                adapt();
         }
 
         public void addElements(JSONArray response) throws JSONException {
@@ -258,8 +149,8 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
                         JSONObject restaurant = response.getJSONObject(i);
                         String physical_address = (String) restaurant.get("name");
                         address_list.add(physical_address);
-
                 }
+                adapt();
         }
 
         public void adapt(){
