@@ -87,7 +87,7 @@ public abstract class RestApi extends AppCompatActivity {
 
     }
 
-    public void requestPostJsonObj(String url, HashMap<String,String> params,
+    public void requestPostJsonObj(String url, HashMap<String,Object> params,
                         final Function<JSONObject, Void> responseFunc, final Function<String, Void> errorFunc, final boolean headersFlag){
 
         // Instantiate the RequestQueue.
@@ -183,7 +183,7 @@ public abstract class RestApi extends AppCompatActivity {
 
     }
 
-    public void requestPostJsonArray(String url, HashMap<String,String> params,
+    public void requestPostJsonArray(String url, HashMap<String,Object> params,
                         final Function<JSONArray, Void> responseFunc, final Function<String, Void> errorFunc, final boolean headersFlag){
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());

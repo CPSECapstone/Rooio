@@ -64,7 +64,7 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
                         adapt();
                         adapter.notifyDataSetChanged();
                         //     -- Example params initiations
-                        HashMap<String, String> params = new HashMap<>();
+                        HashMap<String, Object> params = new HashMap<>();
                         params.put("phone", incoming_name);
 
 //                        requestPost(url, params, true);
