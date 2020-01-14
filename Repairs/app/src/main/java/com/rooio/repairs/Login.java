@@ -3,28 +3,18 @@ package com.rooio.repairs;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.TextView;
 import android.view.View;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import androidx.arch.core.util.Function;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
+
+import java.util.HashMap;
+import java.util.regex.Pattern;
 
 public class Login extends RestApi {
 
@@ -65,9 +55,27 @@ public class Login extends RestApi {
                     params.put("password", password.getText().toString());
 
                     // --- requestPost function call
-                    requestPost(url, params, false);
+//                    requestPost(url, params, false);
 
+                    Function<JSONObject,Void> responseFunc = (jsonObj) -> {
+                        try {
+                            storeToken(jsonObj);
+                            Intent intent1 = new Intent(Login.this, LocationLogin.class);
+                            startActivity(intent1);
 
+                        } catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                        return null;
+                    };
+
+                    Function<String,Void> errorFunc = (string) -> {
+                        unsuccess3.setText("");
+                        unsuccess.setText("Incorrect Username and/or Password.");
+                        return null;
+                    };
+
+                    requestPostJsonObj(url, params, responseFunc, errorFunc, false);
 
                 }
                 else{
@@ -118,78 +126,14 @@ public class Login extends RestApi {
         return flag;
     }
 
-    public void requestPost(String url, HashMap<String,String> params, final boolean headersFlag){
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-
-//     -- Transforms params HashMap into Json Object
-        JSONObject jsonObject = new JSONObject(params);
-
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        JSONObject responseObj = response;
-
-//          TODO: ----->  Start specialized json handling function
-
-                        unsuccess.setText("");
-                        unsuccess3.setText("Loading");
-
-                        storeToken(responseObj);
-
-//                        unsuccess3.setText(getUserToken());
-
-                        Intent intent1 = new Intent(Login.this, LocationLogin.class);
-                        startActivity(intent1);
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-//          TODO: ----->  Error Handling functions
-
-                        unsuccess3.setText("");
-                        unsuccess.setText("Incorrect Username and/or Password.");
-
-
-                    }}) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-
-//                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                if (headersFlag){
-
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
-                    return headers;
-
-//                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
-                } else {
-                    return Collections.emptyMap();
-                }
-            }
-        };
-
-//  --> Equivalent of sending the request. Required to WORK...
-        queue.add(jsonObjectRequest);
-
-    }
-
+    
     // -- Example Json handling function
-    public void storeToken(JSONObject responseObj){
-        String token = null;
-        try {
-            token = (String)responseObj.get("token");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-//        unsuccess.setText(token);
+    public void storeToken(JSONObject responseObj) throws JSONException {
+        String token;
+        token = (String)responseObj.get("token");
         setUserToken(token);
 
+//        unsuccess.setText(token);
     }
 
 }
