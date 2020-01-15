@@ -50,7 +50,7 @@ public class Login extends RestApi {
                     String url = "https://capstone.api.roopairs.com/v0/auth/login/";
 
                     // --- Build params HashMap for Rest Json Body
-                    HashMap<String, String> params = new HashMap<>();
+                    HashMap<String, Object> params = new HashMap<>();
                     params.put("username", username.getText().toString());
                     params.put("password", password.getText().toString());
 
@@ -126,7 +126,7 @@ public class Login extends RestApi {
         return flag;
     }
 
-    
+
     // -- Example Json handling function
     public void storeToken(JSONObject responseObj) throws JSONException {
         String token;

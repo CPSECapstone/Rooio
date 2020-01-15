@@ -1,29 +1,15 @@
 package com.rooio.repairs;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.arch.core.util.Function;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import java.util.ArrayList;
-import java.util.List;
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
 
-import org.json.JSONArray;
-import org.json.JSONException;
+import androidx.arch.core.util.Function;
+
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -47,9 +33,7 @@ public class Registration extends RestApi  {
 
         String url = "https://capstone.api.roopairs.com/v0/auth/register/";
 
-
         //Input initialization;
-
 
         myspinner = (Spinner) findViewById(R.id.spinner);
 
@@ -60,20 +44,9 @@ public class Registration extends RestApi  {
         password = (EditText) findViewById(R.id.password);
         restaurantname = (EditText) findViewById(R.id.restaurantname);
         errorMessage = (TextView) findViewById(R.id.errorMessage);
+        errorMessage.setText(null);
 
         Integer mySpinner =  1;
-
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("first_name", firstname.toString());
-        params.put("last_name", lastname.toString());
-        params.put("email", email.toString());
-        params.put("password", password.toString());
-
-        HashMap<String, Object> internal_client = new HashMap<>();
-        internal_client.put("name", restaurantname.toString());
-        internal_client.put("industry_type", mySpinner);
-
-        params.put("internal_client", internal_client);
 
         Function<JSONObject,Void> responseFunc = (jsonArray) -> {
             Intent intent5 = new Intent(Registration.this, Login.class);
@@ -101,6 +74,18 @@ public class Registration extends RestApi  {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                HashMap<String, Object> params = new HashMap<>();
+                params.put("first_name", firstname.getText().toString());
+                params.put("last_name", lastname.getText().toString());
+                params.put("email", email.getText().toString());
+                params.put("password", password.getText().toString());
+
+                HashMap<String, Object> internal_client = new HashMap<>();
+                internal_client.put("name", restaurantname.getText().toString());
+                internal_client.put("industry_type", mySpinner);
+
+                params.put("internal_client", internal_client);
 
                 requestPostJsonObj(url, params, responseFunc, errorFunc, false);
 
