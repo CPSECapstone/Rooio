@@ -8,7 +8,7 @@
     tools:context=".Dashboard">
 
     <com.google.android.material.navigation.NavigationView
-        android:layout_width="425dp"
+        android:layout_width="70dp"
         android:layout_height="1080dp"
         app:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,7 +19,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            android:layout_width="70dp"
             android:layout_height="match_parent">
 
             <ImageView
@@ -28,7 +28,6 @@
                 android:layout_height="28dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.10"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.85"

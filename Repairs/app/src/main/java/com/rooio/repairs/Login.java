@@ -33,7 +33,7 @@ public class Login extends RestApi {
 
         login = (Button) findViewById(R.id.login);
         username = (EditText) findViewById(R.id.username_field);
-        password = (EditText) findViewById(R.id.password_field);
+        password = findViewById(R.id.password_field);
         unsuccess = (TextView) findViewById(R.id.unsuccess);
         unsuccess3 = (TextView) findViewById(R.id.unsuccess3);
         createaccount = (Button) findViewById(R.id.CreateAccount);
