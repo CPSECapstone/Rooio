@@ -33,10 +33,10 @@ steps:
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: false
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'jacocoTestReport'
+    tasks: 'createCoverageReport'
 - task: PublishCodeCoverageResults@1
   inputs:
-    summaryFileLocation: '**/jacocoTestReport.xml'
+    summaryFileLocation: '**/report.xml'
     pathToSources: 'Repairs'
     failIfCoverageEmpty: true
 - task: CopyFiles@2
