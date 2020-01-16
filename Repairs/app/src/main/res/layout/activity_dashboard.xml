@@ -7,6 +7,20 @@
     android:background="#ECF0F1"
     tools:context=".Dashboard">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/newJobRequest"
+        android:layout_width="806dp"
+        android:layout_height="327dp"
+        android:background="@drawable/layout_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.413"
+        app:layout_constraintStart_toEndOf="@+id/navigationView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.688">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="250dp"
@@ -84,7 +98,7 @@
                 app:srcCompat="@mipmap/settings" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/dashboard_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dashboard"
@@ -97,7 +111,7 @@
                 app:layout_constraintVertical_bias="0.050" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/jobs_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Jobs"
@@ -110,7 +124,7 @@
                 app:layout_constraintVertical_bias="0.10" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/equipment_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Equipment"
@@ -123,7 +137,7 @@
                 app:layout_constraintVertical_bias="0.150" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/settings_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text= "Settings"
@@ -136,7 +150,7 @@
                 app:layout_constraintVertical_bias="0.80" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/collapse_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Collapse"
@@ -152,15 +166,16 @@
     </com.google.android.material.navigation.NavigationView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout5"
-        android:layout_width="1095dp"
-        android:layout_height="359dp"
+        android:id="@+id/notableJobs"
+        android:layout_width="803dp"
+        android:layout_height="304dp"
         android:background="@drawable/layout_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.413"
         app:layout_constraintStart_toEndOf="@+id/navigationView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25">
+        app:layout_constraintVertical_bias="0.127">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
