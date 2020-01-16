@@ -16,13 +16,23 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void validate() {
+    public void validateTrue() {
         String username = "yusu2f";
         String password = "t5y6u7";
 
         Login login = new Login();
         assertTrue(login.validate(username, password));
     }
+
+    @Test
+    public void validateFalse() {
+        String username = "";
+        String password = "t5y6u7";
+
+        Login login = new Login();
+        assertFalse(login.validate(username, password));
+    }
+
     @Test
     public void isValid() {
         String username = "yusuf";
@@ -58,6 +68,4 @@ public class ExampleUnitTest {
         Login login = new Login();
         assertFalse(login.isValid(username, password));
     }
-
-
 }

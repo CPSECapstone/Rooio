@@ -31,12 +31,12 @@ public class Login extends RestApi {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        login = (Button) findViewById(R.id.login);
-        username = (EditText) findViewById(R.id.username_field);
-        password = (EditText) findViewById(R.id.password_field);
-        unsuccess = (TextView) findViewById(R.id.unsuccess);
-        unsuccess3 = (TextView) findViewById(R.id.unsuccess3);
-        createaccount = (Button) findViewById(R.id.CreateAccount);
+        login = findViewById(R.id.login);
+        username = findViewById(R.id.username_field);
+        password = findViewById(R.id.password_field);
+        unsuccess = findViewById(R.id.unsuccess);
+        unsuccess3 = findViewById(R.id.unsuccess3);
+        createaccount = findViewById(R.id.CreateAccount);
 
         unsuccess3.setText("Password must be at least 6 alphanumeric characters.");
         unsuccess.setText("");
@@ -86,13 +86,9 @@ public class Login extends RestApi {
             }
         });
 
-        createaccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent5 = new Intent(Login.this, Registration.class);
-                startActivity(intent5);
-            }
-        });
+        createaccount.setOnClickListener(v ->
+                startActivity(new Intent(Login.this, Registration.class))
+        );
 
 
     }
