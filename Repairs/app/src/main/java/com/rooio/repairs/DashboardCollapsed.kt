@@ -10,10 +10,10 @@ class DashboardCollapsed : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard_collapsed)
-        val collapse = findViewById<ImageView>(R.id.collapse)
-        collapse.setOnClickListener{
-            val extendIntent = Intent(this@DashboardCollapsed, Dashboard::class.java)
-            startActivity(extendIntent)
+        val expand = findViewById<ImageView>(R.id.expand)
+        expand.setOnClickListener{
+            val expandIntent = Intent(this@DashboardCollapsed, Dashboard::class.java)
+            startActivity(expandIntent)
         }
     }
 }

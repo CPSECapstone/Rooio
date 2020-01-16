@@ -23,7 +23,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/collapse"
+                android:id="@+id/expand"
                 android:layout_width="27dp"
                 android:layout_height="28dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -31,7 +31,51 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.85"
-                app:srcCompat="@mipmap/chevron" />
+                app:srcCompat="@mipmap/chevron_right" />
+
+            <ImageView
+                android:id="@+id/dashboard"
+                android:layout_width="27dp"
+                android:layout_height="28dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.05"
+                app:srcCompat="@mipmap/dashboard" />
+
+            <ImageView
+                android:id="@+id/jobs"
+                android:layout_width="27dp"
+                android:layout_height="28dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.10"
+                app:srcCompat="@mipmap/jobs" />
+
+            <ImageView
+                android:id="@+id/equipment"
+                android:layout_width="27dp"
+                android:layout_height="28dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15"
+                app:srcCompat="@mipmap/equipment" />
+
+            <ImageView
+                android:id="@+id/settings"
+                android:layout_width="27dp"
+                android:layout_height="28dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.80"
+                app:srcCompat="@mipmap/settings" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.navigation.NavigationView>
