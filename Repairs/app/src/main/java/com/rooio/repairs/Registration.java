@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.arch.core.util.Function;
 
 import org.json.JSONObject;
@@ -27,6 +28,7 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
     private EditText password;
     private EditText restaurantname;
     private Button register;
+    private Button register2;
     private TextView errorMessage;
     private String industry_string;
     private Integer industry_int;
@@ -34,6 +36,8 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.action_bar);
 
         String url = "https://capstone.api.roopairs.com/v0/auth/register/";
 
@@ -42,6 +46,7 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
         myspinner = (Spinner) findViewById(R.id.spinner);
 
         register = (Button) findViewById(R.id.register);
+        register2 = (Button) findViewById(R.id.register2);
         firstname = (EditText) findViewById(R.id.firstname);
         lastname = (EditText) findViewById(R.id.lastname);
         email = (EditText) findViewById(R.id.email);
@@ -63,6 +68,13 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
             return null;
         };
 
+        register2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent5 = new Intent(Registration.this, Login.class);
+                startActivity(intent5);
+            }
+        });
 
         //Functions for DropDown "Industry Type"
         ArrayAdapter<CharSequence> myAdapter = ArrayAdapter.createFromResource(this, R.array.industry_type, android.R.layout.simple_spinner_item);

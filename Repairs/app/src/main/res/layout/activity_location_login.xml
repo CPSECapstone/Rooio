@@ -9,115 +9,80 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout3"
-        android:layout_width="965dp"
-        android:layout_height="359dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="62dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="182dp"
+        android:layout_width="1000dp"
+        android:layout_height="360dp"
         android:background="@drawable/layout_bg"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/guideline3">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout2"
-            android:layout_width="972dp"
-            android:layout_height="93dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="3dp"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayout4"
+        <Button
+            android:id="@+id/add_location"
+            android:layout_width="291dp"
+            android:layout_height="36dp"
+            android:background="@drawable/blank_border"
+            android:fontFamily="monospace"
+            android:text="@string/add_another_service_location"
+            android:textAllCaps="false"
+            android:textColor="#8D8D8D"
+            android:textColorHighlight="#00F8F6F6"
+            android:textColorHint="#00FCFBFB"
+            android:textColorLink="#00FDFCFC"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9" />
 
-            <TextView
-                android:id="@+id/Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/choose_service_location"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="99dp"
-                android:layout_height="3dp"
-                android:layout_marginStart="436dp"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="436dp"
-                android:layout_marginBottom="17dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Title"
-                app:srcCompat="@color/colorAccent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout4"
-            android:layout_width="973dp"
-            android:layout_height="255dp"
+        <TextView
+            android:id="@+id/Title"
+            android:layout_width="200dp"
+            android:layout_height="20dp"
+            android:text="@string/choose_service_location"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.14999998" />
 
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="43dp"
-                android:layout_marginEnd="737dp"
-                android:text="Choose A Service Location"
-                android:textColor="#A3A3A3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="16dp" />
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose a Service Location"
+            android:textColor="#A3A3A3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.35000002" />
 
-            <Button
-                android:id="@+id/add_location"
-                android:layout_width="291dp"
-                android:layout_height="36dp"
-                android:layout_marginStart="372dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="382dp"
-                android:layout_marginBottom="39dp"
-                android:background="@drawable/blank_border"
-                android:fontFamily="monospace"
-                android:text="@string/add_another_service_location"
-                android:textAllCaps="false"
-                android:textColor="#8D8D8D"
-                android:textColorHighlight="#00F8F6F6"
-                android:textColorHint="#00FCFBFB"
-                android:textColorLink="#00FDFCFC"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Service" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="99dp"
+            android:layout_height="3dp"
+            android:contentDescription="Green Bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.25"
+            app:srcCompat="@color/colorAccent" />
 
-            <ListView
-                android:id="@+id/Service"
-                android:layout_width="879dp"
-                android:layout_height="93dp"
-                android:layout_marginStart="43dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="43dp"
-                android:background="@drawable/edittextbackground"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <ListView
+            android:id="@+id/Service"
+            android:layout_width="900dp"
+            android:layout_height="100dp"
+            android:background="@drawable/edittextbackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.6" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -147,17 +112,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="1432dp" />
+        app:layout_constraintGuide_begin="1495dp" />
 
-    <TextView
-        android:id="@+id/test"
-        android:layout_width="948dp"
-        android:layout_height="183dp"
-        android:text="TextView"
-        android:textColor="#00FFFFFF"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
-        tools:visibility="invisible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

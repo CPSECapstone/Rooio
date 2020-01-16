@@ -1,5 +1,6 @@
 package com.rooio.repairs;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -22,6 +23,8 @@ public class AddLocation extends AppCompatActivity {
         setContentView(R.layout.activity_add_location);
         add_address = (Button) findViewById(R.id.add_location);
         new_address = (TextInputEditText) findViewById(R.id.new_location);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.action_bar);
 
         add_address.setOnClickListener(new View.OnClickListener() {
             @Override
