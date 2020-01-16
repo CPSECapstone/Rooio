@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.arch.core.util.Function;
 
 import org.json.JSONArray;
@@ -41,6 +42,8 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_preferred_providers_login);
+                getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+                getSupportActionBar().setCustomView(R.layout.action_bar);
 
                 bt = (Button) findViewById(R.id.add_another_provider);
                 bt2 = (Button) findViewById(R.id.Done);

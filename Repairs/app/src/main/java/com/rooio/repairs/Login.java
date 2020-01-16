@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.arch.core.util.Function;
 
 import org.json.JSONException;
@@ -29,16 +30,15 @@ public class Login extends RestApi {
     protected void onCreate (Bundle savedInstanceState) {
         Log.v("myTag", "This is in create");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_login);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.action_bar);
 
         login = (Button) findViewById(R.id.login);
         username = (EditText) findViewById(R.id.username_field);
         password = findViewById(R.id.password_field);
         unsuccess = (TextView) findViewById(R.id.unsuccess);
-        unsuccess3 = (TextView) findViewById(R.id.unsuccess3);
         createaccount = (Button) findViewById(R.id.CreateAccount);
-
-        unsuccess3.setText("Password must be at least 6 alphanumeric characters.");
         unsuccess.setText("");
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -70,8 +70,7 @@ public class Login extends RestApi {
                     };
 
                     Function<String,Void> errorFunc = (string) -> {
-                        unsuccess3.setText("");
-                        unsuccess.setText("Incorrect Username and/or Password.");
+                        unsuccess.setText("Incorrect username and/or password.");
                         return null;
                     };
 
@@ -79,8 +78,8 @@ public class Login extends RestApi {
 
                 }
                 else{
-                    unsuccess3.setText("");
-                    unsuccess.setText("Password must be at least 6 alphanumeric characters");
+
+                    unsuccess.setText("Incorrect username and/or password.");
 
                 }
             }

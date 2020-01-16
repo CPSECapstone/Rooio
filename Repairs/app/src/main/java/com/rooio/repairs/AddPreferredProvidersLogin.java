@@ -1,5 +1,6 @@
 package com.rooio.repairs;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -23,6 +24,8 @@ public class AddPreferredProvidersLogin extends AppCompatActivity {
         setContentView(R.layout.activity_add_preferred_providers_login);
         add_provider = (Button) findViewById(R.id.add_provider);
         new_provider = (EditText) findViewById(R.id.new_phone);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.action_bar);
 
         add_provider.setOnClickListener(new View.OnClickListener() {
             @Override
