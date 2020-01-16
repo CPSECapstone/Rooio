@@ -3,10 +3,13 @@ package com.rooio.repairs;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.arch.core.util.Function;
 
@@ -14,7 +17,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class Registration extends RestApi  {
+public class Registration extends RestApi  implements AdapterView.OnItemSelectedListener {
 
     private Spinner myspinner;
 
@@ -25,7 +28,8 @@ public class Registration extends RestApi  {
     private EditText restaurantname;
     private Button register;
     private TextView errorMessage;
-
+    private String industry_string;
+    private Integer industry_int;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +49,8 @@ public class Registration extends RestApi  {
         restaurantname = (EditText) findViewById(R.id.restaurantname);
         errorMessage = (TextView) findViewById(R.id.errorMessage);
         errorMessage.setText(null);
+        industry_int = 2;
 
-        Integer mySpinner =  1;
 
         Function<JSONObject,Void> responseFunc = (jsonArray) -> {
             Intent intent5 = new Intent(Registration.this, Login.class);
@@ -59,21 +63,23 @@ public class Registration extends RestApi  {
             return null;
         };
 
-        /*
+
         //Functions for DropDown "Industry Type"
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String >(Registration.this,
-                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.industry_type));
+        ArrayAdapter<CharSequence> myAdapter = ArrayAdapter.createFromResource(this, R.array.industry_type, android.R.layout.simple_spinner_item);
         //Set Adapter as
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         myspinner.setAdapter(myAdapter);
-        myspinner.setOnItemClickListener(this);
+        myspinner.setOnItemSelectedListener(this);
 
-        */
+
 
         //Functions for the "Register Button" to Login Page
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
 
                 HashMap<String, Object> params = new HashMap<>();
                 params.put("first_name", firstname.getText().toString());
@@ -83,7 +89,7 @@ public class Registration extends RestApi  {
 
                 HashMap<String, Object> internal_client = new HashMap<>();
                 internal_client.put("name", restaurantname.getText().toString());
-                internal_client.put("industry_type", mySpinner);
+                internal_client.put("industry_type", industry_int);
 
                 params.put("internal_client", internal_client);
 
@@ -93,6 +99,28 @@ public class Registration extends RestApi  {
 //                startActivity(intent5);
             }
         });
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String text = parent.getItemAtPosition(position).toString();
+        if (text.length() == 11) {
+            industry_int = 1;
+
+        }
+        else if (text.length() == 10){
+            industry_int = 3;
+
+        }
+        else{
+            industry_int = 2;
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 

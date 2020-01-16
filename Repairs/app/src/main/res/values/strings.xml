@@ -21,7 +21,7 @@
     <string name="add_another_service_provider">+ Add Another Service Provider</string>
     <string-array name="industry_type">
         <item>Residential</item>
-        <item>Commercial</item>
+        <item>Commercial Business</item>
         <item>Industrial</item>
     </string-array>
 </resources>
