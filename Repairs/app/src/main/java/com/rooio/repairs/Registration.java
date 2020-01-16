@@ -25,6 +25,7 @@ public class Registration extends RestApi  {
     private EditText password;
     private EditText restaurantname;
     private Button register;
+    private Button register2;
     private TextView errorMessage;
 
     @Override
@@ -41,6 +42,7 @@ public class Registration extends RestApi  {
         myspinner = (Spinner) findViewById(R.id.spinner);
 
         register = (Button) findViewById(R.id.register);
+        register2 = (Button) findViewById(R.id.register2);
         firstname = (EditText) findViewById(R.id.firstname);
         lastname = (EditText) findViewById(R.id.lastname);
         email = (EditText) findViewById(R.id.email);
@@ -61,6 +63,14 @@ public class Registration extends RestApi  {
             errorMessage.setText(string);
             return null;
         };
+
+        register2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent5 = new Intent(Registration.this, Login.class);
+                startActivity(intent5);
+            }
+        });
 
         /*
         //Functions for DropDown "Industry Type"
