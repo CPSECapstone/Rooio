@@ -45,7 +45,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
     ListView lv;
     ArrayAdapter<String> adapter;
 
-    TextView test;
+    //TextView test;
     static ArrayList<String> address_list = new ArrayList<String>();
 
     String incoming_name = null;
@@ -60,7 +60,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
         bt = (Button) findViewById(R.id.add_location);
         lv = (ListView) findViewById(R.id.Service);
-        test = (TextView) findViewById(R.id.test);
+//        test = (TextView) findViewById(R.id.test);
 
         String url = "https://capstone.api.roopairs.com/v0/service-locations/";
 
@@ -236,7 +236,6 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
     }
 
     public void addElements(JSONArray response) throws JSONException {
-        test.setText((Integer.toString(response.length())));
         for (int i = 0; i < response.length(); i++) {
             JSONObject restaurant = response.getJSONObject(i);
             String physical_address = (String) restaurant.get("physical_address");
