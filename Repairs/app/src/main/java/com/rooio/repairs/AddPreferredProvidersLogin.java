@@ -10,34 +10,57 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.google.android.material.textfield.TextInputEditText;
+import org.json.JSONArray;
+import org.json.JSONException;
 
-public class AddPreferredProvidersLogin extends AppCompatActivity {
+import java.util.HashMap;
+import androidx.arch.core.util.Function;
 
-    private Button add_provider;
-    private EditText new_provider;
+public class AddPreferredProvidersLogin extends RestApi {
+
+    private Button addButton;
+    private EditText newProvider;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_preferred_providers_login);
-        add_provider = (Button) findViewById(R.id.add_provider);
-        new_provider = (EditText) findViewById(R.id.new_phone);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar);
 
-        add_provider.setOnClickListener(new View.OnClickListener() {
+        addButton = (Button) findViewById(R.id.add_provider);
+        newProvider = (EditText) findViewById(R.id.new_phone);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String result = new_provider.getText().toString();
+                String phoneInput = newProvider.getText().toString();
+
+                addPreferredServiceProvider(phoneInput);
 
                 Intent intent = new Intent(AddPreferredProvidersLogin.this, PreferredProvidersLogin.class);
-                intent.putExtra("result2", result);
                 startActivity(intent);
             }
         });
     }
 
+    public void addPreferredServiceProvider(String phoneInput){
+        String url = "https://capstone.api.roopairs.com/v0/service-providers/";
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("phone", phoneInput);
+
+        Function<String, Void> errorFunc = (string) -> {
+            //                       test.setText(string);
+            return null;
+        };
+
+        Function<JSONArray,Void> responseFunc = (jsonArray) -> {
+            return null;
+        };
+
+        requestPostJsonArray(url, params, responseFunc, errorFunc,true);
+    }
 
 }
