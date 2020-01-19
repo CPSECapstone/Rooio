@@ -91,7 +91,6 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(PreferredProvidersLogin.this, AddPreferredProvidersLogin.class);
-                intent1.putExtra("alreadyAddedList", preferredProviders);
                 startActivity(intent1);
             }
         });

@@ -62,7 +62,7 @@ public class AddPreferredProvidersLogin extends RestApi {
                 error.setText("");
                 phoneInput = newProvider.getText().toString();
                 if(!phoneInput.isEmpty())
-                    addPreferredServiceProvider(phoneInput);
+                    checkIfAlreadyAdded(phoneInput);
                 else
                     error.setText("Please enter a phone number!");
             }
@@ -76,7 +76,6 @@ public class AddPreferredProvidersLogin extends RestApi {
         params.put("phone", phoneInput);
 
         Function<JSONArray,Void> responseFunc = (jsonArray) -> {
-            checkIfAlreadyAdded();
             return null;
         };
 
@@ -87,28 +86,36 @@ public class AddPreferredProvidersLogin extends RestApi {
         requestPostJsonArray(url, params, responseFunc, errorFunc,true);
     }
 
-    private void checkIfAlreadyAdded() {
+    private void checkIfAlreadyAdded(String phoneInput) {
 
         String url = "https://capstone.api.roopairs.com/v0/service-providers/";
 
         Function<JSONArray, Void> responseFunc = (jsonArray) -> {
             try {
-                Intent incoming_intent = getIntent();
-                addedProvidersList = incoming_intent.getStringArrayListExtra("alreadyAddedList");
+                Boolean added = false;
 
                 for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject restaurant = jsonArray.getJSONObject(0);
+                    JSONObject restaurant = jsonArray.getJSONObject(i);
                     String addedProvider = (String) restaurant.get("name");
+                    String phoneNum = (String) restaurant.get("phone");
 
-                    if(addedProvidersList.contains(addedProvider)){
+                    Log.i("try", addedProvider);
+                    Log.i("try", phoneNum);
+                    if(phoneNum.contains(phoneInput)){
                         addedProviderRet = addedProvider;
+                        added = true;
                     }
+                }
+
+                if(!added){
+                    addPreferredServiceProvider(phoneInput);
                 }
 
                 // returning added service provider for error checking
                 Intent intent = new Intent(AddPreferredProvidersLogin.this, PreferredProvidersLogin.class);
                 intent.putExtra("added", addedProviderRet);
                 startActivity(intent);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -116,7 +123,6 @@ public class AddPreferredProvidersLogin extends RestApi {
         };
 
         Function<String, Void> errorFunc = (string) -> {
-            Log.i("try", "uhoh");
             return null;
         };
 
