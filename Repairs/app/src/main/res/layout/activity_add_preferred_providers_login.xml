@@ -44,7 +44,26 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintVertical_bias="0.652" />
+
+            <Button
+                android:id="@+id/back"
+                android:layout_width="97dp"
+                android:layout_height="34dp"
+                android:background="@drawable/button_border"
+                android:fontFamily="monospace"
+                android:text="Back"
+                android:textAllCaps="false"
+                android:textColor="#06C47B"
+                android:textColorHighlight="#00F8F6F6"
+                android:textColorHint="#00FCFBFB"
+                android:textColorLink="#00FDFCFC"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/Title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.6" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -52,8 +71,8 @@
             android:id="@+id/constraintLayout4"
             android:layout_width="973dp"
             android:layout_height="255dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
@@ -78,8 +97,7 @@
                 android:layout_width="219dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="372dp"
-                android:layout_marginEnd="382dp"
-                android:layout_marginBottom="39dp"
+                android:layout_marginBottom="44dp"
                 android:background="@drawable/button_border"
                 android:fontFamily="monospace"
                 android:text="@string/add_provider"
@@ -90,8 +108,6 @@
                 android:textColorLink="#00FDFCFC"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <EditText
@@ -111,6 +127,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0" />
+
+            <TextView
+                android:id="@+id/error"
+                android:layout_width="616dp"
+                android:layout_height="45dp"
+                android:textAlignment="center"
+                android:textColor="#E4E40B0B"
+                app:layout_constraintBottom_toTopOf="@+id/textView7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -143,4 +170,5 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="1432dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

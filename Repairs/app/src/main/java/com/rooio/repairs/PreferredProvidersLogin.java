@@ -2,6 +2,7 @@ package com.rooio.repairs;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,98 +21,99 @@ import java.util.ArrayList;
 
 public class PreferredProvidersLogin extends RestApi implements AdapterView.OnItemClickListener {
 
-        Button addButton;
-        Button doneButton;
-        ListView serviceProvidersListView;
-        ArrayAdapter<String> adapter;
+    Button addButton;
+    Button doneButton;
+    ListView serviceProvidersListView;
+    ArrayAdapter<String> adapter;
 
-        TextView error;
-        static ArrayList<String> address_list = new ArrayList<String>();
+    TextView error;
+    static ArrayList<String> preferredProviders = new ArrayList<String>();
 
-        String providerNumberResult;
+    String addedProviderName;
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-                super.onCreate(savedInstanceState);
-                setContentView(R.layout.activity_preferred_providers_login);
-                getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-                getSupportActionBar().setCustomView(R.layout.action_bar);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_preferred_providers_login);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.action_bar);
 
-                addButton = (Button) findViewById(R.id.add_another_provider);
-                doneButton = (Button) findViewById(R.id.Done);
-                serviceProvidersListView = (ListView) findViewById(R.id.Service2);
-                error = (TextView) findViewById(R.id.error);
+        addButton = (Button) findViewById(R.id.add_another_provider);
+        doneButton = (Button) findViewById(R.id.Done);
+        serviceProvidersListView = (ListView) findViewById(R.id.Service2);
+        error = (TextView) findViewById(R.id.error);
 
-                loadPreferredProviders();
+        loadPreferredProviders();
 
-                //Launch listener buttons
-                onAddClick();
-                onDoneClick();
-                serviceProvidersListView.setOnItemClickListener(this);
+        onAddClick();
+        onDoneClick();
+        serviceProvidersListView.setOnItemClickListener(this);
+    }
+
+    public void loadPreferredProviders() {
+        String url = "https://capstone.api.roopairs.com/v0/service-providers/";
+
+        Function<JSONArray, Void> responseFunc = (jsonArray) -> {
+            try {
+                loadElements(jsonArray);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        };
+
+        Function<String, Void> errorFunc = (string) -> {
+            //                       test.setText(string);
+            return null;
+        };
+
+        requestGetJsonArray(url, responseFunc, errorFunc, true);
+    }
+
+    public void loadElements(JSONArray response) throws JSONException {
+        Intent incoming_intent = getIntent();
+        addedProviderName = incoming_intent.getStringExtra("added");
+
+        preferredProviders.clear();
+        for (int i = 0; i < response.length(); i++) {
+            JSONObject restaurant = response.getJSONObject(i);
+            String name = (String) restaurant.get("name");
+            if(name.equals(addedProviderName)){
+                error.setText("You've already added " + name + "!");
+            }
+            preferredProviders.add(name);
         }
+        adapt();
+    }
 
-        public void loadPreferredProviders() {
-                String url = "https://capstone.api.roopairs.com/v0/service-providers/";
-                Intent incoming_intent = getIntent();
-                providerNumberResult = incoming_intent.getStringExtra("phoneInput");
+    public void onAddClick() {
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(PreferredProvidersLogin.this, AddPreferredProvidersLogin.class);
+                intent1.putExtra("alreadyAddedList", preferredProviders);
+                startActivity(intent1);
+            }
+        });
+    }
 
-                Function<String, Void> errorFunc = (string) -> {
-                        //                       test.setText(string);
-                        return null;
-                };
+    public void onDoneClick() {
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                Function<JSONArray,Void> responseFunc = (jsonArray) -> {
-                        try {
-                                loadElements(jsonArray);
-                        } catch (JSONException e){
-                                e.printStackTrace();
-                        }
-                        return null;
-                };
-                requestGetJsonArray(url, responseFunc, errorFunc, true);
-        }
+                Intent intent3 = new Intent(PreferredProvidersLogin.this, Dashboard.class);
+                startActivity(intent3);
+            }
+        });
+    }
 
-        public void loadElements(JSONArray response) throws JSONException {
-                for (int i = 0; i < response.length(); i++) {
-                        JSONObject restaurant = response.getJSONObject(i);
-                        String name = (String) restaurant.get("name");
-                        if(!address_list.contains(name)){
-                                address_list.add(name);
-                        }
-                        else {
-                                error.setText("You've already added " + name + "!");
-                        }
-                }
-                adapt();
-        }
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    }
 
-        public void onAddClick() {
-                addButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                                Intent intent1 = new Intent(PreferredProvidersLogin.this, AddPreferredProvidersLogin.class);
-                                startActivity(intent1);
-                        }
-                });
-        }
-
-        public void onDoneClick() {
-                doneButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                                Intent intent3 = new Intent(PreferredProvidersLogin.this, Dashboard.class);
-                                startActivity(intent3);
-                        }
-                });
-        }
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        }
-
-        public void adapt(){
-                adapter = new ArrayAdapter<String>(PreferredProvidersLogin.this, android.R.layout.simple_list_item_1, address_list);
-                serviceProvidersListView.setAdapter(adapter);
-        }
+    public void adapt() {
+        adapter = new ArrayAdapter<String>(PreferredProvidersLogin.this, android.R.layout.simple_list_item_1, preferredProviders);
+        serviceProvidersListView.setAdapter(adapter);
+    }
 }
