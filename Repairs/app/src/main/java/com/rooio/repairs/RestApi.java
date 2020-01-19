@@ -1,6 +1,8 @@
 package com.rooio.repairs;
 
 
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.arch.core.util.Function;
 

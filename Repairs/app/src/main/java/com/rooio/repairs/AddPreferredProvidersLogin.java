@@ -61,10 +61,10 @@ public class AddPreferredProvidersLogin extends RestApi {
             public void onClick(View v) {
                 error.setText("");
                 phoneInput = newProvider.getText().toString();
-                if(!phoneInput.isEmpty())
+                if(!phoneInput.isEmpty() && phoneInput.length() >= 10)
                     checkIfAlreadyAdded(phoneInput);
                 else
-                    error.setText("Please enter a phone number!");
+                    error.setText("Please enter a valid phone number!");
             }
         });
     }
@@ -99,8 +99,6 @@ public class AddPreferredProvidersLogin extends RestApi {
                     String addedProvider = (String) restaurant.get("name");
                     String phoneNum = (String) restaurant.get("phone");
 
-                    Log.i("try", addedProvider);
-                    Log.i("try", phoneNum);
                     if(phoneNum.contains(phoneInput)){
                         addedProviderRet = addedProvider;
                         added = true;
@@ -114,6 +112,7 @@ public class AddPreferredProvidersLogin extends RestApi {
                 // returning added service provider for error checking
                 Intent intent = new Intent(AddPreferredProvidersLogin.this, PreferredProvidersLogin.class);
                 intent.putExtra("added", addedProviderRet);
+                addedProviderRet = "";
                 startActivity(intent);
 
             } catch (JSONException e) {
