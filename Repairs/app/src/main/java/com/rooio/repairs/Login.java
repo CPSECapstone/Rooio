@@ -76,7 +76,6 @@ public class Login extends RestApi {
 
             Function<JSONObject,Void> responseFunc = (jsonObj) -> {
                 try {
-                    errorMessage.setText("");
                     storeToken(jsonObj);
                     startActivity(new Intent(Login.this, LocationLogin.class));
 
@@ -95,9 +94,7 @@ public class Login extends RestApi {
 
         }
         else{
-
             errorMessage.setText("Incorrect username and/or password.");
-
         }
     }
 

@@ -48,12 +48,15 @@ public class LoginInstrumentedTest {
         assertEquals("com.rooio.repairs", appContext.getPackageName());
     }
 
+    /*
     @Test
-    public void invalidPassword() {
-        onView(withId(R.id.username_field)).perform(typeText("hacker"));
-        onView(withId(R.id.login)).perform(click());
-        onView(withText("Password must be at least 6 alphanumeric characters")).check(matches(isDisplayed()));
+    public void useIncorrectPassword() {
+        onView(withId(R.id.usernameField)).perform(typeText("hacker"));
+        onView(withId(R.id.connectAccount)).perform(click());
+        onView(withText("Incorrect username and/or password")).check(matches(isDisplayed()));
     }
+
+     */
 
     /*
     @Test

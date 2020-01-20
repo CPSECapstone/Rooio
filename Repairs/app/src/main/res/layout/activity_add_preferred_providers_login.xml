@@ -19,100 +19,64 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/guideline3">
+        app:layout_constraintTop_toBottomOf="@+id/guideline3"
+        app:layout_constraintVertical_bias="1.0">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout2"
-            android:layout_width="972dp"
-            android:layout_height="93dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="3dp"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayout4"
+        <EditText
+            android:id="@+id/new_phone"
+            android:layout_width="889dp"
+            android:layout_height="60dp"
+            android:background="@drawable/gray_button_border"
+            android:ems="10"
+            android:inputType="phone"
+            android:labelFor="@id/new_phone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.78" />
+
+        <Button
+            android:id="@+id/add_provider"
+            android:layout_width="219dp"
+            android:layout_height="48dp"
+            android:background="@drawable/green_button_border"
+            android:fontFamily="monospace"
+            android:text="@string/add_provider"
+            android:textAllCaps="false"
+            android:textColor="#06C47B"
+            android:textColorHighlight="#00F8F6F6"
+            android:textColorHint="#00FCFBFB"
+            android:textColorLink="#00FDFCFC"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/phone_number"
+            android:textColor="#A3A3A3"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="626dp"
-                android:layout_height="47dp"
-                android:text="@string/enter_phone_number"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout4"
-            android:layout_width="973dp"
-            android:layout_height="255dp"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="626dp"
+            android:layout_height="47dp"
+            android:text="@string/enter_phone_number"
+            android:textAlignment="center"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
-
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="36dp"
-                android:layout_marginTop="36dp"
-                android:layout_marginEnd="886dp"
-                android:layout_marginBottom="10dp"
-                android:text="@string/phone_number"
-                android:textColor="#A3A3A3"
-                app:layout_constraintBottom_toTopOf="@+id/new_phone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.169"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/add_provider"
-                android:layout_width="219dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="372dp"
-                android:layout_marginEnd="382dp"
-                android:layout_marginBottom="39dp"
-                android:background="@drawable/green_button_border"
-                android:fontFamily="monospace"
-                android:text="@string/add_provider"
-                android:textAllCaps="false"
-                android:textColor="#06C47B"
-                android:textColorHighlight="#00F8F6F6"
-                android:textColorHint="#00FCFBFB"
-                android:textColorLink="#00FDFCFC"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <EditText
-                android:id="@+id/new_phone"
-                android:layout_width="889dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="27dp"
-                android:layout_marginEnd="27dp"
-                android:layout_marginBottom="131dp"
-                android:background="@drawable/gray_button_border"
-                android:ems="10"
-                android:inputType="phone"
-                android:labelFor="@id/new_phone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

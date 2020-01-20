@@ -127,7 +127,7 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
 
     }
 
-    /*
+
     public boolean validate(String userName, String userPassword){
         if((isValid(userName, userPassword)) == true){
             return true;
@@ -156,7 +156,7 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
         }
         return flag;
     }
-     */
+
 
 
     /*

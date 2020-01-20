@@ -15,16 +15,17 @@ public class ExampleUnitTest {
         assertEquals(4, 2 + 2);
     }
 
-    /*
+
     @Test
     public void validateTrue() {
         String username = "yusu2f";
         String password = "t5y6u7";
 
-        Login login = new Login();
-        assertTrue(login.validate(username, password));
+        Registration r = new Registration();
+        assertTrue(r.validate(username, password));
     }
 
+    /*
     @Test
     public void validateFalse() {
         String username = "";
