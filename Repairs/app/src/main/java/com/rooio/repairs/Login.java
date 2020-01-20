@@ -41,10 +41,20 @@ public class Login extends RestApi {
         errorMessage = findViewById(R.id.errorMessage);
         errorMessage.setText("");
 
-        //Connect account button sends login information
-        connectAccount.setOnClickListener(view -> sendLoginInfo());
+        //Handles Connect Account button
+        onConnectAccount();
 
-        //Cancel button returns to landing page
+        //Handles Cancel button
+        onCancel();
+    }
+
+    // Attempts to login the user after clicking the button
+    private void onConnectAccount(){
+        connectAccount.setOnClickListener(view -> sendLoginInfo());
+    }
+
+    // Switches page from Login to Landing
+    private void onCancel() {
         cancelLogin.setOnClickListener(view -> startActivity(new Intent(Login.this, Landing.class)));
     }
 
