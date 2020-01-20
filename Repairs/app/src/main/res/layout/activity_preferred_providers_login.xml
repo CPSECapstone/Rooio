@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/Title"
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/preferred_service_provider"
@@ -46,7 +46,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/greenBar"
                 android:layout_width="99dp"
                 android:layout_height="3dp"
                 android:layout_marginStart="436dp"
@@ -95,7 +95,7 @@
                 android:layout_width="219dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/button_border"
+                android:background="@drawable/green_button_border"
                 android:fontFamily="monospace"
                 android:text="Done"
                 android:textAllCaps="false"

@@ -34,7 +34,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/Title"
+                android:id="@+id/title"
                 android:layout_width="626dp"
                 android:layout_height="47dp"
                 android:text="@string/enter_phone_number"
@@ -80,7 +80,7 @@
                 android:layout_marginStart="372dp"
                 android:layout_marginEnd="382dp"
                 android:layout_marginBottom="39dp"
-                android:background="@drawable/button_border"
+                android:background="@drawable/green_button_border"
                 android:fontFamily="monospace"
                 android:text="@string/add_provider"
                 android:textAllCaps="false"

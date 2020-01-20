@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ECF0F1"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainBox"
+        android:layout_width="850dp"
+        android:layout_height="360dp"
+        android:background="@drawable/shadow"
+        app:layout_constraintBottom_toTopOf="@+id/lower_guideline"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toTopOf="@+id/upper_guideline"
+        app:layout_constraintVertical_bias="0.0">
+
+
+        <Button
+            android:id="@+id/connectAccount"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="240dp"
+            android:layout_height="55dp"
+            android:background="@drawable/green_button_border"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/connect_account"
+            android:textAllCaps="false"
+            android:textColor="#00CA8F"
+            android:textColorHighlight="#00F8F6F6"
+            android:textColorHint="#00FCFBFB"
+            android:textColorLink="#00FDFCFC"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.75"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.8" />
+
+        <ImageView
+            android:id="@+id/greenBar"
+            android:layout_width="75dp"
+            android:layout_height="3dp"
+            android:contentDescription="@string/green_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.23"
+            app:srcCompat="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:text="@string/title_activity_landing"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.10" />
+
+        <Button
+            android:id="@+id/createAccount"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="240dp"
+            android:layout_height="55dp"
+            android:background="@drawable/gray_button_border"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/create_account"
+            android:textAllCaps="false"
+            android:textColor="#919191"
+            android:textColorHighlight="#00F8F6F6"
+            android:textColorHint="#00FCFBFB"
+            android:textColorLink="#00FDFCFC"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.8" />
+
+        <TextView
+            android:id="@+id/landingMessage"
+            android:layout_width="600dp"
+            android:layout_height="60dp"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/landing_message"
+            android:textAlignment="center"
+            android:textSize="21sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.45" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/right_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="1385dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/upper_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="150dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="535dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lower_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="510dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

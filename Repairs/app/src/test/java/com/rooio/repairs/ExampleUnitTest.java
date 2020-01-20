@@ -15,6 +15,7 @@ public class ExampleUnitTest {
         assertEquals(4, 2 + 2);
     }
 
+    /*
     @Test
     public void validateTrue() {
         String username = "yusu2f";
@@ -68,4 +69,5 @@ public class ExampleUnitTest {
         Login login = new Login();
         assertFalse(login.isValid(username, password));
     }
+    */
 }

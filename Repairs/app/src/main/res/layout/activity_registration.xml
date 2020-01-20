@@ -8,58 +8,50 @@
     tools:context=".Login">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/mainBox"
         android:layout_width="850dp"
         android:layout_height="660dp"
         android:background="@drawable/layout_bg"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/guideline3">
 
         <Button
             android:id="@+id/register"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:background="@drawable/button_border"
-            android:fontFamily="sans-serif"
-            android:text="Register"
+            android:layout_width="240dp"
+            android:layout_height="55dp"
+            android:background="@drawable/green_button_border"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/register"
             android:textAllCaps="false"
             android:textColor="#00CA8F"
-            android:textColorHighlight="#00F8F6F6"
-            android:textColorHint="#00FCFBFB"
-            android:textColorLink="#00FDFCFC"
-            android:textSize="20sp"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.50"
+            app:layout_constraintHorizontal_bias="0.8"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.95" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <Button
-            android:id="@+id/register2"
+            android:id="@+id/cancelRegistration"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:background="@drawable/button_border"
-            android:fontFamily="sans-serif"
-            android:text="Back to Login"
+            android:layout_width="240dp"
+            android:layout_height="55dp"
+            android:background="@drawable/gray_button_border"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/cancel"
             android:textAllCaps="false"
-            android:textColor="#00CA8F"
-            android:textColorHighlight="#00F8F6F6"
-            android:textColorHint="#00FCFBFB"
-            android:textColorLink="#00FDFCFC"
-            android:textSize="20sp"
+            android:textColor="#919191"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.05" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <EditText
             android:id="@+id/lastname"
@@ -191,7 +183,7 @@
             app:layout_constraintVertical_bias="0.60" />
 
         <TextView
-            android:id="@+id/Title"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Register "
@@ -200,17 +192,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.05" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/greenBar"
             android:layout_width="99dp"
             android:layout_height="3dp"
+            android:contentDescription="@string/green_bar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.11"
+            app:layout_constraintVertical_bias="0.060000002"
             app:srcCompat="@color/colorAccent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -220,14 +213,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="100dp" />
+        app:layout_constraintGuide_begin="150dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="760dp" />
+        app:layout_constraintGuide_begin="810dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"

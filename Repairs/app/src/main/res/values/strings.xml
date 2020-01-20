@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Repairs</string>
+    <string name="connect_account">Connect Account</string>
+    <string name="create_account">Create Account</string>
+    <string name="cancel">Cancel</string>
+    <string name="green_bar"></string>
+    <string name="register">Register</string>
+    <string name="landing_message">Click the button below to connect your Roopairs account to start requesting on-demand service.</string>
     <string name="mainbox">TextView</string>
     <string name="choose_service_location">Choose Service Location</string>
     <string name="address">ADDRESS</string>
@@ -7,8 +13,8 @@
     <string name="add_location">Add Location</string>
     <string name="username">username</string>
     <string name="password">password</string>
-    <string name="login">Login</string>
     <string name="title_activity_login_location">Login_location</string>
+    <string name="title_activity_landing">Connect your account</string>
     <string name="add_another_service_location">+ Add Another Service Location</string>
     <string name="title_activity_preferred_providers">PreferredProviders</string>
     <string name="tab_text_1">Preferred</string>
