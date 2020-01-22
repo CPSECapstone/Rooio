@@ -89,8 +89,8 @@
 
         <TextView
             android:id="@+id/landingMessage"
-            android:layout_width="600dp"
-            android:layout_height="60dp"
+            android:layout_width="700dp"
+            android:layout_height="100dp"
             android:fontFamily="@font/nunito_sans"
             android:text="@string/landing_message"
             android:textAlignment="center"

@@ -2,6 +2,7 @@ package com.rooio.repairs;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,8 +17,8 @@ import java.util.HashMap;
 
 public class Login extends RestApi {
 
-    private EditText username;
-    private EditText password;
+    private EditText usernameField;
+    private EditText passwordField;
     private Button connectAccount;
     private Button cancelLogin;
     private TextView errorMessage;
@@ -35,41 +36,41 @@ public class Login extends RestApi {
 
         //Initializing UI variables
         connectAccount = findViewById(R.id.connectAccount);
-        username = findViewById(R.id.usernameField);
-        password = findViewById(R.id.passwordField);
+        usernameField = findViewById(R.id.usernameField);
+        passwordField = findViewById(R.id.passwordField);
         cancelLogin = findViewById(R.id.cancelLogin);
         errorMessage = findViewById(R.id.errorMessage);
         errorMessage.setText("");
 
-        //Handles Connect Account button
         onConnectAccount();
-
-        //Handles Cancel button
         onCancel();
     }
 
-    // Attempts to login the user after clicking the button
+    // Attempts to log in the user after clicking Connect Account
     private void onConnectAccount(){
-        connectAccount.setOnClickListener(view -> sendLoginInfo());
+        String username = usernameField.getText().toString();
+        String password = passwordField.getText().toString();
+        connectAccount.setOnClickListener(view -> sendLoginInfo(username, password));
     }
 
-    // Switches page from Login to Landing
+    // Switches page from Login to Landing after clicking Cancel
     private void onCancel() {
-        cancelLogin.setOnClickListener(view -> startActivity(new Intent(Login.this, Landing.class)));
+        cancelLogin.setOnClickListener(view ->
+                startActivity(new Intent(Login.this, Landing.class)));
     }
 
     // Sends username and password to the API and loads the next screen.
     // Returns error if the information is invalid
-    private void sendLoginInfo() {
-        if(username.getText().toString() != "" && password.getText().toString() != ""){
+    private void sendLoginInfo(String username, String password) {
+        if(!username.equals("") &&  !password.equals("")){
 
             // --- API Swagger URL link
             String url = "https://capstone.api.roopairs.com/v0/auth/login/";
 
             // --- Build params HashMap for Rest JSON Body
             HashMap<String, Object> params = new HashMap<>();
-            params.put("username", username.getText().toString());
-            params.put("password", password.getText().toString());
+            params.put("username",  username);
+            params.put("password",  password);
 
             // --- requestPost function call
 //                    requestPost(url, params, false);
