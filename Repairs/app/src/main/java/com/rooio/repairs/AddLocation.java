@@ -25,6 +25,7 @@ public class AddLocation extends AppCompatActivity {
         new_address = (TextInputEditText) findViewById(R.id.new_location);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar);
+        getSupportActionBar().setElevation(0);
 
         add_address.setOnClickListener(new View.OnClickListener() {
             @Override

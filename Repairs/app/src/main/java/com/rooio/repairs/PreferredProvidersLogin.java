@@ -44,6 +44,7 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
                 setContentView(R.layout.activity_preferred_providers_login);
                 getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
                 getSupportActionBar().setCustomView(R.layout.action_bar);
+                getSupportActionBar().setElevation(0);
 
                 bt = (Button) findViewById(R.id.add_another_provider);
                 bt2 = (Button) findViewById(R.id.Done);

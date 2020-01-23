@@ -41,6 +41,7 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
         //Centers "Repairs" title
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar);
+        getSupportActionBar().setElevation(0);
 
         //Initializing UI variables;
         myspinner = findViewById(R.id.spinner);
