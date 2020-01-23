@@ -34,7 +34,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/Title"
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/service_location"
@@ -45,7 +45,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/greenBar"
                 android:layout_width="99dp"
                 android:layout_height="3dp"
                 android:layout_marginStart="436dp"
@@ -55,7 +55,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Title"
+                app:layout_constraintTop_toBottomOf="@+id/title"
                 app:srcCompat="@color/colorAccent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -89,7 +89,7 @@
                 android:layout_marginTop="45dp"
                 android:layout_marginEnd="382dp"
                 android:layout_marginBottom="39dp"
-                android:background="@drawable/button_border"
+                android:background="@drawable/green_button_border"
                 android:fontFamily="monospace"
                 android:text="@string/add_location"
                 android:textAllCaps="false"

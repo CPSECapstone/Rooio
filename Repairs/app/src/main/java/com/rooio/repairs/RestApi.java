@@ -43,6 +43,52 @@ public abstract class RestApi extends AppCompatActivity {
 
 //--------------------------------------------------------------------------------------------------
 
+    public void requestPostJsonObj(JsonRequest req) {
+        if (req.isTest()) {
+            return;
+        }
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+        String url = req.getUrl();
+        HashMap<String, Object> params = req.getParams();
+        Function<JSONObject, Void> responseFunc = req.getResponseFunc();
+        Function<String, Void> errorFunc = req.getErrorFunc();
+        boolean headersFlag = req.getHeadersFlag();
+
+        //-- Transforms params HashMap into Json Object
+        JSONObject jsonParams = new JSONObject(params);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, url, jsonParams, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        responseFunc.apply(response);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        errorFunc.apply(error.toString());
+                    }}) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+//                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+                if (headersFlag){
+                    Map<String, String> headers = new HashMap<>();
+                    //headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
+                    return headers;
+
+//                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+                } else {
+                    return Collections.emptyMap();
+                }
+            }
+        };
+        queue.add(jsonObjectRequest);
+    }
+
     public void requestGetJsonObj(String url, final Function<JSONObject, Void> responseFunc,
                         final Function<String, Void> errorFunc, final boolean headersFlag){
 
