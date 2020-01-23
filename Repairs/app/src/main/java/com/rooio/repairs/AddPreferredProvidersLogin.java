@@ -76,10 +76,16 @@ public class AddPreferredProvidersLogin extends RestApi {
         params.put("phone", phoneInput);
 
         Function<JSONArray,Void> responseFunc = (jsonArray) -> {
+            // returning added service provider for error checking
+            Intent intent = new Intent(AddPreferredProvidersLogin.this, PreferredProvidersLogin.class);
+            intent.putExtra("added", addedProviderRet);
+            addedProviderRet = "";
+            startActivity(intent);
             return null;
         };
 
         Function<String, Void> errorFunc = (string) -> {
+            error.setText("This service provider " + string + " Please use another phone number!");
             return null;
         };
 
@@ -108,12 +114,9 @@ public class AddPreferredProvidersLogin extends RestApi {
                 if(!added){
                     addPreferredServiceProvider(phoneInput);
                 }
-
-                // returning added service provider for error checking
-                Intent intent = new Intent(AddPreferredProvidersLogin.this, PreferredProvidersLogin.class);
-                intent.putExtra("added", addedProviderRet);
-                addedProviderRet = "";
-                startActivity(intent);
+                else{
+                    error.setText("You've already added " + addedProviderRet + "!");
+                }
 
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -63,7 +63,7 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
         };
 
         Function<String, Void> errorFunc = (string) -> {
-            //                       test.setText(string);
+            error.setText(string);
             return null;
         };
 
@@ -71,16 +71,10 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
     }
 
     public void loadElements(JSONArray response) throws JSONException {
-        Intent incoming_intent = getIntent();
-        addedProviderName = incoming_intent.getStringExtra("added");
-
         preferredProviders.clear();
         for (int i = 0; i < response.length(); i++) {
             JSONObject restaurant = response.getJSONObject(i);
             String name = (String) restaurant.get("name");
-            if(name.equals(addedProviderName)){
-                error.setText("You've already added " + name + "!");
-            }
             preferredProviders.add(name);
         }
         adapt();
