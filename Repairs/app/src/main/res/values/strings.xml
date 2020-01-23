@@ -7,6 +7,7 @@
     <string name="register">Register</string>
     <string name="landing_message">Click the Connect Account button below to connect your Roopairs account to start requesting on-demand service. If you do not have a Roopairs account, click Create Account.</string>
     <string name="mainbox">TextView</string>
+    <string name="errorLogin">Incorrect username and/or password.</string>
     <string name="choose_service_location">Choose Service Location</string>
     <string name="address">ADDRESS</string>
     <string name="service_location">Service Location</string>

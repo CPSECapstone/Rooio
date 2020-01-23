@@ -2,13 +2,14 @@ package com.rooio.repairs;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.arch.core.util.Function;
+
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +23,7 @@ public class Login extends RestApi {
     private Button connectAccount;
     private Button cancelLogin;
     private TextView errorMessage;
+    private String url = "https://capstone.api.roopairs.com/v0/auth/login/";
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class Login extends RestApi {
         //Centers "Repairs" title
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar);
+        getSupportActionBar().setElevation(0);
 
         //Initializing UI variables
         connectAccount = findViewById(R.id.connectAccount);
@@ -48,9 +51,16 @@ public class Login extends RestApi {
 
     // Attempts to log in the user after clicking Connect Account
     private void onConnectAccount(){
-        String username = usernameField.getText().toString();
-        String password = passwordField.getText().toString();
-        connectAccount.setOnClickListener(view -> sendLoginInfo(username, password));
+        HashMap<String, Object> params = new HashMap<>();
+        connectAccount.setOnClickListener(view -> sendLoginInfo(
+                new JsonRequest(
+                        false,
+                        url,
+                        createRequest(params, usernameField.getText().toString(),
+                        passwordField.getText().toString()),
+                        responseFunc,
+                        errorFunc,
+                        false)));
     }
 
     // Switches page from Login to Landing after clicking Cancel
@@ -59,51 +69,48 @@ public class Login extends RestApi {
                 startActivity(new Intent(Login.this, Landing.class)));
     }
 
-    // Sends username and password to the API and loads the next screen.
-    // Returns error if the information is invalid
-    private void sendLoginInfo(String username, String password) {
-        if(!username.equals("") &&  !password.equals("")){
+    public HashMap createRequest(HashMap<String, Object> params, String username, String password) {
+        // --- API Swagger URL link
 
-            // --- API Swagger URL link
-            String url = "https://capstone.api.roopairs.com/v0/auth/login/";
-
-            // --- Build params HashMap for Rest JSON Body
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("username",  username);
-            params.put("password",  password);
-
-            // --- requestPost function call
-//                    requestPost(url, params, false);
-
-            Function<JSONObject,Void> responseFunc = (jsonObj) -> {
-                try {
-                    storeToken(jsonObj);
-                    startActivity(new Intent(Login.this, LocationLogin.class));
-
-                } catch (JSONException e){
-                    e.printStackTrace();
-                }
-                return null;
-            };
-
-            Function<String,Void> errorFunc = (string) -> {
-                errorMessage.setText("Incorrect username and/or password.");
-                return null;
-            };
-
-            requestPostJsonObj(url, params, responseFunc, errorFunc, false);
-
-        }
-        else{
-            errorMessage.setText("Incorrect username and/or password.");
-        }
+        // --- Build params HashMap for Rest JSON Body
+        params.put("username",  username);
+        params.put("password",  password);
+        return params;
     }
+
+    public Function<JSONObject,Void> responseFunc = (jsonObj) -> {
+        try {
+            storeToken(jsonObj);
+            startActivity(new Intent(Login.this, LocationLogin.class));
+
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+        return null;
+    };
 
     // -- Example Json handling function
     public void storeToken(JSONObject responseObj) throws JSONException {
-        String token;
-        token = (String)responseObj.get("token");
+        String token = (String)responseObj.get("token");
         setUserToken(token);
+    }
+
+    public Function<String,Void> errorFunc = (string) -> {
+        errorMessage.setText(R.string.errorLogin);
+        return null;
+    };
+
+    // Sends username and password to the API and loads the next screen.
+    // Returns error if the information is invalid
+    public void sendLoginInfo(JsonRequest request) {
+        String username = (String) request.getParams().get("username");
+        String password = (String) request.getParams().get("password");
+        if(!username.equals("") &&  !password.equals("")){
+            requestPostJsonObj(request);
+        }
+        else {
+            errorMessage.setText(R.string.errorLogin);
+        }
     }
 
 }
