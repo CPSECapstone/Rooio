@@ -35,6 +35,7 @@ public class AddPreferredProvidersLogin extends RestApi {
         setContentView(R.layout.activity_add_preferred_providers_login);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar);
+        getSupportActionBar().setElevation(0);
 
         addButton = (Button) findViewById(R.id.add_provider);
         backButton = (Button) findViewById(R.id.back);

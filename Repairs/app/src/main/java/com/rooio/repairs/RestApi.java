@@ -61,6 +61,65 @@ public abstract class RestApi extends AppCompatActivity {
         queue.add(request);
     }
 
+    public void requestPostJsonObj(JsonRequest req) {
+        if (req.isTest()) {
+            return;
+        }
+
+        String url = req.getUrl();
+        HashMap<String, Object> params = req.getParams();
+        Function<JSONObject, Void> responseFunc = req.getResponseFunc();
+        Function<String, Void> errorFunc = req.getErrorFunc();
+        boolean headersFlag = req.getHeadersFlag();
+
+        //-- Transforms params HashMap into Json Object
+        JSONObject jsonParams = new JSONObject(params);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, url, jsonParams, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        responseFunc.apply(response);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String errorMsg = "Unexpected Error!";
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            errorMsg = "No connection or you timed out. Try again.";
+                        } else if (error instanceof AuthFailureError) {
+                            errorMsg = "You are not authorized.";
+                        } else if (error instanceof ServerError) {
+                            errorMsg = "does not exist.";
+                        } else if (error instanceof NetworkError) {
+                            errorMsg = "Network Error. Try again.";
+                        } else if (error instanceof ParseError) {
+                            errorMsg = "Parse Error. Try again.";
+                        }
+
+                        errorFunc.apply(errorMsg);
+                    }}) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+//                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+                if (headersFlag){
+                    Map<String, String> headers = new HashMap<>();
+                    //headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
+                    return headers;
+
+//                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+                } else {
+                    return Collections.emptyMap();
+                }
+            }
+        };
+
+        addToVolleyQueue(jsonObjectRequest);
+    }
+
     public void requestGetJsonObj(String url, final Function<JSONObject, Void> responseFunc,
                         final Function<String, Void> errorFunc, final boolean headersFlag){
 
