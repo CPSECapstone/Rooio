@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.arch.core.util.Function;
@@ -57,7 +56,7 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
         industry_int = 2;
 
 
-        Function<JSONObject,Void> responseFunc = (jsonArray) -> {
+        Function<JSONObject,Void> responseFunc = (jsonObject) -> {
             Intent intent5 = new Intent(Registration.this, Login.class);
             startActivity(intent5);
             return null;
