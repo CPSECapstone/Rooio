@@ -9,21 +9,25 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="850dp"
-        android:layout_height="660dp"
+        android:layout_width="851dp"
+        android:layout_height="600dp"
+        android:layout_marginStart="535dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="534dp"
+        android:layout_marginBottom="60dp"
         android:background="@drawable/layout_bg"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/register"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="200dp"
             android:layout_height="50dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginBottom="27dp"
             android:background="@drawable/button_border"
             android:fontFamily="sans-serif"
             android:text="Register"
@@ -37,14 +41,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.50"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.95" />
+            app:layout_constraintTop_toBottomOf="@+id/restaurantname" />
 
         <Button
             android:id="@+id/register2"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
+            android:layout_width="175dp"
+            android:layout_height="39dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="29dp"
+            android:layout_marginEnd="171dp"
             android:background="@drawable/button_border"
             android:fontFamily="sans-serif"
             android:text="Back to Login"
@@ -54,163 +60,119 @@
             android:textColorHint="#00FCFBFB"
             android:textColorLink="#00FDFCFC"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.05" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/lastname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="30dp"
             android:ems="10"
             android:hint="Last name"
             android:inputType="textPersonName"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.7"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25" />
-
-        <TextView
-            android:id="@+id/account_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Account Information"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.15" />
+            app:layout_constraintTop_toBottomOf="@+id/firstname" />
 
         <EditText
             android:id="@+id/password"
-            android:layout_width="248dp"
-            android:layout_height="44dp"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="32dp"
             android:ems="10"
             android:hint="Password"
-            android:inputType="textPersonName"
+            android:inputType="textPersonName|textPassword"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.499"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.45" />
+            app:layout_constraintTop_toBottomOf="@+id/email" />
 
         <EditText
             android:id="@+id/email"
-            android:layout_width="246dp"
-            android:layout_height="41dp"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="30dp"
             android:ems="10"
             android:hint="Email address"
             android:inputType="textPersonName"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.35" />
+            app:layout_constraintTop_toBottomOf="@+id/lastname" />
 
         <TextView
             android:id="@+id/errorMessage"
             android:layout_width="250dp"
             android:layout_height="92dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="136dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="304dp"
             android:text="TextView"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintEnd_toStartOf="@+id/lastname"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.40" />
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="198dp"
-            android:layout_height="35dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.8" />
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="500dp"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.53" />
+            app:layout_constraintTop_toBottomOf="@+id/register2" />
 
         <EditText
             android:id="@+id/restaurantname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="30dp"
             android:ems="10"
             android:hint="Restaurant name"
             android:inputType="textPersonName"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.499"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.7" />
+            app:layout_constraintTop_toBottomOf="@+id/password" />
 
         <EditText
             android:id="@+id/firstname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="301dp"
+            android:layout_marginTop="55dp"
+            android:layout_marginEnd="300dp"
             android:ems="10"
             android:hint="First name"
             android:inputType="textPersonName"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.30"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25" />
-
-        <TextView
-            android:id="@+id/restaurant_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Restaurant Information"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.60" />
+            app:layout_constraintTop_toBottomOf="@+id/Title" />
 
         <TextView
             android:id="@+id/Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="29dp"
+            android:layout_marginEnd="386dp"
+            android:layout_marginBottom="11dp"
             android:text="Register "
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/register2"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.05" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="99dp"
             android:layout_height="3dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="11dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.11"
+            app:layout_constraintTop_toBottomOf="@+id/Title"
             app:srcCompat="@color/colorAccent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

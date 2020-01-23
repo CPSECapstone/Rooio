@@ -18,7 +18,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class Registration extends RestApi  implements AdapterView.OnItemSelectedListener {
+public class Registration extends RestApi   {
 
     private Spinner myspinner;
 
@@ -42,8 +42,6 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
         String url = "https://capstone.api.roopairs.com/v0/auth/register/";
 
         //Input initialization;
-
-        myspinner = (Spinner) findViewById(R.id.spinner);
 
         register = (Button) findViewById(R.id.register);
         register2 = (Button) findViewById(R.id.register2);
@@ -76,13 +74,6 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
             }
         });
 
-        //Functions for DropDown "Industry Type"
-        ArrayAdapter<CharSequence> myAdapter = ArrayAdapter.createFromResource(this, R.array.industry_type, android.R.layout.simple_spinner_item);
-        //Set Adapter as
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        myspinner.setAdapter(myAdapter);
-        myspinner.setOnItemSelectedListener(this);
-
 
 
         //Functions for the "Register Button" to Login Page
@@ -114,40 +105,5 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
 
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String text = parent.getItemAtPosition(position).toString();
-        if (text.length() == 11) {
-            industry_int = 1;
-
-        }
-        else if (text.length() == 10){
-            industry_int = 3;
-
-        }
-        else{
-            industry_int = 2;
-
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-
-    /*
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String text = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-    */
 
 }
