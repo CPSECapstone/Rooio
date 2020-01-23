@@ -44,6 +44,12 @@ steps:
       echo "Emulator started"
 
       $ANDROID_HOME/platform-tools/adb install **/app_debug.apk
+
+      echo "App installed"
+
+      $ANDROID_HOME/platform-tools/adb shell monkey -p com.rooio.repairs -v 500
+
+      echo "App running"
 - task: Gradle@2
   inputs:
     workingDirectory: 'Repairs'
