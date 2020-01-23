@@ -43,7 +43,7 @@ steps:
       
       echo "Emulator started"
 
-      $ANDROID_HOME/platform-tools/adb install app/build/outputs/apk/app_debug.apk
+      $ANDROID_HOME/platform-tools/adb install **/app_debug.apk
 - task: Gradle@2
   inputs:
     workingDirectory: 'Repairs'
