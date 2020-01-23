@@ -24,4 +24,8 @@
         <item>Commercial Business</item>
         <item>Industrial</item>
     </string-array>
+    <string-array name="settings_type">
+        <item>Preferred Providers</item>
+        <item>Service Location</item>
+    </string-array>
 </resources>

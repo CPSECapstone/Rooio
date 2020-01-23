@@ -19,21 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DashboardCollapsed">
+        <activity android:name=".Settings">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- <activity android:name="PreferredProviders"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.MAIN" /> -->
-        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-        <!-- android:label="@string/title_activity_preferred_providers" -->
-        <!-- android:theme="@style/AppTheme.NoActionBar"> -->
-        <!-- </intent-filter> -->
-        <!-- </activity> -->
         <activity android:name=".Registration">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
