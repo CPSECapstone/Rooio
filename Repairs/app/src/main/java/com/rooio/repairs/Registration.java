@@ -103,7 +103,7 @@ public class Registration extends RestApi   {
 
 
 
-    /*
+
     public boolean validate(String userName, String userPassword){
         if((isValid(userName, userPassword)) == true){
             return true;
@@ -131,7 +131,7 @@ public class Registration extends RestApi   {
             return flag;
         }
         return flag;
-    }*/
+    }
 
 
 
