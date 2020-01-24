@@ -39,6 +39,7 @@ public class Registration extends RestApi   {
         //Centers "Repairs" title
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar);
+        getSupportActionBar().setElevation(0);
 
         String url = "https://capstone.api.roopairs.com/v0/auth/register/";
 

@@ -24,6 +24,7 @@ public class Landing extends AppCompatActivity {
         //Centers "Repairs" title
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar);
+        getSupportActionBar().setElevation(0);
 
         //Initializing UI variables
         createAccount = findViewById(R.id.createAccount);

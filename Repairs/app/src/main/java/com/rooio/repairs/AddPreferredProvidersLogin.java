@@ -26,6 +26,7 @@ public class AddPreferredProvidersLogin extends AppCompatActivity {
         new_provider = (EditText) findViewById(R.id.new_phone);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar);
+        getSupportActionBar().setElevation(0);
 
         add_provider.setOnClickListener(new View.OnClickListener() {
             @Override
