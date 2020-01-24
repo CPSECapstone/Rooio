@@ -31,7 +31,7 @@ steps:
       # Create emulator
       echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n xamarin_android_emulator -k 'system-images;android-27;google_apis;x86' --force
       
-      $ANDROID_HOME/emulator/emulator -list-avds
+      $ANDROID_HOME/emulator/emulator -list-avds -avd test -no-window 1920x1080
       
       echo "Starting emulator"
       
@@ -42,14 +42,6 @@ steps:
       $ANDROID_HOME/platform-tools/adb devices
       
       echo "Emulator started"
-
-      $ANDROID_HOME/platform-tools/adb install **/app_debug.apk
-
-      echo "App installed"
-
-      $ANDROID_HOME/platform-tools/adb shell monkey -p com.rooio.repairs -v 500
-
-      echo "App running"
 - task: Gradle@2
   inputs:
     workingDirectory: 'Repairs'
