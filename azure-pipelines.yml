@@ -41,3 +41,16 @@ steps:
       $ANDROID_HOME/platform-tools/adb devices
       
       echo "Emulator started"
+- task: Gradle@2
+  inputs:
+    workingDirectory: 'Repairs'
+    gradleWrapperFile: 'Repairs/gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: 'connectedDebugAndroidTest jacocoTestReport'
+- task: PublishCodeCoverageResults@1
+  inputs:
+    summaryFileLocation: '**/jacocoTestReport.xml'
+    pathToSources: 'Repairs'
+    failIfCoverageEmpty: false
