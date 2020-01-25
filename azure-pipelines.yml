@@ -54,3 +54,16 @@ steps:
     summaryFileLocation: '**/jacocoTestReport.xml'
     pathToSources: 'Repairs'
     failIfCoverageEmpty: false
+- task: UsePythonVersion@0
+  displayName: 'Use Python 3.x'
+  condition: succeededOrFailed()
+- bash: 'pip install requests'
+  displayName: 'Install Python dependencies'
+  condition: succeededOrFailed()
+- task: PythonScript@0
+  displayName: 'Upload screenshots'
+  continueOnError: true
+  condition: failed()
+  inputs:
+    scriptPath: 'screenshotUpload.sh'
+    arguments: '$(System.TeamProject) $(azure.api.pat) $(Build.BuildUri) CPSECapstone'
