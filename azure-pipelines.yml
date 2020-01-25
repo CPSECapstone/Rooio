@@ -9,6 +9,9 @@ trigger:
 pool:
   vmImage: 'macos-latest'
 
+variables:
+  - group: PAT for API
+
 steps:
 - task: Gradle@2
   inputs:
