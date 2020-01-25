@@ -69,4 +69,4 @@ steps:
   condition: failed()
   inputs:
     scriptPath: 'screenshotUpload.sh'
-    arguments: '$(System.TeamProject) $(azure.api.pat) $(Build.BuildUri) CPSECapstone'
+    arguments: '$(System.TeamProject) $(PAT_FOR_API) $(Build.BuildUri) CPSECapstone'
