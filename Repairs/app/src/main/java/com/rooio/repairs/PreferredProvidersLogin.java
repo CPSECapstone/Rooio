@@ -19,7 +19,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class PreferredProvidersLogin extends RestApi implements AdapterView.OnItemClickListener {
+public class PreferredProvidersLogin extends RestApi {
 
     Button addButton;
     Button doneButton;
@@ -27,7 +27,7 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
     ArrayAdapter<String> adapter;
 
     TextView error;
-    static ArrayList<String> preferredProviders = new ArrayList<String>();
+    static ArrayList<ServiceProviderData> preferredProviders = new ArrayList<>();
 
     String addedProviderName;
 
@@ -40,14 +40,14 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
 
         addButton = (Button) findViewById(R.id.add_another_provider);
         doneButton = (Button) findViewById(R.id.Done);
-        serviceProvidersListView = (ListView) findViewById(R.id.Service2);
+        serviceProvidersListView = (ListView) findViewById(R.id.list);
         error = (TextView) findViewById(R.id.error);
 
         loadPreferredProviders();
 
         onAddClick();
         onDoneClick();
-        serviceProvidersListView.setOnItemClickListener(this);
+        //serviceProvidersListView.setOnItemClickListener(this);
     }
 
     public void loadPreferredProviders() {
@@ -75,9 +75,20 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
         for (int i = 0; i < response.length(); i++) {
             JSONObject restaurant = response.getJSONObject(i);
             String name = (String) restaurant.get("name");
-            preferredProviders.add(name);
+            String image = "";
+            try{
+                image = (String) restaurant.get("logo");
+
+            } catch (Exception e){
+                image = "https://roopairs-capstone.s3.amazonaws.com/media/service_agency_logos/chang-electric/mark.gif?AWSAccessKeyId=AKIAJUE3LGYRGQFUDYYQ&Signature=A%2BAz2fPJqYE%2FoJlFIm56nP%2F7yf0%3D&Expires=1579995508";
+            } finally {
+                ServiceProviderData serviceProviderData = new ServiceProviderData(name, image);
+                preferredProviders.add(serviceProviderData);
+            }
         }
-        adapt();
+
+        CustomAdapter customAdapter = new CustomAdapter(this, preferredProviders);
+        serviceProvidersListView.setAdapter(customAdapter);
     }
 
     public void onAddClick() {
@@ -101,12 +112,4 @@ public class PreferredProvidersLogin extends RestApi implements AdapterView.OnIt
         });
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    }
-
-    public void adapt() {
-        adapter = new ArrayAdapter<String>(PreferredProvidersLogin.this, android.R.layout.simple_list_item_1, preferredProviders);
-        serviceProvidersListView.setAdapter(adapter);
-    }
 }

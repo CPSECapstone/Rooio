@@ -3,7 +3,6 @@ package com.rooio.repairs;
 import androidx.appcompat.app.ActionBar;
 
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Button;
 
 import android.os.Bundle;
@@ -25,6 +24,7 @@ public class AddPreferredProvidersLogin extends RestApi {
     private Button backButton;
     private EditText newProvider;
     private TextView error;
+    private TextView textView;
     String phoneInput;
     static ArrayList<String> addedProvidersList = new ArrayList<String>();
     String addedProviderRet;
@@ -38,9 +38,10 @@ public class AddPreferredProvidersLogin extends RestApi {
         getSupportActionBar().setElevation(0);
 
         addButton = (Button) findViewById(R.id.add_provider);
-        backButton = (Button) findViewById(R.id.back);
+        backButton = (Button) findViewById(R.id.cancel);
         newProvider = (EditText) findViewById(R.id.new_phone);
         error = (TextView) findViewById(R.id.error);
+        textView = (TextView) findViewById(R.id.textView7);
 
         onAddClick();
         onBackClick();
