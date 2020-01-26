@@ -1,14 +1,14 @@
 package com.rooio.repairs
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.transition.TransitionManager
-import kotlinx.android.synthetic.main.activity_navigation_bar.*
+
 
 abstract class NavigationBar : AppCompatActivity() {
 
@@ -34,19 +34,21 @@ abstract class NavigationBar : AppCompatActivity() {
         val collapse = transitionsContainer.findViewById<ImageView>(R.id.collapse)
         val divider = transitionsContainer.findViewById<View>(R.id.nav_divider)
         val expand = transitionsContainer.findViewById<ImageView>(R.id.expand)
+        val dashboardImage = transitionsContainer.findViewById<ImageView>(R.id.dashboard)
+        val settingsImage = transitionsContainer.findViewById<ImageView>(R.id.settings)
 
         expand.setOnClickListener{
+            expand.visibility = View.INVISIBLE
             collapse.visibility = View.VISIBLE
-            expand.visibility = View.GONE
 
             TransitionManager.beginDelayedTransition(transitionsContainer)
             visible = !visible
             val v = if (visible) View.GONE else View.VISIBLE
-            collapseText.setVisibility(v)
-            dashboardText.setVisibility(v)
-            jobsText.setVisibility(v)
-            equipmentText.setVisibility(v)
-            settingsText.setVisibility(v)
+            collapseText.visibility = v
+            dashboardText.visibility = v
+            jobsText.visibility = v
+            equipmentText.visibility = v
+            settingsText.visibility = v
 
 
             //changing width of the side navigation bar
@@ -60,6 +62,7 @@ abstract class NavigationBar : AppCompatActivity() {
             params2.width = p2
 
             animateActivity(visible)
+
         }
 
         collapse.setOnClickListener {
@@ -67,14 +70,15 @@ abstract class NavigationBar : AppCompatActivity() {
             TransitionManager.beginDelayedTransition(transitionsContainer)
             visible = !visible
             val v = if (visible) View.GONE else View.VISIBLE
-            collapseText.setVisibility(v)
-            dashboardText.setVisibility(v)
-            jobsText.setVisibility(v)
-            equipmentText.setVisibility(v)
-            settingsText.setVisibility(v)
+            collapseText.visibility = v
+            dashboardText.visibility = v
+            jobsText.visibility = v
+            equipmentText.visibility = v
+            settingsText.visibility = v
 
+            collapse.visibility = View.INVISIBLE
             expand.visibility = View.VISIBLE
-            collapse.visibility = View.GONE
+
 
             val params = navBar.layoutParams
             val p = if (visible) 65 else 250
@@ -86,6 +90,16 @@ abstract class NavigationBar : AppCompatActivity() {
             params2.width = p2
 
             animateActivity(visible)
+
+
+        }
+
+        dashboardImage.setOnClickListener{
+            startActivity(Intent(this, Dashboard::class.java))
+        }
+
+        settingsImage.setOnClickListener{
+            startActivity(Intent( this, Settings::class.java))
         }
     }
 
