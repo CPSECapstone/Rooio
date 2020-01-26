@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class PreferredProvidersLogin extends RestApi {
 
-    Button addButton;
+    TextView addButton;
     Button doneButton;
     ListView serviceProvidersListView;
     ArrayAdapter<String> adapter;
@@ -37,8 +37,9 @@ public class PreferredProvidersLogin extends RestApi {
         setContentView(R.layout.activity_preferred_providers_login);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar);
+        getSupportActionBar().setElevation(0);
 
-        addButton = (Button) findViewById(R.id.add_another_provider);
+        addButton = (TextView) findViewById(R.id.addAnother);
         doneButton = (Button) findViewById(R.id.Done);
         serviceProvidersListView = (ListView) findViewById(R.id.list);
         error = (TextView) findViewById(R.id.error);
@@ -78,7 +79,6 @@ public class PreferredProvidersLogin extends RestApi {
             String image = "";
             try{
                 image = (String) restaurant.get("logo");
-
             } catch (Exception e){
                 image = "https://roopairs-capstone.s3.amazonaws.com/media/service_agency_logos/chang-electric/mark.gif?AWSAccessKeyId=AKIAJUE3LGYRGQFUDYYQ&Signature=A%2BAz2fPJqYE%2FoJlFIm56nP%2F7yf0%3D&Expires=1579995508";
             } finally {

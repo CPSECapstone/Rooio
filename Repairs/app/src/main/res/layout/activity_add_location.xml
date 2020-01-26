@@ -14,7 +14,7 @@
         android:layout_marginTop="62dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="182dp"
-        android:background="@drawable/layout_bg"
+        android:background="@drawable/shadow"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintHorizontal_bias="0.0"
