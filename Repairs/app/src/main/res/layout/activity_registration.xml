@@ -9,8 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainBox"
-        android:layout_width="850dp"
-        android:layout_height="660dp"
+        android:layout_width="807dp"
+        android:layout_height="568dp"
         android:layout_marginStart="535dp"
         android:layout_marginTop="150dp"
         android:layout_marginEnd="535dp"
@@ -63,76 +63,84 @@
             android:id="@+id/lastname"
             android:layout_width="250dp"
             android:layout_height="45dp"
-            android:layout_marginTop="35dp"
             android:ems="10"
             android:hint="Last name"
             android:inputType="textPersonName"
             android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/firstname" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.39" />
 
         <EditText
             android:id="@+id/password"
             android:layout_width="250dp"
             android:layout_height="45dp"
-            android:layout_marginTop="35dp"
             android:ems="10"
             android:hint="Password"
             android:inputType="textPersonName"
             android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.673" />
 
         <EditText
             android:id="@+id/email"
             android:layout_width="250dp"
             android:layout_height="45dp"
-            android:layout_marginTop="35dp"
             android:ems="10"
             android:hint="Email address"
             android:inputType="textPersonName"
             android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lastname" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.531" />
 
         <EditText
             android:id="@+id/restaurantname"
             android:layout_width="250dp"
             android:layout_height="45dp"
-            android:layout_marginTop="35dp"
             android:ems="10"
             android:hint="Restaurant name"
             android:inputType="textPersonName"
             android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.814" />
 
         <EditText
             android:id="@+id/firstname"
             android:layout_width="250dp"
             android:layout_height="45dp"
-            android:layout_marginTop="38dp"
             android:ems="10"
             android:hint="First name"
             android:inputType="textPersonName"
             android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/greenBar" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.242" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Register "
+            android:text="Register for a Roopairs account"
             android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.499"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.029" />
 
         <ImageView
             android:id="@+id/greenBar"
@@ -145,7 +153,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="363dp"
+            android:layout_height="25dp"
+            android:textAlignment="center"
+            android:textColor="#E4E40B0B"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.163"
+            tools:visibility="invisible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

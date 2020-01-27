@@ -2,12 +2,10 @@ package com.rooio.repairs;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -18,20 +16,20 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-public class Registration extends RestApi   {
-
+public class Registration extends RestApi {
 
     private EditText firstname;
     private EditText lastname;
     private EditText email;
     private EditText password;
     private EditText restaurantname;
-    private Button register;
-    private Button cancelRegistration;
+    private Button registerButton;
+    private Button cancelButton;
+    private TextView error;
     private Integer industry_int;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         //Load activity view
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
@@ -41,30 +39,18 @@ public class Registration extends RestApi   {
         getSupportActionBar().setCustomView(R.layout.action_bar);
         getSupportActionBar().setElevation(0);
 
-        String url = "https://capstone.api.roopairs.com/v0/auth/register/";
-
-        //Input initialization;
-
-
-        //Initializing UI variables;
-        register = findViewById(R.id.register);
-        cancelRegistration = findViewById(R.id.cancelRegistration);
+        registerButton = findViewById(R.id.register);
+        cancelButton = findViewById(R.id.cancelRegistration);
         firstname = findViewById(R.id.firstname);
         lastname = findViewById(R.id.lastname);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         restaurantname = findViewById(R.id.restaurantname);
+        error = findViewById(R.id.error);
         industry_int = 2;
 
-        //Cancel button returns to landing page
-        cancelRegistration.setOnClickListener(view -> startActivity(new Intent(Registration.this, Landing.class)));
-
-
-        //Functions for DropDown "Industry Type"
-
-
-        //Register button sends registration information
-        register.setOnClickListener(view -> sendRegistrationInfo());
+        onRegisterClick();
+        onCancelClick();
     }
 
     // Sends required information to API and loads the next screen.
@@ -72,16 +58,6 @@ public class Registration extends RestApi   {
     private void sendRegistrationInfo() {
         //Roopairs Register URL
         String url = "https://capstone.api.roopairs.com/v0/auth/register/";
-
-        Function<JSONObject,Void> responseFunc = (jsonArray) -> {
-            Intent intent5 = new Intent(Registration.this, LocationLogin.class);
-            startActivity(intent5);
-            return null;
-        };
-
-        Function<String, Void> errorFunc = (string) -> {
-            return null;
-        };
 
         HashMap<String, Object> params = new HashMap<>();
         params.put("first_name", firstname.getText().toString());
@@ -95,45 +71,76 @@ public class Registration extends RestApi   {
 
         params.put("internal_client", internal_client);
 
+        Function<JSONObject,Void> responseFunc = (jsonArray) -> {
+            Intent intent5 = new Intent(Registration.this, LocationLogin.class);
+            startActivity(intent5);
+            return null;
+        };
+
+        Function<String, Void> errorFunc = (string) -> {
+            error.setText("Email is already registered with a Roopairs account.");
+            return null;
+        };
+
         requestPostJsonObj(url, params, responseFunc, errorFunc, false);
-
-//                Intent intent5 = new Intent(Registration.this, Login.class);
-//                startActivity(intent5);
     }
 
+    // validates email and password
+    public boolean isValidPassword(String userPassword){
+        Pattern digitCasePattern = Pattern.compile("[0-9 ]");
 
-
-
-    public boolean validate(String userName, String userPassword){
-        if((isValid(userName, userPassword)) == true){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return !(userPassword.length() < 6) &&
+                digitCasePattern.matcher(userPassword).find();
     }
 
-    public static boolean isValid(String username, String passwordhere) {
+    public boolean isValidEmail(String email){
+        Pattern emailPattern =
+                Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\." +
+                        "[a-zA-Z0-9_+&*-]+)*@" +
+                        "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                        "A-Z]{2,7}$");
 
-        Pattern digitCasePatten = Pattern.compile("[0-9 ]");
-        boolean flag = true;
-
-        if (username.length() <= 0) {
-            flag=false;
-            return flag;
-        }
-        if (passwordhere.length() < 6) {
-            flag=false;
-            return flag;
-        }
-        if (!digitCasePatten.matcher(passwordhere).find()) {
-            flag=false;
-            return flag;
-        }
-        return flag;
+        return emailPattern.matcher(email).find();
     }
 
+    // makes sure all fields are filled out
+    private boolean isFilled() {
+        return !firstname.getText().toString().isEmpty() &&
+                !lastname.getText().toString().isEmpty() &&
+                !email.getText().toString().isEmpty() &&
+                !password.getText().toString().isEmpty() &&
+                !restaurantname.getText().toString().isEmpty();
+    }
 
+    private void onCancelClick() {
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Registration.this, Landing.class));
+            }
+        });
+    }
+
+    private void onRegisterClick() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                error.setText("");
+
+                if (isFilled()){
+                    if(isValidEmail(email.getText().toString()))
+                        if(isValidPassword(password.getText().toString()))
+                            sendRegistrationInfo();
+                        else
+                            error.setText("Invalid password.");
+                    else
+                        error.setText("Invalid email address.");
+                }
+                else
+                    error.setText("Please fill out all fields.");
+            }
+        });
+    }
 
 
 }

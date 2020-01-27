@@ -1,13 +1,17 @@
 package com.rooio.repairs;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.arch.core.util.Function;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -68,7 +72,20 @@ public abstract class RestApi extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        errorFunc.apply(error.toString());
+                        String errorMsg = "Unexpected Error!";
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            errorMsg = "No connection or you timed out. Try again.";
+                        } else if (error instanceof AuthFailureError) {
+                            errorMsg = "You are not authorized.";
+                        } else if (error instanceof ServerError) {
+                            errorMsg = "does not exist.";
+                        } else if (error instanceof NetworkError) {
+                            errorMsg = "Network Error. Try again.";
+                        } else if (error instanceof ParseError) {
+                            errorMsg = "Parse Error. Try again.";
+                        }
+
+                        errorFunc.apply(errorMsg);
                     }}) {
 
             @Override
