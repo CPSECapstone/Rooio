@@ -2,10 +2,7 @@ package com.rooio.repairs;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,12 +21,9 @@ public class PreferredProvidersLogin extends RestApi {
     TextView addButton;
     Button doneButton;
     ListView serviceProvidersListView;
-    ArrayAdapter<String> adapter;
 
     TextView error;
     static ArrayList<ServiceProviderData> preferredProviders = new ArrayList<>();
-
-    String addedProviderName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +42,6 @@ public class PreferredProvidersLogin extends RestApi {
 
         onAddClick();
         onDoneClick();
-        //serviceProvidersListView.setOnItemClickListener(this);
     }
 
     public void loadPreferredProviders() {
@@ -80,7 +73,8 @@ public class PreferredProvidersLogin extends RestApi {
             try{
                 image = (String) restaurant.get("logo");
             } catch (Exception e){
-                image = "https://roopairs-capstone.s3.amazonaws.com/media/service_agency_logos/chang-electric/mark.gif?AWSAccessKeyId=AKIAJUE3LGYRGQFUDYYQ&Signature=A%2BAz2fPJqYE%2FoJlFIm56nP%2F7yf0%3D&Expires=1579995508";
+                // if there is no logo for the service provider
+                image = "http://rsroemani.com/rv2/wp-content/themes/rsroemani/images/no-user.jpg";
             } finally {
                 ServiceProviderData serviceProviderData = new ServiceProviderData(name, image);
                 preferredProviders.add(serviceProviderData);
@@ -95,8 +89,7 @@ public class PreferredProvidersLogin extends RestApi {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(PreferredProvidersLogin.this, AddPreferredProvidersLogin.class);
-                startActivity(intent1);
+                startActivity(new Intent(PreferredProvidersLogin.this, AddPreferredProvidersLogin.class));
             }
         });
     }
@@ -105,9 +98,7 @@ public class PreferredProvidersLogin extends RestApi {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent3 = new Intent(PreferredProvidersLogin.this, Dashboard.class);
-                startActivity(intent3);
+                startActivity(new Intent(PreferredProvidersLogin.this, Dashboard.class));
             }
         });
     }

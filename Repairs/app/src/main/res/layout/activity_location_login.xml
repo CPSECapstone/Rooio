@@ -49,7 +49,7 @@
             app:layout_constraintVertical_bias="0.14999998" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/textViewPhoneNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Choose a Service Location"

@@ -14,7 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import androidx.arch.core.util.Function;
 
@@ -24,9 +23,8 @@ public class AddPreferredProvidersLogin extends RestApi {
     private Button backButton;
     private EditText newProvider;
     private TextView error;
-    private TextView textView;
+    private TextView textViewPhoneNumber;
     String phoneInput;
-    static ArrayList<String> addedProvidersList = new ArrayList<String>();
     String addedProviderRet;
 
     @Override
@@ -41,7 +39,7 @@ public class AddPreferredProvidersLogin extends RestApi {
         backButton = (Button) findViewById(R.id.cancel);
         newProvider = (EditText) findViewById(R.id.new_phone);
         error = (TextView) findViewById(R.id.error);
-        textView = (TextView) findViewById(R.id.textView7);
+        textViewPhoneNumber = (TextView) findViewById(R.id.textViewPhoneNumber);
 
         onAddClick();
         onBackClick();
@@ -51,8 +49,7 @@ public class AddPreferredProvidersLogin extends RestApi {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddPreferredProvidersLogin.this, PreferredProvidersLogin.class);
-                startActivity(intent);
+                startActivity(new Intent(AddPreferredProvidersLogin.this, PreferredProvidersLogin.class));
             }
         });
     }
@@ -66,7 +63,7 @@ public class AddPreferredProvidersLogin extends RestApi {
                 if(!phoneInput.isEmpty() && phoneInput.length() >= 10)
                     checkIfAlreadyAdded(phoneInput);
                 else
-                    error.setText("Please enter a valid phone number!");
+                    error.setText("Please enter a valid phone number.");
             }
         });
     }
@@ -78,16 +75,12 @@ public class AddPreferredProvidersLogin extends RestApi {
         params.put("phone", phoneInput);
 
         Function<JSONArray,Void> responseFunc = (jsonArray) -> {
-            // returning added service provider for error checking
-            Intent intent = new Intent(AddPreferredProvidersLogin.this, PreferredProvidersLogin.class);
-            intent.putExtra("added", addedProviderRet);
-            addedProviderRet = "";
-            startActivity(intent);
+            startActivity(new Intent(AddPreferredProvidersLogin.this, PreferredProvidersLogin.class));
             return null;
         };
 
         Function<String, Void> errorFunc = (string) -> {
-            error.setText("This service provider " + string + " Please use another phone number!");
+            error.setText("This service provider " + string + " Please use another phone number.");
             return null;
         };
 
@@ -117,7 +110,7 @@ public class AddPreferredProvidersLogin extends RestApi {
                     addPreferredServiceProvider(phoneInput);
                 }
                 else{
-                    error.setText("You've already added " + addedProviderRet + "!");
+                    error.setText("You've already added " + addedProviderRet + ".");
                 }
 
             } catch (JSONException e) {
