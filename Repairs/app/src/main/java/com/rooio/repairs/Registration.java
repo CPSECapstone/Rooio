@@ -30,11 +30,8 @@ public class Registration extends RestApi {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Load activity view
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-
-        //Centers "Repairs" title
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar);
         getSupportActionBar().setElevation(0);
@@ -56,7 +53,6 @@ public class Registration extends RestApi {
     // Sends required information to API and loads the next screen.
     // Error if information is invalid or incorrect
     private void sendRegistrationInfo() {
-        //Roopairs Register URL
         String url = "https://capstone.api.roopairs.com/v0/auth/register/";
 
         HashMap<String, Object> params = new HashMap<>();
@@ -72,8 +68,7 @@ public class Registration extends RestApi {
         params.put("internal_client", internal_client);
 
         Function<JSONObject,Void> responseFunc = (jsonArray) -> {
-            Intent intent5 = new Intent(Registration.this, LocationLogin.class);
-            startActivity(intent5);
+            startActivity(new Intent(Registration.this, LocationLogin.class));
             return null;
         };
 
@@ -85,7 +80,7 @@ public class Registration extends RestApi {
         requestPostJsonObj(url, params, responseFunc, errorFunc, false);
     }
 
-    // validates email and password
+    // validates password
     public boolean isValidPassword(String userPassword){
         Pattern digitCasePattern = Pattern.compile("[0-9 ]");
 
@@ -93,6 +88,7 @@ public class Registration extends RestApi {
                 digitCasePattern.matcher(userPassword).find();
     }
 
+    // validates email
     public boolean isValidEmail(String email){
         Pattern emailPattern =
                 Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\." +
@@ -110,15 +106,6 @@ public class Registration extends RestApi {
                 !email.getText().toString().isEmpty() &&
                 !password.getText().toString().isEmpty() &&
                 !restaurantname.getText().toString().isEmpty();
-    }
-
-    private void onCancelClick() {
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Registration.this, Landing.class));
-            }
-        });
     }
 
     private void onRegisterClick() {
@@ -142,5 +129,12 @@ public class Registration extends RestApi {
         });
     }
 
-
+    private void onCancelClick() {
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Registration.this, Landing.class));
+            }
+        });
+    }
 }
