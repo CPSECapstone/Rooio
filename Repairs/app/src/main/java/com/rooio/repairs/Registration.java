@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.arch.core.util.Function;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -67,8 +68,14 @@ public class Registration extends RestApi {
 
         params.put("internal_client", internal_client);
 
-        Function<JSONObject,Void> responseFunc = (jsonArray) -> {
-            startActivity(new Intent(Registration.this, LocationLogin.class));
+        Function<JSONObject,Void> responseFunc = (jsonObj) -> {
+            try {
+                storeToken(jsonObj);
+                startActivity(new Intent(Registration.this, LocationLogin.class));
+
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
             return null;
         };
 
@@ -78,6 +85,11 @@ public class Registration extends RestApi {
         };
 
         requestPostJsonObj(url, params, responseFunc, errorFunc, false);
+    }
+
+    public void storeToken(JSONObject responseObj) throws JSONException {
+        String token = (String)responseObj.get("token");
+        setUserToken(token);
     }
 
     // validates password
