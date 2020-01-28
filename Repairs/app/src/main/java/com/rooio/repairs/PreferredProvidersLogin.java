@@ -1,14 +1,9 @@
 package com.rooio.repairs;
 
-
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,145 +15,92 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-//import com.android.volley.toolbox.JsonArrayRequest;
+public class PreferredProvidersLogin extends RestApi {
 
-public class PreferredProvidersLogin extends RestApi implements AdapterView.OnItemClickListener {
+    TextView addButton;
+    Button doneButton;
+    ListView serviceProvidersListView;
 
-        EditText et;
-        Button bt;
-        Button bt2;
-        ListView lv;
-        ArrayAdapter<String> adapter;
+    TextView error;
+    static ArrayList<ServiceProviderData> preferredProviders = new ArrayList<>();
 
-        TextView test;
-        static ArrayList<String> address_list = new ArrayList<String>();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_preferred_providers_login);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.action_bar);
+        getSupportActionBar().setElevation(0);
 
-        String incoming_name = null;
+        addButton = (TextView) findViewById(R.id.addAnother);
+        doneButton = (Button) findViewById(R.id.Done);
+        serviceProvidersListView = (ListView) findViewById(R.id.list);
+        error = (TextView) findViewById(R.id.error);
 
+        loadPreferredProviders();
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-                super.onCreate(savedInstanceState);
-                setContentView(R.layout.activity_preferred_providers_login);
-                getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-                getSupportActionBar().setCustomView(R.layout.action_bar);
-                getSupportActionBar().setElevation(0);
+        onAddClick();
+        onDoneClick();
+    }
 
-                bt = (Button) findViewById(R.id.add_another_provider);
-                bt2 = (Button) findViewById(R.id.Done);
-                lv = (ListView) findViewById(R.id.Service2);
+    public void loadPreferredProviders() {
+        String url = "https://capstone.api.roopairs.com/v0/service-providers/";
 
-                String url = "https://capstone.api.roopairs.com/v0/service-providers/";
+        Function<JSONArray, Void> responseFunc = (jsonArray) -> {
+            try {
+                loadElements(jsonArray);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        };
 
-                test = (TextView) findViewById(R.id.test);
-//                test.setText(getUserToken());
-                Intent incoming_intent = getIntent();
-                incoming_name = incoming_intent.getStringExtra("result2");
+        Function<String, Void> errorFunc = (string) -> {
+            error.setText(string);
+            return null;
+        };
 
-                Function<String, Void> errorFunc = (string) -> {
-                        test.setText(string);
-                        return null;
-                };
+        requestGetJsonArray(url, responseFunc, errorFunc, true);
+    }
 
-                if ((incoming_name != null ) &  (incoming_name != "")){
-                        test.setText("not null");
-                        //getPost here
-                        adapt();
-                        adapter.notifyDataSetChanged();
-                        //     -- Example params initiations
-                        HashMap<String, Object> params = new HashMap<>();
-                        params.put("phone", incoming_name);
-
-//                        requestPost(url, params, true);
-
-                        Function<JSONArray,Void> responseFunc = (jsonArray) -> {
-                                try {
-                                        getProvider(jsonArray);
-                                } catch (JSONException e){
-                                        e.printStackTrace();
-                                }
-                                return null;
-                        };
-                        requestPostJsonArray(url, params, responseFunc, errorFunc,true);
-                }
-                else{
-//                        test.setText("null");
-//                        requestGetArray(url, true);
-
-                        Function<JSONArray,Void> responseFunc = (jsonArray) -> {
-                                try {
-                                        addElements(jsonArray);
-                                } catch (JSONException e){
-                                        e.printStackTrace();
-                                }
-                                return null;
-                        };
-                        requestGetJsonArray(url, responseFunc, errorFunc, true);
-
-                }
-
-//        adapter = new ArrayAdapter<String>(LocationLogin.this, android.R.layout.simple_list_item_1, address_list);
-//        lv.setAdapter(adapter);
-
-                //Check for new addresses added from AddLocation Page
-
-
-                //Launch listener for "Add New Location"
-                onBtnClick();
-                onBtnClick2();
-                lv.setOnItemClickListener(this);
-
+    public void loadElements(JSONArray response) throws JSONException {
+        preferredProviders.clear();
+        for (int i = 0; i < response.length(); i++) {
+            JSONObject restaurant = response.getJSONObject(i);
+            String name = (String) restaurant.get("name");
+            String image = "";
+            try{
+                image = (String) restaurant.get("logo");
+            } catch (Exception e){
+                // if there is no logo for the service provider
+                image = "http://rsroemani.com/rv2/wp-content/themes/rsroemani/images/no-user.jpg";
+            } finally {
+                ServiceProviderData serviceProviderData = new ServiceProviderData(name, image);
+                preferredProviders.add(serviceProviderData);
+            }
         }
 
-        public void onBtnClick() {
-                bt.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                                Intent intent1 = new Intent(PreferredProvidersLogin.this, AddPreferredProvidersLogin.class);
-                                startActivity(intent1);
-                        }
-                });
-        }
+        CustomAdapter customAdapter = new CustomAdapter(this, preferredProviders);
+        serviceProvidersListView.setAdapter(customAdapter);
+    }
 
-        public void onBtnClick2() {
-                bt2.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+    public void onAddClick() {
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PreferredProvidersLogin.this, AddPreferredProvidersLogin.class));
+            }
+        });
+    }
 
-                                Intent intent3 = new Intent(PreferredProvidersLogin.this, Dashboard.class);
-                                startActivity(intent3);
-                        }
-                });
-        }
+    public void onDoneClick() {
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PreferredProvidersLogin.this, Dashboard.class));
+            }
+        });
+    }
 
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        }
-
-
-        public void getProvider(JSONArray response) throws JSONException {
-                //test.setText(response.toString());
-                String provider_name = (String) response.getJSONObject(0).get("name");
-                address_list.add(provider_name);
-                adapt();
-        }
-
-        public void addElements(JSONArray response) throws JSONException {
-//                test.setText((Integer.toString(response.length())));
-                address_list.clear();
-                for (int i = 0; i < response.length(); i++) {
-                        JSONObject restaurant = response.getJSONObject(i);
-                        String physical_address = (String) restaurant.get("name");
-                        address_list.add(physical_address);
-                }
-                adapt();
-        }
-
-        public void adapt(){
-                adapter = new ArrayAdapter<String>(PreferredProvidersLogin.this, android.R.layout.simple_list_item_1, address_list);
-                lv.setAdapter(adapter);
-        }
 }
