@@ -37,15 +37,14 @@
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.8"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.94" />
+            app:layout_constraintVertical_bias="0.73" />
 
         <ListView
             android:id="@+id/list"
             android:layout_width="750dp"
-            android:layout_height="286dp"
+            android:layout_height="200dp"
             android:divider="@drawable/blank_border"
             android:dividerHeight="10dp"
             android:footerDividersEnabled="false"
@@ -54,7 +53,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.50" />
+            app:layout_constraintVertical_bias="0.40" />
 
         <Button
             android:id="@+id/Done"
@@ -71,10 +70,9 @@
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.95"
+            app:layout_constraintVertical_bias="0.88"
             tools:ignore="NotSibling" />
 
         <TextView
