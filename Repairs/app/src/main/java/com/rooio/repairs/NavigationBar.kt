@@ -1,6 +1,8 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Icon
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.transition.TransitionManager
+
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
+import androidx.annotation.ColorRes
+
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat.setTint
+import androidx.core.widget.ImageViewCompat
+import java.text.AttributedString
 
 
 abstract class NavigationBar : AppCompatActivity() {
@@ -17,8 +30,9 @@ abstract class NavigationBar : AppCompatActivity() {
         setContentView(R.layout.activity_navigation_bar)
     }
 
-    fun createNavigationBar()
-    {
+
+
+    fun createNavigationBar(string: String) {
         var visible = true
 
         //transitionsContainer initializes the container and stores all transition objects
@@ -35,12 +49,35 @@ abstract class NavigationBar : AppCompatActivity() {
         val divider = transitionsContainer.findViewById<View>(R.id.nav_divider)
         val dashboardImage = transitionsContainer.findViewById<ImageView>(R.id.dashboard)
         val settingsImage = transitionsContainer.findViewById<ImageView>(R.id.settings)
+        val equipmentImage = transitionsContainer.findViewById<ImageView>(R.id.equipment)
+        val coloredDashboard = transitionsContainer.findViewById<ImageView>(R.id.clicked_dashboard)
+        val coloredSettings = transitionsContainer.findViewById<ImageView>(R.id.colored_settings)
+        val coloredJobs = transitionsContainer.findViewById<ImageView>(R.id.colored_jobs)
+        val coloredEquipment = transitionsContainer.findViewById<ImageView>(R.id.colored_equipment)
 
+
+        if (string == "dashboard") {
+            coloredDashboard.visibility = VISIBLE
+            dashboardText.setTextColor(Color.parseColor("#00CA8F"))
+        }
+        if (string == "settings"){
+            coloredSettings.visibility = VISIBLE
+            settingsText.setTextColor(Color.parseColor("#00CA8F"))
+
+        }
+        if (string == "equipment"){
+            coloredEquipment.visibility = VISIBLE
+            equipmentText.setTextColor(Color.parseColor("#00CA8F"))
+        }
+        if (string == "jobs"){
+            coloredJobs.visibility = VISIBLE
+            jobsText.setTextColor(Color.parseColor("#00CA8F"))
+        }
         TransitionManager.beginDelayedTransition(transitionsContainer)
 
         collapse.setOnClickListener {
 
-
+            TransitionManager.beginDelayedTransition(transitionsContainer)
             visible = !visible
             val v = if (visible) View.GONE else View.VISIBLE
             collapseText.visibility = v
@@ -68,12 +105,21 @@ abstract class NavigationBar : AppCompatActivity() {
         }
 
         dashboardImage.setOnClickListener{
-            startActivity(Intent(this, Dashboard::class.java))
+            TransitionManager.beginDelayedTransition(transitionsContainer)
+            //visible = !visible
+            val myintent = Intent(this, Dashboard::class.java)
+            startActivity(myintent)
         }
 
         settingsImage.setOnClickListener{
             startActivity(Intent( this, Settings::class.java))
         }
+
+        equipmentImage.setOnClickListener{
+            startActivity(Intent ( this, Equipment::class.java))
+        }
+
+
     }
 
     abstract fun animateActivity(boolean: Boolean)

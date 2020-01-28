@@ -15,9 +15,6 @@ class Settings  : NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        //supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        //supportActionBar!!.setCustomView(R.layout.action_bar)
-
         //sets the navigation bar onto the page
         val navInflater = layoutInflater
         val tmpView = navInflater.inflate(R.layout.activity_navigation_bar, null)
@@ -31,7 +28,7 @@ class Settings  : NavigationBar() {
         window.addContentView(actionBarView,
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
-        createNavigationBar()
+        createNavigationBar("settings")
         val spinner: Spinner = findViewById(R.id.settings_spinner)
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(

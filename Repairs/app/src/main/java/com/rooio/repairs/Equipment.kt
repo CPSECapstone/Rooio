@@ -2,19 +2,11 @@ package com.rooio.repairs
 
 import android.os.Bundle
 import android.view.ViewGroup
-import androidx.appcompat.app.ActionBar
-import androidx.transition.TransitionManager
 
-
-
-
-class Dashboard : NavigationBar() {
-
+class Equipment : NavigationBar() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard)
-
-
+        setContentView(R.layout.activity_equipment)
 
         //sets the navigation bar onto the page
         val nav_inflater = layoutInflater
@@ -33,27 +25,10 @@ class Dashboard : NavigationBar() {
         supportActionBar!!.elevation = 0.0f
 
 
-        createNavigationBar("dashboard")
+        createNavigationBar("equipment")
     }
 
-
-
     override fun animateActivity(boolean: Boolean){
-        val viewGroup = findViewById<ViewGroup>(R.id.dashboardConstraint)
 
-        //changing the width of the notableJobs and newJobRequest
-        val notableJobs = viewGroup.findViewById<ViewGroup>(R.id.notableJobs)
-        val newJobRequest = viewGroup.findViewById<ViewGroup>(R.id.newJobRequest)
-
-        TransitionManager.beginDelayedTransition(viewGroup)
-        val boxParams1 = notableJobs.layoutParams
-        val boxParams2 = newJobRequest.layoutParams
-        val p2 = if (boolean) 1004 else 803
-        boxParams1.width = p2
-        boxParams2.width = p2
-
-        //calling the transitions
-        notableJobs.layoutParams = boxParams1
-        newJobRequest.layoutParams = boxParams2
     }
 }
