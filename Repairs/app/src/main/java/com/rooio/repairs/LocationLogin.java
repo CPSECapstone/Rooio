@@ -58,7 +58,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
         bt = (Button) findViewById(R.id.add_location);
         lv = (ListView) findViewById(R.id.Service);
-        error_message = (TextView) findViewById(R.id.errorMessage);
+        error_message = (TextView) findViewById(R.id.Error_Messages);
 //        test = (TextView) findViewById(R.id.test);
 
         String url = "https://capstone.api.roopairs.com/v0/service-locations/";
