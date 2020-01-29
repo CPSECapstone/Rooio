@@ -1,15 +1,15 @@
 package com.rooio.repairs;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.arch.core.util.Function;
-
-import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,6 +45,8 @@ public class Login extends RestApi {
         errorMessage = findViewById(R.id.errorMessage);
         errorMessage.setText("");
 
+
+
         onConnectAccount();
         onCancel();
     }
@@ -52,15 +54,25 @@ public class Login extends RestApi {
     // Attempts to log in the user after clicking Connect Account
     private void onConnectAccount(){
         HashMap<String, Object> params = new HashMap<>();
-        connectAccount.setOnClickListener(view -> sendLoginInfo(
-                new JsonRequest(
+
+        connectAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                params.put("username",  usernameField.getText().toString());
+                params.put("password",  passwordField.getText().toString());
+
+                errorMessage.setTextColor(Color.parseColor("#A6A9AC"));
+                errorMessage.setText("Loading");
+                sendLoginInfo(new JsonRequest(
                         false,
                         url,
-                        createRequest(params, usernameField.getText().toString(),
-                        passwordField.getText().toString()),
+                        params,
                         responseFunc,
                         errorFunc,
-                        false)));
+                        false));
+            }
+        });
+
     }
 
     // Switches page from Login to Landing after clicking Cancel
@@ -68,18 +80,10 @@ public class Login extends RestApi {
         cancelLogin.setOnClickListener(view ->
                 startActivity(new Intent(Login.this, Landing.class)));
     }
-
-    public HashMap createRequest(HashMap<String, Object> params, String username, String password) {
-        // --- API Swagger URL link
-
-        // --- Build params HashMap for Rest JSON Body
-        params.put("username",  username);
-        params.put("password",  password);
-        return params;
-    }
-
-    public Function<JSONObject,Void> responseFunc = (jsonObj) -> {
+    
+    public Function<Object,Void> responseFunc = (jsonObj) -> {
         try {
+            errorMessage.setText("");
             storeToken(jsonObj);
             startActivity(new Intent(Login.this, LocationLogin.class));
 
@@ -89,16 +93,20 @@ public class Login extends RestApi {
         return null;
     };
 
-    // -- Example Json handling function
-    public void storeToken(JSONObject responseObj) throws JSONException {
-        String token = (String)responseObj.get("token");
-        setUserToken(token);
-    }
-
     public Function<String,Void> errorFunc = (string) -> {
+        errorMessage.setTextColor(Color.parseColor("#E4E40B0B"));
         errorMessage.setText(R.string.errorLogin);
+//        errorMessage.setText(string);
+
         return null;
     };
+
+    // -- Example Json handling function
+    public void storeToken(Object responseObj) throws JSONException {
+        JSONObject JsonResponseObject = (JSONObject) responseObj;
+        String token = (String)JsonResponseObject.get("token");
+        setUserToken(token);
+    }
 
     // Sends username and password to the API and loads the next screen.
     // Returns error if the information is invalid
@@ -109,6 +117,7 @@ public class Login extends RestApi {
             requestPostJsonObj(request);
         }
         else {
+            errorMessage.setTextColor(Color.parseColor("#E4E40B0B"));
             errorMessage.setText(R.string.errorLogin);
         }
     }

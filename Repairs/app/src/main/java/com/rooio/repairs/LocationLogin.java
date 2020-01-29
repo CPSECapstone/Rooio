@@ -2,9 +2,6 @@ package com.rooio.repairs;
 
 
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,12 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 
-import java.util.ArrayList;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,12 +24,14 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LocationLogin extends RestApi implements AdapterView.OnItemClickListener {
 
@@ -79,11 +74,14 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
             adapt();
             adapter.notifyDataSetChanged();
             //     -- Example params initiations
-            HashMap<String, String> params = new HashMap<>();
+            HashMap<String, Object> params = new HashMap<>();
             params.put("physical_address", incoming_name);
 
             requestPost(url, params, true);
 
+//            JsonRequest request = new JsonRequest(false, url, params, responseFunc, errorFunc, true);
+
+//            requestPostJsonObj(request);
 
 
         }
@@ -126,7 +124,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
     }
 
-    public void requestPost(String url, HashMap<String, String> params, final boolean headersFlag) {
+    public void requestPost(String url, HashMap<String, Object> params, final boolean headersFlag) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
