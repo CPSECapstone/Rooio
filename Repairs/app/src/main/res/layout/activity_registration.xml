@@ -30,7 +30,7 @@
             android:layout_height="55dp"
             android:background="@drawable/green_button_border"
             android:fontFamily="@font/nunito_sans"
-            android:text="@string/register"
+            android:text="Register"
             android:textAllCaps="false"
             android:textColor="#00CA8F"
             android:textSize="24sp"
