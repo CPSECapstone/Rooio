@@ -20,7 +20,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class LocationLogin extends RestApi implements AdapterView.OnItemClickListener {
 
@@ -56,22 +55,14 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
         incoming_name = incoming_intent.getStringExtra("result");
         if (incoming_name != null) {
 
-            //getPost here
-
             address_list.add(incoming_name);
             adapt();
             adapter.notifyDataSetChanged();
-            //     -- Example params initiations
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("physical_address", incoming_name);
-
-            JsonRequest request = new JsonRequest(false, url, params, responseFunc1, errorFunc, true);
-            requestPostJsonObj(request);
         }
         else{
             address_list.clear();
 
-            JsonRequest request = new JsonRequest(false, url, null, responseFunc2, errorFunc, true);
+            JsonRequest request = new JsonRequest(false, url, null, responseFunc, errorFunc, true);
             requestGetJsonArray(request);
         }
 
@@ -82,9 +73,8 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
     }
 
-    public Function<Object,Void> responseFunc1 = (jsonObj) -> null;
 
-    public Function<Object,Void> responseFunc2 = (jsonResponse) -> {
+    public Function<Object,Void> responseFunc = (jsonResponse) -> {
         try {
             JSONArray jsonArray = (JSONArray) jsonResponse;
             addElements(jsonArray);
@@ -98,9 +88,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
 
     public Function<String,Void> errorFunc = (string) -> {
-        error_message.setText("Invalid Address");
-//        error_message.setText(string);
-
+        error_message.setText(string);
         return null;
     };
 
@@ -124,7 +112,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
         startActivity(intent1);
 
     }
-    
+
     public void addElements(JSONArray response) throws JSONException {
         for (int i = 0; i < response.length(); i++) {
             JSONObject restaurant = response.getJSONObject(i);

@@ -118,6 +118,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.514"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/errorMessage"
+                android:layout_width="291dp"
+                android:layout_height="30dp"
+                android:autoText="false"
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textColor="#E4E40B0B"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="16dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
