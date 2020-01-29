@@ -6,49 +6,55 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.transition.ChangeBounds
-import androidx.transition.Fade
 import androidx.transition.TransitionManager
-import androidx.transition.TransitionSet
 
 
-class Dashboard : AppCompatActivity() {
+
+
+class Dashboard : NavigationBar() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        supportActionBar!!.setCustomView(R.layout.action_bar)
-      
-        var visible = true
-        //var navBar = findViewById<ViewGroup>(R.id.navigationView)
-        val transitionsContainer = findViewById<ViewGroup>(R.id.navigationView)
-        val collapseText = transitionsContainer.findViewById<TextView>(R.id.collapse_text)
-        val dashboardText = transitionsContainer.findViewById<TextView>(R.id.dashboard_text)
-        val jobsText = transitionsContainer.findViewById<TextView>(R.id.jobs_text)
-        val equipmentText = transitionsContainer.findViewById<TextView>(R.id.equipment_text)
-        val settingsText = transitionsContainer.findViewById<TextView>(R.id.settings_text)
-        val collapse = transitionsContainer.findViewById<ImageView>(R.id.collapse)
+        //sets the navigation bar onto the page
+        val nav_inflater = layoutInflater
+        val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
 
-        collapse.setOnClickListener{
-            TransitionManager.beginDelayedTransition(transitionsContainer)
-            visible = !visible
-            val v = if (visible) View.GONE else View.VISIBLE
-            collapseText.setVisibility(v)
-            dashboardText.setVisibility(v)
-            jobsText.setVisibility(v)
-            equipmentText.setVisibility(v)
-            settingsText.setVisibility(v)
+        window.addContentView(tmpView,
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
-            val params = transitionsContainer.getLayoutParams()
-            val p = if (visible) 50 else 250
-            params.width = p
-            transitionsContainer.setLayoutParams(params)
+        //sets the action bar onto the page
 
-            
+        val actionbar_inflater = layoutInflater
+        val poopView = actionbar_inflater.inflate(R.layout.action_bar, null)
+        window.addContentView(poopView,
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
-        }
+        supportActionBar!!.elevation = 0.0f
+
+
+        createNavigationBar("dashboard")
+    }
+
+
+
+    override fun animateActivity(boolean: Boolean){
+        val viewGroup = findViewById<ViewGroup>(R.id.dashboardConstraint)
+
+        //changing the width of the notableJobs and newJobRequest
+        val notableJobs = viewGroup.findViewById<ViewGroup>(R.id.notableJobs)
+        val newJobRequest = viewGroup.findViewById<ViewGroup>(R.id.newJobRequest)
+
+        TransitionManager.beginDelayedTransition(viewGroup)
+        val boxParams1 = notableJobs.layoutParams
+        val boxParams2 = newJobRequest.layoutParams
+        val p2 = if (boolean) 1004 else 803
+        boxParams1.width = p2
+        boxParams2.width = p2
+
+        //calling the transitions
+        notableJobs.layoutParams = boxParams1
+        newJobRequest.layoutParams = boxParams2
     }
 }

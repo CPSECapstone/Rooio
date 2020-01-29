@@ -47,6 +47,7 @@ public class Login extends RestApi {
 
         onConnectAccount();
         onCancel();
+
     }
 
     // Attempts to log in the user after clicking Connect Account

@@ -1,13 +1,20 @@
 package com.rooio.repairs;
 
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.arch.core.util.Function;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -22,6 +29,7 @@ import java.util.Map;
 public abstract class RestApi extends AppCompatActivity {
 
     static String userToken = null;
+    private RequestQueue queue;
 
     public void setUserToken(String userToken) {
         this.userToken = userToken;
@@ -43,11 +51,20 @@ public abstract class RestApi extends AppCompatActivity {
 
 //--------------------------------------------------------------------------------------------------
 
+    public void addToVolleyQueue(JsonObjectRequest request){
+        queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(request);
+    }
+
+    public void addToVolleyQueue(JsonArrayRequest request){
+        queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(request);
+    }
+
     public void requestPostJsonObj(JsonRequest req) {
         if (req.isTest()) {
             return;
         }
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
         String url = req.getUrl();
         HashMap<String, Object> params = req.getParams();
@@ -68,7 +85,20 @@ public abstract class RestApi extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        errorFunc.apply(error.toString());
+                        String errorMsg = "Unexpected Error!";
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            errorMsg = "No connection or you timed out. Try again.";
+                        } else if (error instanceof AuthFailureError) {
+                            errorMsg = "You are not authorized.";
+                        } else if (error instanceof ServerError) {
+                            errorMsg = "does not exist.";
+                        } else if (error instanceof NetworkError) {
+                            errorMsg = "Network Error. Try again.";
+                        } else if (error instanceof ParseError) {
+                            errorMsg = "Parse Error. Try again.";
+                        }
+
+                        errorFunc.apply(errorMsg);
                     }}) {
 
             @Override
@@ -86,14 +116,12 @@ public abstract class RestApi extends AppCompatActivity {
                 }
             }
         };
-        queue.add(jsonObjectRequest);
+
+        addToVolleyQueue(jsonObjectRequest);
     }
 
     public void requestGetJsonObj(String url, final Function<JSONObject, Void> responseFunc,
                         final Function<String, Void> errorFunc, final boolean headersFlag){
-
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -107,9 +135,20 @@ public abstract class RestApi extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        String errorMsg = "Unexpected Error!";
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            errorMsg = "No connection or you timed out. Try again.";
+                        } else if (error instanceof AuthFailureError) {
+                            errorMsg = "You are not authorized.";
+                        } else if (error instanceof ServerError) {
+                            errorMsg = "does not exist.";
+                        } else if (error instanceof NetworkError) {
+                            errorMsg = "Network Error. Try again.";
+                        } else if (error instanceof ParseError) {
+                            errorMsg = "Parse Error. Try again.";
+                        }
 
-                        errorFunc.apply(error.toString());
-
+                        errorFunc.apply(errorMsg);
                     }}) {
 
             @Override
@@ -128,21 +167,11 @@ public abstract class RestApi extends AppCompatActivity {
             }
         };
 
-//  --> Equivalent of sending the request. Required to WORK...
-        queue.add(jsonObjectRequest);
-
+        addToVolleyQueue(jsonObjectRequest);
     }
 
     public void requestPostJsonObj(String url, HashMap<String,Object> params,
                         final Function<JSONObject, Void> responseFunc, final Function<String, Void> errorFunc, final boolean headersFlag){
-
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-
-//     -- Example params initiations
-//        HashMap<String, String> params = new HashMap<>();
-//        params.put("username", username.getText().toString());
-//        params.put("password", password.getText().toString());
 
 //     -- Transforms params HashMap into Json Object
         JSONObject jsonParams = new JSONObject(params);
@@ -159,9 +188,20 @@ public abstract class RestApi extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        String errorMsg = "Unexpected Error!";
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            errorMsg = "No connection or you timed out. Try again.";
+                        } else if (error instanceof AuthFailureError) {
+                            errorMsg = "You are not authorized.";
+                        } else if (error instanceof ServerError) {
+                            errorMsg = "does not exist.";
+                        } else if (error instanceof NetworkError) {
+                            errorMsg = "Network Error. Try again.";
+                        } else if (error instanceof ParseError) {
+                            errorMsg = "Parse Error. Try again.";
+                        }
 
-                        errorFunc.apply(error.toString());
-
+                        errorFunc.apply(errorMsg);
                     }}) {
 
             @Override
@@ -180,16 +220,11 @@ public abstract class RestApi extends AppCompatActivity {
             }
         };
 
-//  --> Equivalent of sending the request. Required to WORK...
-        queue.add(jsonObjectRequest);
-
+        addToVolleyQueue(jsonObjectRequest);
     }
 
     public void requestGetJsonArray(String url, final Function<JSONArray, Void> responseFunc,
                         final Function<String, Void> errorFunc, final boolean headersFlag){
-
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest
                 (Request.Method.GET, url, new Response.Listener<JSONArray>() {
@@ -203,9 +238,20 @@ public abstract class RestApi extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        String errorMsg = "Unexpected Error!";
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            errorMsg = "No connection or you timed out. Try again.";
+                        } else if (error instanceof AuthFailureError) {
+                            errorMsg = "You are not authorized.";
+                        } else if (error instanceof ServerError) {
+                            errorMsg = "does not exist.";
+                        } else if (error instanceof NetworkError) {
+                            errorMsg = "Network Error. Try again.";
+                        } else if (error instanceof ParseError) {
+                            errorMsg = "Parse Error. Try again.";
+                        }
 
-                        errorFunc.apply(error.toString());
-
+                        errorFunc.apply(errorMsg);
                     }}) {
 
             @Override
@@ -224,24 +270,13 @@ public abstract class RestApi extends AppCompatActivity {
             }
         };
 
-//  --> Equivalent of sending the request. Required to WORK...
-        queue.add(jsonObjectRequest);
-
+        addToVolleyQueue(jsonObjectRequest);
     }
 
     public void requestPostJsonArray(String url, HashMap<String,Object> params,
                         final Function<JSONArray, Void> responseFunc, final Function<String, Void> errorFunc, final boolean headersFlag){
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-
-//     -- Example params initiations
-//        HashMap<String, String> params = new HashMap<>();
-//        params.put("username", username.getText().toString());
-//        params.put("password", password.getText().toString());
-
 //     -- Transforms params HashMap into Json Object
         JSONObject jsonParams = new JSONObject(params);
-
 
         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest
                 (Request.Method.POST, url, jsonParams, new Response.Listener<JSONArray>() {
@@ -255,9 +290,20 @@ public abstract class RestApi extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        String errorMsg = "Unexpected Error!";
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            errorMsg = "No connection or you timed out. Try again.";
+                        } else if (error instanceof AuthFailureError) {
+                            errorMsg = "You are not authorized.";
+                        } else if (error instanceof ServerError) {
+                            errorMsg = "does not exist.";
+                        } else if (error instanceof NetworkError) {
+                            errorMsg = "Network Error. Try again.";
+                        } else if (error instanceof ParseError) {
+                            errorMsg = "Parse Error. Try again.";
+                        }
 
-                        errorFunc.apply(error.toString());
-
+                        errorFunc.apply(errorMsg);
                     }}) {
 
             @Override
@@ -276,9 +322,7 @@ public abstract class RestApi extends AppCompatActivity {
             }
         };
 
-//  --> Equivalent of sending the request. Required to WORK...
-        queue.add(jsonObjectRequest);
-
+        addToVolleyQueue(jsonObjectRequest);
     }
 
 }
