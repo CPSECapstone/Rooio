@@ -16,6 +16,7 @@ import java.util.HashMap;
 public class AddLocation extends RestApi {
 
     private Button add_address;
+    private Button backButton;
     private TextInputEditText new_address;
     private TextView errorMessage;
 
@@ -24,6 +25,7 @@ public class AddLocation extends RestApi {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_location);
         add_address = (Button) findViewById(R.id.add_location);
+        backButton = (Button) findViewById(R.id.cancel);
         new_address = (TextInputEditText) findViewById(R.id.new_location);
         errorMessage = (TextView) findViewById(R.id.errorMessage);
         errorMessage.setText("");
@@ -31,24 +33,42 @@ public class AddLocation extends RestApi {
         getSupportActionBar().setCustomView(R.layout.action_bar);
         getSupportActionBar().setElevation(0);
 
+        onAddClick();
+        onBackClick();
+    }
+
+    private void onAddClick() {
         String url = "https://capstone.api.roopairs.com/v0/service-locations/";
-
-
+        
         add_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String result = new_address.getText().toString();
 
-                //     -- Example params initiations
-                HashMap<String, Object> params = new HashMap<>();
-                params.put("physical_address", result);
+                if (!result.equals("")){
+                    //     -- Example params initiations
+                    HashMap<String, Object> params = new HashMap<>();
+                    params.put("physical_address", result);
 
-                JsonRequest request = new JsonRequest(false, url, params, responseFunc1, errorFunc, true);
-                requestPostJsonObj(request);
+                    JsonRequest request = new JsonRequest(false, url, params, responseFunc1, errorFunc, true);
+                    requestPostJsonObj(request);
 
-                Intent intent = new Intent(AddLocation.this, LocationLogin.class);
-                intent.putExtra("result", result);
-                startActivity(intent);
+                    Intent intent = new Intent(AddLocation.this, LocationLogin.class);
+                    intent.putExtra("result", result);
+                    startActivity(intent);
+
+                } else {
+                    errorMessage.setText("Invalid Address");
+                }
+            }
+        });
+    }
+
+    private void onBackClick() {
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AddLocation.this, LocationLogin.class));
             }
         });
     }
