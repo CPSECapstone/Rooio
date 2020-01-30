@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <EditText
-            android:id="@+id/newLocation"
+            android:id="@+id/newLocation2"
             android:layout_width="735dp"
             android:layout_height="60dp"
             android:background="@drawable/gray_phone_border"
@@ -156,7 +156,7 @@
             android:contentDescription="@string/cancel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.02"
+            app:layout_constraintHorizontal_bias="0.14"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@mipmap/chevron_left" />
