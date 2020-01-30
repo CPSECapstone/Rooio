@@ -11,6 +11,7 @@
         android:id="@+id/navigationView"
         android:layout_width="224dp"
         android:layout_height="1076dp"
+        android:background="@color/common_google_signin_btn_text_dark_default"
         app:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,6 +23,18 @@
             android:id="@+id/navContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/divider2"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@color/lightGray"
+                 />
 
             <ImageView
                 android:id="@+id/collapse"
@@ -163,20 +176,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.13" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/colored_dashboard_text"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginLeft="20dp"-->
-<!--                android:text="Dashboard"-->
-<!--                android:textSize="20sp"-->
-<!--                android:textColor="@color/colorPrimary"-->
-<!--                android:visibility="invisible"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:layout_constraintVertical_bias="0.13" />-->
             <TextView
                 android:id="@+id/jobs_text"
                 android:layout_width="wrap_content"
@@ -190,21 +189,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.19" />
-<!--            <TextView-->
-<!--                android:id="@+id/colored_jobs_text"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginLeft="20dp"-->
-<!--                android:text="Jobs"-->
-<!--                android:textColor="@color/colorPrimary"-->
-<!--                android:visibility="invisible"-->
-<!--                android:textSize="20sp"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintHorizontal_bias="0.36"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:layout_constraintVertical_bias="0.19" />-->
 
             <TextView
                 android:id="@+id/equipment_text"
@@ -220,22 +204,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.255" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/colored_equipment_text"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginLeft="20dp"-->
-<!--                android:text="Equipment"-->
-<!--                android:textColor="@color/colorPrimary"-->
-<!--                android:visibility="invisible"-->
-<!--                android:textSize="20sp"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintHorizontal_bias="0.503"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:layout_constraintVertical_bias="0.255" />-->
-
             <TextView
                 android:id="@+id/settings_text"
                 android:layout_width="wrap_content"
@@ -249,20 +217,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.87" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/colored_settings_text"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Settings"-->
-<!--                android:textColor="@color/colorPrimary"-->
-<!--                android:visibility="invisible"-->
-<!--                android:textSize="20sp"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintHorizontal_bias="0.52"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:layout_constraintVertical_bias="0.87" />-->
 
             <TextView
                 android:id="@+id/collapse_text"
