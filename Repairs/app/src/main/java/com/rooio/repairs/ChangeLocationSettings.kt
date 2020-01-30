@@ -5,14 +5,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_change_location_settings.*
 
 class ChangeLocationSettings  : NavigationBar() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_location_settings)
         val addAnother = findViewById<TextView>(R.id.addAnother2)
+        val backArrow = findViewById<ImageView>(R.id.backArrow)
 
         //sets the navigation bar onto the page
         val navInflater = layoutInflater
@@ -33,6 +36,10 @@ class ChangeLocationSettings  : NavigationBar() {
 
         addAnother.setOnClickListener{
             startActivity(Intent( this, AddLocationSettings::class.java))
+        }
+
+        backArrow.setOnClickListener{
+            startActivity(Intent( this, Settings::class.java))
         }
 
     }
