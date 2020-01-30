@@ -82,7 +82,8 @@ public class PreferredProvidersLogin extends RestApi {
         }
 
         CustomAdapter customAdapter = new CustomAdapter(this, preferredProviders);
-        serviceProvidersListView.setAdapter(customAdapter);
+        if(preferredProviders.size() != 0)
+            serviceProvidersListView.setAdapter(customAdapter);
     }
 
     public void onAddClick() {
