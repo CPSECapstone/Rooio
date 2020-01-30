@@ -2,6 +2,7 @@ package com.rooio.repairs
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -50,6 +51,10 @@ class PreferredProvidersSetting  : NavigationBar() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString()
+                if(selectedItem == "Service Location") {
+                    startActivity(Intent(this@PreferredProvidersSetting, ChangeLocationSettings::class.java))
+                }
             }
 
         }
@@ -111,7 +116,9 @@ class PreferredProvidersSetting  : NavigationBar() {
         }
 
         val customAdapter = CustomAdapter(this, preferredProviders)
-        serviceProvidersListView.setAdapter(customAdapter)
+        if(preferredProviders.isEmpty().not()){
+            serviceProvidersListView.setAdapter(customAdapter)
+        }
     }
 
     private fun onAddClick() {

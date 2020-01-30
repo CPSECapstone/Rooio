@@ -2,6 +2,7 @@ package com.rooio.repairs
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -41,12 +42,12 @@ class Settings  : NavigationBar() {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
                 if(selectedItem == "Service Location") {
-                    val intent = Intent(this@Settings, ChangeLocationSettings::class.java)
-                    startActivity(intent)
+                    Log.i("try", "service location")
+                    startActivity(Intent(this@Settings, ChangeLocationSettings::class.java))
                 }
-                if(selectedItem == "Preferred Providers") {
-                    val intent = Intent(this@Settings, PreferredProvidersSetting::class.java)
-                    startActivity(intent)
+                else if(selectedItem == "Preferred Providers") {
+                    Log.i("try", "preferred")
+                    startActivity(Intent(this@Settings, PreferredProvidersSetting::class.java))
                 }
             }
 
