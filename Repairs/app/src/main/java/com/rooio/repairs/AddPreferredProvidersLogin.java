@@ -23,7 +23,6 @@ public class AddPreferredProvidersLogin extends RestApi {
     private Button backButton;
     private EditText newProvider;
     private TextView error;
-    private TextView textViewPhoneNumber;
     String phoneInput;
     String addedProviderRet;
 
@@ -39,7 +38,6 @@ public class AddPreferredProvidersLogin extends RestApi {
         backButton = (Button) findViewById(R.id.cancel);
         newProvider = (EditText) findViewById(R.id.new_phone);
         error = (TextView) findViewById(R.id.error);
-        textViewPhoneNumber = (TextView) findViewById(R.id.textViewPhoneNumber);
 
         onAddClick();
         onBackClick();

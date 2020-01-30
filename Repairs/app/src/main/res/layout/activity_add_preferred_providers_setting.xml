@@ -5,16 +5,81 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ECF0F1"
-    tools:context=".AddLocation">
+    tools:context=".Login">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="67dp"
+        android:background="@drawable/no_elevation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Service Provider"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+            android:background="@drawable/back_arrow"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.182"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="100dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="760dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="545dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="1385dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="850dp"
         android:layout_height="360dp"
         android:background="@drawable/shadow"
-        app:layout_constraintBottom_toTopOf="@+id/lower_guideline3"
-        app:layout_constraintEnd_toStartOf="@+id/right_guideline3"
-        app:layout_constraintStart_toStartOf="@+id/left_guideline3"
-        app:layout_constraintTop_toTopOf="@+id/upper_guideline3">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.215">
 
         <EditText
             android:id="@+id/new_phone"
@@ -32,7 +97,7 @@
             app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.523" />
+            app:layout_constraintVertical_bias="0.503" />
 
         <Button
             android:id="@+id/add_provider"
@@ -49,10 +114,9 @@
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.25"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.88" />
+            app:layout_constraintVertical_bias="0.872" />
 
         <TextView
             android:id="@+id/title"
@@ -80,27 +144,7 @@
             app:layout_constraintHorizontal_bias="0.081"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.395" />
-
-        <Button
-            android:id="@+id/cancel"
-            android:layout_width="240dp"
-            android:layout_height="55dp"
-            android:background="@drawable/gray_button_border"
-            android:fontFamily="@font/nunito_sans"
-            android:text="Cancel"
-            android:textAllCaps="false"
-            android:textColor="#919191"
-            android:textColorHighlight="#00F8F6F6"
-            android:textColorHint="#00FCFBFB"
-            android:textColorLink="#00FDFCFC"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.74"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.88" />
+            app:layout_constraintVertical_bias="0.375" />
 
         <TextView
             android:id="@+id/error"
@@ -113,35 +157,10 @@
             app:layout_constraintHorizontal_bias="0.244"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.706" />
+            app:layout_constraintVertical_bias="0.7" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/lower_guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="510dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/right_guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="1385dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/left_guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="535dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/upper_guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="150dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+

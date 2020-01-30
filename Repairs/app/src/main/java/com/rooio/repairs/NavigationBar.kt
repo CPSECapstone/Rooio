@@ -23,7 +23,7 @@ import androidx.core.widget.ImageViewCompat
 import java.text.AttributedString
 
 
-abstract class NavigationBar : AppCompatActivity() {
+abstract class NavigationBar : RestApi() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -326,32 +326,3 @@ public abstract class RestApi extends AppCompatActivity {
     }
 
 }
-
-/*
----- Example requestPost function call and prestaging:
- // --- API Swagger url link
-        String url = "https://capstone.api.roopairs.com/v0/auth/login/";
-
- // --- Build params HashMap for Rest Json Body
-        HashMap<String, String> params = new HashMap<>();
-        params.put("username", username.getText().toString());
-        params.put("password", password.getText().toString());
-
- // --- requestPost function call
-        requestPost(url, params, false);
-
-
----- Example Json handling function
-    public void storeToken(JSONObject responseObj){
-        String token = null;
-        try {
-            token = (String)responseObj.get("Token");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        success.setText(token);
-        setUserToken(token);
-    }
-----------------------------------------------------------------------------------------------------
-
-*/

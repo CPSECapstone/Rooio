@@ -6,10 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.Toast
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_registration.*
+
 import android.widget.AdapterView
 
 class Settings  : NavigationBar() {
@@ -34,6 +31,7 @@ class Settings  : NavigationBar() {
 
         createNavigationBar("settings")
         val spinner: Spinner = findViewById(R.id.settings_spinner)
+
         // setting on click listeners for the spinner items
         spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -44,19 +42,30 @@ class Settings  : NavigationBar() {
                 val selectedItem = parent.getItemAtPosition(position).toString()
                 if(selectedItem == "Service Location") {
                     val intent = Intent(this@Settings, ChangeLocationSettings::class.java)
+
+                if(selectedItem == "Preferred Providers") {
+                    val intent = Intent(this@Settings, PreferredProvidersSetting::class.java)
                     startActivity(intent)
                 }
             }
 
         }
 
-
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter.createFromResource(
+                this,
+                R.array.settings_type,
+                android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinner.adapter = adapter
+        }
     }
+
     override fun animateActivity(boolean: Boolean)
     {
 
     }
-
-
-
 }
