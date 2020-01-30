@@ -33,6 +33,26 @@ class Jobs : NavigationBar() {
         //val viewGroup = findViewById<ViewGroup>(R.id.equipmentScroll)
 
         //TransitionManager.beginDelayedTransition(viewGroup)
+        //val viewGroup = findViewById<ViewGroup>(R.id.jobsConstraint)
+
+        //changing the width of the notableJobs and newJobRequest
+        //val my_pending = viewGroup.findViewById<ViewGroup>(R.id.pending)
+        //val my_scheduled = viewGroup.findViewById<ViewGroup>(R.id.scheduled)
+        //val my_in_progress = viewGroup.findViewById<ViewGroup>(R.id.in_progress)
+
+        //TransitionManager.beginDelayedTransition(viewGroup)
+        //val boxParams1 = my_pending.layoutParams
+        //val boxParams2 = my_scheduled.layoutParams
+        //val boxParams3 = my_in_progress.layoutParams
+        //val p2 = if (boolean) 300 else 430
+        //boxParams1.width = p2
+        //boxParams2.width = p2
+        //boxParams3.width = p2
+
+        //calling the transitions
+        //my_pending.layoutParams = boxParams1
+        //my_scheduled.layoutParams = boxParams2
+        //my_in_progress.layoutParams = boxParams3
 
 
     }

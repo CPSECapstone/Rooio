@@ -106,20 +106,23 @@ abstract class NavigationBar : AppCompatActivity() {
         }
 
         dashboardImage.setOnClickListener{
-            TransitionManager.beginDelayedTransition(transitionsContainer)
+            //TransitionManager.beginDelayedTransition(transitionsContainer)
             val myintent = Intent(this, Dashboard::class.java)
             startActivity(myintent)
         }
 
         settingsImage.setOnClickListener{
+            //TransitionManager.beginDelayedTransition(transitionsContainer)
             startActivity(Intent( this, Settings::class.java))
         }
 
         equipmentImage.setOnClickListener{
+            //TransitionManager.beginDelayedTransition(transitionsContainer)
             startActivity(Intent ( this, Equipment::class.java))
         }
 
         jobsImage.setOnClickListener{
+            //TransitionManager.beginDelayedTransition(transitionsContainer)
             startActivity(Intent ( this, Jobs::class.java))
         }
 
