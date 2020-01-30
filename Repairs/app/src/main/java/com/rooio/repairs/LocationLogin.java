@@ -3,7 +3,6 @@ package com.rooio.repairs;
 
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,8 +35,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import org.w3c.dom.Text;
-
 public class LocationLogin extends RestApi implements AdapterView.OnItemClickListener {
 
     EditText et;
@@ -61,7 +58,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
         getSupportActionBar().setCustomView(R.layout.action_bar);
         getSupportActionBar().setElevation(0);
 
-        bt = (Button) findViewById(R.id.add_location);
+        bt = (Button) findViewById(R.id.addLocation);
         lv = (ListView) findViewById(R.id.Service);
         error_message = (TextView) findViewById(R.id.Error_Messages);
 //        test = (TextView) findViewById(R.id.test);

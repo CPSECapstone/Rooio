@@ -28,6 +28,8 @@ class Settings  : NavigationBar() {
         window.addContentView(actionBarView,
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
+        supportActionBar!!.elevation = 0.0f
+
         createNavigationBar("settings")
         val spinner: Spinner = findViewById(R.id.settings_spinner)
         // Create an ArrayAdapter using the string array and a default spinner layout

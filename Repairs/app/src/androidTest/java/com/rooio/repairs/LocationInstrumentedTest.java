@@ -11,12 +11,10 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.intent.Intents.intended;
 
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.junit.Assert.*;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -34,13 +32,13 @@ public class LocationInstrumentedTest {
     public void testLaunchActivity() {
         onView(withId(R.id.title)).check(matches(withText("Choose Service Location")));
         onView(withId(R.id.Choose_small)).check(matches(withText("CHOOSE A SERVICE LOCATION")));
-        onView(withId(R.id.add_location)).check(matches(withText("+ Add Another Service Location")));
+        onView(withId(R.id.addLocation)).check(matches(withText("+ Add Another Service Location")));
 
     }
 
     @Test
     public void testCancelButton() {
-        onView(withId(R.id.add_location)).perform(click());
+        onView(withId(R.id.addLocation)).perform(click());
         intended(hasComponent(AddLocation.class.getName()));
     }
 
