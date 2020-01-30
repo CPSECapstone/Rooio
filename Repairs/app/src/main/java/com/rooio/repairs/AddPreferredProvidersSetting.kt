@@ -42,6 +42,7 @@ class AddPreferredProvidersSetting  : NavigationBar() {
         addButton = findViewById<View>(R.id.add_provider) as TextView
         backButton = findViewById<View>(R.id.back_button) as TextView
         newProvider = findViewById<View>(R.id.new_phone) as EditText
+        error = findViewById<View>(R.id.error) as TextView
 
         onAddClick();
         onBackClick();
@@ -60,15 +61,13 @@ class AddPreferredProvidersSetting  : NavigationBar() {
 
     private fun onAddClick() {
         addButton.setOnClickListener{
-            error.setText("")
-            phoneInput = newProvider!!.getText().toString()
+            error.text = ""
+            phoneInput = newProvider?.getText().toString()
             if (!phoneInput.isEmpty() && phoneInput.length >= 10) {
                 checkIfAlreadyAdded(phoneInput)
-                val intent = Intent(this@AddPreferredProvidersSetting, PreferredProvidersSetting::class.java)
-                startActivity(intent);
             }
             else
-                error.setText("Please enter a valid phone number.")
+                error.text = "Please enter a valid phone number."
         }
 
         }
@@ -85,7 +84,7 @@ class AddPreferredProvidersSetting  : NavigationBar() {
         }
 
         val errorFunc = { string : String ->
-            error.setText("This service provider $string Please use another phone number.")
+            error.text = "This service provider $string. Please use another phone number."
             null
         }
 
@@ -114,7 +113,7 @@ class AddPreferredProvidersSetting  : NavigationBar() {
                 if ((added?.not())!!) {
                     addPreferredServiceProvider(phoneInput)
                 } else {
-                    error.setText("You've already added $addedProviderRet.")
+                    error.text = "You've already added $addedProviderRet."
                 }
 
             } catch (e: JSONException) {

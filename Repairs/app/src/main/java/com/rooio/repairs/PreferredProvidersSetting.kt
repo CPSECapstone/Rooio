@@ -5,16 +5,17 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_registration.*
+import org.json.JSONArray
+import org.json.JSONException
 import java.util.ArrayList
 
 class PreferredProvidersSetting  : NavigationBar() {
 
+    internal lateinit var serviceProvidersListView: ListView
     lateinit var addButton: TextView
-
     lateinit var error: TextView
+    internal var preferredProviders = ArrayList<ServiceProviderData>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,10 @@ class PreferredProvidersSetting  : NavigationBar() {
 
         createNavigationBar("settings")
 
+        serviceProvidersListView = findViewById<View>(R.id.list) as ListView
         addButton = findViewById<View>(R.id.addAnother) as TextView
+        error = findViewById<View>(R.id.error) as TextView
+
 
         val spinner: Spinner = findViewById(R.id.settings_spinner)
 
@@ -62,7 +66,52 @@ class PreferredProvidersSetting  : NavigationBar() {
             spinner.adapter = adapter
         }
 
+        loadPreferredProviders()
+
         onAddClick();
+    }
+
+    fun loadPreferredProviders() {
+        val url = "https://capstone.api.roopairs.com/v0/service-providers/"
+
+        val responseFunc = { jsonArray : JSONArray ->
+            try {
+                loadElements(jsonArray)
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+
+            null
+        }
+
+        val errorFunc = { string : String ->
+            error.setText(string)
+            null
+        }
+
+        requestGetJsonArray(url, responseFunc, errorFunc, true)
+    }
+
+    @Throws(JSONException::class)
+    fun loadElements(response: JSONArray) {
+        preferredProviders.clear()
+        for (i in 0 until response.length()) {
+            val restaurant = response.getJSONObject(i)
+            val name = restaurant.get("name") as String
+            var image = ""
+            try {
+                image = restaurant.get("logo") as String
+            } catch (e: Exception) {
+                // if there is no logo for the service provider
+                image = "http://rsroemani.com/rv2/wp-content/themes/rsroemani/images/no-user.jpg"
+            } finally {
+                val serviceProviderData = ServiceProviderData(name, image)
+                preferredProviders.add(serviceProviderData)
+            }
+        }
+
+        val customAdapter = CustomAdapter(this, preferredProviders)
+        serviceProvidersListView.setAdapter(customAdapter)
     }
 
     private fun onAddClick() {
