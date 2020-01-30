@@ -13,7 +13,7 @@ import java.util.HashMap
 class AddPreferredProvidersSetting  : NavigationBar() {
 
     lateinit var addButton: TextView
-    lateinit var backButton: TextView
+    lateinit var backButton: ImageView
     private var newProvider: EditText? = null
     lateinit var error: TextView
 
@@ -40,7 +40,7 @@ class AddPreferredProvidersSetting  : NavigationBar() {
         createNavigationBar("settings")
 
         addButton = findViewById<View>(R.id.add_provider) as TextView
-        backButton = findViewById<View>(R.id.back_button) as TextView
+        backButton = findViewById<View>(R.id.back_button) as ImageView
         newProvider = findViewById<View>(R.id.new_phone) as EditText
         error = findViewById<View>(R.id.error) as TextView
 
