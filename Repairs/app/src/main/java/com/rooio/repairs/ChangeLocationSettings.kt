@@ -1,15 +1,18 @@
 package com.rooio.repairs
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.TextView
 
 class ChangeLocationSettings  : NavigationBar() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_location_settings)
+        val addAnother = findViewById<TextView>(R.id.addAnother2)
 
         //sets the navigation bar onto the page
         val navInflater = layoutInflater
@@ -28,7 +31,9 @@ class ChangeLocationSettings  : NavigationBar() {
 
         createNavigationBar("settings")
 
-
+        addAnother.setOnClickListener{
+            startActivity(Intent( this, AddLocationSettings::class.java))
+        }
 
     }
     override fun animateActivity(boolean: Boolean)

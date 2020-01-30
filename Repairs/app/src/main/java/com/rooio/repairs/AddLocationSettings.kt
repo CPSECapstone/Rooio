@@ -1,15 +1,18 @@
 package com.rooio.repairs
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.Spinner
 
 class AddLocationSettings  : NavigationBar() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_location_settings)
+        val backArrow = findViewById<ImageView>(R.id.backArrow)
 
         //sets the navigation bar onto the page
         val navInflater = layoutInflater
@@ -27,6 +30,10 @@ class AddLocationSettings  : NavigationBar() {
         supportActionBar!!.elevation = 0.0f
 
         createNavigationBar("settings")
+
+        backArrow.setOnClickListener{
+            startActivity(Intent( this, ChangeLocationSettings::class.java))
+        }
 
 
 
