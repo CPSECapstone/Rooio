@@ -43,6 +43,8 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
     EditText et;
     Button bt;
     ListView lv;
+    TextView error_message;
+
     ArrayAdapter<String> adapter;
 
     //TextView test;
@@ -61,11 +63,12 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
         bt = (Button) findViewById(R.id.add_location);
         lv = (ListView) findViewById(R.id.Service);
+        error_message = (TextView) findViewById(R.id.Error_Messages);
 //        test = (TextView) findViewById(R.id.test);
 
         String url = "https://capstone.api.roopairs.com/v0/service-locations/";
 
-
+        //New Address Recieved
         Intent incoming_intent = getIntent();
         incoming_name = incoming_intent.getStringExtra("result");
         if (incoming_name != null) {
@@ -152,6 +155,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
+                        error_message.setText(error.toString());
 //          TODO: ----->  Error Handling functions
 
 
@@ -207,6 +211,8 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
                     public void onErrorResponse(VolleyError error) {
 
 //          TODO: ----->  Error Handling functions
+
+                        error_message.setText(error.toString());
 
 //                        test.setText("Token: " + getUserToken() + "\n" + error.toString());
 

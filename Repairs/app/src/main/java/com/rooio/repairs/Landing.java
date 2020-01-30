@@ -2,6 +2,7 @@ package com.rooio.repairs;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.ActionBar;
@@ -29,5 +30,27 @@ public class Landing extends AppCompatActivity {
         createAccount = findViewById(R.id.createAccount);
         connectAccount = findViewById(R.id.connectAccount);
 
+        createAccountBtn();
+        connectAccountBtn();
+    }
+
+    public void createAccountBtn() {
+        createAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(Landing.this, Registration.class);
+                startActivity(intent1);
+            }
+        });
+    }
+
+    public void connectAccountBtn() {
+        connectAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(Landing.this, Login.class);
+                startActivity(intent1);
+            }
+        });
     }
 }

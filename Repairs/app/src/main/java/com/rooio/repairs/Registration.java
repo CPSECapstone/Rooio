@@ -18,9 +18,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-public class Registration extends RestApi  implements AdapterView.OnItemSelectedListener {
+public class Registration extends RestApi   {
 
-    private Spinner myspinner;
 
     private EditText firstname;
     private EditText lastname;
@@ -29,7 +28,6 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
     private EditText restaurantname;
     private Button register;
     private Button cancelRegistration;
-    private TextView errorMessage;
     private Integer industry_int;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +41,12 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
         getSupportActionBar().setCustomView(R.layout.action_bar);
         getSupportActionBar().setElevation(0);
 
+        String url = "https://capstone.api.roopairs.com/v0/auth/register/";
+
+        //Input initialization;
+
+
         //Initializing UI variables;
-        myspinner = findViewById(R.id.spinner);
         register = findViewById(R.id.register);
         cancelRegistration = findViewById(R.id.cancelRegistration);
         firstname = findViewById(R.id.firstname);
@@ -52,20 +54,14 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         restaurantname = findViewById(R.id.restaurantname);
-        errorMessage = findViewById(R.id.errorMessage);
-        errorMessage.setText(null);
         industry_int = 2;
 
         //Cancel button returns to landing page
         cancelRegistration.setOnClickListener(view -> startActivity(new Intent(Registration.this, Landing.class)));
 
-        //Functions for DropDown "Industry Type"
-        ArrayAdapter<CharSequence> myAdapter = ArrayAdapter.createFromResource(this, R.array.industry_type, android.R.layout.simple_spinner_item);
 
-        //Set Adapter as
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        myspinner.setAdapter(myAdapter);
-        myspinner.setOnItemSelectedListener(this);
+        //Functions for DropDown "Industry Type"
+
 
         //Register button sends registration information
         register.setOnClickListener(view -> sendRegistrationInfo());
@@ -84,7 +80,6 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
         };
 
         Function<String, Void> errorFunc = (string) -> {
-            errorMessage.setText(string);
             return null;
         };
 
@@ -106,27 +101,7 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
 //                startActivity(intent5);
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String text = parent.getItemAtPosition(position).toString();
-        if (text.length() == 11) {
-            industry_int = 1;
 
-        }
-        else if (text.length() == 10){
-            industry_int = 3;
-
-        }
-        else{
-            industry_int = 2;
-
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
 
 
     public boolean validate(String userName, String userPassword){
@@ -160,17 +135,5 @@ public class Registration extends RestApi  implements AdapterView.OnItemSelected
 
 
 
-    /*
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String text = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-    */
 
 }
