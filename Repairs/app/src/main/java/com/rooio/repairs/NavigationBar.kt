@@ -50,6 +50,7 @@ abstract class NavigationBar : AppCompatActivity() {
         val dashboardImage = transitionsContainer.findViewById<ImageView>(R.id.dashboard)
         val settingsImage = transitionsContainer.findViewById<ImageView>(R.id.settings)
         val equipmentImage = transitionsContainer.findViewById<ImageView>(R.id.equipment)
+        val jobsImage = transitionsContainer.findViewById<ImageView>(R.id.jobs)
         val coloredDashboard = transitionsContainer.findViewById<ImageView>(R.id.clicked_dashboard)
         val coloredSettings = transitionsContainer.findViewById<ImageView>(R.id.colored_settings)
         val coloredJobs = transitionsContainer.findViewById<ImageView>(R.id.colored_jobs)
@@ -106,7 +107,6 @@ abstract class NavigationBar : AppCompatActivity() {
 
         dashboardImage.setOnClickListener{
             TransitionManager.beginDelayedTransition(transitionsContainer)
-            //visible = !visible
             val myintent = Intent(this, Dashboard::class.java)
             startActivity(myintent)
         }
@@ -118,6 +118,11 @@ abstract class NavigationBar : AppCompatActivity() {
         equipmentImage.setOnClickListener{
             startActivity(Intent ( this, Equipment::class.java))
         }
+
+        jobsImage.setOnClickListener{
+            startActivity(Intent ( this, Jobs::class.java))
+        }
+
 
 
     }

@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.transition.TransitionManager
 
-class Equipment : NavigationBar() {
+class Jobs : NavigationBar() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_equipment)
+        setContentView(R.layout.activity_jobs)
 
         //sets the navigation bar onto the page
         val nav_inflater = layoutInflater
@@ -26,13 +26,13 @@ class Equipment : NavigationBar() {
         supportActionBar!!.elevation = 0.0f
 
 
-        createNavigationBar("equipment")
+        createNavigationBar("jobs")
     }
 
     override fun animateActivity(boolean: Boolean){
-        val viewGroup = findViewById<ViewGroup>(R.id.equipmentScroll)
+        //val viewGroup = findViewById<ViewGroup>(R.id.equipmentScroll)
 
-        TransitionManager.beginDelayedTransition(viewGroup)
+        //TransitionManager.beginDelayedTransition(viewGroup)
 
 
     }
