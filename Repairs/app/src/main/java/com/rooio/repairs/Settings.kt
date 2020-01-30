@@ -1,14 +1,14 @@
 package com.rooio.repairs
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.Toast
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_registration.*
+
+import android.widget.AdapterView
 
 class Settings  : NavigationBar() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,8 +28,31 @@ class Settings  : NavigationBar() {
         window.addContentView(actionBarView,
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
+        supportActionBar!!.elevation = 0.0f
+
         createNavigationBar("settings")
         val spinner: Spinner = findViewById(R.id.settings_spinner)
+
+       // setting on click listeners for the spinner items
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString()
+                if(selectedItem == "Service Location") {
+                    Log.i("try", "service location")
+                    startActivity(Intent(this@Settings, ChangeLocationSettings::class.java))
+                }
+                else if(selectedItem == "Preferred Providers") {
+                    Log.i("try", "preferred")
+                    startActivity(Intent(this@Settings, PreferredProvidersSetting::class.java))
+                }
+            }
+
+        }
+
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
                 this,
@@ -41,14 +64,10 @@ class Settings  : NavigationBar() {
             // Apply the adapter to the spinner
             spinner.adapter = adapter
         }
-
-
     }
+
     override fun animateActivity(boolean: Boolean)
     {
 
     }
-
-
-
 }

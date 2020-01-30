@@ -62,6 +62,12 @@ public class AddLocation extends RestApi {
                 }
             }
         });
+        onCancel();
+    }
+
+    private void onCancel() {
+        backArrow.setOnClickListener(view ->
+                startActivity(new Intent(AddLocation.this, LocationLogin.class)));
     }
 
     private void onBackClick() {
