@@ -1,13 +1,10 @@
 package com.rooio.repairs;
 
-import android.util.Log;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.arch.core.util.Function;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -68,7 +65,7 @@ public abstract class RestApi extends AppCompatActivity {
 
         String url = req.getUrl();
         HashMap<String, Object> params = req.getParams();
-        Function<JSONObject, Void> responseFunc = req.getResponseFunc();
+        Function<Object, Void> responseFunc = req.getResponseFunc();
         Function<String, Void> errorFunc = req.getErrorFunc();
         boolean headersFlag = req.getHeadersFlag();
 
@@ -107,7 +104,7 @@ public abstract class RestApi extends AppCompatActivity {
 //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
                 if (headersFlag){
                     Map<String, String> headers = new HashMap<>();
-                    //headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
+                    headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
                     return headers;
 
 //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
@@ -119,6 +116,200 @@ public abstract class RestApi extends AppCompatActivity {
 
         addToVolleyQueue(jsonObjectRequest);
     }
+
+    public void requestGetJsonObj(JsonRequest req){
+        if (req.isTest()) {
+            return;
+        }
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+        String url = req.getUrl();
+        Function<Object, Void> responseFunc = req.getResponseFunc();
+        Function<String, Void> errorFunc = req.getErrorFunc();
+        boolean headersFlag = req.getHeadersFlag();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONObject responseObj = response;
+
+                        responseFunc.apply(responseObj);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        String errorMsg = "Unexpected Error!";
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            errorMsg = "No connection or you timed out. Try again.";
+                        } else if (error instanceof AuthFailureError) {
+                            errorMsg = "You are not authorized.";
+                        } else if (error instanceof ServerError) {
+                            errorMsg = "does not exist.";
+                        } else if (error instanceof NetworkError) {
+                            errorMsg = "Network Error. Try again.";
+                        } else if (error instanceof ParseError) {
+                            errorMsg = "Parse Error. Try again.";
+                        }
+
+                        errorFunc.apply(errorMsg);
+
+                    }}) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+//                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+                if (headersFlag){
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
+                    return headers;
+
+//                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+                } else {
+                    return Collections.emptyMap();
+                }
+            }
+        };
+
+//  --> Equivalent of sending the request. Required to WORK...
+        queue.add(jsonObjectRequest);
+
+    }
+
+    public void requestGetJsonArray(JsonRequest req){
+        if (req.isTest()) {
+            return;
+        }
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+        String url = req.getUrl();
+        Function<Object, Void> responseFunc = req.getResponseFunc();
+        Function<String, Void> errorFunc = req.getErrorFunc();
+        boolean headersFlag = req.getHeadersFlag();
+
+
+        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest
+                (Request.Method.GET, url, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        JSONArray responseObj = response;
+
+                        responseFunc.apply(responseObj);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        String errorMsg = "Unexpected Error!";
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            errorMsg = "No connection or you timed out. Try again.";
+                        } else if (error instanceof AuthFailureError) {
+                            errorMsg = "You are not authorized.";
+                        } else if (error instanceof ServerError) {
+                            errorMsg = "does not exist.";
+                        } else if (error instanceof NetworkError) {
+                            errorMsg = "Network Error. Try again.";
+                        } else if (error instanceof ParseError) {
+                            errorMsg = "Parse Error. Try again.";
+                        }
+
+                        errorFunc.apply(errorMsg);
+
+                    }}) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+//                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+                if (headersFlag){
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
+                    return headers;
+
+//                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+                } else {
+                    return Collections.emptyMap();
+                }
+            }
+        };
+
+//  --> Equivalent of sending the request. Required to WORK...
+        queue.add(jsonObjectRequest);
+
+    }
+
+    public void requestPostJsonArray(JsonRequest req){
+        if (req.isTest()) {
+            return;
+        }
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+        String url = req.getUrl();
+        HashMap<String, Object> params = req.getParams();
+        Function<Object, Void> responseFunc = req.getResponseFunc();
+        Function<String, Void> errorFunc = req.getErrorFunc();
+        boolean headersFlag = req.getHeadersFlag();
+
+//     -- Transforms params HashMap into Json Object
+        JSONObject jsonParams = new JSONObject(params);
+
+
+        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest
+                (Request.Method.POST, url, jsonParams, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        JSONArray responseObj = response;
+
+                        responseFunc.apply(responseObj);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        String errorMsg = "Unexpected Error!";
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            errorMsg = "No connection or you timed out. Try again.";
+                        } else if (error instanceof AuthFailureError) {
+                            errorMsg = "You are not authorized.";
+                        } else if (error instanceof ServerError) {
+                            errorMsg = "does not exist.";
+                        } else if (error instanceof NetworkError) {
+                            errorMsg = "Network Error. Try again.";
+                        } else if (error instanceof ParseError) {
+                            errorMsg = "Parse Error. Try again.";
+                        }
+
+                        errorFunc.apply(errorMsg);
+
+                    }}) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+//                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+                if (headersFlag){
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
+                    return headers;
+
+//                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+                } else {
+                    return Collections.emptyMap();
+                }
+            }
+        };
+
+//  --> Equivalent of sending the request. Required to WORK...
+        queue.add(jsonObjectRequest);
+
+    }
+
+    //____________________________________________________________________
 
     public void requestGetJsonObj(String url, final Function<JSONObject, Void> responseFunc,
                         final Function<String, Void> errorFunc, final boolean headersFlag){
