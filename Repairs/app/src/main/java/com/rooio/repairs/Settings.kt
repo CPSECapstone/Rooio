@@ -32,8 +32,8 @@ class Settings  : NavigationBar() {
         createNavigationBar("settings")
         val spinner: Spinner = findViewById(R.id.settings_spinner)
 
-        // setting on click listeners for the spinner items
-        spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+       // setting on click listeners for the spinner items
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
@@ -42,7 +42,8 @@ class Settings  : NavigationBar() {
                 val selectedItem = parent.getItemAtPosition(position).toString()
                 if(selectedItem == "Service Location") {
                     val intent = Intent(this@Settings, ChangeLocationSettings::class.java)
-
+                    startActivity(intent)
+                }
                 if(selectedItem == "Preferred Providers") {
                     val intent = Intent(this@Settings, PreferredProvidersSetting::class.java)
                     startActivity(intent)
