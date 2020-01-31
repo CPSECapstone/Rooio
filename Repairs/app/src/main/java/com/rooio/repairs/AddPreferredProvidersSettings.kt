@@ -7,10 +7,9 @@ import android.view.ViewGroup
 import android.widget.*
 import org.json.JSONArray
 import org.json.JSONException
-import java.util.ArrayList
 import java.util.HashMap
 
-class AddPreferredProvidersSetting  : NavigationBar() {
+class AddPreferredProvidersSettings  : NavigationBar() {
 
     lateinit var addButton: TextView
     lateinit var backButton: ImageView
@@ -55,7 +54,7 @@ class AddPreferredProvidersSetting  : NavigationBar() {
 
     private fun onBackClick() {
         backButton.setOnClickListener{
-            val intent = Intent(this@AddPreferredProvidersSetting, PreferredProvidersSetting::class.java)
+            val intent = Intent(this@AddPreferredProvidersSettings, PreferredProvidersSettings::class.java)
             startActivity(intent);
         }    }
 
@@ -79,7 +78,7 @@ class AddPreferredProvidersSetting  : NavigationBar() {
         params["phone"] = phoneInput
 
         val responseFunc = { jsonArray : JSONArray ->
-            startActivity(Intent(this@AddPreferredProvidersSetting, PreferredProvidersLogin::class.java))
+            startActivity(Intent(this@AddPreferredProvidersSettings, PreferredProvidersLogin::class.java))
             null
         }
 

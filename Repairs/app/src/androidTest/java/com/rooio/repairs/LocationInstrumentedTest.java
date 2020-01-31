@@ -39,7 +39,7 @@ public class LocationInstrumentedTest {
     @Test
     public void testCancelButton() {
         onView(withId(R.id.addLocation)).perform(click());
-        intended(hasComponent(AddLocation.class.getName()));
+        intended(hasComponent(AddLocationLogin.class.getName()));
     }
 
 }
