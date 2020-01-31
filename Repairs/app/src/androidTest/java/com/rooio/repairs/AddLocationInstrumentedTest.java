@@ -27,7 +27,7 @@ package com.rooio.repairs;
 public class AddLocationInstrumentedTest {
 
     @Rule
-    public IntentsTestRule<AddLocation> intentRule = new IntentsTestRule<>(AddLocation.class);
+    public IntentsTestRule<AddLocationLogin> intentRule = new IntentsTestRule<>(AddLocationLogin.class);
 
     @Test
     public void testLaunchActivity() {

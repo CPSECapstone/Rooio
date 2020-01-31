@@ -2,7 +2,6 @@ package com.rooio.repairs
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -10,7 +9,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import java.util.ArrayList
 
-class PreferredProvidersSetting  : NavigationBar() {
+class PreferredProvidersSettings  : NavigationBar() {
 
     internal lateinit var serviceProvidersListView: ListView
     lateinit var addButton: TextView
@@ -53,7 +52,7 @@ class PreferredProvidersSetting  : NavigationBar() {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
                 if(selectedItem == "Service Location") {
-                    startActivity(Intent(this@PreferredProvidersSetting, ChangeLocationSettings::class.java))
+                    startActivity(Intent(this@PreferredProvidersSettings, ChangeLocationSettings::class.java))
                 }
             }
 
@@ -123,7 +122,7 @@ class PreferredProvidersSetting  : NavigationBar() {
 
     private fun onAddClick() {
         addButton.setOnClickListener{
-            val intent = Intent(this@PreferredProvidersSetting, AddPreferredProvidersSetting::class.java)
+            val intent = Intent(this@PreferredProvidersSettings, AddPreferredProvidersSettings::class.java)
             startActivity(intent);
         }
     }

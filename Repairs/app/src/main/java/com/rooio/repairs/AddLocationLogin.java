@@ -13,7 +13,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.HashMap;
 
-public class AddLocation extends RestApi {
+public class AddLocationLogin extends RestApi {
 
     private Button add_address;
     private Button backButton;
@@ -53,7 +53,7 @@ public class AddLocation extends RestApi {
                     JsonRequest request = new JsonRequest(false, url, params, responseFunc1, errorFunc, true);
                     requestPostJsonObj(request);
 
-                    Intent intent = new Intent(AddLocation.this, LocationLogin.class);
+                    Intent intent = new Intent(AddLocationLogin.this, LocationLogin.class);
                     intent.putExtra("result", result);
                     startActivity(intent);
 
@@ -67,14 +67,14 @@ public class AddLocation extends RestApi {
 
     private void onCancel() {
         backButton.setOnClickListener(view ->
-                startActivity(new Intent(AddLocation.this, LocationLogin.class)));
+                startActivity(new Intent(AddLocationLogin.this, LocationLogin.class)));
     }
 
     private void onBackClick() {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AddLocation.this, LocationLogin.class));
+                startActivity(new Intent(AddLocationLogin.this, LocationLogin.class));
             }
         });
     }

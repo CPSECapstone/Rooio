@@ -47,7 +47,7 @@ class Settings  : NavigationBar() {
                 }
                 else if(selectedItem == "Preferred Providers") {
                     Log.i("try", "preferred")
-                    startActivity(Intent(this@Settings, PreferredProvidersSetting::class.java))
+                    startActivity(Intent(this@Settings, PreferredProvidersSettings::class.java))
                 }
             }
 

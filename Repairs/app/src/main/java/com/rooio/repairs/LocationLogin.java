@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.arch.core.util.Function;
 
 import org.json.JSONArray;
@@ -98,7 +97,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(LocationLogin.this, AddLocation.class);
+                Intent intent1 = new Intent(LocationLogin.this, AddLocationLogin.class);
                 startActivity(intent1);
             }
         });

@@ -97,21 +97,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddLocation">
+        <activity android:name=".AddLocationLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PreferredProvidersSetting">
+        <activity android:name=".PreferredProvidersSettings">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddPreferredProvidersSetting">
+        <activity android:name=".AddPreferredProvidersSettings">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
