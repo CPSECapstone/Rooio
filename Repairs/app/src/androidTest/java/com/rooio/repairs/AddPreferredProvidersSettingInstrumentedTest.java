@@ -16,7 +16,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 public class AddPreferredProvidersSettingInstrumentedTest {
     @Rule
-    public IntentsTestRule<AddPreferredProvidersSetting> intentRule = new IntentsTestRule<>(AddPreferredProvidersSetting.class);
+    public IntentsTestRule<AddPreferredProvidersSettings> intentRule = new IntentsTestRule<>(AddPreferredProvidersSettings.class);
 
 
     @Test
@@ -50,6 +50,6 @@ public class AddPreferredProvidersSettingInstrumentedTest {
     @Test
     public void testCancelButton() {
         onView(withId(R.id.back_button)).perform(click());
-        intended(hasComponent(PreferredProvidersSetting.class.getName()));
+        intended(hasComponent(PreferredProvidersSettings.class.getName()));
     }
 }

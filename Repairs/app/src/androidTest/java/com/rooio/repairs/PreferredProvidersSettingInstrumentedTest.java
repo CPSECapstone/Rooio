@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.*;
 
 public class PreferredProvidersSettingInstrumentedTest {
     @Rule
-    public IntentsTestRule<PreferredProvidersSetting> intentRule = new IntentsTestRule<>(PreferredProvidersSetting.class);
+    public IntentsTestRule<PreferredProvidersSettings> intentRule = new IntentsTestRule<>(PreferredProvidersSettings.class);
 
 
     @Test
@@ -31,8 +31,7 @@ public class PreferredProvidersSettingInstrumentedTest {
     public void testSpinner() {
         onView(withId(R.id.settings_spinner)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Service Location"))).perform(click());
-
-        //intended(hasComponent(.class.getName()));
+        intended(hasComponent(ChangeLocationSettings.class.getName()));
     }
 
 }
