@@ -26,7 +26,7 @@ package com.rooio.repairs;
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class RegistrationIntstrumentedTest{
+public class RegistrationInstrumentedTest{
     @Rule
     public IntentsTestRule<Registration> intentRule = new IntentsTestRule<>(Registration.class);
 
