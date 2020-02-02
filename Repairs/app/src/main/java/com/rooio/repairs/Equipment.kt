@@ -2,12 +2,14 @@ package com.rooio.repairs
 
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.transition.TransitionManager
 
 class Equipment : NavigationBar() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_equipment)
+        setContentView(R.layout.activity_equipment_1)
 
         //sets the navigation bar onto the page
         val nav_inflater = layoutInflater
@@ -30,10 +32,20 @@ class Equipment : NavigationBar() {
     }
 
     override fun animateActivity(boolean: Boolean){
-        val viewGroup = findViewById<ViewGroup>(R.id.equipmentScroll)
+        val equipmentScroll = findViewById<ViewGroup>(R.id.equipmentScroll)
+        TransitionManager.beginDelayedTransition(equipmentScroll)
 
-        TransitionManager.beginDelayedTransition(viewGroup)
+        val pageConstraint = findViewById<ConstraintLayout>(R.id.equipmentPageConstraint)
 
+        val constraintSet1 = ConstraintSet()
+        constraintSet1.load(this, R.layout.activity_equipment_1)
 
+        val constraintSet2 = ConstraintSet()
+        constraintSet2.load(this, R.layout.activity_equipment_2)
+
+        TransitionManager.beginDelayedTransition(pageConstraint)
+        val constraint = if (boolean) constraintSet1 else constraintSet2
+
+        constraint.applyTo(pageConstraint)
     }
 }
