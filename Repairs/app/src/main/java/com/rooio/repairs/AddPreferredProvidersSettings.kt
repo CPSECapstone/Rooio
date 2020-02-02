@@ -8,12 +8,12 @@ import android.widget.EditText
 import android.widget.TextView
 import org.json.JSONArray
 import org.json.JSONException
-import java.util.*
+import java.util.HashMap
 
-class AddPreferredProvidersSetting  : NavigationBar() {
+class AddPreferredProvidersSettings  : NavigationBar() {
 
     lateinit var addButton: TextView
-    lateinit var backButton: TextView
+    lateinit var backButton: ImageView
     private var newProvider: EditText? = null
     lateinit var error: TextView
 
@@ -40,7 +40,7 @@ class AddPreferredProvidersSetting  : NavigationBar() {
         createNavigationBar("settings")
 
         addButton = findViewById<View>(R.id.add_provider) as TextView
-        backButton = findViewById<View>(R.id.back_button) as TextView
+        backButton = findViewById<View>(R.id.back_button) as ImageView
         newProvider = findViewById<View>(R.id.new_phone) as EditText
         error = findViewById<View>(R.id.error) as TextView
 
@@ -55,7 +55,7 @@ class AddPreferredProvidersSetting  : NavigationBar() {
 
     private fun onBackClick() {
         backButton.setOnClickListener{
-            val intent = Intent(this@AddPreferredProvidersSetting, PreferredProvidersSetting::class.java)
+            val intent = Intent(this@AddPreferredProvidersSettings, PreferredProvidersSettings::class.java)
             startActivity(intent);
         }    }
 
@@ -79,7 +79,7 @@ class AddPreferredProvidersSetting  : NavigationBar() {
         params["phone"] = phoneInput
 
         val responseFunc = { jsonArray : JSONArray ->
-            startActivity(Intent(this@AddPreferredProvidersSetting, PreferredProvidersLogin::class.java))
+            startActivity(Intent(this@AddPreferredProvidersSettings, PreferredProvidersLogin::class.java))
             null
         }
 

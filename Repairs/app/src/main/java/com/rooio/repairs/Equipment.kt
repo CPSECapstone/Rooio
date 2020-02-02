@@ -2,6 +2,7 @@ package com.rooio.repairs
 
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.transition.TransitionManager
 
 class Equipment : NavigationBar() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +30,10 @@ class Equipment : NavigationBar() {
     }
 
     override fun animateActivity(boolean: Boolean){
+        val viewGroup = findViewById<ViewGroup>(R.id.equipmentScroll)
+
+        TransitionManager.beginDelayedTransition(viewGroup)
+
 
     }
 }

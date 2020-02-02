@@ -2,10 +2,12 @@ package com.rooio.repairs
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+
 import android.widget.AdapterView
 
 class Settings  : NavigationBar() {
@@ -26,20 +28,26 @@ class Settings  : NavigationBar() {
         window.addContentView(actionBarView,
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
+        supportActionBar!!.elevation = 0.0f
+
         createNavigationBar("settings")
         val spinner: Spinner = findViewById(R.id.settings_spinner)
 
-        // setting on click listeners for the spinner items
-        spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+       // setting on click listeners for the spinner items
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
 
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
-                if(selectedItem == "Preferred Providers") {
-                    val intent = Intent(this@Settings, PreferredProvidersSetting::class.java)
-                    startActivity(intent)
+                if(selectedItem == "Service Location") {
+                    Log.i("try", "service location")
+                    startActivity(Intent(this@Settings, ChangeLocationSettings::class.java))
+                }
+                else if(selectedItem == "Preferred Providers") {
+                    Log.i("try", "preferred")
+                    startActivity(Intent(this@Settings, PreferredProvidersSettings::class.java))
                 }
             }
 

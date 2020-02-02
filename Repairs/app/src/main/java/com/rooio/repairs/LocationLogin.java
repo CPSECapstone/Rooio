@@ -3,7 +3,6 @@ package com.rooio.repairs;
 
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,36 +10,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import java.util.ArrayList;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
+import androidx.arch.core.util.Function;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
 
 public class LocationLogin extends RestApi implements AdapterView.OnItemClickListener {
 
-    EditText et;
     Button bt;
     ListView lv;
     TextView error_message;
@@ -61,7 +44,7 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
         getSupportActionBar().setCustomView(R.layout.action_bar);
         getSupportActionBar().setElevation(0);
 
-        bt = (Button) findViewById(R.id.add_location);
+        bt = (Button) findViewById(R.id.addLocation);
         lv = (ListView) findViewById(R.id.Service);
         error_message = (TextView) findViewById(R.id.Error_Messages);
 //        test = (TextView) findViewById(R.id.test);
@@ -73,30 +56,16 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
         incoming_name = incoming_intent.getStringExtra("result");
         if (incoming_name != null) {
 
-            //getPost here
-
             address_list.add(incoming_name);
             adapt();
             adapter.notifyDataSetChanged();
-            //     -- Example params initiations
-            HashMap<String, String> params = new HashMap<>();
-            params.put("physical_address", incoming_name);
-
-            requestPost(url, params, true);
-
-
-
         }
         else{
-            requestGetArray(url, true);
+            address_list.clear();
 
+            JsonRequest request = new JsonRequest(false, url, null, responseFunc, errorFunc, true);
+            requestGetJsonArray(request);
         }
-
-//        adapter = new ArrayAdapter<String>(LocationLogin.this, android.R.layout.simple_list_item_1, address_list);
-//        lv.setAdapter(adapter);
-
-        //Check for new addresses added from AddLocation Page
-
 
         //Launch listener for "Add New Location"
         onBtnClick();
@@ -105,11 +74,30 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
     }
 
+
+    public Function<Object,Void> responseFunc = (jsonResponse) -> {
+        try {
+            JSONArray jsonArray = (JSONArray) jsonResponse;
+            addElements(jsonArray);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        adapt();
+        return null;
+    };
+
+
+    public Function<String,Void> errorFunc = (string) -> {
+        error_message.setText(string);
+        return null;
+    };
+
     public void onBtnClick() {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(LocationLogin.this, AddLocation.class);
+                Intent intent1 = new Intent(LocationLogin.this, AddLocationLogin.class);
                 startActivity(intent1);
             }
         });
@@ -126,128 +114,11 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
     }
 
-    public void requestPost(String url, HashMap<String, String> params, final boolean headersFlag) {
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-
-//     -- Example params initiations
-//        HashMap<String, String> params = new HashMap<>();
-//        params.put("username", username.getText().toString());
-//        params.put("password", password.getText().toString());
-
-//     -- Transforms params HashMap into Json Object
-        JSONObject jsonObject = new JSONObject(params);
-
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        JSONObject responseObj = response;
-
-//          TODO: ----->  Start specialized json handling function
-//                        test.setText("Yayyyyy");
-
-//                ----->
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        error_message.setText(error.toString());
-//          TODO: ----->  Error Handling functions
-
-
-//                ----->
-                    }
-                }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-
-//                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                if (headersFlag) {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
-                    return headers;
-
-//                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
-                } else {
-                    return Collections.emptyMap();
-                }
-            }
-        };
-
-//  --> Equivalent of sending the request. Required to WORK...
-        queue.add(jsonObjectRequest);
-
-    }
-
-    public void requestGetArray(String url, final boolean headersFlag) {
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-
-        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        JSONArray responseObj = response;
-
-//          TODO: ----->  Start specialized json handling function
-                        try {
-                            addElements(responseObj);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        adapt();
-                        //test.setText(responseObj.toString());
-//                ----->
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-//          TODO: ----->  Error Handling functions
-
-                        error_message.setText(error.toString());
-
-//                        test.setText("Token: " + getUserToken() + "\n" + error.toString());
-
-//                ----->
-                    }
-                }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-
-//                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                if (headersFlag) {
-
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
-                    return headers;
-
-//                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
-                } else {
-                    return Collections.emptyMap();
-                }
-            }
-        };
-
-//  --> Equivalent of sending the request. Required to WORK...
-        queue.add(jsonObjectRequest);
-
-    }
-
     public void addElements(JSONArray response) throws JSONException {
         for (int i = 0; i < response.length(); i++) {
             JSONObject restaurant = response.getJSONObject(i);
             String physical_address = (String) restaurant.get("physical_address");
             address_list.add(physical_address);
-
         }
     }
 

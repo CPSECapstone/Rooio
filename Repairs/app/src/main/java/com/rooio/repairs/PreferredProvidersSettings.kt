@@ -9,7 +9,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import java.util.ArrayList
 
-class PreferredProvidersSetting  : NavigationBar() {
+class PreferredProvidersSettings  : NavigationBar() {
 
     internal lateinit var serviceProvidersListView: ListView
     lateinit var addButton: TextView
@@ -50,6 +50,10 @@ class PreferredProvidersSetting  : NavigationBar() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString()
+                if(selectedItem == "Service Location") {
+                    startActivity(Intent(this@PreferredProvidersSettings, ChangeLocationSettings::class.java))
+                }
             }
 
         }
@@ -111,12 +115,14 @@ class PreferredProvidersSetting  : NavigationBar() {
         }
 
         val customAdapter = CustomAdapter(this, preferredProviders)
-        serviceProvidersListView.setAdapter(customAdapter)
+        if(preferredProviders.isEmpty().not()){
+            serviceProvidersListView.setAdapter(customAdapter)
+        }
     }
 
     private fun onAddClick() {
         addButton.setOnClickListener{
-            val intent = Intent(this@PreferredProvidersSetting, AddPreferredProvidersSetting::class.java)
+            val intent = Intent(this@PreferredProvidersSettings, AddPreferredProvidersSettings::class.java)
             startActivity(intent);
         }
     }

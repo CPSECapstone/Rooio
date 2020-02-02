@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/greenBar"
-            android:layout_width="82dp"
-            android:layout_height="4dp"
+            android:layout_width="75dp"
+            android:layout_height="3dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +44,7 @@
         <ListView
             android:id="@+id/list"
             android:layout_width="750dp"
-            android:layout_height="200dp"
+            android:layout_height="205dp"
             android:divider="@drawable/blank_border"
             android:dividerHeight="10dp"
             android:footerDividersEnabled="false"
