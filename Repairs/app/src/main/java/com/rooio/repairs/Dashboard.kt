@@ -45,13 +45,19 @@ class Dashboard : NavigationBar() {
         //changing the width of the notableJobs and newJobRequest
         val notableJobs = viewGroup.findViewById<ViewGroup>(R.id.notableJobs)
         val newJobRequest = viewGroup.findViewById<ViewGroup>(R.id.newJobRequest)
+        val allJobs = viewGroup.findViewById<ViewGroup>(R.id.allJobs)
+
 
         TransitionManager.beginDelayedTransition(viewGroup)
         val boxParams1 = notableJobs.layoutParams
         val boxParams2 = newJobRequest.layoutParams
+        val boxParams3 = allJobs.layoutParams
+
         val p2 = if (boolean) 1004 else 803
         boxParams1.width = p2
         boxParams2.width = p2
+        boxParams3.width = p2
+
 
         //calling the transitions
         notableJobs.layoutParams = boxParams1
