@@ -1,6 +1,7 @@
 package com.rooio.repairs;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.arch.core.util.Function;
 
 import com.google.android.material.textfield.TextInputEditText;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -43,8 +47,10 @@ public class AddLocationLogin extends RestApi {
         add_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String result = new_address.getText().toString();
+                errorMessage.setTextColor(Color.parseColor("#A6A9AC"));
+                errorMessage.setText("Loading");
 
+                String result = new_address.getText().toString();
                 if (!result.equals("")){
                     //     -- Example params initiations
                     HashMap<String, Object> params = new HashMap<>();
@@ -53,11 +59,8 @@ public class AddLocationLogin extends RestApi {
                     JsonRequest request = new JsonRequest(false, url, params, responseFunc1, errorFunc, true);
                     requestPostJsonObj(request);
 
-                    Intent intent = new Intent(AddLocationLogin.this, LocationLogin.class);
-                    intent.putExtra("result", result);
-                    startActivity(intent);
-
                 } else {
+                    errorMessage.setTextColor(Color.parseColor("#E4E40B0B"));
                     errorMessage.setText("Invalid Address");
                 }
             }
@@ -79,9 +82,28 @@ public class AddLocationLogin extends RestApi {
         });
     }
 
-    public Function<Object,Void> responseFunc1 = (jsonObj) -> null;
+    public Function<Object,Void> responseFunc1 = (jsonObj) -> {
+        JSONObject responseObj = (JSONObject) jsonObj;
+        String address = null;
+        String id = null;
+
+        try {
+            address = responseObj.getString("physical_address");
+            id = responseObj.getString("id");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Intent intent = new Intent(AddLocationLogin.this, LocationLogin.class);
+        intent.putExtra("address", address);
+        intent.putExtra("id", id);
+        startActivity(intent);
+        return null;
+    };
 
     public Function<String,Void> errorFunc = (string) -> {
+        errorMessage.setTextColor(Color.parseColor("#E4E40B0B"));
         errorMessage.setText("Invalid Address");
         return null;
     };

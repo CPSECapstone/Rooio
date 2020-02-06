@@ -2,8 +2,6 @@ package com.rooio.repairs;
 
 
 
-import androidx.appcompat.app.ActionBar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.arch.core.util.Function;
 
 import org.json.JSONArray;
@@ -21,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class LocationLogin extends RestApi implements AdapterView.OnItemClickListener {
 
@@ -31,9 +31,11 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
     ArrayAdapter<String> adapter;
 
     //TextView test;
-    static ArrayList<String> address_list = new ArrayList<String>();
+    static ArrayList<String> address_list = new ArrayList<>();
+    static HashMap<String, String> locationIds = new HashMap<>();
 
-    String incoming_name = null;
+    String incoming_address = null;
+    String incoming_id = null;
 
 
     @Override
@@ -53,15 +55,19 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
         //New Address Recieved
         Intent incoming_intent = getIntent();
-        incoming_name = incoming_intent.getStringExtra("result");
-        if (incoming_name != null) {
+        incoming_address = incoming_intent.getStringExtra("address");
+        if (incoming_address != null) {
 
-            address_list.add(incoming_name);
+            incoming_id = incoming_intent.getStringExtra("id");
+            locationIds.put(incoming_address, incoming_id);
+
+            address_list.add(incoming_address);
             adapt();
             adapter.notifyDataSetChanged();
         }
         else{
             address_list.clear();
+            locationIds.clear();
 
             JsonRequest request = new JsonRequest(false, url, null, responseFunc, errorFunc, true);
             requestGetJsonArray(request);
@@ -107,7 +113,11 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         TextView tv = (TextView) view;
-        Toast.makeText(this, "You chose " + tv.getText() + position, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "You chose " + tv.getText() + " " + position, Toast.LENGTH_SHORT).show();
+
+        setUserLocationID(locationIds.get(tv.getText()));
+
+        error_message.setText(getUserLocationID());
 
         Intent intent1 = new Intent(LocationLogin.this, PreferredProvidersLogin.class);
         startActivity(intent1);
@@ -117,8 +127,10 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
     public void addElements(JSONArray response) throws JSONException {
         for (int i = 0; i < response.length(); i++) {
             JSONObject restaurant = response.getJSONObject(i);
-            String physical_address = (String) restaurant.get("physical_address");
+            String physical_address = restaurant.getString("physical_address");
             address_list.add(physical_address);
+
+            locationIds.put(physical_address, restaurant.getString("id"));
         }
     }
 
