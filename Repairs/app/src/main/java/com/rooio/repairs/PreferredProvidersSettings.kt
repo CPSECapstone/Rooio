@@ -52,7 +52,11 @@ class PreferredProvidersSettings  : NavigationBar() {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
                 if(selectedItem == "Service Location") {
-                    startActivity(Intent(this@PreferredProvidersSettings, ChangeLocationSettings::class.java))
+                      val spinner: Spinner = findViewById(R.id.settings_spinner)
+                      spinner.onItemSelectedListener = this
+                      val mIntent = Intent(this@PreferredProvidersSettings, LocationSettings::class.java)
+                      mIntent.putExtra("UniqueKey", position)
+                      startActivity(mIntent)
                 }
             }
 
