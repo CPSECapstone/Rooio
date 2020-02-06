@@ -103,7 +103,6 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
         });
     }
 
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         TextView tv = (TextView) view;
@@ -111,7 +110,6 @@ public class LocationLogin extends RestApi implements AdapterView.OnItemClickLis
 
         Intent intent1 = new Intent(LocationLogin.this, PreferredProvidersLogin.class);
         startActivity(intent1);
-
     }
 
     public void addElements(JSONArray response) throws JSONException {

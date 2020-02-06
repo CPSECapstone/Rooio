@@ -5,7 +5,7 @@
     android:id="@+id/equipmentPageConstraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ECF0F1"
+    android:background="#00ECF0F1"
     tools:context=".Equipment">
 
 
@@ -25,33 +25,28 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/equipmentConstraint"
-        android:layout_width="606dp"
+        android:layout_width="406dp"
         android:layout_height="1077dp"
         android:background="@drawable/shadow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
 
-        <ScrollView
-            android:id="@+id/equipmentScroll"
-            android:layout_width="606dp"
-            android:layout_height="930dp"
-            android:background="@color/common_google_signin_btn_text_dark_default"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <ListView
+            android:id="@+id/equipmentList"
+            android:layout_width="378dp"
+            android:layout_height="807dp"
+            android:background="#00E63528"
+            android:divider="@drawable/blank_border"
+            app:layout_constraintBottom_toTopOf="@+id/nav_divider2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.506"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
+            app:layout_constraintVertical_bias="0.88" />
 
         <ImageView
             android:id="@+id/nav_divider2"
@@ -61,7 +56,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.867"
+            app:layout_constraintVertical_bias="0.898"
             app:srcCompat="@color/colorGray" />
 
         <Button
@@ -78,7 +73,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/equipmentScroll" />
+            app:layout_constraintTop_toBottomOf="@+id/nav_divider2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

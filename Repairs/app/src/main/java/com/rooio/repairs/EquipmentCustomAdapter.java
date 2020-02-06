@@ -1,25 +1,24 @@
 package com.rooio.repairs;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-class CustomAdapter implements ListAdapter {
-    ArrayList<ServiceProviderData> arrayList;
+class EquipmentCustomAdapter implements ListAdapter {
+    ArrayList<EquipmentData> arrayList;
+    ArrayList<String> locations = new ArrayList<>();
     Context context;
 
-    public CustomAdapter(Context context, ArrayList<ServiceProviderData> preferredProviders) {
-        this.arrayList = preferredProviders;
+    public EquipmentCustomAdapter(Context context, ArrayList<EquipmentData> equipment) {
+        this.arrayList = equipment;
         this.context = context;
     }
 
@@ -58,17 +57,21 @@ class CustomAdapter implements ListAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ServiceProviderData data = arrayList.get(position);
+        EquipmentData data = arrayList.get(position);
         if(convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
-            convertView = layoutInflater.inflate(R.layout.list_row, null);
+            convertView = layoutInflater.inflate(R.layout.equipment_list_item, parent, false);
+            TextView location = convertView.findViewById(R.id.location);
+            if(!locations.contains(data.location)){
+                location.setText(data.location.toUpperCase());
+                locations.add(data.location);
+                Log.i("try", locations.get(0));
+            }
+            else
+                location.setVisibility(View.GONE);
             TextView tittle = convertView.findViewById(R.id.title);
-            ImageView imag = convertView.findViewById(R.id.list_image);
-            String name = "               " + data.name;
-            tittle.setText(name);
-            Picasso.with(context)
-                    .load(data.image)
-                    .into(imag);
+            tittle.setText(data.name);
+
         }
         return convertView;
     }

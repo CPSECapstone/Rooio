@@ -1,15 +1,28 @@
 package com.rooio.repairs
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
+import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.transition.TransitionManager
+import org.json.JSONArray
+import org.json.JSONException
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class Equipment : NavigationBar() {
+
+    var equipmentListView: ListView? = null
+    private val equipmentList = ArrayList<EquipmentData>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_equipment_1)
+        setContentView(R.layout.activity_equipment_2)
 
         //sets the navigation bar onto the page
         val nav_inflater = layoutInflater
@@ -19,7 +32,6 @@ class Equipment : NavigationBar() {
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
         //sets the action bar onto the page
-
         val actionbar_inflater = layoutInflater
         val poopView = actionbar_inflater.inflate(R.layout.action_bar, null)
         window.addContentView(poopView,
@@ -27,14 +39,51 @@ class Equipment : NavigationBar() {
 
         supportActionBar!!.elevation = 0.0f
 
-
+        //making navigation bar w/ Equipment text highlighted
         createNavigationBar("equipment")
+
+        equipmentListView = findViewById<View>(R.id.equipmentList) as ListView
+
+
+        //get equipment
+        loadEquipment();
+    }
+
+    private fun loadEquipment() {
+        //val url = "https://capstone.api.roopairs.com/v0/service-locations/" + getUserLocationID().toString() + "/equipment/"
+        val url = "https://capstone.api.roopairs.com/v0/service-locations/QPKrjKN/equipment/"
+
+        var responseFunc = Function<Any, Void?> { jsonResponse: Any? ->
+            try {
+                val jsonArray = jsonResponse as JSONArray
+                loadElements(jsonArray)
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+            null
+        }
+
+        var errorFunc = Function<String, Void?> { string: String? ->
+            null
+        }
+
+        val request = JsonRequest(false, url, null, responseFunc, errorFunc, true)
+        requestGetJsonArray(request)
+    }
+
+
+    private fun loadElements(response: JSONArray) {
+        equipmentList.clear()
+        for (i in 0 until response.length()) {
+            val equipment = EquipmentData(response.getJSONObject(i))
+            equipmentList.add(equipment);
+        }
+
+        val customAdapter = EquipmentCustomAdapter(this, equipmentList)
+        if (equipmentList?.size != 0) equipmentListView!!.adapter = customAdapter
     }
 
     override fun animateActivity(boolean: Boolean){
-        val equipmentScroll = findViewById<ViewGroup>(R.id.equipmentScroll)
-        TransitionManager.beginDelayedTransition(equipmentScroll)
-
         val pageConstraint = findViewById<ConstraintLayout>(R.id.equipmentPageConstraint)
 
         val constraintSet1 = ConstraintSet()
