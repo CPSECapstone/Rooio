@@ -37,8 +37,8 @@
 
         <ListView
             android:id="@+id/equipmentList"
-            android:layout_width="378dp"
-            android:layout_height="807dp"
+            android:layout_width="363dp"
+            android:layout_height="810dp"
             android:background="#00E63528"
             android:divider="@drawable/blank_border"
             app:layout_constraintBottom_toTopOf="@+id/nav_divider2"

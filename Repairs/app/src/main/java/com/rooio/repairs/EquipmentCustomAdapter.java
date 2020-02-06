@@ -65,7 +65,6 @@ class EquipmentCustomAdapter implements ListAdapter {
             if(!locations.contains(data.location)){
                 location.setText(data.location.toUpperCase());
                 locations.add(data.location);
-                Log.i("try", locations.get(0));
             }
             else
                 location.setVisibility(View.GONE);
