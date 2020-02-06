@@ -50,11 +50,11 @@ public class AddLocationLogin extends RestApi {
                 errorMessage.setTextColor(Color.parseColor("#A6A9AC"));
                 errorMessage.setText("Loading");
 
-                String result = new_address.getText().toString();
-                if (!result.equals("")){
+                String inputted_address = new_address.getText().toString();
+                if (!inputted_address.equals("")){
                     //     -- Example params initiations
                     HashMap<String, Object> params = new HashMap<>();
-                    params.put("physical_address", result);
+                    params.put("physical_address", inputted_address);
 
                     JsonRequest request = new JsonRequest(false, url, params, responseFunc1, errorFunc, true);
                     requestPostJsonObj(request);
