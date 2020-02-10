@@ -1,8 +1,9 @@
 package com.rooio.repairs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
-import android.util.Log;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,8 +69,20 @@ class EquipmentCustomAdapter implements ListAdapter {
             }
             else
                 location.setVisibility(View.GONE);
-            TextView tittle = convertView.findViewById(R.id.title);
-            tittle.setText(data.name);
+            TextView equipmentName = convertView.findViewById(R.id.equipmentItem);
+            equipmentName.setText(data.name);
+
+            equipmentName.setTag(data);
+            equipmentName.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    equipmentName.setBackgroundResource(R.drawable.green_button_border);
+                    equipmentName.setTextColor(Color.parseColor("#00CA8F"));
+
+                }
+            });
+
 
         }
         return convertView;

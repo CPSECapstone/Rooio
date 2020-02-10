@@ -91,7 +91,7 @@
             tools:visibility="invisible" />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/providerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"

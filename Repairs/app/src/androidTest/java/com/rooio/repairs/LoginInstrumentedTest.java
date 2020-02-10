@@ -16,7 +16,6 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.junit.Assert.*;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -32,7 +31,7 @@ public class LoginInstrumentedTest {
 
     @Test
     public void testLaunchActivity() {
-        onView(withId(R.id.title)).check(matches(withText("Connect your account")));
+        onView(withId(R.id.equipment)).check(matches(withText("Connect your account")));
         onView(withId(R.id.cancelLogin)).check(matches(withText("Cancel")));
         onView(withId(R.id.connectAccount)).check(matches(withText("Connect Account")));
     }

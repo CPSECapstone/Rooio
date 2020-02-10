@@ -69,7 +69,7 @@
             app:layout_constraintVertical_bias="0.8" />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/providerName"
             android:layout_width="321dp"
             android:layout_height="37dp"
             android:text="@string/service_location"
