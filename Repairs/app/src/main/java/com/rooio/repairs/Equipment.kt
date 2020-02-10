@@ -1,10 +1,8 @@
 package com.rooio.repairs
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ListView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -23,16 +21,16 @@ class Equipment : NavigationBar() {
         setContentView(R.layout.activity_equipment_2)
 
         //sets the navigation bar onto the page
-        val nav_inflater = layoutInflater
-        val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
+        val navInflater = layoutInflater
+        val tmpView = navInflater.inflate(R.layout.activity_navigation_bar, null)
 
         window.addContentView(tmpView,
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
         //sets the action bar onto the page
-        val actionbar_inflater = layoutInflater
-        val poopView = actionbar_inflater.inflate(R.layout.action_bar, null)
-        window.addContentView(poopView,
+        val actionbarInflater = layoutInflater
+        val actionbarView = actionbarInflater.inflate(R.layout.action_bar, null)
+        window.addContentView(actionbarView,
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
         supportActionBar!!.elevation = 0.0f
