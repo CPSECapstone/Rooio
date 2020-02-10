@@ -78,7 +78,7 @@ class AddPreferredProvidersSettings  : NavigationBar() {
         params["phone"] = phoneInput
 
         val responseFunc = { jsonArray : JSONArray ->
-            startActivity(Intent(this@AddPreferredProvidersSettings, PreferredProvidersLogin::class.java))
+            startActivity(Intent(this@AddPreferredProvidersSettings, PreferredProvidersSettings::class.java))
             null
         }
 

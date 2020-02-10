@@ -20,6 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".PreferredProviderDetails">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".LocationSettings">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -119,6 +126,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddPreferredProvidersSettings">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".NavigationBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

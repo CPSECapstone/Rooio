@@ -8,6 +8,7 @@ import android.widget.*
 import org.json.JSONArray
 import org.json.JSONException
 import java.util.ArrayList
+import java.util.HashMap
 
 class PreferredProvidersSettings  : NavigationBar() {
 
@@ -77,6 +78,19 @@ class PreferredProvidersSettings  : NavigationBar() {
         loadPreferredProviders()
 
         onAddClick();
+
+        serviceProvidersListView.setOnItemClickListener{ parent, view, position, id ->
+             addDetails2(position)
+    }
+
+    }
+
+    private fun addDetails2(position: Int) {
+        val id = preferredProviders[position].id.toString()
+        val listIntent = Intent(this@PreferredProvidersSettings, PreferredProviderDetails::class.java)
+        listIntent.putExtra("addedProvider", id)
+        startActivity(listIntent)
+
     }
 
     fun loadPreferredProviders() {
@@ -106,6 +120,7 @@ class PreferredProvidersSettings  : NavigationBar() {
         for (i in 0 until response.length()) {
             val restaurant = response.getJSONObject(i)
             val name = restaurant.get("name") as String
+            val id = restaurant.get("id") as Int
             var image = ""
             try {
                 image = restaurant.get("logo") as String
@@ -113,7 +128,7 @@ class PreferredProvidersSettings  : NavigationBar() {
                 // if there is no logo for the service provider
                 image = "http://rsroemani.com/rv2/wp-content/themes/rsroemani/images/no-user.jpg"
             } finally {
-                val serviceProviderData = ServiceProviderData(name, image)
+                val serviceProviderData = ServiceProviderData(name, image, id)
                 preferredProviders.add(serviceProviderData)
             }
         }
@@ -130,6 +145,7 @@ class PreferredProvidersSettings  : NavigationBar() {
             startActivity(intent);
         }
     }
+
 
     override fun animateActivity(boolean: Boolean)
     {

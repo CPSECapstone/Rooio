@@ -58,13 +58,14 @@ class PreferredProvidersLogin : RestApi() {
         for (i in 0 until response.length()) {
             val restaurant = response.getJSONObject(i)
             val name = restaurant["name"] as String
+            val id = restaurant.get("id") as Int
             var image = ""
             try {
                 image = restaurant["logo"] as String
             } catch (e: Exception) { // if there is no logo for the service provider
                 image = "http://rsroemani.com/rv2/wp-content/themes/rsroemani/images/no-user.jpg"
             } finally {
-                val serviceProviderData = ServiceProviderData(name, image)
+                val serviceProviderData = ServiceProviderData(name, image, id)
                 preferredProviders.add(serviceProviderData)
             }
         }

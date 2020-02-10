@@ -1,26 +1,16 @@
 package com.rooio.repairs
 
-import android.content.Context
+
 import android.content.Intent
-import android.graphics.drawable.Icon
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.transition.TransitionManager
 
-import android.content.res.ColorStateList
 import android.graphics.Color
-import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
-import androidx.annotation.ColorRes
-
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat.setTint
-import androidx.core.widget.ImageViewCompat
-import java.text.AttributedString
 
 
 abstract class NavigationBar : RestApi() {
@@ -106,24 +96,35 @@ abstract class NavigationBar : RestApi() {
         }
 
         dashboardImage.setOnClickListener{
-            //TransitionManager.beginDelayedTransition(transitionsContainer)
-            val myintent = Intent(this, Dashboard::class.java)
-            startActivity(myintent)
+            startActivity(Intent(this, Dashboard::class.java))
+        }
+
+        dashboardText.setOnClickListener{
+            startActivity(Intent(this, Dashboard::class.java))
         }
 
         settingsImage.setOnClickListener{
-            //TransitionManager.beginDelayedTransition(transitionsContainer)
+            startActivity(Intent( this, Settings::class.java))
+        }
+
+        settingsText.setOnClickListener{
             startActivity(Intent( this, Settings::class.java))
         }
 
         equipmentImage.setOnClickListener{
-            //TransitionManager.beginDelayedTransition(transitionsContainer)
             startActivity(Intent ( this, Equipment::class.java))
         }
 
+        equipmentText.setOnClickListener{
+            startActivity(Intent( this, Equipment::class.java))
+        }
+
         jobsImage.setOnClickListener{
-            //TransitionManager.beginDelayedTransition(transitionsContainer)
             startActivity(Intent ( this, Jobs::class.java))
+        }
+
+        jobsText.setOnClickListener{
+            startActivity(Intent( this, Jobs::class.java))
         }
 
 
