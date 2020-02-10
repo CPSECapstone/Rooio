@@ -35,10 +35,10 @@ public class AddLocationInstrumentedTest {
     public void testLaunchActivity() {
         onView(withId(R.id.title)).check(matches(withText("Service Location")));
         onView(withId(R.id.textView7)).check(matches(withText("ADDRESS")));
-//        onView(withId(R.id.cancel)).check()
+        onView(withId(R.id.add_location)).check(matches(withText("Add Location")));
+        onView(withId(R.id.cancel)).check(matches(withText("Cancel")));
     }
 
-    
     @Test
     public void testCancelButton() {
         onView(withId(R.id.cancel)).perform(click());
