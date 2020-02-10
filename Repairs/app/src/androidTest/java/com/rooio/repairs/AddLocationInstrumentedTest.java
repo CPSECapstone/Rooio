@@ -26,8 +26,10 @@ package com.rooio.repairs;
 @LargeTest
 public class AddLocationInstrumentedTest {
 
+
     @Rule
     public IntentsTestRule<AddLocationLogin> intentRule = new IntentsTestRule<>(AddLocationLogin.class);
+
 
     @Test
     public void testLaunchActivity() {
@@ -36,6 +38,7 @@ public class AddLocationInstrumentedTest {
 //        onView(withId(R.id.cancel)).check()
     }
 
+    
     @Test
     public void testCancelButton() {
         onView(withId(R.id.cancel)).perform(click());

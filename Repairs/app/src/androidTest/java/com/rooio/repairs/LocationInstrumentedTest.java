@@ -22,8 +22,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @LargeTest
 public class LocationInstrumentedTest {
 
+
     @Rule
     public IntentsTestRule<LocationLogin> intentRule = new IntentsTestRule<>(LocationLogin.class);
+
 
     @Test
     public void testLaunchActivity() {
@@ -33,10 +35,15 @@ public class LocationInstrumentedTest {
 
     }
 
+    /*
     @Test
     public void testCancelButton() {
         //onView(withId(R.id.addLocation)).perform(click());
         //intended(hasComponent(AddLocationLogin.class.getName()));
     }
+
+     */
+
+
 
 }
