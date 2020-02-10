@@ -8,15 +8,17 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
+import androidx.constraintlayout.widget.ConstraintLayout
 import org.json.JSONArray
 import org.json.JSONException
 import java.util.*
 
 class PreferredProvidersLogin : RestApi() {
-    var addButton: TextView? = null
-    var doneButton: Button? = null
-    var serviceProvidersListView: ListView? = null
-    var error: TextView? = null
+    private var addButton: TextView? = null
+    private var doneButton: Button? = null
+    private var serviceProvidersListView: ListView? = null
+    private var error: TextView? = null
+    private var providerBox: ConstraintLayout? = null
     private val preferredProviders = ArrayList<ServiceProviderData>()
 
 
@@ -30,12 +32,13 @@ class PreferredProvidersLogin : RestApi() {
         doneButton = findViewById<View>(R.id.Done) as Button
         serviceProvidersListView = findViewById<View>(R.id.list) as ListView
         error = findViewById<View>(R.id.error) as TextView
+        providerBox = findViewById<View>(R.id.providerBox) as ConstraintLayout
         loadPreferredProviders()
         onAddClick()
         onDoneClick()
     }
 
-    fun loadPreferredProviders() {
+    private fun loadPreferredProviders() {
         val url = "https://capstone.api.roopairs.com/v0/service-providers/"
         val responseFunc = Function<JSONArray, Void?> { jsonArray: JSONArray ->
             try {
@@ -66,6 +69,15 @@ class PreferredProvidersLogin : RestApi() {
             } finally {
                 val serviceProviderData = ServiceProviderData(name, image)
                 preferredProviders.add(serviceProviderData)
+                if (i > 1) {
+                    val params = providerBox!!.layoutParams
+                    params.height += 105
+                    providerBox!!.layoutParams = params
+                    val size = serviceProvidersListView!!.layoutParams
+                    size.height += 105
+                    serviceProvidersListView!!.layoutParams = size
+                }
+                //providerBox!!.translationY += 200
             }
         }
 
@@ -73,11 +85,11 @@ class PreferredProvidersLogin : RestApi() {
         if (preferredProviders.size != 0) serviceProvidersListView!!.adapter = customAdapter
     }
 
-    fun onAddClick() {
+    private fun onAddClick() {
         addButton!!.setOnClickListener { startActivity(Intent(this@PreferredProvidersLogin, AddPreferredProvidersLogin::class.java)) }
     }
 
-    fun onDoneClick() {
+    private fun onDoneClick() {
         doneButton!!.setOnClickListener { startActivity(Intent(this@PreferredProvidersLogin, Dashboard::class.java)) }
     }
 }

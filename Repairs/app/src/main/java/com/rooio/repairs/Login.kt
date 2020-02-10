@@ -3,7 +3,6 @@ package com.rooio.repairs
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -50,13 +49,7 @@ class Login : RestApi() {
             params["password"] = passwordField!!.text.toString()
             errorMessage!!.setTextColor(Color.parseColor("#A6A9AC"))
             errorMessage!!.text = "Loading"
-            val request = JsonRequest(
-                    false,
-                    url,
-                    params,
-                    responseFunc,
-                    errorFunc,
-                    false)
+            val request = JsonRequest(false, url, params, responseFunc, errorFunc, false)
             sendLoginInfo(Volley.newRequestQueue(applicationContext), request,
                     createJsonObjectRequest(createJsonParams(request), request))
         }
@@ -72,9 +65,6 @@ class Login : RestApi() {
         try {
             errorMessage!!.text = ""
             storeToken(jsonObj)
-            val jsonResponseObject = jsonObj as JSONObject
-            val token = jsonResponseObject.get("token") as String
-            userToken = token
             startActivity(Intent(this@Login, LocationLogin::class.java))
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -82,7 +72,7 @@ class Login : RestApi() {
         null
     }
     @JvmField
-    var errorFunc = Function<String, Void?> { string: String? ->
+    var errorFunc = Function<String, Void?> {
         errorMessage!!.setTextColor(Color.parseColor("#E4E40B0B"))
         errorMessage!!.setText(R.string.errorLogin)
         null
@@ -91,6 +81,9 @@ class Login : RestApi() {
     // -- Example Json handling function
     @Throws(JSONException::class)
     fun storeToken(responseObj: Any) {
+        val jsonResponseObject = responseObj as JSONObject
+        val token = jsonResponseObject.get("token") as String
+        userToken = token
     }
 
     // Sends username and password to the API and loads the next screen.
