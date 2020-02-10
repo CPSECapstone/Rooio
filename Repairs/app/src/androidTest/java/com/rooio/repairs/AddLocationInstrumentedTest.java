@@ -41,7 +41,7 @@ public class AddLocationInstrumentedTest {
     /*
     @Test
     public void testCancelButton() {
-        onView(withId(R.id.addLocation)).perform(click());
+        onView(withId(R.id.cancel)).perform(click());
         intended(hasComponent(LocationLogin.class.getName()));
     }
 

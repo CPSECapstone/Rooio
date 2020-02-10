@@ -44,7 +44,7 @@ class AddPreferredProvidersLogin : RestApi() {
         addButton!!.setOnClickListener {
             error!!.text = ""
             phoneInput = newProvider!!.text.toString()
-            if (!phoneInput!!.isEmpty() && phoneInput!!.length >= 10) checkIfAlreadyAdded(phoneInput!!) else error!!.text = "Please enter a valid phone number."
+            if (!phoneInput!!.isEmpty() && (phoneInput!!.length == 10 || phoneInput!!.length == 9)) checkIfAlreadyAdded(phoneInput!!) else error!!.text = "Please enter a valid phone number."
         }
     }
 
