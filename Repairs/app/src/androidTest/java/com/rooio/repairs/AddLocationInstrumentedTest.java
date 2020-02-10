@@ -33,13 +33,20 @@ public class AddLocationInstrumentedTest {
     public void testLaunchActivity() {
         onView(withId(R.id.title)).check(matches(withText("Service Location")));
         onView(withId(R.id.textView7)).check(matches(withText("ADDRESS")));
-
+//        onView(withId(R.id.cancel)).check()
     }
 
     @Test
     public void testCancelButton() {
-        onView(withId(R.id.addLocation)).perform(click());
+        onView(withId(R.id.cancel)).perform(click());
         intended(hasComponent(LocationLogin.class.getName()));
+    }
+
+    @Test
+    public void testBlankErrorMsg(){
+        onView(withId(R.id.add_location)).perform(click());
+        onView(withId(R.id.errorMessage)).check(matches(withText("Invalid Address")));
+
     }
 
 }

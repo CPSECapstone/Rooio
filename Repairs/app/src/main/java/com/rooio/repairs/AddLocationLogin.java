@@ -65,13 +65,8 @@ public class AddLocationLogin extends RestApi {
                 }
             }
         });
-        onCancel();
     }
 
-    private void onCancel() {
-        backButton.setOnClickListener(view ->
-                startActivity(new Intent(AddLocationLogin.this, LocationLogin.class)));
-    }
 
     private void onBackClick() {
         backButton.setOnClickListener(new View.OnClickListener() {
