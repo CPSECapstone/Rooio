@@ -46,6 +46,8 @@ public abstract class RestApi extends AppCompatActivity {
         this.userLocationID = userLocationID;
     }
 
+
+
 //--------------------------------------------------------------------------------------------------
 
     private void addToVolleyQueue(JsonObjectRequest request){
@@ -73,6 +75,52 @@ public abstract class RestApi extends AppCompatActivity {
         }
 
         return errorMsg;
+    }
+
+    public JSONObject createJsonParams(JsonRequest req) {
+        return new JSONObject(req.getParams());
+    }
+
+    public JsonObjectRequest createJsonObjectRequest(JSONObject jsonParams, JsonRequest req) {
+        String url = req.getUrl();
+        Function<Object, Void> responseFunc = req.getResponseFunc();
+        Function<String, Void> errorFunc = req.getErrorFunc();
+        boolean headersFlag = req.getHeadersFlag();
+
+        return new JsonObjectRequest
+                (Request.Method.POST, url, jsonParams, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        responseFunc.apply(response);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        String errorMsg = errorMsgHandler(error);
+                        errorFunc.apply(errorMsg);
+                    }}) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+//                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+                if (headersFlag){
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
+                    return headers;
+
+//                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+                } else {
+                    return Collections.emptyMap();
+                }
+            }
+        };
+    }
+
+    public void requestPostJsonObj(RequestQueue que, JsonObjectRequest req) {
+        que.add(req);
     }
 
     public void requestPostJsonObj(JsonRequest req) {
