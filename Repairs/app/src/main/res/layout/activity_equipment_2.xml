@@ -19,62 +19,74 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/equipmentConstraint"
+        app:layout_constraintHorizontal_bias="0.556"
+        app:layout_constraintStart_toEndOf="@+id/equipmentBarConstraint"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.146" />
+        app:layout_constraintVertical_bias="0.1" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/equipmentConstraint"
-        android:layout_width="406dp"
-        android:layout_height="1077dp"
-        android:background="@drawable/shadow"
+        android:id="@+id/equipmentBarConstraint"
+        android:layout_width="652dp"
+        android:layout_height="954dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.16"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0">
 
-        <ListView
-            android:id="@+id/equipmentList"
-            android:layout_width="383dp"
-            android:layout_height="813dp"
-            android:background="#00E63528"
-            android:divider="@drawable/blank_border"
-            app:layout_constraintBottom_toTopOf="@+id/nav_divider2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.506"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.88" />
-
-        <ImageView
-            android:id="@+id/nav_divider2"
-            android:layout_width="610dp"
-            android:layout_height="2dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/equipmentConstraint"
+            android:layout_width="402dp"
+            android:layout_height="952dp"
+            android:background="@drawable/shadow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.898"
-            app:srcCompat="@color/colorGray" />
+            app:layout_constraintVertical_bias="0.033">
 
-        <Button
-            android:id="@+id/addEquipment"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="240dp"
-            android:layout_height="55dp"
-            android:background="@drawable/gray_button_border"
-            android:fontFamily="@font/nunito_sans"
-            android:text="Add Equipment"
-            android:textAllCaps="false"
-            android:textColor="#919191"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nav_divider2" />
+            <ListView
+                android:id="@+id/equipmentList"
+                android:layout_width="358dp"
+                android:layout_height="807dp"
+                android:background="#00E63528"
+                android:divider="@drawable/blank_border"
+                app:layout_constraintBottom_toTopOf="@+id/nav_divider2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.055" />
 
+            <ImageView
+                android:id="@+id/nav_divider2"
+                android:layout_width="610dp"
+                android:layout_height="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.869"
+                app:srcCompat="@color/colorGray" />
+
+            <Button
+                android:id="@+id/addEquipment"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="240dp"
+                android:layout_height="55dp"
+                android:background="@drawable/gray_button_border"
+                android:fontFamily="@font/nunito_sans"
+                android:text="Add Equipment"
+                android:textAllCaps="false"
+                android:textColor="#919191"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nav_divider2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline

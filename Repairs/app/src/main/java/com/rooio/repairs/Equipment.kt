@@ -77,7 +77,7 @@ class Equipment : NavigationBar() {
     }
 
     override fun animateActivity(boolean: Boolean){
-        val pageConstraint = findViewById<ConstraintLayout>(R.id.equipmentPageConstraint)
+        /*val pageConstraint = findViewById<ConstraintLayout>(R.id.equipmentPageConstraint)
 
         val constraintSet1 = ConstraintSet()
         constraintSet1.load(this, R.layout.activity_equipment_1)
@@ -89,5 +89,16 @@ class Equipment : NavigationBar() {
         val constraint = if (boolean) constraintSet1 else constraintSet2
 
         constraint.applyTo(pageConstraint)
+        */
+        val pageConstraint = findViewById<ConstraintLayout>(R.id.equipmentPageConstraint)
+
+        val equipment = pageConstraint.findViewById<ConstraintLayout>(R.id.equipmentBarConstraint)
+
+        TransitionManager.beginDelayedTransition(pageConstraint)
+        val params = equipment.layoutParams
+        val change = if (boolean) 471 else 654
+        params.width = change
+
+        equipment.layoutParams = params
     }
 }
