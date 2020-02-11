@@ -42,7 +42,6 @@ class EquipmentCustomAdapter implements ListAdapter {
     @Override
     public void unregisterDataSetObserver(DataSetObserver observer) {
     }
-
     @Override
     public int getCount() {
         return arrayList.size();
@@ -110,8 +109,6 @@ class EquipmentCustomAdapter implements ListAdapter {
                     equipmentAnalytics.setVisibility(v.VISIBLE);
                 }
             });
-
-
         }
         return convertView;
     }
@@ -138,6 +135,7 @@ class EquipmentCustomAdapter implements ListAdapter {
         TextView lastServiceBy = constraintLayout.findViewById(R.id.lastServiceBy);
         lastServiceBy.setText(equipment.lastServiceBy);
     }
+
     @Override
     public int getItemViewType(int position) {
         return position;

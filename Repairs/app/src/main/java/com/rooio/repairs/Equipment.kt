@@ -75,10 +75,6 @@ class Equipment : NavigationBar() {
         if (equipmentList?.size != 0) equipmentListView!!.adapter = customAdapter
     }
 
-    fun onclickequipment(){
-
-    }
-
     override fun animateActivity(boolean: Boolean){
         val pageConstraint = findViewById<ConstraintLayout>(R.id.equipmentPageConstraint)
 
