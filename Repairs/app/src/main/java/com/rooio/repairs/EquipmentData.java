@@ -32,7 +32,5 @@ class EquipmentData {
             this.serviceCategory = jsonObject.getString("service_category");
         } catch (JSONException e) {
         }
-
     }
-
 }
