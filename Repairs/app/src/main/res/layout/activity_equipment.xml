@@ -26,8 +26,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/equipmentBarConstraint"
-        android:layout_width="652dp"
-        android:layout_height="954dp"
+        android:layout_width="649dp"
+        android:layout_height="946dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -37,20 +37,20 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/equipmentConstraint"
-            android:layout_width="402dp"
-            android:layout_height="952dp"
-            android:background="@drawable/shadow"
+            android:layout_width="403dp"
+            android:layout_height="943dp"
+            android:background="@color/common_google_signin_btn_text_dark_default"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.033">
+            app:layout_constraintVertical_bias="0.0">
 
             <ListView
                 android:id="@+id/equipmentList"
-                android:layout_width="358dp"
-                android:layout_height="807dp"
+                android:layout_width="363dp"
+                android:layout_height="785dp"
                 android:background="#00E63528"
                 android:divider="@drawable/blank_border"
                 app:layout_constraintBottom_toTopOf="@+id/nav_divider2"

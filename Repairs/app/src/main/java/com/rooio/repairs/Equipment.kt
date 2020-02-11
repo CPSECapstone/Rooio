@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ListView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.transition.TransitionManager
 import org.json.JSONArray
 import org.json.JSONException
@@ -18,7 +17,7 @@ class Equipment : NavigationBar() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_equipment_2)
+        setContentView(R.layout.activity_equipment)
 
         //sets the navigation bar onto the page
         val navInflater = layoutInflater
@@ -77,26 +76,13 @@ class Equipment : NavigationBar() {
     }
 
     override fun animateActivity(boolean: Boolean){
-        /*val pageConstraint = findViewById<ConstraintLayout>(R.id.equipmentPageConstraint)
-
-        val constraintSet1 = ConstraintSet()
-        constraintSet1.load(this, R.layout.activity_equipment_1)
-
-        val constraintSet2 = ConstraintSet()
-        constraintSet2.load(this, R.layout.activity_equipment_2)
-
-        TransitionManager.beginDelayedTransition(pageConstraint)
-        val constraint = if (boolean) constraintSet1 else constraintSet2
-
-        constraint.applyTo(pageConstraint)
-        */
         val pageConstraint = findViewById<ConstraintLayout>(R.id.equipmentPageConstraint)
 
         val equipment = pageConstraint.findViewById<ConstraintLayout>(R.id.equipmentBarConstraint)
 
         TransitionManager.beginDelayedTransition(pageConstraint)
         val params = equipment.layoutParams
-        val change = if (boolean) 471 else 654
+        val change = if (boolean) 463 else 649
         params.width = change
 
         equipment.layoutParams = params
