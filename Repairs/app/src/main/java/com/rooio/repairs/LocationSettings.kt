@@ -7,12 +7,22 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.TextView
+import androidx.arch.core.util.Function
+import org.json.JSONObject
+import java.util.*
 
 class LocationSettings  : NavigationBar() {
+
+    private var curLocation: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_settings)
+
+        //Location text view
+        curLocation = findViewById(R.id.CurrLocation)
+        getCurrLocation()
 
         //sets the navigation bar onto the page
         val navInflater = layoutInflater
@@ -64,8 +74,33 @@ class LocationSettings  : NavigationBar() {
         }
     }
 
-        override fun animateActivity(boolean: Boolean)
-        {
+    private fun getCurrLocation(){
+        val url = "https://capstone.api.roopairs.com/v0/service-locations/"
 
-        }
+        val params = HashMap<String, Any>()
+        params["service_location_id"] = getUserLocationID()
+
+        requestPostJsonObj(JsonRequest(false, url, params, responseFunc, errorFunc, true))
+
+    }
+
+    @JvmField
+    var responseFunc = Function<Any, Void?> { jsonObj: Any ->
+            val responseObj = jsonObj as JSONObject
+            curLocation!!.text = responseObj.getString("physical_address_formatted")
+
+        null
+    }
+    @JvmField
+    var errorFunc = Function<String, Void?> { string: String? ->
+//        errorMessage!!.setTextColor(Color.parseColor("#E4E40B0B"))
+//        errorMessage!!.setText(R.string.errorLogin)
+        null
+    }
+
+
+    override fun animateActivity(boolean: Boolean)
+    {
+
+    }
 }
