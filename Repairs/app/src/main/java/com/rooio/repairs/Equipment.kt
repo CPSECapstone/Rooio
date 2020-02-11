@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +46,7 @@ class Equipment : NavigationBar() {
     }
 
     private fun loadEquipment() {
-        val url = "https://capstone.api.roopairs.com/v0/service-locations/" + getUserLocationID().toString() + "/equipment/"
+        val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/equipment/"
 
         var responseFunc = Function<Any, Void?> { jsonResponse: Any? ->
             try {
@@ -58,8 +59,9 @@ class Equipment : NavigationBar() {
         }
 
         var errorFunc = Function<String, Void?> { string: String? ->
-            textView.findViewById<TextView>(R.id.equipmentPageNoSelectionText)
+            textView = findViewById<TextView>(R.id.equipmentPageNoSelectionText)
             textView.text = string
+            textView.setTextColor(Color.parseColor("#E4E40B0B"))
             null
         }
 
