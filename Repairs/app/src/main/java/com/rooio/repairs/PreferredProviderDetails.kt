@@ -6,21 +6,19 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import kotlinx.android.synthetic.main.activity_preferred_providers_details.*
 import org.json.JSONArray
 import org.json.JSONException
-import org.json.JSONObject
 import java.net.URL
 import java.util.ArrayList
+import org.json.JSONObject as JSONObject1
 
 class PreferredProviderDetails: NavigationBar() {
 
     lateinit var error: TextView
     lateinit var backButton: ImageView
+    lateinit var removeButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +45,7 @@ class PreferredProviderDetails: NavigationBar() {
                 val theId = bundle.getString("addedProvider")
                 val url = "https://capstone.api.roopairs.com/v0/service-providers/" + theId.toString() + "/"
 
-                val responseFunc = { jsonObject : JSONObject ->
+                val responseFunc = { jsonObject : JSONObject1 ->
                     try {
                         loadElements(jsonObject)
                     } catch (e: JSONException) {
@@ -63,16 +61,27 @@ class PreferredProviderDetails: NavigationBar() {
                 }
 
                 requestGetJsonObj(url, responseFunc, errorFunc, true)
-                //overview.text = bundle.getString("addedProvider")
+                removeButton = findViewById<Button>(R.id.removeProvider) as Button
+                removeButton.setOnClickListener {
+                    val intent = Intent(this@PreferredProviderDetails, PreferredProvidersSettings::class.java)
+                    //deletePostJsonObj(JsonRequest(false, url, ))
+                    startActivity(intent)
+                }
+                //removeProvider(url, responseFunc, errorFunc, true)
             }
-
         backButton = findViewById<View>(R.id.back_button_details) as ImageView
         onBackClick()
 
     }
-
+//    fun loadElements(response: JSONObject1) {
+//        removeButton = findViewById<Button>(R.id.removeProvider) as Button
+//        removeButton.setOnClickListener{
+//            val intent = Intent(this@PreferredProviderDetails, PreferredProvidersSettings::class.java)
+//            response.remove(id)
+//            startActivity(intent)
+//        }
     @Throws(JSONException::class)
-    fun loadElements(response: JSONObject) {
+    fun loadElements(response: JSONObject1) {
         val overview = findViewById<TextView>(R.id.info_overview)
         val email = findViewById<TextView>(R.id.info_email)
         val skills = findViewById<TextView>(R.id.info_skills)
@@ -80,6 +89,7 @@ class PreferredProviderDetails: NavigationBar() {
         val phone = findViewById<TextView>(R.id.info_phone)
         val logo = findViewById<ImageView>(R.id.logo)
         val name = findViewById<TextView>(R.id.name)
+        val price = findViewById<TextView>(R.id.price)
         try {
             //need to figure out how to get the url of the image
            val inputStream = URL(response.get("logo") as String).openStream()
@@ -97,12 +107,23 @@ class PreferredProviderDetails: NavigationBar() {
         setElementTexts(licenseNumber, response, "contractor_license_number", "license number")
         setElementTexts(phone, response, "phone", "phone number")
         setElementTexts(name, response, "name", "name")
+        setPriceElement(price, response, "starting_hourly_rate", "")
+
 
     }
 
-    private fun setElementTexts(element: TextView, response: JSONObject, elementName: String, name: String){
+    private fun setElementTexts(element: TextView, response: JSONObject1, elementName: String, name: String){
         try {
             element.text = response.get(elementName) as String
+        } catch (e: Exception) {
+            // if there is no logo for the service provider
+            element.text = "No $name provided."
+        }
+    }
+
+    private fun setPriceElement(element: TextView, response: JSONObject1, elementName: String, name: String){
+        try {
+            element.text = "$" + response.get(elementName) as String + "/hour"
         } catch (e: Exception) {
             // if there is no logo for the service provider
             element.text = "No $name provided."
