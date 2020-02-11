@@ -1,6 +1,5 @@
 package com.rooio.repairs;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.view.LayoutInflater;
@@ -14,11 +13,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-class CustomAdapter implements ListAdapter {
-    ArrayList<ServiceProviderData> arrayList;
-    Context context;
+class LocationCustomAdapter implements ListAdapter {
+    private ArrayList<ServiceProviderData> arrayList;
+    private Context context;
 
-    public CustomAdapter(Context context, ArrayList<ServiceProviderData> preferredProviders) {
+    public LocationCustomAdapter(Context context, ArrayList<ServiceProviderData> preferredProviders) {
         this.arrayList = preferredProviders;
         this.context = context;
     }
@@ -61,14 +60,10 @@ class CustomAdapter implements ListAdapter {
         ServiceProviderData data = arrayList.get(position);
         if(convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
-            convertView = layoutInflater.inflate(R.layout.list_row, null);
+            convertView = layoutInflater.inflate(R.layout.location_list_row, null);
             TextView tittle = convertView.findViewById(R.id.title);
-            ImageView imag = convertView.findViewById(R.id.list_image);
             String name = "               " + data.name;
             tittle.setText(name);
-            Picasso.with(context)
-                    .load(data.image)
-                    .into(imag);
         }
         return convertView;
     }

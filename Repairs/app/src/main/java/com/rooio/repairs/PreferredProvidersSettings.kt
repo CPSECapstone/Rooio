@@ -114,7 +114,7 @@ class PreferredProvidersSettings  : NavigationBar() {
             }
         }
 
-        val customAdapter = CustomAdapter(this, preferredProviders)
+        val customAdapter = ProviderCustomAdapter(this, preferredProviders)
         if(preferredProviders.isEmpty().not()){
             serviceProvidersListView.setAdapter(customAdapter)
         }

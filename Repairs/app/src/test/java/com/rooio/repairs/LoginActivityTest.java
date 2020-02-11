@@ -22,6 +22,13 @@ public class LoginActivityTest {
         ActivityScenario.launch(Login.class);
         onView(withId(R.id.cancelLogin)).check(matches(withText("Cancel")));
     }
+
+    @Test
+    public void testErrorResponse() {
+        ActivityScenario.launch(Login.class);
+        Login l = new Login();
+        l.errorFunc.apply("hey");
+    }
     /*
     @Test
     public void testEmptyUsername() {

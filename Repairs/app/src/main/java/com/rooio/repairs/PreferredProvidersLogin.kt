@@ -81,7 +81,7 @@ class PreferredProvidersLogin : RestApi() {
             }
         }
 
-        val customAdapter = CustomAdapter(this, preferredProviders)
+        val customAdapter = ProviderCustomAdapter(this, preferredProviders)
         if (preferredProviders.size != 0) serviceProvidersListView!!.adapter = customAdapter
     }
 
