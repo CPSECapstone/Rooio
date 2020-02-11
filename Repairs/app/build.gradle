@@ -57,7 +57,33 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
                       '**/*Test*.*',
                       'android/**/*.*',
                       '**/data/models/*']
-    def debugTree = fileTree(dir: "${buildDir}/intermediates/javac/debug/classes/", excludes: fileFilter)
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java/"
+
+    sourceDirectories.from = mainSrc
+    classDirectories.from = debugTree
+
+    executionData.from = fileTree(dir: "$buildDir", includes: [
+            "jacoco/testDebugUnitTest.exec",
+            "outputs/code_coverage/debugAndroidTest/connected/*coverage.ec"
+    ])
+
+}
+
+task unitTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class',
+                      '**/R$*.class',
+                      '**/BuildConfig.*',
+                      '**/Manifest*.*',
+                      '**/*Test*.*',
+                      'android/**/*.*',
+                      '**/data/models/*']
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
     def mainSrc = "${project.projectDir}/src/main/java/"
 
     sourceDirectories.from = mainSrc
@@ -93,6 +119,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+    //for unit testing volley
+    testImplementation "org.apache.httpcomponents:httpclient:4.5.5"
 }
 repositories {
     mavenCentral()

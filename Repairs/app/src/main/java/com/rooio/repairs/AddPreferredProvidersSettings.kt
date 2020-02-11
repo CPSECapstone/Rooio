@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import org.json.JSONArray
 import org.json.JSONException
 import java.util.HashMap
@@ -62,7 +64,7 @@ class AddPreferredProvidersSettings  : NavigationBar() {
         addButton.setOnClickListener{
             error.text = ""
             phoneInput = newProvider?.getText().toString()
-            if (!phoneInput.isEmpty() && phoneInput.length >= 10) {
+            if (!phoneInput.isEmpty() && (phoneInput.length == 10 || phoneInput.length == 9)) {
                 checkIfAlreadyAdded(phoneInput)
             }
             else
