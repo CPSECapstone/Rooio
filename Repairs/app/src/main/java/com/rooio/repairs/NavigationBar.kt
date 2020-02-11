@@ -23,7 +23,7 @@ abstract class NavigationBar : RestApi() {
 
 
     fun createNavigationBar(string: String) {
-        var visible = true
+        var visible = false
 
         //transitionsContainer initializes the container and stores all transition objects
         val transitionsContainer = findViewById<ViewGroup>(R.id.navConstraint)
@@ -64,7 +64,6 @@ abstract class NavigationBar : RestApi() {
             coloredJobs.visibility = VISIBLE
             jobsText.setTextColor(Color.parseColor("#00CA8F"))
         }
-        TransitionManager.beginDelayedTransition(transitionsContainer)
 
         collapse.setOnClickListener {
 
@@ -77,7 +76,7 @@ abstract class NavigationBar : RestApi() {
             equipmentText.visibility = v
             settingsText.visibility = v
             val rotate = if (visible) 180f else 0f
-            collapse.setRotation(rotate)
+            collapse.rotation = rotate
 
 
 

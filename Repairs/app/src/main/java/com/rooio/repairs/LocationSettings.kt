@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.arch.core.util.Function
@@ -23,6 +24,7 @@ class LocationSettings  : NavigationBar() {
         //Location text view
         curLocation = findViewById(R.id.CurrLocation)
         getCurrLocation()
+        var changeLocationButton = findViewById<Button>(R.id.change_location_button)
 
         //sets the navigation bar onto the page
         val navInflater = layoutInflater
@@ -71,6 +73,10 @@ class LocationSettings  : NavigationBar() {
             // Apply the adapter to the spinner
             spinner.adapter = adapter
             spinner.setSelection(getIntent().getIntExtra("UniqueKey", 0))
+        }
+
+        changeLocationButton.setOnClickListener{
+            startActivity(Intent(this, ChangeLocationSettings::class.java))
         }
     }
 

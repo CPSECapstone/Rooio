@@ -39,7 +39,7 @@ class ChangeLocationSettings  : NavigationBar() {
         }
 
         backArrow.setOnClickListener{
-            startActivity(Intent( this, Settings::class.java))
+            startActivity(Intent( this, LocationSettings::class.java))
         }
 
     }

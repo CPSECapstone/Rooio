@@ -97,7 +97,7 @@ class PreferredProviderDetails: NavigationBar() {
         setElementTexts(licenseNumber, response, "contractor_license_number", "license number")
         setElementTexts(phone, response, "phone", "phone number")
         setElementTexts(name, response, "name", "name")
-        
+
     }
 
     private fun setElementTexts(element: TextView, response: JSONObject, elementName: String, name: String){
