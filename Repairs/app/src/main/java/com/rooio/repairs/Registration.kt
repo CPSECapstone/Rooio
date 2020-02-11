@@ -17,6 +17,8 @@ class Registration : RestApi() {
     private var lastname: EditText? = null
     private var email: EditText? = null
     private var password: EditText? = null
+    private var password_verify: EditText? = null
+
     private var restaurantname: EditText? = null
     private var registerButton: Button? = null
     private var cancelButton: Button? = null
@@ -34,6 +36,8 @@ class Registration : RestApi() {
         lastname = findViewById(R.id.lastname)
         email = findViewById(R.id.email)
         password = findViewById(R.id.password)
+        password_verify = findViewById(R.id.Password_verify)
+
         restaurantname = findViewById(R.id.restaurantname)
         error = findViewById(R.id.error)
         industry_int = 2
@@ -77,10 +81,14 @@ class Registration : RestApi() {
     }
 
     // validates password
-    fun isValidPassword(userPassword: String): Boolean {
-        val digitCasePattern = Pattern.compile("[0-9 ]")
-        return userPassword.length >= 6 &&
-                digitCasePattern.matcher(userPassword).find()
+    fun isValidPassword(passwordver: String, userPassword: String): Boolean {
+        if (passwordver == userPassword){
+            val digitCasePattern = Pattern.compile("[0-9 ]")
+            return userPassword.length >= 6 &&
+                    digitCasePattern.matcher(userPassword).find()
+        }
+        else
+            return false
     }
 
     // validates email
@@ -98,13 +106,14 @@ class Registration : RestApi() {
                 !lastname!!.text.toString().isEmpty() &&
                 !email!!.text.toString().isEmpty() &&
                 !password!!.text.toString().isEmpty() &&
+                !password_verify!!.text.toString().isEmpty() &&
                 !restaurantname!!.text.toString().isEmpty()
 
     private fun onRegisterClick() {
         registerButton!!.setOnClickListener {
             error!!.text = ""
             if (isFilled) {
-                if (isValidEmail(email!!.text.toString())) if (isValidPassword(password!!.text.toString())) sendRegistrationInfo() else error!!.text = "Invalid password." else error!!.text = "Invalid email address."
+                if (isValidEmail(email!!.text.toString())) if (isValidPassword(password_verify!!.text.toString(), password!!.text.toString())) sendRegistrationInfo() else error!!.text = "Invalid password." else error!!.text = "Invalid email address."
             } else error!!.text = "Please fill out all fields."
         }
     }
