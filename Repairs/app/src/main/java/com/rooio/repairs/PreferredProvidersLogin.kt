@@ -19,7 +19,6 @@ class PreferredProvidersLogin : RestApi() {
     var error: TextView? = null
     private val preferredProviders = ArrayList<ServiceProviderData>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preferred_providers_login)
