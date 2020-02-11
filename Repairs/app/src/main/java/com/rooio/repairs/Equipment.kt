@@ -12,7 +12,7 @@ import org.json.JSONException
 
 class Equipment : NavigationBar() {
 
-    var equipmentListView: ListView? = null
+    private var equipmentListView: ListView? = null
     private val equipmentList = ArrayList<EquipmentData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +31,6 @@ class Equipment : NavigationBar() {
         val actionbarView = actionbarInflater.inflate(R.layout.action_bar, null)
         window.addContentView(actionbarView,
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
         supportActionBar!!.elevation = 0.0f
 
         //making navigation bar w/ Equipment text highlighted
