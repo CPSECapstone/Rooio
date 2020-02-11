@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
@@ -14,6 +15,7 @@ class Equipment : NavigationBar() {
 
     private var equipmentListView: ListView? = null
     private val equipmentList = ArrayList<EquipmentData>()
+    private lateinit var textView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +58,8 @@ class Equipment : NavigationBar() {
         }
 
         var errorFunc = Function<String, Void?> { string: String? ->
+            textView.findViewById<TextView>(R.id.equipmentPageNoSelectionText)
+            textView.text = string
             null
         }
 
