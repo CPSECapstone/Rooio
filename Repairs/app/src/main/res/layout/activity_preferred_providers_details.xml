@@ -279,18 +279,32 @@
 
         <TextView
             android:id="@+id/starting_cost"
-            android:fontFamily="@font/nunito"
             android:layout_width="100dp"
             android:layout_height="25dp"
+            android:fontFamily="@font/nunito"
             android:text="starting cost"
             android:textColor="#BEC3C7"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.69"
+            app:layout_constraintHorizontal_bias="0.71"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.204" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="130dp"
+            android:layout_height="25dp"
+            android:fontFamily="@font/nunito"
+            android:text=""
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.38"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.203" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
