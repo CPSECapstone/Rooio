@@ -19,7 +19,6 @@ class PreferredProvidersLogin : RestApi() {
     var error: TextView? = null
     private val preferredProviders = ArrayList<ServiceProviderData>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preferred_providers_login)
@@ -69,7 +68,7 @@ class PreferredProvidersLogin : RestApi() {
             }
         }
 
-        val customAdapter = CustomAdapter(this, preferredProviders)
+        val customAdapter = PreferredProvidersCustomAdapter(this, preferredProviders)
         if (preferredProviders.size != 0) serviceProvidersListView!!.adapter = customAdapter
     }
 
