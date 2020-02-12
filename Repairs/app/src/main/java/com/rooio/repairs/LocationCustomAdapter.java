@@ -62,7 +62,7 @@ class LocationCustomAdapter implements ListAdapter {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
             convertView = layoutInflater.inflate(R.layout.location_list_row, null);
             TextView tittle = convertView.findViewById(R.id.title);
-            String address = "  " + data;
+            String address = "   " + data;
             tittle.setText(address);
         }
         return convertView;

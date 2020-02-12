@@ -5,12 +5,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.arch.core.util.Function;
-
-import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,18 +19,18 @@ import java.util.HashMap;
 
 public class AddLocationLogin extends RestApi {
 
-    private Button add_address;
-    private Button backButton;
-    private TextInputEditText new_address;
+    private Button addAddress;
+    private ImageView backButton;
+    private EditText newAddress;
     private TextView errorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_location);
-        add_address = (Button) findViewById(R.id.add_location);
-        backButton = (Button) findViewById(R.id.cancel);
-        new_address = (TextInputEditText) findViewById(R.id.new_location);
+        setContentView(R.layout.activity_add_location_login);
+        addAddress = (Button) findViewById(R.id.addLocation);
+        backButton = (ImageView) findViewById(R.id.backArrow);
+        newAddress = (EditText) findViewById(R.id.newLocationLogin);
         errorMessage = (TextView) findViewById(R.id.errorMessage);
         errorMessage.setText("");
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -44,13 +44,13 @@ public class AddLocationLogin extends RestApi {
     private void onAddClick() {
         String url = "https://capstone.api.roopairs.com/v0/service-locations/";
         
-        add_address.setOnClickListener(new View.OnClickListener() {
+        addAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 errorMessage.setTextColor(Color.parseColor("#A6A9AC"));
                 errorMessage.setText("Loading");
 
-                String inputted_address = new_address.getText().toString();
+                String inputted_address = newAddress.getText().toString();
                 if (!inputted_address.equals("")){
                     //     -- Example params initiations
                     HashMap<String, Object> params = new HashMap<>();
