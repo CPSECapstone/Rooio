@@ -26,14 +26,24 @@ import java.util.Map;
 public abstract class RestApi extends AppCompatActivity {
 
     static String userToken = null;
+    static String firstName = null;
+
     private RequestQueue queue;
 
     public void setUserToken(String userToken) {
         this.userToken = userToken;
     }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
 
     public String getUserToken() {
         return userToken;
+    }
+
+    public String getFirstName() {
+        return firstName;
     }
 
     String userLocationID = null;

@@ -84,7 +84,10 @@ class Login : RestApi() {
     fun storeToken(responseObj: Any) {
         val JsonResponseObject = responseObj as JSONObject
         val token = JsonResponseObject["token"] as String
+        val name = JsonResponseObject["first_name"] as String
+
         userToken = token
+        firstName = name
     }
 
     // Sends username and password to the API and loads the next screen.

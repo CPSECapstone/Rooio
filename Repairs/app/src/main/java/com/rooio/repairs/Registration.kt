@@ -77,7 +77,9 @@ class Registration : RestApi() {
     @Throws(JSONException::class)
     fun storeToken(responseObj: JSONObject) {
         val token = responseObj["token"] as String
+        val name = responseObj["first_name"] as String
         userToken = token
+        firstName = name
     }
 
     // validates password

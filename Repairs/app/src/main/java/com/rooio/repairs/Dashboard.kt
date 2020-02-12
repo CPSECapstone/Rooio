@@ -3,19 +3,44 @@ package com.rooio.repairs
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.transition.TransitionManager
+import kotlinx.android.synthetic.main.activity_jobs.*
+import org.json.JSONArray
+import org.json.JSONException
+import java.util.ArrayList
+import android.widget.ImageView
+import android.widget.Toast
+import java.net.URL
 
 
+import android.widget.TextView
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_dashboard.*
+import kotlinx.android.synthetic.main.activity_dashboard.view.*
 
 
+private val have  = ArrayList<ServiceProviderData>()
 class Dashboard : NavigationBar() {
+
+    private var repairType: TextView? = null
+    private var name: TextView? = null
+    private var time: TextView? = null
+    private var address: TextView? = null
+    private var image: ImageView? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+
+        repairType = findViewById<View>(R.id.repairType) as TextView
+        name = findViewById<View>(R.id.name) as TextView
+        time = findViewById<View>(R.id.time) as TextView
+        address = findViewById<View>(R.id.address) as TextView
+        image = findViewById<View>(R.id.image) as ImageView
+
 
         //sets the navigation bar onto the page
         val nav_inflater = layoutInflater
@@ -32,10 +57,34 @@ class Dashboard : NavigationBar() {
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
         supportActionBar!!.elevation = 0.0f
-
+        populate_test()
 
         createNavigationBar("dashboard")
     }
+
+    fun populate_test(){
+
+        val nameVal = "Luna Red"
+        val imageVal = "http://www.lunaredslo.com/images/luna_red_logo.png"
+        val repairTypeVal = "Hot Equipment Repair"
+        val addressVal = "1023 Chorro St. San Luis Obispo"
+        val timeVal = "Oct 4, '19 6:30pm PDT"
+
+        repairType!!.text = repairTypeVal
+        name!!.text = nameVal
+        address!!.text = addressVal
+        time!!.text = timeVal
+        name_greeting!!.text = "Hi, " + firstName + "!"
+
+        Picasso.with(this)
+                .load(imageVal)
+                .into(image)
+
+
+
+    }
+
+
 
 
 
@@ -63,4 +112,5 @@ class Dashboard : NavigationBar() {
         notableJobs.layoutParams = boxParams1
         newJobRequest.layoutParams = boxParams2
     }
+
 }

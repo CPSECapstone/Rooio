@@ -12,7 +12,7 @@
         android:id="@+id/notableJobs"
         android:layout_width="806dp"
         android:layout_height="265dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="35dp"
         android:background="@drawable/layout_bg_nopadding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,20 +39,111 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <ListView
-            android:layout_width="719dp"
-            android:layout_height="135dp"
-            android:layout_marginTop="16dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout5"
+            android:layout_width="698dp"
+            android:layout_height="162dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/gray_button_border"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+            app:layout_constraintTop_toBottomOf="@+id/divider3">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="81dp"
+                android:layout_height="61dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.079"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.297" />
+
+            <TextView
+                android:id="@+id/repairType"
+                android:layout_width="201dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="320dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/list_image"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="180dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="340dp"
+                android:textColor="@color/colorGray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/list_image"
+                app:layout_constraintTop_toBottomOf="@+id/repairType" />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="180dp"
+                android:layout_height="21dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="340dp"
+                android:textColor="@color/colorGray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/list_image"
+                app:layout_constraintTop_toBottomOf="@+id/name" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="29dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/list_image"
+                app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="161dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="26dp"
+                android:layout_marginEnd="473dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintTop_toBottomOf="@+id/image" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="8dp"
+                android:layout_height="161dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/layout_border"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/newJobRequest"
         android:layout_width="806dp"
         android:layout_height="250dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="108dp"
         android:background="@drawable/layout_bg_nopadding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -224,6 +315,60 @@
             app:layout_constraintVertical_bias="0.55"
             app:srcCompat="@drawable/appliance" />
 
+        <Button
+            android:id="@+id/lightingButton"
+            android:layout_width="167dp"
+            android:layout_height="148dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginBottom="13dp"
+            android:background="#00FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/divider8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+        <Button
+            android:id="@+id/plumbingButton"
+            android:layout_width="178dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginBottom="14dp"
+            android:background="#00FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/divider9"
+            app:layout_constraintStart_toEndOf="@+id/divider8"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+        <Button
+            android:id="@+id/hvacButton"
+            android:layout_width="184dp"
+            android:layout_height="156dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="9dp"
+            android:layout_marginBottom="10dp"
+            android:background="#00FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/divider10"
+            app:layout_constraintStart_toEndOf="@+id/divider9"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+        <Button
+            android:id="@+id/applianceButton"
+            android:layout_width="168dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="21dp"
+            android:background="#00FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/divider10"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline
@@ -243,8 +388,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/allJobs"
         android:layout_width="806dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="40dp"
+        android:layout_height="230dp"
+        android:layout_marginTop="35dp"
         android:background="@drawable/layout_bg_nopadding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -368,6 +513,42 @@
             app:layout_constraintStart_toEndOf="@+id/divider6"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
+        <Button
+            android:id="@+id/pendingButton"
+            android:layout_width="236dp"
+            android:layout_height="131dp"
+            android:background="#00FFFFFF"
+            tools:layout_editor_absoluteX="18dp"
+            tools:layout_editor_absoluteY="88dp" />
+
+        <Button
+            android:id="@+id/scheduledButton"
+            android:layout_width="236dp"
+            android:layout_height="131dp"
+            android:background="#00FFFFFF"
+            tools:layout_editor_absoluteX="285dp"
+            tools:layout_editor_absoluteY="88dp" />
+
+        <Button
+            android:id="@+id/inProgressButton"
+            android:layout_width="244dp"
+            android:layout_height="124dp"
+            android:background="#00FFFFFF"
+            tools:layout_editor_absoluteX="552dp"
+            tools:layout_editor_absoluteY="91dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/name_greeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="22dp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/newJobRequest"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toEndOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
