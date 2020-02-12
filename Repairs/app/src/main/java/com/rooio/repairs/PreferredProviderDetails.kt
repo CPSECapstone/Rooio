@@ -12,13 +12,17 @@ import org.json.JSONArray
 import org.json.JSONException
 import java.net.URL
 import java.util.ArrayList
-import org.json.JSONObject as JSONObject1
+import org.json.JSONObject
+import org.w3c.dom.Text
+import java.io.InputStream
 
 class PreferredProviderDetails: NavigationBar() {
 
     lateinit var error: TextView
     lateinit var backButton: ImageView
     lateinit var removeButton: Button
+    lateinit var url: String
+    lateinit var newUrl: URL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,14 +42,17 @@ class PreferredProviderDetails: NavigationBar() {
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
         createNavigationBar("settings")
+        backButton = findViewById<View>(R.id.back_button_details) as ImageView
+        removeButton = findViewById<Button>(R.id.removeProvider) as Button
 
 
         val bundle: Bundle ?= intent.extras
             if (bundle!=null){
-                val theId = bundle.getString("addedProvider")
-                val url = "https://capstone.api.roopairs.com/v0/service-providers/" + theId.toString() + "/"
 
-                val responseFunc = { jsonObject : JSONObject1 ->
+                val theId = bundle.getString("addedProvider")
+                url = "https://capstone.api.roopairs.com/v0/service-providers/" + theId.toString() + "/"
+
+                val responseFunc = { jsonObject : JSONObject ->
                     try {
                         loadElements(jsonObject)
                     } catch (e: JSONException) {
@@ -61,27 +68,40 @@ class PreferredProviderDetails: NavigationBar() {
                 }
 
                 requestGetJsonObj(url, responseFunc, errorFunc, true)
-                removeButton = findViewById<Button>(R.id.removeProvider) as Button
-                removeButton.setOnClickListener {
-                    val intent = Intent(this@PreferredProviderDetails, PreferredProvidersSettings::class.java)
-                    //deletePostJsonObj(JsonRequest(false, url, ))
-                    startActivity(intent)
-                }
+
                 //removeProvider(url, responseFunc, errorFunc, true)
             }
-        backButton = findViewById<View>(R.id.back_button_details) as ImageView
+
+
+        onRemoveClick()
         onBackClick()
 
     }
-//    fun loadElements(response: JSONObject1) {
-//        removeButton = findViewById<Button>(R.id.removeProvider) as Button
-//        removeButton.setOnClickListener{
-//            val intent = Intent(this@PreferredProviderDetails, PreferredProvidersSettings::class.java)
-//            response.remove(id)
-//            startActivity(intent)
-//        }
+
+    private fun onRemoveClick() {
+        val responseFunc = { jsonObject : Any ->
+            try {
+                jsonObject as JSONObject
+                startActivity(Intent (this@PreferredProviderDetails, PreferredProvidersSettings::class.java ))
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+
+            null
+        }
+
+        val errorFunc = { string : String ->
+            error.setText(string)
+            null
+        }
+        val params = java.util.HashMap<String, Any>()
+        removeButton.setOnClickListener {
+            requestDeleteJsonObj(JsonRequest(false, url, params, responseFunc, errorFunc, true))
+        }
+    }
+
     @Throws(JSONException::class)
-    fun loadElements(response: JSONObject1) {
+    fun loadElements(response: JSONObject) {
         val overview = findViewById<TextView>(R.id.info_overview)
         val email = findViewById<TextView>(R.id.info_email)
         val skills = findViewById<TextView>(R.id.info_skills)
@@ -90,10 +110,15 @@ class PreferredProviderDetails: NavigationBar() {
         val logo = findViewById<ImageView>(R.id.logo)
         val name = findViewById<TextView>(R.id.name)
         val price = findViewById<TextView>(R.id.price)
+        val testing = findViewById<TextView>(R.id.testing)
+
         try {
             //need to figure out how to get the url of the image
-           val inputStream = URL(response.get("logo") as String).openStream()
-            logo.setImageBitmap(BitmapFactory.decodeStream(inputStream))
+           val newUrl = URL("https://www.hicksplumbingservices.com/wp-content/uploads/2016/09/plumbing.jpg")
+            //val inputStream = URL(response.get("logo") as String).openStream()
+            val inputStream = BitmapFactory.decodeStream(newUrl.openConnection().getInputStream())
+            //bitmap = BitmapFactory.decodeStream((inputStream)url.getContent())
+            logo.setImageBitmap(inputStream)
 
         } catch (e: Exception) {
             // if there is no logo for the service provider
@@ -101,6 +126,7 @@ class PreferredProviderDetails: NavigationBar() {
             logo.setImageBitmap(BitmapFactory.decodeStream(inputStream2))
 
         }
+        setElementTexts(testing, response, "logo", "testing")
         setElementTexts(overview, response,"overview", "overview")
         setElementTexts(email, response, "email", "email")
         setElementTexts(skills, response, "skills", "skills")
@@ -112,7 +138,7 @@ class PreferredProviderDetails: NavigationBar() {
 
     }
 
-    private fun setElementTexts(element: TextView, response: JSONObject1, elementName: String, name: String){
+    private fun setElementTexts(element: TextView, response: JSONObject, elementName: String, name: String){
         try {
             element.text = response.get(elementName) as String
         } catch (e: Exception) {
@@ -121,9 +147,9 @@ class PreferredProviderDetails: NavigationBar() {
         }
     }
 
-    private fun setPriceElement(element: TextView, response: JSONObject1, elementName: String, name: String){
+    private fun setPriceElement(element: TextView, response: JSONObject, elementName: String, name: String){
         try {
-            element.text = "$" + response.get(elementName) as String + "/hour"
+            element.text = "$" + response.get(elementName) as String + " / hour"
         } catch (e: Exception) {
             // if there is no logo for the service provider
             element.text = "No $name provided."
@@ -138,6 +164,7 @@ class PreferredProviderDetails: NavigationBar() {
         backButton.setOnClickListener{
             val intent = Intent(this@PreferredProviderDetails, PreferredProvidersSettings::class.java)
             startActivity(intent);
-        }    }
+        }
+    }
 
 }

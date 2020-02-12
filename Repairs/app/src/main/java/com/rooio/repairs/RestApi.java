@@ -47,20 +47,19 @@ public abstract class RestApi extends AppCompatActivity {
     }
 
 
-
 //--------------------------------------------------------------------------------------------------
 
-    private void addToVolleyQueue(JsonObjectRequest request){
+    private void addToVolleyQueue(JsonObjectRequest request) {
         queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(request);
     }
 
-    private void addToVolleyQueue(JsonArrayRequest request){
+    private void addToVolleyQueue(JsonArrayRequest request) {
         queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(request);
     }
 
-    private String errorMsgHandler(VolleyError error){
+    private String errorMsgHandler(VolleyError error) {
         String errorMsg = "Unexpected Error!";
         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
             errorMsg = "No connection or you timed out. Try again.";
@@ -100,13 +99,14 @@ public abstract class RestApi extends AppCompatActivity {
 
                         String errorMsg = errorMsgHandler(error);
                         errorFunc.apply(errorMsg);
-                    }}) {
+                    }
+                }) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
 
 //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                if (headersFlag){
+                if (headersFlag) {
                     Map<String, String> headers = new HashMap<>();
                     headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
                     return headers;
@@ -118,6 +118,7 @@ public abstract class RestApi extends AppCompatActivity {
             }
         };
     }
+
 
     public void requestPostJsonObj(RequestQueue que, JsonObjectRequest req) {
         que.add(req);
@@ -139,6 +140,54 @@ public abstract class RestApi extends AppCompatActivity {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.POST, url, jsonParams, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        responseFunc.apply(response);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        String errorMsg = errorMsgHandler(error);
+                        errorFunc.apply(errorMsg);
+                    }}) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+//                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+                if (headersFlag){
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
+                    return headers;
+
+//                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+                } else {
+                    return Collections.emptyMap();
+                }
+            }
+        };
+
+        addToVolleyQueue(jsonObjectRequest);
+    }
+
+    public void requestDeleteJsonObj(JsonRequest req) {
+        if (req.isTest()) {
+            return;
+        }
+
+        String url = req.getUrl();
+        HashMap<String, Object> params = req.getParams();
+        Function<Object, Void> responseFunc = req.getResponseFunc();
+        Function<String, Void> errorFunc = req.getErrorFunc();
+        boolean headersFlag = req.getHeadersFlag();
+
+        //-- Transforms params HashMap into Json Object
+        JSONObject jsonParams = new JSONObject(params);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.DELETE, url, jsonParams, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         responseFunc.apply(response);

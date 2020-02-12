@@ -86,8 +86,8 @@
             android:id="@+id/textViewOverview"
             android:layout_width="300dp"
             android:layout_height="25dp"
-            android:capitalize="characters"
             android:text="Overview"
+            android:fontFamily="@font/nunito"
             android:textAllCaps="true"
             android:textColor="#BEC3C7"
             android:textSize="18sp"
@@ -103,6 +103,7 @@
             android:layout_width="300dp"
             android:layout_height="25dp"
             android:text="Company Email"
+            android:fontFamily="@font/nunito"
             android:textAllCaps="true"
             android:textColor="#BEC3C7"
             android:textSize="18sp"
@@ -118,6 +119,7 @@
             android:layout_width="300dp"
             android:layout_height="25dp"
             android:text="License Number"
+            android:fontFamily="@font/nunito"
             android:textAllCaps="true"
             android:textColor="#BEC3C7"
             android:textSize="18sp"
@@ -133,6 +135,7 @@
             android:layout_width="300dp"
             android:layout_height="25dp"
             android:text="Company Phone"
+            android:fontFamily="@font/nunito"
             android:textAllCaps="true"
             android:textColor="#BEC3C7"
             android:textSize="18sp"
@@ -147,6 +150,7 @@
             android:layout_width="300dp"
             android:layout_height="25dp"
             android:text="Skills"
+            android:fontFamily="@font/nunito"
             android:textAllCaps="true"
             android:textColor="#BEC3C7"
             android:textSize="18sp"
@@ -163,6 +167,7 @@
             android:layout_height="36dp"
             android:text=""
             android:textSize="22sp"
+            android:fontFamily="@font/nunito_sans"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.33"
@@ -172,6 +177,7 @@
 
         <TextView
             android:id="@+id/info_email"
+            android:fontFamily="@font/nunito_sans"
             android:layout_width="300dp"
             android:layout_height="36dp"
             android:text=""
@@ -185,6 +191,7 @@
 
         <TextView
             android:id="@+id/info_phone"
+            android:fontFamily="@font/nunito_sans"
             android:layout_width="300dp"
             android:layout_height="36dp"
             android:text=""
@@ -198,6 +205,7 @@
 
         <TextView
             android:id="@+id/info_license_number"
+            android:fontFamily="@font/nunito_sans"
             android:layout_width="300dp"
             android:layout_height="36dp"
             android:text=""
@@ -211,6 +219,7 @@
 
         <TextView
             android:id="@+id/info_skills"
+            android:fontFamily="@font/nunito_sans"
             android:layout_width="300dp"
             android:layout_height="36dp"
             android:text=""
@@ -228,7 +237,7 @@
             android:layout_width="240dp"
             android:layout_height="55dp"
             android:background="@drawable/red_button_border"
-            android:fontFamily="@font/nunito"
+            android:fontFamily="@font/nunito_sans"
             android:text="Remove Provider"
             android:textAllCaps="false"
             android:textColor="@color/Red"
@@ -255,11 +264,12 @@
 
         <TextView
             android:id="@+id/name"
-            android:fontFamily="@font/nunito"
             android:layout_width="150dp"
             android:layout_height="36dp"
-            android:text="TextView"
+            android:fontFamily="@font/nunito"
+            android:text=""
             android:textSize="22sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -281,7 +291,7 @@
             android:id="@+id/starting_cost"
             android:layout_width="100dp"
             android:layout_height="25dp"
-            android:fontFamily="@font/nunito"
+            android:fontFamily="@font/nunito_sans"
             android:text="starting cost"
             android:textColor="#BEC3C7"
             android:textSize="16sp"
@@ -296,7 +306,8 @@
             android:id="@+id/price"
             android:layout_width="130dp"
             android:layout_height="25dp"
-            android:fontFamily="@font/nunito"
+            android:fontFamily="@font/nunito_sans"
+            android:textColor="@color/colorPrimary"
             android:text=""
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -305,6 +316,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.203" />
+
+        <TextView
+            android:id="@+id/testing"
+            android:layout_width="400dp"
+            android:layout_height="40dp"
+            android:fontFamily="@font/nunito"
+            android:text=""
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.205"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.821" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
