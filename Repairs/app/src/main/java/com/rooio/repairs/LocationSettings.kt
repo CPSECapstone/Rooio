@@ -4,18 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.arch.core.util.Function
 import org.json.JSONObject
-import java.util.*
 
 class LocationSettings  : NavigationBar() {
 
     private var curLocation: TextView? = null
+    private var errorMessage: TextView? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +21,9 @@ class LocationSettings  : NavigationBar() {
         //Location text view
         curLocation = findViewById(R.id.CurrLocation)
         getCurrLocation()
+
+        errorMessage = findViewById(R.id.error_Messages)
+
         var changeLocationButton = findViewById<Button>(R.id.change_location_button)
 
         //sets the navigation bar onto the page
@@ -81,13 +81,9 @@ class LocationSettings  : NavigationBar() {
     }
 
     private fun getCurrLocation(){
-        val url = "https://capstone.api.roopairs.com/v0/service-locations/"
+        val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/"
 
-        val params = HashMap<String, Any>()
-        params["service_location_id"] = getUserLocationID()
-
-        requestPostJsonObj(JsonRequest(false, url, params, responseFunc, errorFunc, true))
-
+        requestGetJsonObj(JsonRequest(false, url, null, responseFunc, errorFunc, true))
     }
 
     @JvmField
@@ -99,8 +95,8 @@ class LocationSettings  : NavigationBar() {
     }
     @JvmField
     var errorFunc = Function<String, Void?> { string: String? ->
-//        errorMessage!!.setTextColor(Color.parseColor("#E4E40B0B"))
-//        errorMessage!!.setText(R.string.errorLogin)
+
+        errorMessage!!.text = string
         null
     }
 
