@@ -9,7 +9,7 @@
     <string name="mainbox">TextView</string>
     <string name="change_service_location">Change Service Location</string>
     <string name="errorLogin">Incorrect username and/or password.</string>
-    <string name="choose_service_location">Choose Service Location</string>
+    <string name="choose_service_location">CHOOSE A SERVICE LOCATION</string>
     <string name="address">ADDRESS</string>
     <string name="service_location">Service Location</string>
     <string name="add_location">Add Location</string>

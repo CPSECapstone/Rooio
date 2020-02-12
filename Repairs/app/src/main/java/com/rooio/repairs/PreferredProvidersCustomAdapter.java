@@ -13,11 +13,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-class ProviderCustomAdapter implements ListAdapter {
+class PreferredProvidersCustomAdapter implements ListAdapter {
     private ArrayList<ServiceProviderData> arrayList;
     private Context context;
 
-    public ProviderCustomAdapter(Context context, ArrayList<ServiceProviderData> preferredProviders) {
+    public PreferredProvidersCustomAdapter(Context context, ArrayList<ServiceProviderData> preferredProviders) {
         this.arrayList = preferredProviders;
         this.context = context;
     }

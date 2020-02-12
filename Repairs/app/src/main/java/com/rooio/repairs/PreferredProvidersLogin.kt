@@ -77,11 +77,10 @@ class PreferredProvidersLogin : RestApi() {
                     size.height += 105
                     serviceProvidersListView!!.layoutParams = size
                 }
-                //providerBox!!.translationY += 200
             }
         }
 
-        val customAdapter = ProviderCustomAdapter(this, preferredProviders)
+        val customAdapter = PreferredProvidersCustomAdapter(this, preferredProviders)
         if (preferredProviders.size != 0) serviceProvidersListView!!.adapter = customAdapter
     }
 

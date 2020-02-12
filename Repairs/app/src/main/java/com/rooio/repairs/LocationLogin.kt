@@ -7,46 +7,34 @@ import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
 import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
+import androidx.constraintlayout.widget.ConstraintLayout
 import org.json.JSONArray
 import org.json.JSONException
 import java.util.*
 
 class LocationLogin : RestApi(), OnItemClickListener {
-    private var addLocation: Button? = null
+    private var addAnother: TextView ? = null
     private var lv: ListView? = null
     private var errorMessage: TextView? = null
-    private var adapter: ArrayAdapter<String>? = null
-    private var incomingAddress: String? = null
-    private var incomingId: String? = null
+    private var locationBox: ConstraintLayout? = null
+    private val url = "https://capstone.api.roopairs.com/v0/service-locations/"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_login)
         supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         supportActionBar!!.setCustomView(R.layout.action_bar)
         supportActionBar!!.elevation = 0f
-        addLocation = findViewById<View>(R.id.addLocation) as Button
-        lv = findViewById<View>(R.id.Service) as ListView
-        errorMessage = findViewById<View>(R.id.Error_Messages) as TextView
-        //        test = (TextView) findViewById(R.id.test);
-        val url = "https://capstone.api.roopairs.com/v0/service-locations/"
-        //New Address Received
-        val incomingIntent = intent
-        incomingAddress = incomingIntent.getStringExtra("address")
-        if (incomingAddress != null) {
-            incomingId = incomingIntent.getStringExtra("id")
-            locationIds[incomingAddress!!] = incomingId
-            address_list.add(incomingAddress!!)
-            adapt()
-            adapter!!.notifyDataSetChanged()
-        } else {
-            address_list.clear()
-            locationIds.clear()
-            val request = JsonRequest(false, url, null, responseFunc, errorFunc, true)
-            requestGetJsonArray(request)
-        }
-        //Launch listener for "Add New Location"
+        addAnother = findViewById<View>(R.id.addAnother) as TextView
+        lv = findViewById<View>(R.id.service) as ListView
+        errorMessage = findViewById<View>(R.id.errorMessage) as TextView
+        locationBox = findViewById<View>(R.id.locationBox) as ConstraintLayout
+        loadLocations()
         onBtnClick()
         lv!!.onItemClickListener = this
+    }
+    private fun loadLocations() {
+        val request = JsonRequest(false, url, null, responseFunc, errorFunc, true)
+        requestGetJsonArray(request)
     }
 
     var responseFunc = Function<Any, Void?> { jsonResponse: Any ->
@@ -56,7 +44,6 @@ class LocationLogin : RestApi(), OnItemClickListener {
         } catch (e: JSONException) {
             e.printStackTrace()
         }
-        adapt()
         null
     }
     var errorFunc = Function<String, Void?> { string: String? ->
@@ -65,33 +52,39 @@ class LocationLogin : RestApi(), OnItemClickListener {
     }
 
     private fun onBtnClick() {
-        addLocation!!.setOnClickListener {
-            val intent1 = Intent(this@LocationLogin, AddLocationLogin::class.java)
-            startActivity(intent1)
+        addAnother!!.setOnClickListener {
+            startActivity(Intent(this@LocationLogin, AddLocationLogin::class.java))
         }
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
-        val tv = view as TextView
-        Toast.makeText(this, "You chose " + tv.text, Toast.LENGTH_SHORT).show()
-        userLocationID = locationIds[tv.text]
-        val intent1 = Intent(this@LocationLogin, PreferredProvidersLogin::class.java)
-        startActivity(intent1)
+        //val tv = view as ConstraintLayout
+        //Toast.makeText(this, "You chose " + tv.text, Toast.LENGTH_SHORT).show()
+        //userLocationID = locationIds[tv.text]
+        startActivity(Intent(this@LocationLogin, PreferredProvidersLogin::class.java))
     }
 
     @Throws(JSONException::class)
     private fun addElements(response: JSONArray) {
+        address_list.clear()
+        locationIds.clear()
         for (i in 0 until response.length()) {
             val restaurant = response.getJSONObject(i)
             val physicalAddress = restaurant.getString("physical_address")
             address_list.add(physicalAddress)
             locationIds[physicalAddress] = restaurant.getString("id")
+            if (i > 0) {
+                val params = locationBox!!.layoutParams
+                params.height += 90
+                locationBox!!.layoutParams = params
+                val size = lv!!.layoutParams
+                size.height += 90
+                lv!!.layoutParams = size
+            }
         }
-    }
 
-    private fun adapt() {
-        adapter = ArrayAdapter(this@LocationLogin, android.R.layout.simple_list_item_1, address_list)
-        lv!!.adapter = adapter
+        val customAdapter = LocationCustomAdapter(this, address_list)
+        if (address_list.size != 0) lv!!.adapter = customAdapter
     }
 
     companion object {
