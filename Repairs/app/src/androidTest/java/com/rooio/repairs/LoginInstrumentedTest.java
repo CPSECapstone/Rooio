@@ -3,6 +3,9 @@ package com.rooio.repairs;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.filters.LargeTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,8 +29,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @LargeTest
 public class LoginInstrumentedTest {
 
+
     @Rule
     public IntentsTestRule<Login> intentRule = new IntentsTestRule<>(Login.class);
+
 
     @Test
     public void testLaunchActivity() {
@@ -37,25 +42,12 @@ public class LoginInstrumentedTest {
     }
 
     @Test
-    public void testEmptyUsername() {
-        onView(withId(R.id.usernameField)).perform(typeText(""));
-        onView(withId(R.id.passwordField)).perform(typeText("hacker"));
-        onView(withId(R.id.connectAccount)).perform(click());
-        onView(withId(R.id.errorMessage)).check(matches(withText("Incorrect username and/or password.")));
-    }
-
-    @Test
-    public void testEmptyPassword() {
-        onView(withId(R.id.usernameField)).perform(typeText("hacker"));
-        onView(withId(R.id.passwordField)).perform(typeText(""));
-        onView(withId(R.id.connectAccount)).perform(click());
-        onView(withId(R.id.errorMessage)).check(matches(withText("Incorrect username and/or password.")));
-    }
-
-    @Test
     public void testCancelButton() {
         onView(withId(R.id.cancelLogin)).perform(click());
         intended(hasComponent(Landing.class.getName()));
     }
+
+
+
 
 }
