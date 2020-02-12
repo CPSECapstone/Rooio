@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_preferred_providers_details.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -50,6 +52,7 @@ class PreferredProviderDetails: NavigationBar() {
             if (bundle!=null){
 
                 val theId = bundle.getString("addedProvider")
+                //val image = bundle.getString("theLogo")
                 url = "https://capstone.api.roopairs.com/v0/service-providers/" + theId.toString() + "/"
 
                 val responseFunc = { jsonObject : JSONObject ->
@@ -110,23 +113,17 @@ class PreferredProviderDetails: NavigationBar() {
         val logo = findViewById<ImageView>(R.id.logo)
         val name = findViewById<TextView>(R.id.name)
         val price = findViewById<TextView>(R.id.price)
-        val testing = findViewById<TextView>(R.id.testing)
 
+        var image = ""
         try {
-            //need to figure out how to get the url of the image
-           val newUrl = URL("https://www.hicksplumbingservices.com/wp-content/uploads/2016/09/plumbing.jpg")
-            //val inputStream = URL(response.get("logo") as String).openStream()
-            val inputStream = BitmapFactory.decodeStream(newUrl.openConnection().getInputStream())
-            //bitmap = BitmapFactory.decodeStream((inputStream)url.getContent())
-            logo.setImageBitmap(inputStream)
-
+            image =response.get("logo") as String
         } catch (e: Exception) {
             // if there is no logo for the service provider
-            val inputStream2 = URL("http://rsroemani.com/rv2/wp-content/themes/rsroemani/images/no-user.jpg").openStream()
-            logo.setImageBitmap(BitmapFactory.decodeStream(inputStream2))
-
+            image ="http://rsroemani.com/rv2/wp-content/themes/rsroemani/images/no-user.jpg"
         }
-        setElementTexts(testing, response, "logo", "testing")
+        Picasso.with(applicationContext)
+                .load(image)
+                .into(logo)
         setElementTexts(overview, response,"overview", "overview")
         setElementTexts(email, response, "email", "email")
         setElementTexts(skills, response, "skills", "skills")
@@ -134,6 +131,7 @@ class PreferredProviderDetails: NavigationBar() {
         setElementTexts(phone, response, "phone", "phone number")
         setElementTexts(name, response, "name", "name")
         setPriceElement(price, response, "starting_hourly_rate", "")
+
 
 
     }
