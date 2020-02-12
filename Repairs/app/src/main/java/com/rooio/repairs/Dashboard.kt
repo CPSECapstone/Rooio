@@ -3,22 +3,14 @@ package com.rooio.repairs
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.appcompat.app.ActionBar
 import androidx.transition.TransitionManager
-import kotlinx.android.synthetic.main.activity_jobs.*
-import org.json.JSONArray
-import org.json.JSONException
 import java.util.ArrayList
 import android.widget.ImageView
-import android.widget.Toast
-import java.net.URL
 
 
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_dashboard.*
-import kotlinx.android.synthetic.main.activity_dashboard.view.*
 
 
 private val have  = ArrayList<ServiceProviderData>()
@@ -37,7 +29,7 @@ class Dashboard : NavigationBar() {
 
         repairType = findViewById<View>(R.id.repairType) as TextView
         name = findViewById<View>(R.id.name) as TextView
-        time = findViewById<View>(R.id.time) as TextView
+        time = findViewById<View>(R.id.timeImage) as TextView
         address = findViewById<View>(R.id.address) as TextView
         image = findViewById<View>(R.id.image) as ImageView
 
@@ -52,8 +44,8 @@ class Dashboard : NavigationBar() {
         //sets the action bar onto the page
 
         val actionbar_inflater = layoutInflater
-        val poopView = actionbar_inflater.inflate(R.layout.action_bar, null)
-        window.addContentView(poopView,
+        val actionBarView = actionbar_inflater.inflate(R.layout.action_bar, null)
+        window.addContentView(actionBarView,
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
         supportActionBar!!.elevation = 0.0f
@@ -96,16 +88,26 @@ class Dashboard : NavigationBar() {
         val newJobRequest = viewGroup.findViewById<ViewGroup>(R.id.newJobRequest)
         val allJobs = viewGroup.findViewById<ViewGroup>(R.id.allJobs)
 
+        val notableJobsDivider = viewGroup.findViewById<View>(R.id.notableJobsDivider)
+        val newJobDivider = viewGroup.findViewById<View>(R.id.newJobDivider)
+        val allJobsDivider = viewGroup.findViewById<View>(R.id.allJobsDivider)
+
 
         TransitionManager.beginDelayedTransition(viewGroup)
         val boxParams1 = notableJobs.layoutParams
         val boxParams2 = newJobRequest.layoutParams
         val boxParams3 = allJobs.layoutParams
+        val boxParams4 = notableJobsDivider.layoutParams
+        val boxParams5 = newJobDivider.layoutParams
+        val boxParams6 = allJobsDivider.layoutParams
 
         val p2 = if (boolean) 1004 else 803
         boxParams1.width = p2
         boxParams2.width = p2
         boxParams3.width = p2
+        boxParams4.width = p2
+        boxParams5.width = p2
+        boxParams6.width = p2
 
 
         //calling the transitions

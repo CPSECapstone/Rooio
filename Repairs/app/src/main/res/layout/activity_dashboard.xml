@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dashboardConstraint"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ECF0F1"
+    tools:context=".Dashboard">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ECF0F1"
@@ -11,15 +16,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/notableJobs"
         android:layout_width="806dp"
-        android:layout_height="265dp"
-        android:layout_marginTop="35dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/layout_bg_nopadding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newJobRequest">
 
         <View
-            android:id="@+id/divider3"
+
+            android:id="@+id/notableJobsDivider"
             android:layout_width="804dp"
             android:layout_height="1dp"
             android:layout_marginTop="72dp"
@@ -33,42 +39,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="Notable Jobs"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="@string/notableJobs"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/divider3"
+            app:layout_constraintBottom_toTopOf="@+id/notableJobsDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout5"
-            android:layout_width="698dp"
-            android:layout_height="162dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="777dp"
+            android:layout_height="170dp"
             android:background="@drawable/gray_button_border"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider3">
+            app:layout_constraintTop_toBottomOf="@+id/notableJobsDivider"
+            app:layout_constraintVertical_bias="0.3">
 
             <ImageView
                 android:id="@+id/image"
-                android:layout_width="81dp"
-                android:layout_height="61dp"
+                android:layout_width="96dp"
+                android:layout_height="80dp"
+                android:background="@drawable/layout_bg_nopadding"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.079"
+                app:layout_constraintHorizontal_bias="0.045"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.297" />
+                app:layout_constraintVertical_bias="0.275" />
 
             <TextView
                 android:id="@+id/repairType"
                 android:layout_width="201dp"
                 android:layout_height="28dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="320dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="416dp"
+                android:fontFamily="@font/nunito_bold"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -80,9 +88,10 @@
                 android:layout_width="180dp"
                 android:layout_height="22dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="340dp"
+                android:layout_marginEnd="436dp"
+                android:fontFamily="@font/nunito_sans"
                 android:textColor="@color/colorGray"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/list_image"
                 app:layout_constraintTop_toBottomOf="@+id/repairType" />
@@ -92,37 +101,42 @@
                 android:layout_width="180dp"
                 android:layout_height="21dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="340dp"
+                android:layout_marginEnd="436dp"
+                android:fontFamily="@font/nunito_sans"
                 android:textColor="@color/colorGray"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/list_image"
                 app:layout_constraintTop_toBottomOf="@+id/name" />
 
             <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="29dp"
-                android:layout_height="20dp"
+                android:id="@+id/clockImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="28dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/list_image"
-                app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
+                app:srcCompat="@drawable/clock" />
 
             <TextView
-                android:id="@+id/time"
+                android:id="@+id/timeImage"
                 android:layout_width="161dp"
                 android:layout_height="22dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="26dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="22dp"
                 android:layout_marginEnd="473dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="19dp"
+                android:fontFamily="@font/nunito_sans"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/imageView6"
-                app:layout_constraintTop_toBottomOf="@+id/image" />
+                app:layout_constraintHorizontal_bias="0.092"
+                app:layout_constraintStart_toEndOf="@+id/clockImage"
+                app:layout_constraintTop_toBottomOf="@+id/image"
+                app:layout_constraintVertical_bias="0.0" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="8dp"
@@ -135,6 +149,18 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <ImageView
+                android:id="@+id/repairImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="112dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/repair" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -142,8 +168,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/newJobRequest"
         android:layout_width="806dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="108dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="140dp"
         android:background="@drawable/layout_bg_nopadding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -152,7 +178,7 @@
         <View
             android:id="@+id/divider10"
             android:layout_width="1dp"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
             android:layout_marginStart="604dp"
             android:layout_marginTop="84dp"
             android:layout_marginEnd="201dp"
@@ -162,7 +188,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
-            android:id="@+id/divider"
+            android:id="@+id/newJobDivider"
             android:layout_width="801dp"
             android:layout_height="1dp"
             android:layout_marginTop="72dp"
@@ -176,16 +202,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="New Job Request"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="@string/newJobRequest"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/divider"
+            app:layout_constraintBottom_toTopOf="@+id/newJobDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <View
             android:id="@+id/divider8"
             android:layout_width="1dp"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
             android:layout_marginStart="200dp"
             android:layout_marginTop="84dp"
             android:layout_marginEnd="199dp"
@@ -197,7 +224,7 @@
         <View
             android:id="@+id/divider9"
             android:layout_width="1dp"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
             android:layout_marginStart="400dp"
             android:layout_marginTop="84dp"
             android:layout_marginEnd="203dp"
@@ -207,118 +234,122 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView10"
-            android:layout_width="65dp"
-            android:layout_height="24dp"
-            android:text="Lighting"
+            android:id="@+id/lightingText"
+            android:layout_width="74dp"
+            android:layout_height="29dp"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/lighting"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider8"
             app:layout_constraintHorizontal_bias="0.500"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:layout_constraintTop_toBottomOf="@+id/newJobDivider"
             app:layout_constraintVertical_bias="0.74" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/andElectricalText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:layout_marginBottom="16dp"
-            android:text="and Electrical"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/andElectrical"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider8"
             app:layout_constraintHorizontal_bias="0.505"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+            app:layout_constraintTop_toBottomOf="@+id/lightingText" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/plumbingText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Plumbing"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/plumbing"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider9"
             app:layout_constraintStart_toEndOf="@+id/divider8"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:layout_constraintTop_toBottomOf="@+id/newJobDivider"
             app:layout_constraintVertical_bias="0.74" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/hvacText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HVAC"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/hvac"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider10"
             app:layout_constraintStart_toEndOf="@+id/divider9"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:layout_constraintTop_toBottomOf="@+id/newJobDivider"
             app:layout_constraintVertical_bias="0.74" />
 
         <TextView
-            android:id="@+id/textView14"
+            android:id="@+id/applianceText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Appliance"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/appliance"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divider10"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:layout_constraintTop_toBottomOf="@+id/newJobDivider"
             app:layout_constraintVertical_bias="0.73" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/lightningImage"
             android:layout_width="53dp"
             android:layout_height="63dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView10"
+            app:layout_constraintBottom_toTopOf="@+id/lightingText"
             app:layout_constraintEnd_toStartOf="@+id/divider8"
             app:layout_constraintHorizontal_bias="0.51"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:layout_constraintTop_toBottomOf="@+id/newJobDivider"
             app:srcCompat="@drawable/lightning" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/plumbingImage"
             android:layout_width="53dp"
             android:layout_height="63dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView12"
+            app:layout_constraintBottom_toTopOf="@+id/plumbingText"
             app:layout_constraintEnd_toStartOf="@+id/divider9"
             app:layout_constraintStart_toEndOf="@+id/divider8"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:layout_constraintTop_toBottomOf="@+id/newJobDivider"
             app:layout_constraintVertical_bias="0.53"
             app:srcCompat="@drawable/plumbing" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/hvacImage"
             android:layout_width="59dp"
             android:layout_height="63dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView13"
+            app:layout_constraintBottom_toTopOf="@+id/hvacText"
             app:layout_constraintEnd_toStartOf="@+id/divider10"
             app:layout_constraintHorizontal_bias="0.51"
             app:layout_constraintStart_toEndOf="@+id/divider9"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:layout_constraintTop_toBottomOf="@+id/newJobDivider"
             app:layout_constraintVertical_bias="0.53"
             app:srcCompat="@drawable/hvac" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/applianceImage"
             android:layout_width="59dp"
             android:layout_height="63dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView14"
+            app:layout_constraintBottom_toTopOf="@+id/plumbingText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.49"
             app:layout_constraintStart_toEndOf="@+id/divider10"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:layout_constraintTop_toBottomOf="@+id/newJobDivider"
             app:layout_constraintVertical_bias="0.55"
             app:srcCompat="@drawable/appliance" />
 
         <Button
             android:id="@+id/lightingButton"
             android:layout_width="167dp"
-            android:layout_height="148dp"
+            android:layout_height="170dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="11dp"
             android:layout_marginEnd="13dp"
@@ -327,12 +358,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider8"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider" />
+            app:layout_constraintTop_toBottomOf="@+id/newJobDivider" />
 
         <Button
             android:id="@+id/plumbingButton"
             android:layout_width="178dp"
-            android:layout_height="150dp"
+            android:layout_height="170dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="13dp"
             android:layout_marginEnd="13dp"
@@ -341,12 +372,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider9"
             app:layout_constraintStart_toEndOf="@+id/divider8"
-            app:layout_constraintTop_toBottomOf="@+id/divider" />
+            app:layout_constraintTop_toBottomOf="@+id/newJobDivider" />
 
         <Button
             android:id="@+id/hvacButton"
             android:layout_width="184dp"
-            android:layout_height="156dp"
+            android:layout_height="170dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="11dp"
             android:layout_marginEnd="9dp"
@@ -354,29 +385,24 @@
             android:background="#00FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider10"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/divider9"
-            app:layout_constraintTop_toBottomOf="@+id/divider" />
+            app:layout_constraintTop_toBottomOf="@+id/newJobDivider"
+            app:layout_constraintVertical_bias="0.42" />
 
         <Button
             android:id="@+id/applianceButton"
             android:layout_width="168dp"
-            android:layout_height="150dp"
+            android:layout_height="170dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="14dp"
             android:layout_marginEnd="21dp"
             android:background="#00FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divider10"
-            app:layout_constraintTop_toBottomOf="@+id/divider" />
+            app:layout_constraintTop_toBottomOf="@+id/newJobDivider" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="425dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"
@@ -388,15 +414,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/allJobs"
         android:layout_width="806dp"
-        android:layout_height="230dp"
-        android:layout_marginTop="35dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/layout_bg_nopadding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/notableJobs">
 
         <View
-            android:id="@+id/divider4"
+            android:id="@+id/allJobsDivider"
             android:layout_width="804dp"
             android:layout_height="1dp"
             android:layout_marginTop="72dp"
@@ -410,132 +436,148 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="All Jobs"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="@string/allJobs"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/divider4"
+            app:layout_constraintBottom_toTopOf="@+id/allJobsDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <View
             android:id="@+id/divider5"
             android:layout_width="1dp"
-            android:layout_height="150dp"
-            android:layout_marginStart="268dp"
-            android:layout_marginTop="84dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="88dp"
             android:background="?android:attr/listDivider"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/scheduledButton"
+            app:layout_constraintStart_toEndOf="@+id/pendingButton"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/divider6"
             android:layout_width="1dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="84dp"
-            android:layout_marginEnd="268dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="88dp"
             android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/inProgressButton"
+            app:layout_constraintStart_toEndOf="@+id/scheduledButton"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/pendingText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="29dp"
-            android:text="Pending"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/pending"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/divider5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider4" />
+            app:layout_constraintTop_toBottomOf="@+id/allJobsDivider" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/scheduledText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="29dp"
-            android:text="Scheduled"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/scheduled"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/divider6"
             app:layout_constraintStart_toEndOf="@+id/divider5"
-            app:layout_constraintTop_toBottomOf="@+id/divider4" />
+            app:layout_constraintTop_toBottomOf="@+id/allJobsDivider" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/inProgressText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="29dp"
-            android:text="In Progress"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/inProgress"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divider6"
-            app:layout_constraintTop_toBottomOf="@+id/divider4" />
+            app:layout_constraintTop_toBottomOf="@+id/allJobsDivider" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/pendingNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="122dp"
             android:layout_marginTop="29dp"
             android:layout_marginEnd="124dp"
-            android:layout_marginBottom="47dp"
-            android:text="3"
-            android:textColor="#00CA8F"
+            android:layout_marginBottom="49dp"
+            android:text="@string/three"
+            android:textColor="@color/colorPrimary"
             android:textSize="44dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintTop_toBottomOf="@+id/pendingText" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/scheduledNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="29dp"
             android:layout_marginBottom="47dp"
-            android:text="6"
-            android:textColor="#00CA8F"
+            android:text="@string/six"
+            android:textColor="@color/colorPrimary"
             android:textSize="44sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider6"
             app:layout_constraintStart_toEndOf="@+id/divider5"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/scheduledText" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/inProgressNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="29dp"
             android:layout_marginBottom="47dp"
-            android:text="9"
-            android:textColor="#00CA8F"
+            android:text="@string/nine"
+            android:textColor="@color/colorPrimary"
             android:textSize="44sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divider6"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintTop_toBottomOf="@+id/inProgressText" />
 
         <Button
             android:id="@+id/pendingButton"
             android:layout_width="236dp"
-            android:layout_height="131dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="11dp"
             android:background="#00FFFFFF"
-            tools:layout_editor_absoluteX="18dp"
-            tools:layout_editor_absoluteY="88dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/divider5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/allJobsDivider"
+            app:layout_constraintVertical_bias="0.042" />
 
         <Button
             android:id="@+id/scheduledButton"
             android:layout_width="236dp"
-            android:layout_height="131dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="11dp"
             android:background="#00FFFFFF"
-            tools:layout_editor_absoluteX="285dp"
-            tools:layout_editor_absoluteY="88dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/divider6"
+            app:layout_constraintStart_toEndOf="@+id/divider5"
+            app:layout_constraintTop_toBottomOf="@+id/allJobsDivider"
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/inProgressButton"
             android:layout_width="244dp"
-            android:layout_height="124dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="18dp"
             android:background="#00FFFFFF"
-            tools:layout_editor_absoluteX="552dp"
-            tools:layout_editor_absoluteY="91dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/divider6"
+            app:layout_constraintTop_toBottomOf="@+id/allJobsDivider" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -543,12 +585,11 @@
         android:id="@+id/name_greeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="22dp"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/newJobRequest"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toEndOf="@+id/guideline5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
