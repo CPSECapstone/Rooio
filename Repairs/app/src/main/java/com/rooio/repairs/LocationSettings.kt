@@ -22,7 +22,7 @@ class LocationSettings  : NavigationBar() {
         curLocation = findViewById(R.id.CurrLocation)
         getCurrLocation()
 
-        errorMessage = findViewById(R.id.error_Messages)
+        errorMessage = findViewById(R.id.errorMessage)
 
         var changeLocationButton = findViewById<Button>(R.id.change_location_button)
 

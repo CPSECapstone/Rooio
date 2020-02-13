@@ -19,22 +19,6 @@
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         app:layout_constraintVertical_bias="0.0">
 
-        <EditText
-            android:id="@+id/newLocation2"
-            android:layout_width="735dp"
-            android:layout_height="60dp"
-            android:background="@drawable/gray_phone_border"
-            android:ems="10"
-            android:inputType="phone"
-            android:labelFor="@id/new_phone"
-            android:paddingLeft="15dp"
-            android:textColor="#6D7377"
-            android:textSize="27sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <ImageView
             android:id="@+id/greenBar"
             android:layout_width="75dp"
@@ -94,6 +78,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.36" />
+
+        <TextView
+            android:id="@+id/errorMessage"
+            android:layout_width="291dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="27dp"
+            android:autoText="false"
+            android:textAlignment="center"
+            android:textColor="#E4E40B0B"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/greenBar" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/newLocation2"
+            android:layout_width="747dp"
+            android:layout_height="54dp"
+            android:layout_marginBottom="36dp"
+            android:background="@drawable/edittextbackground"
+            app:layout_constraintBottom_toTopOf="@+id/addLocation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.582"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -121,7 +121,6 @@
                 android:layout_width="291dp"
                 android:layout_height="30dp"
                 android:autoText="false"
-                android:text="TextView"
                 android:textAlignment="center"
                 android:textColor="#E4E40B0B"
                 app:layout_constraintBottom_toBottomOf="parent"
