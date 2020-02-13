@@ -58,21 +58,20 @@ class LocationLogin : RestApi(), OnItemClickListener {
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
-        //val tv = view as ConstraintLayout
-        //Toast.makeText(this, "You chose " + tv.text, Toast.LENGTH_SHORT).show()
-        //userLocationID = locationIds[tv.text]
+        Toast.makeText(this, "You chose " + addressList[position], Toast.LENGTH_SHORT).show()
+        userLocationID = locationIds[position]
         startActivity(Intent(this@LocationLogin, PreferredProvidersLogin::class.java))
     }
 
     @Throws(JSONException::class)
     private fun addElements(response: JSONArray) {
-        address_list.clear()
+        addressList.clear()
         locationIds.clear()
         for (i in 0 until response.length()) {
             val restaurant = response.getJSONObject(i)
             val physicalAddress = restaurant.getString("physical_address")
-            address_list.add(physicalAddress)
-            locationIds[physicalAddress] = restaurant.getString("id")
+            addressList.add(physicalAddress)
+            locationIds.add(restaurant.getString("id"))
             if (i > 0) {
                 val params = locationBox!!.layoutParams
                 params.height += 90
@@ -83,13 +82,13 @@ class LocationLogin : RestApi(), OnItemClickListener {
             }
         }
 
-        val customAdapter = LocationCustomAdapter(this, address_list)
-        if (address_list.size != 0) lv!!.adapter = customAdapter
+        val customAdapter = LocationCustomAdapter(this, addressList)
+        if (addressList.size != 0) lv!!.adapter = customAdapter
     }
 
     companion object {
         //TextView test;
-        var address_list = ArrayList<String>()
-        var locationIds = HashMap<String, String?>()
+        var addressList = ArrayList<String>()
+        var locationIds = ArrayList<String>()
     }
 }

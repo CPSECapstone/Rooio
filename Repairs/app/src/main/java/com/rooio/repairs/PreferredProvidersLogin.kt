@@ -29,7 +29,7 @@ class PreferredProvidersLogin : RestApi() {
         supportActionBar!!.setCustomView(R.layout.action_bar)
         supportActionBar!!.elevation = 0f
         addButton = findViewById<View>(R.id.addAnother) as TextView
-        doneButton = findViewById<View>(R.id.Done) as Button
+        doneButton = findViewById<View>(R.id.done) as Button
         serviceProvidersListView = findViewById<View>(R.id.list) as ListView
         error = findViewById<View>(R.id.error) as TextView
         providerBox = findViewById<View>(R.id.providerBox) as ConstraintLayout
@@ -69,7 +69,7 @@ class PreferredProvidersLogin : RestApi() {
             } finally {
                 val serviceProviderData = ServiceProviderData(name, image)
                 preferredProviders.add(serviceProviderData)
-                if (i > 1) {
+                if (i > 0) {
                     val params = providerBox!!.layoutParams
                     params.height += 105
                     providerBox!!.layoutParams = params
