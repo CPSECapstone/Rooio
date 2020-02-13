@@ -9,6 +9,7 @@ import android.widget.ImageView
 
 
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_dashboard.*
 
@@ -91,6 +92,8 @@ class Dashboard : NavigationBar() {
         val notableJobsDivider = viewGroup.findViewById<View>(R.id.notableJobsDivider)
         val newJobDivider = viewGroup.findViewById<View>(R.id.newJobDivider)
         val allJobsDivider = viewGroup.findViewById<View>(R.id.allJobsDivider)
+        val jobsLayout = viewGroup.findViewById<ConstraintLayout>(R.id.JobsLayout)
+
 
 
         TransitionManager.beginDelayedTransition(viewGroup)
@@ -100,6 +103,8 @@ class Dashboard : NavigationBar() {
         val boxParams4 = notableJobsDivider.layoutParams
         val boxParams5 = newJobDivider.layoutParams
         val boxParams6 = allJobsDivider.layoutParams
+        val boxParams7 = jobsLayout.layoutParams
+
 
         val p2 = if (boolean) 1004 else 803
         boxParams1.width = p2
@@ -108,6 +113,10 @@ class Dashboard : NavigationBar() {
         boxParams4.width = p2
         boxParams5.width = p2
         boxParams6.width = p2
+
+        val p3 = if (boolean) 980 else 803
+
+        boxParams7.width = p3
 
 
         //calling the transitions

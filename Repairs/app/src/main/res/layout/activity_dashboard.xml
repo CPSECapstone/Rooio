@@ -47,7 +47,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout5"
+            android:id="@+id/JobsLayout"
             android:layout_width="777dp"
             android:layout_height="170dp"
             android:background="@drawable/gray_button_border"
@@ -73,40 +73,34 @@
                 android:id="@+id/repairType"
                 android:layout_width="201dp"
                 android:layout_height="28dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="25dp"
                 android:layout_marginTop="28dp"
-                android:layout_marginEnd="416dp"
                 android:fontFamily="@font/nunito_bold"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/list_image"
+                app:layout_constraintStart_toEndOf="@+id/image"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="180dp"
                 android:layout_height="22dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="436dp"
+                android:layout_marginStart="25dp"
                 android:fontFamily="@font/nunito_sans"
                 android:textColor="@color/colorGray"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/list_image"
+                app:layout_constraintStart_toEndOf="@+id/image"
                 app:layout_constraintTop_toBottomOf="@+id/repairType" />
 
             <TextView
                 android:id="@+id/address"
                 android:layout_width="180dp"
                 android:layout_height="21dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="436dp"
+                android:layout_marginStart="25dp"
                 android:fontFamily="@font/nunito_sans"
                 android:textColor="@color/colorGray"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/list_image"
+                app:layout_constraintStart_toEndOf="@+id/image"
                 app:layout_constraintTop_toBottomOf="@+id/name" />
 
             <ImageView
