@@ -57,10 +57,7 @@ public abstract class RestApi extends AppCompatActivity {
         this.userLocationID = userLocationID;
     }
 
-
-//--------------------------------------------------------------------------------------------------
-
-    private void addToVolleyQueue(JsonObjectRequest request) {
+    private void addToVolleyQueue(JsonObjectRequest request){
         queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(request);
     }
@@ -87,18 +84,15 @@ public abstract class RestApi extends AppCompatActivity {
         return errorMsg;
     }
 
-    public JSONObject createJsonParams(JsonRequest req) {
-        return new JSONObject(req.getParams());
-    }
-
-    public JsonObjectRequest createJsonObjectRequest(JSONObject jsonParams, JsonRequest req) {
+    public JsonObjectRequest createJsonObjectRequest(Integer type, JsonRequest req) {
         String url = req.getUrl();
         Function<Object, Void> responseFunc = req.getResponseFunc();
         Function<String, Void> errorFunc = req.getErrorFunc();
         boolean headersFlag = req.getHeadersFlag();
 
+        JSONObject jsonParams = new JSONObject(req.getParams());
         return new JsonObjectRequest
-                (Request.Method.POST, url, jsonParams, new Response.Listener<JSONObject>() {
+                (type, url, jsonParams, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         responseFunc.apply(response);
@@ -130,9 +124,12 @@ public abstract class RestApi extends AppCompatActivity {
         };
     }
 
-
-    public void requestPostJsonObj(RequestQueue que, JsonObjectRequest req) {
-        que.add(req);
+    public void requestJsonObject(Integer type, JsonRequest request) {
+        if (request.isTest()) {
+            return;
+        }
+        JsonObjectRequest jsonObjectRequest = createJsonObjectRequest(type, request);
+        addToVolleyQueue(jsonObjectRequest);
     }
 
     public void requestPostJsonObj(JsonRequest req) {

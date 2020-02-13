@@ -9,9 +9,13 @@
     <string name="mainbox">TextView</string>
     <string name="change_service_location">Change Service Location</string>
     <string name="errorLogin">Incorrect username and/or password.</string>
-    <string name="choose_service_location">Choose Service Location</string>
+    <string name="choose_service_location">CHOOSE A SERVICE LOCATION</string>
+    <string name="loading">Loading</string>
+    <string name="continue_button">Continue</string>
+    <string name="error_server">"Error connecting with the server."</string>
     <string name="address">ADDRESS</string>
     <string name="service_location">Service Location</string>
+    <string name="choose_location">Choose Service Location</string>
     <string name="add_location">Add Location</string>
     <string name="username">username</string>
     <string name="password">password</string>

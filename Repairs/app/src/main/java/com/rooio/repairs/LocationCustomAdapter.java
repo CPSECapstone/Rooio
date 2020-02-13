@@ -13,12 +13,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-class PreferredProvidersCustomAdapter implements ListAdapter {
-    private ArrayList<ServiceProviderData> arrayList;
+class LocationCustomAdapter implements ListAdapter {
+    private ArrayList<String> arrayList;
     private Context context;
 
-    public PreferredProvidersCustomAdapter(Context context, ArrayList<ServiceProviderData> preferredProviders) {
-        this.arrayList = preferredProviders;
+    public LocationCustomAdapter(Context context, ArrayList<String> serviceLocations) {
+        this.arrayList = serviceLocations;
         this.context = context;
     }
 
@@ -57,17 +57,13 @@ class PreferredProvidersCustomAdapter implements ListAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ServiceProviderData data = arrayList.get(position);
+        String data = arrayList.get(position);
         if(convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
-            convertView = layoutInflater.inflate(R.layout.preferred_providers_list_row, null);
-            TextView tittle = convertView.findViewById(R.id.providerName);
-            ImageView imag = convertView.findViewById(R.id.list_image);
-            String name = "               " + data.name;
-            tittle.setText(name);
-            Picasso.with(context)
-                    .load(data.image)
-                    .into(imag);
+            convertView = layoutInflater.inflate(R.layout.location_list_row, null);
+            TextView tittle = convertView.findViewById(R.id.title);
+            String address = "   " + data;
+            tittle.setText(address);
         }
         return convertView;
     }

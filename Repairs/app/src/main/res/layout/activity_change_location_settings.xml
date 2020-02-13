@@ -47,7 +47,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout3"
         android:layout_width="843dp"
-        android:layout_height="518dp"
+        android:layout_height="360dp"
         android:background="@drawable/shadow"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@+id/guideline3">
 
         <TextView
-            android:id="@+id/addAnother2"
+            android:id="@+id/addAnother"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito_sans"
@@ -86,18 +86,18 @@
             android:id="@+id/greenBar"
             android:layout_width="99dp"
             android:layout_height="3dp"
-            android:contentDescription="Green Bar"
+            android:contentDescription="@string/green_bar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.13999999"
+            app:layout_constraintVertical_bias="0.18"
             app:srcCompat="@color/colorAccent" />
 
         <ListView
-            android:id="@+id/Service"
+            android:id="@+id/service"
             android:layout_width="750dp"
-            android:layout_height="200dp"
+            android:layout_height="105dp"
             android:background="@drawable/edittextbackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -105,7 +105,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/Error_Messages"
+            android:id="@+id/errorMessage"
             android:layout_width="462dp"
             android:layout_height="30dp"
             android:textAlignment="textStart"
@@ -115,13 +115,13 @@
             app:layout_constraintHorizontal_bias="0.89"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.22000003" />
+            app:layout_constraintVertical_bias="0.25" />
 
         <TextView
-            android:id="@+id/Choose_small"
+            android:id="@+id/chooseSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CHOOSE A SERVICE LOCATION"
+            android:text="@string/choose_service_location"
             android:textColor="#52161616"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -145,7 +145,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="670dp" />
+        app:layout_constraintGuide_begin="510dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"

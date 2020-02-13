@@ -26,7 +26,7 @@ class ChangeLocationSettings  : NavigationBar() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_location_settings)
-        val addAnother = findViewById<TextView>(R.id.addAnother2)
+        val addAnother = findViewById<TextView>(R.id.addAnother)
         val backArrow = findViewById<ImageView>(R.id.backArrow)
         errorMessage = findViewById(R.id.Error_Messages)
 
