@@ -24,7 +24,6 @@ class PreferredProviderDetails: NavigationBar() {
     lateinit var backButton: ImageView
     lateinit var removeButton: Button
     lateinit var url: String
-    lateinit var newUrl: URL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -138,9 +137,10 @@ class PreferredProviderDetails: NavigationBar() {
 
     private fun setElementTexts(element: TextView, response: JSONObject, elementName: String, name: String){
         try {
-            element.text = response.get(elementName) as String
-        } catch (e: Exception) {
-            // if there is no logo for the service provider
+                element.text = response.get(elementName) as String
+        }
+        catch (e: Exception) {
+            // if there is no element provided
             element.text = "No $name provided."
         }
     }
