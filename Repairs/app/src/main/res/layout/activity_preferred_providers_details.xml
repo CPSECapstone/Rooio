@@ -7,14 +7,286 @@
     android:background="#ECF0F1"
     tools:context=".Login">
 
+    <ScrollView
+        android:id="@+id/scrollView2"
+        style="@android:style/Widget.ScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="461dp"
+                android:layout_height="980dp"
+                android:layout_marginTop="130dp"
+                android:layout_marginBottom="84dp"
+                android:background="@drawable/shadow"
+                android:paddingBottom="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.73">
+
+                <TextView
+                    android:id="@+id/textViewOverview"
+                    android:layout_width="300dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/overview"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.33"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.3" />
+
+                <TextView
+                    android:id="@+id/textViewCompanyEmail"
+                    android:layout_width="300dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/company_email"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.33"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.42000002" />
+
+                <TextView
+                    android:id="@+id/textViewLicenseNumber"
+                    android:layout_width="300dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/license_number"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.33"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.64" />
+
+                <TextView
+                    android:id="@+id/textViewCompanyPhone"
+                    android:layout_width="300dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/company_phone"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.33"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.53" />
+
+                <TextView
+                    android:id="@+id/textViewSkills"
+                    android:layout_width="300dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/skills"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.329"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.746" />
+
+                <TextView
+                    android:id="@+id/info_overview"
+                    android:layout_width="300dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="27sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.329"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.341" />
+
+                <TextView
+                    android:id="@+id/info_email"
+                    android:layout_width="300dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="27sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.329"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.463" />
+
+                <TextView
+                    android:id="@+id/info_phone"
+                    android:layout_width="300dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="27sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.33"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.57" />
+
+                <TextView
+                    android:id="@+id/info_license_number"
+                    android:layout_width="300dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="27sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.329"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.68" />
+
+                <TextView
+                    android:id="@+id/info_skills"
+                    android:layout_width="300dp"
+                    android:layout_height="38dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="27sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.33"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.79" />
+
+                <Button
+                    android:id="@+id/removeProvider"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="240dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/red_button_border"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text="@string/remove_provider"
+                    android:textAllCaps="false"
+                    android:textColor="@color/Red"
+                    android:textColorHighlight="#00F8F6F6"
+                    android:textColorHint="#00FCFBFB"
+                    android:textColorLink="#00FDFCFC"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.93" />
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/gray_phone_border"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.039"
+                    tools:srcCompat="@tools:sample/avatars[0]" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="300dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textSize="27sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.496"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.152" />
+
+                <ImageView
+                    android:id="@+id/greenBar"
+                    android:layout_width="82dp"
+                    android:layout_height="4dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.204"
+                    app:srcCompat="@color/colorAccent" />
+
+                <TextView
+                    android:id="@+id/starting_cost"
+                    android:layout_width="130dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:paddingTop="2dp"
+                    android:text="@string/starting_cost"
+                    android:textColor="#BEC3C7"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.78"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.23000002" />
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="130dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.38"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.23000002" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/detailsLayout"
         android:layout_width="match_parent"
         android:layout_height="67dp"
         android:background="@drawable/no_elevation"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         tools:visibility="visible">
@@ -23,7 +295,7 @@
             android:id="@+id/detailsTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Service Provider Details"
+            android:text="@string/service_provider_details"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,13 +318,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="179dp" />
-
-    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,258 +332,18 @@
         app:layout_constraintGuide_end="1187dp" />
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="179dp" />
+
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="1194dp" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="461dp"
-        android:layout_height="785dp"
-        android:background="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailsLayout">
-
-        <TextView
-            android:id="@+id/textViewOverview"
-            android:layout_width="300dp"
-            android:layout_height="25dp"
-            android:fontFamily="@font/nunito"
-            android:text="Overview"
-            android:textAllCaps="true"
-            android:textColor="#BEC3C7"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.33"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3" />
-
-        <TextView
-            android:id="@+id/textViewCompanyEmail"
-            android:layout_width="300dp"
-            android:layout_height="25dp"
-            android:fontFamily="@font/nunito"
-            android:text="Company Email"
-            android:textAllCaps="true"
-            android:textColor="#BEC3C7"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.33"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.42000002" />
-
-        <TextView
-            android:id="@+id/textViewLicenseNumber"
-            android:layout_width="300dp"
-            android:layout_height="25dp"
-            android:fontFamily="@font/nunito"
-            android:text="License Number"
-            android:textAllCaps="true"
-            android:textColor="#BEC3C7"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.33"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.64" />
-
-        <TextView
-            android:id="@+id/textViewCompanyPhone"
-            android:layout_width="300dp"
-            android:layout_height="25dp"
-            android:fontFamily="@font/nunito"
-            android:text="Company Phone"
-            android:textAllCaps="true"
-            android:textColor="#BEC3C7"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.33"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.53" />
-
-        <TextView
-            android:id="@+id/textViewSkills"
-            android:layout_width="300dp"
-            android:layout_height="25dp"
-            android:fontFamily="@font/nunito"
-            android:text="Skills"
-            android:textAllCaps="true"
-            android:textColor="#BEC3C7"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.329"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.746" />
-
-        <TextView
-            android:id="@+id/info_overview"
-            android:layout_width="300dp"
-            android:layout_height="36dp"
-            android:fontFamily="@font/nunito_sans"
-            android:text=""
-            android:textSize="27sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.329"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.341" />
-
-        <TextView
-            android:id="@+id/info_email"
-            android:layout_width="300dp"
-            android:layout_height="36dp"
-            android:fontFamily="@font/nunito_sans"
-            android:text=""
-            android:textSize="27sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.329"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.463" />
-
-        <TextView
-            android:id="@+id/info_phone"
-            android:layout_width="300dp"
-            android:layout_height="36dp"
-            android:fontFamily="@font/nunito_sans"
-            android:text=""
-            android:textSize="27sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.33"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.57" />
-
-        <TextView
-            android:id="@+id/info_license_number"
-            android:layout_width="300dp"
-            android:layout_height="36dp"
-            android:fontFamily="@font/nunito_sans"
-            android:text=""
-            android:textSize="27sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.329"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.68" />
-
-        <TextView
-            android:id="@+id/info_skills"
-            android:layout_width="300dp"
-            android:layout_height="38dp"
-            android:fontFamily="@font/nunito_sans"
-            android:text=""
-            android:textSize="27sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.33"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.79" />
-
-        <Button
-            android:id="@+id/removeProvider"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="240dp"
-            android:layout_height="55dp"
-            android:background="@drawable/red_button_border"
-            android:fontFamily="@font/nunito_sans"
-            android:text="Remove Provider"
-            android:textAllCaps="false"
-            android:textColor="@color/Red"
-            android:textColorHighlight="#00F8F6F6"
-            android:textColorHint="#00FCFBFB"
-            android:textColorLink="#00FDFCFC"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.93" />
-
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.039"
-            tools:srcCompat="@tools:sample/avatars[0]" />
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="150dp"
-            android:layout_height="36dp"
-            android:fontFamily="@font/nunito"
-            android:text=""
-            android:textSize="22sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.16000003" />
-
-        <ImageView
-            android:id="@+id/greenBar"
-            android:layout_width="82dp"
-            android:layout_height="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.19999999"
-            app:srcCompat="@color/colorAccent" />
-
-        <TextView
-            android:id="@+id/starting_cost"
-            android:layout_width="100dp"
-            android:layout_height="25dp"
-            android:fontFamily="@font/nunito_sans"
-            android:text="starting cost"
-            android:textColor="#BEC3C7"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.71"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.23000002" />
-
-        <TextView
-            android:id="@+id/price"
-            android:layout_width="130dp"
-            android:layout_height="25dp"
-            android:fontFamily="@font/nunito_sans"
-            android:text=""
-            android:textColor="@color/colorPrimary"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.38"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.23000002" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

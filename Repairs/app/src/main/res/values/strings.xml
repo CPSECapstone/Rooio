@@ -46,7 +46,21 @@
     <string name="three">3</string>
     <string name="six">6</string>
     <string name="nine">9</string>
-
+    <string name="skills"> Skills</string>
+    <string name="license_number"> License Number</string>
+    <string name="company_phone"> Company Phone</string>
+    <string name="company_email"> Company Email</string>
+    <string name="service_provider_details"> Service Provider Details</string>
+    <string name="overview"> Overview</string>
+    <string name="starting_cost"> starting cost</string>
+    <string name="remove_provider"> Remover Provider</string>
+    <string name="details_exception_message"> No %1$s provided.</string>
+    <string name="details_price_exception_message">$%1$s / hour</string>
+    <string-array name="industry_type">
+        <item>Residential</item>
+        <item>Commercial Business</item>
+        <item>Industrial</item>
+    </string-array>
     <string-array name="settings_type">
         <item>Preferred Providers</item>
         <item>Service Location</item>
