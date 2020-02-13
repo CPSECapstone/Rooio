@@ -32,7 +32,7 @@ public class LocationInstrumentedTest {
 
     @Test
     public void testLaunchActivity() {
-        onView(withId(R.id.title)).check(matches(withText("Choose Service Location")));
+        onView(withId(R.id.equipment)).check(matches(withText("Choose Service Location")));
         onView(withId(R.id.Choose_small)).check(matches(withText("CHOOSE A SERVICE LOCATION")));
         onView(withId(R.id.addLocation)).check(matches(withText("+ Add Another Service Location")));
 

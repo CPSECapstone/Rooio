@@ -20,7 +20,7 @@
         tools:visibility="visible">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/equipmentPageNoSelectionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Service Provider"
@@ -121,7 +121,7 @@
             app:layout_constraintVertical_bias="0.872" />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/providerName"
             android:layout_width="700dp"
             android:layout_height="62dp"
             android:fontFamily="@font/nunito"

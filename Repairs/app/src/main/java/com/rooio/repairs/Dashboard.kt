@@ -38,7 +38,6 @@ class Dashboard : NavigationBar() {
     }
 
 
-
     override fun animateActivity(boolean: Boolean){
         val viewGroup = findViewById<ViewGroup>(R.id.dashboardConstraint)
 

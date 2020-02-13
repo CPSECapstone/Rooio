@@ -33,7 +33,7 @@ public class AddLocationInstrumentedTest {
 
     @Test
     public void testLaunchActivity() {
-        onView(withId(R.id.title)).check(matches(withText("Service Location")));
+        onView(withId(R.id.equipment)).check(matches(withText("Service Location")));
         onView(withId(R.id.textView7)).check(matches(withText("ADDRESS")));
 
     }
