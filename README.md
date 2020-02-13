@@ -1,4 +1,4 @@
-# Rooio [![Build Status](https://dev.azure.com/CPSECapstone/Rooio/_apis/build/status/Repairs%20Application%20-%20CI?branchName=master)](https://dev.azure.com/CPSECapstone/Rooio/_build/latest?definitionId=7&branchName=master)
+# Rooio [![Build Status](https://dev.azure.com/CPSECapstone/Rooio/_apis/build/status/Repairs%20Application%20-%20CI?branchName=master)](https://dev.azure.com/CPSECapstone/Rooio/_build/latest?definitionId=7&branchName=master) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=CPSECapstone_Rooio&metric=alert_status)](https://sonarcloud.io/dashboard?id=CPSECapstone_Rooio)
 
 To clone this repository, use the clone or download button to get a URL or SSH key. Then use the following command in the directory you would like to clone it, replacing <URL/SSH> with the actual URL/SSH key of the repository.
 ```

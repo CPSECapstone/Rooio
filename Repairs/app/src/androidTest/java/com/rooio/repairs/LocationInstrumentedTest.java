@@ -25,21 +25,28 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @LargeTest
 public class LocationInstrumentedTest {
 
+
     @Rule
     public IntentsTestRule<LocationLogin> intentRule = new IntentsTestRule<>(LocationLogin.class);
 
+
     @Test
     public void testLaunchActivity() {
-        onView(withId(R.id.title)).check(matches(withText("Choose Service Location")));
+        onView(withId(R.id.equipment)).check(matches(withText("Choose Service Location")));
         onView(withId(R.id.Choose_small)).check(matches(withText("CHOOSE A SERVICE LOCATION")));
         onView(withId(R.id.addLocation)).check(matches(withText("+ Add Another Service Location")));
 
     }
 
+    /*
     @Test
     public void testCancelButton() {
         onView(withId(R.id.addLocation)).perform(click());
         intended(hasComponent(AddLocationLogin.class.getName()));
     }
+
+     */
+
+
 
 }

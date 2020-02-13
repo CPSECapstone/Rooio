@@ -34,7 +34,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/providerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/service_location"
@@ -57,7 +57,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintTop_toBottomOf="@+id/equipment"
                 app:layout_constraintVertical_bias="0.518"
                 app:srcCompat="@color/colorAccent" />
 
@@ -124,10 +124,12 @@
                 android:text="TextView"
                 android:textAlignment="center"
                 android:textColor="#E4E40B0B"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.49"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="16dp" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.100000024" />
 
             <Button
                 android:id="@+id/cancel"

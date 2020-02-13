@@ -42,11 +42,12 @@ public abstract class RestApi extends AppCompatActivity {
         return userToken;
     }
 
-    public String getFirstName() {
+    static String getFirstName() {
         return firstName;
     }
 
-    String userLocationID = null;
+
+    static String userLocationID = null;
 
     public String getUserLocationID() {
         return userLocationID;
@@ -56,16 +57,81 @@ public abstract class RestApi extends AppCompatActivity {
         this.userLocationID = userLocationID;
     }
 
+
+
 //--------------------------------------------------------------------------------------------------
 
-    public void addToVolleyQueue(JsonObjectRequest request){
+    private void addToVolleyQueue(JsonObjectRequest request){
         queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(request);
     }
 
-    public void addToVolleyQueue(JsonArrayRequest request){
+    private void addToVolleyQueue(JsonArrayRequest request){
         queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(request);
+    }
+
+    private String errorMsgHandler(VolleyError error){
+        String errorMsg = "Unexpected Error!";
+        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+            errorMsg = "No connection or you timed out. Try again.";
+        } else if (error instanceof AuthFailureError) {
+            errorMsg = "You are not authorized.";
+        } else if (error instanceof ServerError) {
+            errorMsg = "does not exist.";
+        } else if (error instanceof NetworkError) {
+            errorMsg = "Network Error. Try again.";
+        } else if (error instanceof ParseError) {
+            errorMsg = "Parse Error. Try again.";
+        }
+
+        return errorMsg;
+    }
+
+    public JSONObject createJsonParams(JsonRequest req) {
+        return new JSONObject(req.getParams());
+    }
+
+    public JsonObjectRequest createJsonObjectRequest(JSONObject jsonParams, JsonRequest req) {
+        String url = req.getUrl();
+        Function<Object, Void> responseFunc = req.getResponseFunc();
+        Function<String, Void> errorFunc = req.getErrorFunc();
+        boolean headersFlag = req.getHeadersFlag();
+
+        return new JsonObjectRequest
+                (Request.Method.POST, url, jsonParams, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        responseFunc.apply(response);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        String errorMsg = errorMsgHandler(error);
+                        errorFunc.apply(errorMsg);
+                    }}) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+//                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+                if (headersFlag){
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Token " + getUserToken());  //<-- Token in Abstract Class RestApi
+                    return headers;
+
+//                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+                } else {
+                    return Collections.emptyMap();
+                }
+            }
+        };
+    }
+
+    public void requestPostJsonObj(RequestQueue que, JsonObjectRequest req) {
+        que.add(req);
     }
 
     public void requestPostJsonObj(JsonRequest req) {
@@ -92,19 +158,8 @@ public abstract class RestApi extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        String errorMsg = "Unexpected Error!";
-                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            errorMsg = "No connection or you timed out. Try again.";
-                        } else if (error instanceof AuthFailureError) {
-                            errorMsg = "You are not authorized.";
-                        } else if (error instanceof ServerError) {
-                            errorMsg = "does not exist.";
-                        } else if (error instanceof NetworkError) {
-                            errorMsg = "Network Error. Try again.";
-                        } else if (error instanceof ParseError) {
-                            errorMsg = "Parse Error. Try again.";
-                        }
 
+                        String errorMsg = errorMsgHandler(error);
                         errorFunc.apply(errorMsg);
                     }}) {
 
@@ -151,19 +206,7 @@ public abstract class RestApi extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        String errorMsg = "Unexpected Error!";
-                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            errorMsg = "No connection or you timed out. Try again.";
-                        } else if (error instanceof AuthFailureError) {
-                            errorMsg = "You are not authorized.";
-                        } else if (error instanceof ServerError) {
-                            errorMsg = "does not exist.";
-                        } else if (error instanceof NetworkError) {
-                            errorMsg = "Network Error. Try again.";
-                        } else if (error instanceof ParseError) {
-                            errorMsg = "Parse Error. Try again.";
-                        }
-
+                        String errorMsg = errorMsgHandler(error);
                         errorFunc.apply(errorMsg);
 
                     }}) {
@@ -214,19 +257,7 @@ public abstract class RestApi extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        String errorMsg = "Unexpected Error!";
-                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            errorMsg = "No connection or you timed out. Try again.";
-                        } else if (error instanceof AuthFailureError) {
-                            errorMsg = "You are not authorized.";
-                        } else if (error instanceof ServerError) {
-                            errorMsg = "does not exist.";
-                        } else if (error instanceof NetworkError) {
-                            errorMsg = "Network Error. Try again.";
-                        } else if (error instanceof ParseError) {
-                            errorMsg = "Parse Error. Try again.";
-                        }
-
+                        String errorMsg = errorMsgHandler(error);
                         errorFunc.apply(errorMsg);
 
                     }}) {
@@ -281,19 +312,7 @@ public abstract class RestApi extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        String errorMsg = "Unexpected Error!";
-                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            errorMsg = "No connection or you timed out. Try again.";
-                        } else if (error instanceof AuthFailureError) {
-                            errorMsg = "You are not authorized.";
-                        } else if (error instanceof ServerError) {
-                            errorMsg = "does not exist.";
-                        } else if (error instanceof NetworkError) {
-                            errorMsg = "Network Error. Try again.";
-                        } else if (error instanceof ParseError) {
-                            errorMsg = "Parse Error. Try again.";
-                        }
-
+                        String errorMsg = errorMsgHandler(error);
                         errorFunc.apply(errorMsg);
 
                     }}) {

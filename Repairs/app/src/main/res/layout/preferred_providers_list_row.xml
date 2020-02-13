@@ -38,13 +38,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/providerName"
             android:layout_width="750dp"
             android:layout_height="90dp"
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/nunito_sans"
             android:gravity="center"
-            android:textAlignment="textStart"
             android:textColor="#6D7377"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"

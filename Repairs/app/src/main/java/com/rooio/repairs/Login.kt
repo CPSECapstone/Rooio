@@ -9,6 +9,9 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
@@ -20,6 +23,7 @@ class Login : RestApi() {
     private var cancelLogin: Button? = null
     private var errorMessage: TextView? = null
     private val url = "https://capstone.api.roopairs.com/v0/auth/login/"
+
     override fun onCreate(savedInstanceState: Bundle?) { //Load activity view
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -46,19 +50,21 @@ class Login : RestApi() {
             params["password"] = passwordField!!.text.toString()
             errorMessage!!.setTextColor(Color.parseColor("#A6A9AC"))
             errorMessage!!.text = "Loading"
-            sendLoginInfo(JsonRequest(
+            val request = JsonRequest(
                     false,
                     url,
                     params,
                     responseFunc,
                     errorFunc,
-                    false))
+                    false)
+            sendLoginInfo(Volley.newRequestQueue(applicationContext), request,
+                    createJsonObjectRequest(createJsonParams(request), request))
         }
     }
 
     // Switches page from Login to Landing after clicking Cancel
     private fun onCancel() {
-        cancelLogin!!.setOnClickListener { view: View? -> startActivity(Intent(this@Login, Landing::class.java)) }
+        cancelLogin!!.setOnClickListener { startActivity(Intent(this@Login, Landing::class.java)) }
     }
 
     @JvmField
@@ -66,6 +72,9 @@ class Login : RestApi() {
         try {
             errorMessage!!.text = ""
             storeToken(jsonObj)
+            val jsonResponseObject = jsonObj as JSONObject
+            val token = jsonResponseObject.get("token") as String
+            userToken = token
             startActivity(Intent(this@Login, LocationLogin::class.java))
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -88,18 +97,12 @@ class Login : RestApi() {
 
         userToken = token
         firstName = name
+
     }
 
     // Sends username and password to the API and loads the next screen.
 // Returns error if the information is invalid
-    fun sendLoginInfo(request: JsonRequest) {
-        val username = request.getParams()["username"] as String?
-        val password = request.getParams()["password"] as String?
-        if (username != "" && password != "") {
-            requestPostJsonObj(request)
-        } else {
-            errorMessage!!.setTextColor(Color.parseColor("#E4E40B0B"))
-            errorMessage!!.setText(R.string.errorLogin)
-        }
+    fun sendLoginInfo(queue: RequestQueue, request: JsonRequest, req: JsonObjectRequest) {
+        requestPostJsonObj(queue, req)
     }
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_gravity="center_vertical"
+        android:fontFamily="@font/nunito_sans"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="#BEC3C7"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        android:visibility="visible"
+        android:layout_margin="0dp"/>
+
+    <Button
+        android:id="@+id/equipmentItem"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/dark_gray_button_border"
+        android:fontFamily="@font/nunito_sans"
+        android:padding="20sp"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textColor="#747479"
+        android:textSize="24sp" />
+
+</LinearLayout>
