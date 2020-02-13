@@ -24,10 +24,29 @@ class PreferredProviderDetails: NavigationBar() {
     lateinit var backButton: ImageView
     lateinit var removeButton: Button
     lateinit var url: String
+    lateinit var email: TextView
+    lateinit var skills: TextView
+    lateinit var licenseNumber: TextView
+    lateinit var overview: TextView
+    lateinit var phone: TextView
+    lateinit var name: TextView
+    lateinit var price: TextView
+    lateinit var logo: ImageView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preferred_providers_details)
+
+        //initializes variables that are used in loadElements()
+        overview = findViewById(R.id.info_overview)
+        email = findViewById(R.id.info_email)
+        skills = findViewById(R.id.info_skills)
+        licenseNumber = findViewById(R.id.info_license_number)
+        phone = findViewById(R.id.info_phone)
+        logo = findViewById(R.id.logo)
+        name = findViewById(R.id.name)
+        price = findViewById(R.id.price)
 
         //sets the navigation bar onto the page
         val navInflater = layoutInflater
@@ -42,44 +61,42 @@ class PreferredProviderDetails: NavigationBar() {
         window.addContentView(actionBarView,
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
+        supportActionBar!!.elevation = 0.0f
+
         createNavigationBar("settings")
         backButton = findViewById<View>(R.id.back_button_details) as ImageView
-        removeButton = findViewById<Button>(R.id.removeProvider) as Button
+        removeButton = findViewById(R.id.removeProvider)
 
-
-        val bundle: Bundle ?= intent.extras
-            if (bundle!=null){
-
-                val theId = bundle.getString("addedProvider")
-                //val image = bundle.getString("theLogo")
-                url = "https://capstone.api.roopairs.com/v0/service-providers/" + theId.toString() + "/"
-
-                val responseFunc = { jsonObject : JSONObject ->
-                    try {
-                        loadElements(jsonObject)
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                    }
-
-                    null
-                }
-
-                val errorFunc = { string : String ->
-                    error.setText(string)
-                    null
-                }
-
-                requestGetJsonObj(url, responseFunc, errorFunc, true)
-
-                //removeProvider(url, responseFunc, errorFunc, true)
-            }
-
-
+        loadProvider()
         onRemoveClick()
         onBackClick()
-
     }
 
+    private fun loadProvider(){
+        val bundle: Bundle ?= intent.extras
+        if (bundle!=null){
+
+            val theId = bundle.getString("addedProvider")
+            url = "https://capstone.api.roopairs.com/v0/service-providers/" + theId.toString() + "/"
+
+            val responseFunc = { jsonObject : JSONObject ->
+                try {
+                    loadElements(jsonObject)
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+                null
+            }
+
+            val errorFunc = { string : String ->
+                error.setText(string)
+                null
+            }
+
+            requestGetJsonObj(url, responseFunc, errorFunc, true)
+        }
+    }
     private fun onRemoveClick() {
         val responseFunc = { jsonObject : Any ->
             try {
@@ -104,18 +121,9 @@ class PreferredProviderDetails: NavigationBar() {
 
     @Throws(JSONException::class)
     fun loadElements(response: JSONObject) {
-        val overview = findViewById<TextView>(R.id.info_overview)
-        val email = findViewById<TextView>(R.id.info_email)
-        val skills = findViewById<TextView>(R.id.info_skills)
-        val licenseNumber = findViewById<TextView>(R.id.info_license_number)
-        val phone = findViewById<TextView>(R.id.info_phone)
-        val logo = findViewById<ImageView>(R.id.logo)
-        val name = findViewById<TextView>(R.id.name)
-        val price = findViewById<TextView>(R.id.price)
-
-        var image = ""
+        var image : String
         try {
-            image =response.get("logo") as String
+            image = response.get("logo") as String
         } catch (e: Exception) {
             // if there is no logo for the service provider
             image ="http://rsroemani.com/rv2/wp-content/themes/rsroemani/images/no-user.jpg"
@@ -141,16 +149,16 @@ class PreferredProviderDetails: NavigationBar() {
         }
         catch (e: Exception) {
             // if there is no element provided
-            element.text = "No $name provided."
+            element.text = getString((R.string.details_exception_message), name)
         }
     }
 
     private fun setPriceElement(element: TextView, response: JSONObject, elementName: String, name: String){
         try {
-            element.text = "$" + response.get(elementName) as String + " / hour"
+            element.text = getString((R.string.details_price_exception_message),response.get(elementName) as String)
         } catch (e: Exception) {
             // if there is no logo for the service provider
-            element.text = "No $name provided."
+            element.text = getString((R.string.details_exception_message), name)
         }
     }
 

@@ -27,7 +27,7 @@
                 android:layout_height="980dp"
                 android:layout_marginTop="130dp"
                 android:layout_marginBottom="84dp"
-                android:background="@android:color/white"
+                android:background="@drawable/shadow"
                 android:paddingBottom="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -248,15 +248,16 @@
 
                 <TextView
                     android:id="@+id/starting_cost"
-                    android:layout_width="100dp"
+                    android:layout_width="130dp"
                     android:layout_height="25dp"
                     android:fontFamily="@font/nunito_sans"
+                    android:paddingTop="2dp"
                     android:text="@string/starting_cost"
                     android:textColor="#BEC3C7"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.71"
+                    app:layout_constraintHorizontal_bias="0.78"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.23000002" />
