@@ -28,11 +28,21 @@
     <string name="enter_phone_number">Enter the phone number of one of your preferred service providers to start requesting service from them</string>
     <string name="preferred_service_provider">Preferred Service Providers</string>
     <string name="add_another_service_provider">+ Add Another Service Provider</string>
-    <string-array name="industry_type">
-        <item>Residential</item>
-        <item>Commercial Business</item>
-        <item>Industrial</item>
-    </string-array>
+    <string name="newJobRequest">New Job Request</string>
+    <string name="lighting">Lighting</string>
+    <string name="andElectrical">and Electrical</string>
+    <string name="plumbing">Plumbing</string>
+    <string name="hvac">HVAC</string>
+    <string name="appliance">Appliance</string>
+    <string name="notableJobs">Notable Jobs</string>
+    <string name="allJobs">All Jobs</string>
+    <string name="pending">Pending</string>
+    <string name="scheduled">Scheduled</string>
+    <string name="inProgress">In Progress</string>
+    <string name="three">3</string>
+    <string name="six">6</string>
+    <string name="nine">9</string>
+
     <string-array name="settings_type">
         <item>Preferred Providers</item>
         <item>Service Location</item>
