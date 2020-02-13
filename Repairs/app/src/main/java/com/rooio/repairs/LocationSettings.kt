@@ -89,7 +89,7 @@ class LocationSettings  : NavigationBar() {
     @JvmField
     var responseFunc = Function<Any, Void?> { jsonObj: Any ->
             val responseObj = jsonObj as JSONObject
-            curLocation!!.text = responseObj.getString("physical_address_formatted")
+            curLocation!!.text = responseObj.getString("physical_address")
 
         null
     }

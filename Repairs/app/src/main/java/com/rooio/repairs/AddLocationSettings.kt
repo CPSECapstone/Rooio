@@ -29,7 +29,7 @@ class AddLocationSettings  : NavigationBar() {
         val addAddress = findViewById<Button>(R.id.addLocation)
 
         errorMessage = findViewById(R.id.error_Messages)
-        new_address = findViewById(R.id.newLocation2)
+        new_address = findViewById<TextInputEditText>(R.id.newLocation2)
 
         //sets the navigation bar onto the page
         val navInflater = layoutInflater
