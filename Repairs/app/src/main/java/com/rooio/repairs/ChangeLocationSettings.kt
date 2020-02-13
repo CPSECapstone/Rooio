@@ -28,9 +28,9 @@ class ChangeLocationSettings  : NavigationBar() {
         setContentView(R.layout.activity_change_location_settings)
         val addAnother = findViewById<TextView>(R.id.addAnother)
         val backArrow = findViewById<ImageView>(R.id.backArrow)
-        errorMessage = findViewById(R.id.Error_Messages)
+        errorMessage = findViewById(R.id.errorMessage)
 
-        listView = findViewById(R.id.Service)
+        listView = findViewById(R.id.service)
 
         //sets the navigation bar onto the page
         val navInflater = layoutInflater

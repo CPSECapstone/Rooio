@@ -60,8 +60,8 @@ class PreferredProvidersCustomAdapter implements ListAdapter {
         ServiceProviderData data = arrayList.get(position);
         if(convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
-            convertView = layoutInflater.inflate(R.layout.preferred_providers_list_row, null);
-            TextView tittle = convertView.findViewById(R.id.providerName);
+            convertView = layoutInflater.inflate(R.layout.provider_list_row, null);
+            TextView tittle = convertView.findViewById(R.id.title);
             ImageView imag = convertView.findViewById(R.id.list_image);
             String name = "               " + data.name;
             tittle.setText(name);
