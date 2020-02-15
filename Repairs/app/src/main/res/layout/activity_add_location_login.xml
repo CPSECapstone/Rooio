@@ -24,6 +24,8 @@
             android:layout_width="747dp"
             android:layout_height="54dp"
             android:layout_marginBottom="36dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:background="@drawable/edittextbackground"
             app:layout_constraintBottom_toTopOf="@+id/addLocation"
             app:layout_constraintEnd_toEndOf="parent"
