@@ -53,7 +53,7 @@
     <string name="service_provider_details"> Service Provider Details</string>
     <string name="overview"> Overview</string>
     <string name="starting_cost"> starting cost</string>
-    <string name="remove_provider"> Remover Provider</string>
+    <string name="remove_provider"> Remove Provider</string>
     <string name="details_exception_message"> No %1$s provided.</string>
     <string name="details_price_exception_message">$%1$s / hour</string>
     <string-array name="industry_type">
