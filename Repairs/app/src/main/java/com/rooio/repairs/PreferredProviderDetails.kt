@@ -132,9 +132,10 @@ class PreferredProviderDetails: NavigationBar() {
             image = response.get("logo") as String
         } catch (e: Exception) {
             // if there is no logo for the service provider
-            image ="http://rsroemani.com/rv2/wp-content/themes/rsroemani/images/no-user.jpg"
+            image =""
         }
-        Picasso.with(applicationContext)
+        if(!image.isNullOrEmpty())
+            Picasso.with(applicationContext)
                 .load(image)
                 .into(logo)
         setElementTexts(overview, response,"overview", "overview")

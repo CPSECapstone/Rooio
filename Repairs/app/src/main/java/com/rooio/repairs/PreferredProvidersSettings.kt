@@ -126,7 +126,7 @@ class PreferredProvidersSettings  : NavigationBar() {
                 image = restaurant.get("logo") as String
             } catch (e: Exception) {
                 // if there is no logo for the service provider
-                image = "http://rsroemani.com/rv2/wp-content/themes/rsroemani/images/no-user.jpg"
+                image = ""
             } finally {
                 val serviceProviderData = ServiceProviderData(name, image, id)
                 preferredProviders.add(serviceProviderData)
