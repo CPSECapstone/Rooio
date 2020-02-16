@@ -4,10 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Html
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.text.HtmlCompat
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_preferred_providers_details.*
 import org.json.JSONArray
@@ -126,9 +132,10 @@ class PreferredProviderDetails: NavigationBar() {
             image = response.get("logo") as String
         } catch (e: Exception) {
             // if there is no logo for the service provider
-            image ="http://rsroemani.com/rv2/wp-content/themes/rsroemani/images/no-user.jpg"
+            image =""
         }
-        Picasso.with(applicationContext)
+        if(!image.isNullOrEmpty())
+            Picasso.with(applicationContext)
                 .load(image)
                 .into(logo)
         setElementTexts(overview, response,"overview", "overview")
@@ -138,27 +145,30 @@ class PreferredProviderDetails: NavigationBar() {
         setElementTexts(phone, response, "phone", "phone number")
         setElementTexts(name, response, "name", "name")
         setPriceElement(price, response, "starting_hourly_rate", "")
-
-
-
     }
 
     private fun setElementTexts(element: TextView, response: JSONObject, elementName: String, name: String){
         try {
-                element.text = response.get(elementName) as String
+            var jsonStr = response.get(elementName) as String
+            if(jsonStr.isNullOrEmpty())
+                element.text = "--"
+            else
+                element.text = jsonStr
+
         }
         catch (e: Exception) {
-            // if there is no element provided
-            element.text = getString((R.string.details_exception_message), name)
+            element.text = "--"
         }
     }
 
     private fun setPriceElement(element: TextView, response: JSONObject, elementName: String, name: String){
         try {
-            element.text = getString((R.string.details_price_exception_message),response.get(elementName) as String)
+            var hoursText = getString((R.string.details_price_exception_message),response.get(elementName) as String)
+            var standardText = SpannableStringBuilder(" starting cost")
+            standardText.setSpan(ForegroundColorSpan(Color.parseColor("#00CA8F")), 0, 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            element.text = standardText.insert(1, "$hoursText ")
         } catch (e: Exception) {
-            // if there is no logo for the service provider
-            element.text = getString((R.string.details_exception_message), name)
+            element.text = "--"
         }
     }
 

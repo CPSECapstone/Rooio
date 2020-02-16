@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
+import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
@@ -17,14 +18,15 @@ import java.util.*
 class AddLocationLogin : RestApi() {
     private var addAddress: Button? = null
     private var backButton: ImageView? = null
-    private var newAddress: EditText? = null
+    private lateinit var newAddress: TextInputEditText
     private var errorMessage: TextView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_location_login)
         addAddress = findViewById<View>(R.id.addLocation) as Button
         backButton = findViewById<View>(R.id.backArrow) as ImageView
-        newAddress = findViewById<View>(R.id.newLocationLogin) as EditText
+        newAddress = findViewById<TextInputEditText>(R.id.newLocationLogin)
         errorMessage = findViewById<View>(R.id.errorMessage) as TextView
         errorMessage!!.text = ""
         supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM

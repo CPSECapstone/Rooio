@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,24 +116,39 @@ class EquipmentCustomAdapter implements ListAdapter {
 
     public void equipmentDetails(EquipmentData equipment, ConstraintLayout constraintLayout){
         TextView displayName = constraintLayout.findViewById(R.id.displayName);
+        if(equipment.name.isEmpty())
+            equipment.name = "--";
         displayName.setText(equipment.name);
 
         TextView serialNumber = constraintLayout.findViewById(R.id.serialNumber);
+        if(equipment.serialNumber.isEmpty())
+            equipment.serialNumber = "--";
         serialNumber.setText(equipment.serialNumber);
 
         TextView lastServiceDate = constraintLayout.findViewById(R.id.lastServiceDate);
+        Log.i("try", "ser " + equipment.lastServiceDate);
+        if(equipment.lastServiceDate.equals("null"))
+            equipment.lastServiceDate = "--";
         lastServiceDate.setText(equipment.lastServiceDate);
 
         TextView manufacturer = constraintLayout.findViewById(R.id.manufacturer);
+        if(equipment.manufacturer.isEmpty())
+            equipment.manufacturer = "--";
         manufacturer.setText(equipment.manufacturer);
 
         TextView location = constraintLayout.findViewById(R.id.location);
+        if(equipment.location.isEmpty())
+            equipment.location = "--";
         location.setText(equipment.location);
 
         TextView modelNum = constraintLayout.findViewById(R.id.modelNumber);
+        if(equipment.modelNumber.isEmpty())
+            equipment.modelNumber = "--";
         modelNum.setText(equipment.modelNumber);
 
         TextView lastServiceBy = constraintLayout.findViewById(R.id.lastServiceBy);
+        if(equipment.lastServiceBy.isEmpty())
+            equipment.lastServiceBy = "--";
         lastServiceBy.setText(equipment.lastServiceBy);
     }
 
