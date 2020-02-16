@@ -144,17 +144,19 @@ class PreferredProviderDetails: NavigationBar() {
         setElementTexts(phone, response, "phone", "phone number")
         setElementTexts(name, response, "name", "name")
         setPriceElement(price, response, "starting_hourly_rate", "")
-
-
-
     }
 
     private fun setElementTexts(element: TextView, response: JSONObject, elementName: String, name: String){
         try {
-                element.text = response.get(elementName) as String
+            var jsonStr = response.get(elementName) as String
+            if(jsonStr.isNullOrEmpty())
+                element.text = "--"
+            else
+                element.text = jsonStr
+
         }
         catch (e: Exception) {
-            element.text = getString((R.string.details_exception_message), name)
+            element.text = "--"
         }
     }
 
@@ -165,7 +167,7 @@ class PreferredProviderDetails: NavigationBar() {
             standardText.setSpan(ForegroundColorSpan(Color.parseColor("#00CA8F")), 0, 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
             element.text = standardText.insert(1, "$hoursText ")
         } catch (e: Exception) {
-            element.text = getString((R.string.details_exception_message), e)
+            element.text = "--"
         }
     }
 
