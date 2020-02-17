@@ -21,14 +21,3 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'build'
-- task: Gradle@2
-  inputs:
-    workingDirectory: 'Repairs'
-    gradleWrapperFile: 'Repairs/gradlew'
-    gradleOptions: '-Xmx3072m'
-    tasks: 'unitTestReport'
-- task: PublishCodeCoverageResults@1
-  inputs:
-    summaryFileLocation: '**/unitTestReport.xml'
-    pathToSources: 'Repairs'
-    failIfCoverageEmpty: false
