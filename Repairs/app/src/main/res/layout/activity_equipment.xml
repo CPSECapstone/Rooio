@@ -29,7 +29,7 @@
         android:layout_width="885dp"
         android:layout_height="475dp"
         android:background="@drawable/shadow"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/equipmentBarConstraint"
@@ -129,6 +129,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/addSerialNumberText"
                 app:layout_constraintVertical_bias="0.05" />
 
+            <TextView
+                android:id="@+id/addDisplayNameError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:textColor="@color/Red"
+                app:layout_constraintBottom_toTopOf="@+id/addSerialNumberText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addDisplayName"
+                app:layout_constraintVertical_bias="0.0" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -199,6 +212,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.066" />
+
+            <TextView
+                android:id="@+id/addLocationError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/Red"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addLocation"
+                app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -328,7 +353,7 @@
                 app:srcCompat="@color/colorGray" />
 
             <Button
-                android:id="@+id/addEquipment"
+                android:id="@+id/addEquipmentButton"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="240dp"
                 android:layout_height="55dp"

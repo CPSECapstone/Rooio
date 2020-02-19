@@ -68,6 +68,7 @@
     <string name="serial_number">SERIAL NUMBER</string>
     <string name="equipment_details">Equipment Details</string>
     <string name="add">Add</string>
+    <string name="required">Required Field</string>
     <string-array name="industry_type">
         <item>Residential</item>
         <item>Commercial Business</item>
