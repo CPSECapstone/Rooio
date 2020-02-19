@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
@@ -73,9 +75,9 @@ class EquipmentCustomAdapter implements ListAdapter {
 
             // displaying locations
             TextView location = convertView.findViewById(R.id.location);
-            if(!locations.contains(data.location)){
+            if(!locations.contains(data.location.toUpperCase())){
                 location.setText(data.location.toUpperCase());
-                locations.add(data.location);
+                locations.add(data.location.toUpperCase());
             }
             else
                 location.setVisibility(View.GONE);
@@ -90,6 +92,14 @@ class EquipmentCustomAdapter implements ListAdapter {
 
                 @Override
                 public void onClick(View v) {
+                    //reset the page's UI
+                    ConstraintLayout addEquipmentLayout = ((Activity)context).findViewById(R.id.addEquipmentConstraint);
+                    addEquipmentLayout.setVisibility(v.GONE);
+
+                    Button addEquipmentButton = ((Activity)context).findViewById(R.id.addEquipmentButton);
+                    addEquipmentButton.setTextColor(context.getResources().getColor(R.color.GrayText));
+                    addEquipmentButton.setBackgroundResource(R.drawable.gray_button_border);
+
                     // changing all other buttons back to gray
                     for(Button b : buttons){
                         b.setBackgroundResource(R.drawable.dark_gray_button_border);

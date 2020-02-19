@@ -6,9 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
@@ -17,14 +15,17 @@ import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONArray
 import org.json.JSONException
 
+
 class Equipment : NavigationBar() {
 
     val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/equipment/"
 
     private var textView: TextView? = null
     private var equipmentListView: ListView? = null
-    private var addEquipmentButton: Button? = null
     private var addEquipmentConstraint: ConstraintLayout? = null
+    private var equipmentDetailsConstraint: ConstraintLayout? = null
+    private var analyticsConstraint: ConstraintLayout? = null
+    private var addEquipmentButton: Button? = null
     private var addButton: Button? = null
     private var cancelButton: Button? = null
     private var displayName: TextInputEditText? = null
@@ -32,11 +33,14 @@ class Equipment : NavigationBar() {
     private var manufacturer: TextInputEditText? = null
     private var location: TextInputEditText? = null
     private var modelNumber: TextInputEditText? = null
+    private var equipmentType: Spinner? = null
     private var displayNameError: TextView? = null
-    private var locationError: TextView? = null
 
     private val equipmentList = ArrayList<EquipmentData>()
+    private var customAdapter = EquipmentCustomAdapter(this, equipmentList)
 
+
+    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_equipment)
@@ -60,18 +64,23 @@ class Equipment : NavigationBar() {
 
         textView = findViewById<TextView>(R.id.equipmentPageNoSelectionText)
         equipmentListView = findViewById<View>(R.id.equipmentList) as ListView
-        addEquipmentButton = findViewById<Button>(R.id.addEquipmentButton)
         addEquipmentConstraint = findViewById<ConstraintLayout>(R.id.addEquipmentConstraint)
+        equipmentDetailsConstraint = findViewById(R.id.equipmentDetailsConstraint)
+        analyticsConstraint = findViewById(R.id.analyticsConstraint)
+        addEquipmentButton = findViewById<Button>(R.id.addEquipmentButton)
         addButton = findViewById<Button>(R.id.addButton)
         cancelButton = findViewById(R.id.cancelButton)
         displayNameError = findViewById(R.id.addDisplayNameError)
-        locationError = findViewById(R.id.addLocationError)
 
         displayName = findViewById(R.id.addDisplayName)
         serialNumber = findViewById(R.id.addSerialNumber)
         manufacturer = findViewById(R.id.addManufacturer)
         location = findViewById(R.id.addLocation)
         modelNumber = findViewById(R.id.addModelNumber)
+        equipmentType = findViewById(R.id.addEquipmentTypeSpinner)
+
+
+        equipmentType!!.adapter = ArrayAdapter<EquipmentType>(this, android.R.layout.simple_list_item_1, EquipmentType.values())
 
         onAddEquipmentClick();
         onAddClick();
@@ -81,9 +90,19 @@ class Equipment : NavigationBar() {
         loadEquipment();
     }
 
+    // show add equipment constraint and reset the UI for all other elements
     private fun onAddEquipmentClick() {
         addEquipmentButton!!.setOnClickListener {
+            clearFields()
+            analyticsConstraint!!.visibility = View.GONE
+            equipmentDetailsConstraint!!.visibility = View.GONE
             addEquipmentConstraint!!.visibility = View.VISIBLE
+
+            for(b in customAdapter.buttons){
+                b.setBackgroundResource(R.drawable.dark_gray_button_border)
+                b.setTextColor(Color.parseColor("#747479"))
+            }
+
             addEquipmentButton!!.setTextColor(resources.getColor(R.color.grayedOut))
             addEquipmentButton!!.setBackgroundResource(R.drawable.grayed_out_button_border)
         }
@@ -97,7 +116,7 @@ class Equipment : NavigationBar() {
             params["manufacturer"] = manufacturer!!.text.toString()
             params["location"] = location!!.text.toString()
             params["model_number"] = modelNumber!!.text.toString()
-            params["type"] = 1
+            params["type"] = (equipmentType!!.selectedItem as EquipmentType).getIntRepr()
 
             val request = JsonRequest(false, url, params, responseFuncAdd, errorFuncAdd, true)
             sendAddEquipmentInfo(request)
@@ -111,7 +130,6 @@ class Equipment : NavigationBar() {
         null
     }
 
-    //Error provided if login information is incorrect or cannot be found from request
     @JvmField
     var errorFuncAdd = Function<String, Void?> {
         addEquipmentConstraint!!.visibility = View.GONE
@@ -122,23 +140,29 @@ class Equipment : NavigationBar() {
 
     private fun sendAddEquipmentInfo(request: JsonRequest) {
         val displayName = request.params["display_name"].toString()
-        val location = request.params["location"].toString()
 
-        if(!displayName.isNullOrEmpty() && !location.isNullOrEmpty())
+        if(!displayName.isNullOrEmpty())
             requestJsonObject(Request.Method.POST, request)
-        else{
-            if(displayName.isNullOrEmpty())
-                displayNameError!!.text = resources.getText(R.string.required)
-
-            if(location.isNullOrEmpty())
-                locationError!!.text = resources.getText(R.string.required)
+        else
+            displayNameError!!.text = resources.getText(R.string.required)
         }
-    }
 
+    // reset the UI
     private fun onCancelClick() {
         cancelButton!!.setOnClickListener {
             addEquipmentConstraint!!.visibility = View.GONE
+            textView!!.visibility = View.VISIBLE
+            addEquipmentButton!!.setTextColor(resources.getColor(R.color.GrayText))
+            addEquipmentButton!!.setBackgroundResource(R.drawable.gray_button_border)
         }
+    }
+
+    private fun clearFields() {
+        displayName!!.setText("")
+        serialNumber!!.setText("")
+        manufacturer!!.setText("")
+        location!!.setText("")
+        modelNumber!!.setText("")
     }
 
     var responseFuncLoad = Function<Any, Void?> { jsonResponse: Any? ->
@@ -169,7 +193,9 @@ class Equipment : NavigationBar() {
             equipmentList.add(equipment);
         }
 
-        val customAdapter = EquipmentCustomAdapter(this, equipmentList)
+        equipmentList.sortWith(compareBy({it.location}))
+
+        customAdapter = EquipmentCustomAdapter(this, equipmentList)
         if (equipmentList?.size != 0) equipmentListView!!.adapter = customAdapter
     }
 
