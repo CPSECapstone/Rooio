@@ -8,6 +8,16 @@
     <string name="job_details">Job Details</string>
     <string name="service_type">Service Type</string>
     <string name="technician">Assigned Technician(s)</string>
+    <string name="drop_down_arrow">drop down arrow</string>
+    <string name="divider">divider</string>
+    <string name="manufacturer">Manufacturer</string>
+    <string name="model_number">Model Number</string>
+    <string name="serial_number">Serial Number</string>
+    <string name="last_service_by">Last Service By</string>
+    <string name="last_service_date">Last Service Date</string>
+    <string name="click_view_equipment">Click to view equipment information.</string>
+    <string name="location">Location</string>
+    <string name="active">Active</string>
     <string name="started_on">Started On</string>
     <string name="point_of_contact">Point of Contact</string>
     <string name="details">Details</string>
