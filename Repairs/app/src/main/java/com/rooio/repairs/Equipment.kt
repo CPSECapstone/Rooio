@@ -157,12 +157,14 @@ class Equipment : NavigationBar() {
         }
     }
 
+    // clear all the input fields
     private fun clearFields() {
         displayName!!.setText("")
         serialNumber!!.setText("")
         manufacturer!!.setText("")
         location!!.setText("")
         modelNumber!!.setText("")
+        displayNameError!!.setText("")
     }
 
     var responseFuncLoad = Function<Any, Void?> { jsonResponse: Any? ->
