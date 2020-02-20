@@ -70,7 +70,6 @@
     <string name="equipment_details">Equipment Details</string>
     <string name="add">Add</string>
     <string name="required">Required Field</string>
-    <string name="add_equipment">Add Equipment</string>
     <string name="divider">divider</string>
     <string-array name="industry_type">
         <item>Residential</item>
