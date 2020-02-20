@@ -1,7 +1,7 @@
 package com.rooio.repairs
 
 enum class EquipmentType (val value: String) {
-    HVAC("Hvac"),
+    HVAC("HVAC"),
     PLUMBING("Plumbing"),
     LIGHTING_AND_ELECTRICAL("Lighting and Electrical"),
     GENERAL_APPLIANCE("General Appliance");
