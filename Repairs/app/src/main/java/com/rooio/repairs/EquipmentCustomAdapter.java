@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Color;
-import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,18 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-
-
-import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import java.util.ArrayList;
 
 class EquipmentCustomAdapter implements ListAdapter {
-    ArrayList<EquipmentData> arrayList;
-    ArrayList<String> locations = new ArrayList<>();
-    ArrayList<Button> buttons = new ArrayList<>();
-    Context context;
+    private ArrayList<EquipmentData> arrayList;
+    private ArrayList<String> locations = new ArrayList<>();
+    private ArrayList<Button> buttons = new ArrayList<>();
+    private Context context;
 
     public EquipmentCustomAdapter(Context context, ArrayList<EquipmentData> equipment) {
         this.arrayList = equipment;
@@ -88,45 +83,41 @@ class EquipmentCustomAdapter implements ListAdapter {
 
             //adding button to list of existing buttons
             buttons.add(equipment);
-            equipment.setOnClickListener(new View.OnClickListener(){
+            equipment.setOnClickListener(v -> {
+                //reset the page's UI
+                ConstraintLayout addEquipmentLayout = ((Activity)context).findViewById(R.id.addEquipmentConstraint);
+                addEquipmentLayout.setVisibility(View.GONE);
 
-                @Override
-                public void onClick(View v) {
-                    //reset the page's UI
-                    ConstraintLayout addEquipmentLayout = ((Activity)context).findViewById(R.id.addEquipmentConstraint);
-                    addEquipmentLayout.setVisibility(v.GONE);
+                Button addEquipmentButton = ((Activity)context).findViewById(R.id.addEquipmentButton);
+                addEquipmentButton.setTextColor(context.getResources().getColor(R.color.GrayText));
+                addEquipmentButton.setBackgroundResource(R.drawable.gray_button_border);
 
-                    Button addEquipmentButton = ((Activity)context).findViewById(R.id.addEquipmentButton);
-                    addEquipmentButton.setTextColor(context.getResources().getColor(R.color.GrayText));
-                    addEquipmentButton.setBackgroundResource(R.drawable.gray_button_border);
-
-                    // changing all other buttons back to gray
-                    for(Button b : buttons){
-                        b.setBackgroundResource(R.drawable.dark_gray_button_border);
-                        b.setTextColor(Color.parseColor("#747479"));
-                    }
-
-                    // set the color of the selected button to green
-                    equipment.setBackgroundResource(R.drawable.green_button_border);
-                    equipment.setTextColor(Color.parseColor("#00CA8F"));
-
-                    // getting rid of "select an equipment" text
-                    text.setVisibility(v.GONE);
-
-                    // displaying equipment details
-                    equipmentDetails.setVisibility(v.VISIBLE);
-                    equipmentDetails(data, equipmentDetails);
-
-                    // displaying equipment analytics
-                    equipmentAnalytics.setVisibility(v.VISIBLE);
+                // changing all other buttons back to gray
+                for(Button b : buttons){
+                    b.setBackgroundResource(R.drawable.dark_gray_button_border);
+                    b.setTextColor(Color.parseColor("#747479"));
                 }
+
+                // set the color of the selected button to green
+                equipment.setBackgroundResource(R.drawable.green_button_border);
+                equipment.setTextColor(Color.parseColor("#00CA8F"));
+
+                // getting rid of "select an equipment" text
+                text.setVisibility(View.GONE);
+
+                // displaying equipment details
+                equipmentDetails.setVisibility(View.VISIBLE);
+                equipmentDetails(data, equipmentDetails);
+
+                // displaying equipment analytics
+                equipmentAnalytics.setVisibility(View.VISIBLE);
             });
         }
         return convertView;
     }
 
     // setting text fields with equipment information
-    public void equipmentDetails(EquipmentData equipment, ConstraintLayout constraintLayout){
+    private void equipmentDetails(EquipmentData equipment, ConstraintLayout constraintLayout){
         TextView displayName = constraintLayout.findViewById(R.id.displayName);
         if(equipment.name.isEmpty())
             equipment.name = "--";
@@ -175,5 +166,9 @@ class EquipmentCustomAdapter implements ListAdapter {
     @Override
     public boolean isEmpty() {
         return false;
+    }
+
+    public ArrayList<Button> getButtons() {
+        return buttons;
     }
 }
