@@ -14,7 +14,7 @@
         android:layout_width="375dp"
         android:layout_height="54dp"
         android:lineSpacingExtra="8sp"
-        android:text="Select one of the equipment items on the left to view details and analytics."
+        android:text="@string/select_one_of_the_equipment_items_on_the_left_to_view_details_and_analytics"
         android:textAlignment="center"
         android:textSize="18sp"
         android:visibility="visible"
@@ -23,6 +23,305 @@
         app:layout_constraintStart_toEndOf="@+id/equipmentBarConstraint"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.1" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/addEquipmentConstraint"
+        android:layout_width="885dp"
+        android:layout_height="475dp"
+        android:background="@drawable/shadow"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/equipmentBarConstraint"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.132">
+
+        <TextView
+            android:id="@+id/addEquipmentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:text="@string/add_equipment"
+            android:textColor="#6D7377"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.03" />
+
+        <ImageView
+            android:id="@+id/divider"
+            android:layout_width="1077dp"
+            android:layout_height="2dp"
+            android:contentDescription="@string/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.133"
+            app:srcCompat="@color/colorGray" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/addColumn1"
+            android:layout_width="257dp"
+            android:layout_height="388dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addColumn2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.90">
+
+            <TextView
+                android:id="@+id/addDisplayNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito"
+                android:text="@string/display_name"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.066" />
+
+            <TextView
+                android:id="@+id/addSerialNumberText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito"
+                android:text="@string/serial_number"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.387" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addDisplayName"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/edittextbackground"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.17000002" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addSerialNumber"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/edittextbackground"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.53" />
+
+            <TextView
+                android:id="@+id/addDisplayNameError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:textColor="@color/Red"
+                app:layout_constraintBottom_toTopOf="@+id/addSerialNumberText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addDisplayName"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/addColumn2"
+            android:layout_width="257dp"
+            android:layout_height="385dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.521"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9">
+
+            <TextView
+                android:id="@+id/addLocationText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito"
+                android:text="@string/location"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.382" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addManufacturer"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/edittextbackground"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.17" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addLocation"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/edittextbackground"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.525" />
+
+            <TextView
+                android:id="@+id/addManufacturerText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito"
+                android:text="@string/manufacturer"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.066" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/addColumn3"
+            android:layout_width="257dp"
+            android:layout_height="388dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/addColumn2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.90">
+
+            <TextView
+                android:id="@+id/addModelNumberText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito"
+                android:text="@string/model_number"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.066" />
+
+            <TextView
+                android:id="@+id/addEquipmentType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito"
+                android:text="@string/equipment_type"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.378" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addModelNumber"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/edittextbackground"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.17" />
+
+            <Spinner
+                android:id="@+id/addEquipmentTypeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/spinner_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.52" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/addButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="240dp"
+            android:layout_height="55dp"
+            android:background="@drawable/green_button_border"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/add"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.275"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.86" />
+
+        <Button
+            android:id="@+id/cancelButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="240dp"
+            android:layout_height="55dp"
+            android:background="@drawable/gray_button_border"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="#919191"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.72"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.86" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/equipmentBarConstraint"
@@ -53,16 +352,18 @@
                 android:layout_height="785dp"
                 android:background="#00E63528"
                 android:divider="@drawable/blank_border"
-                app:layout_constraintBottom_toTopOf="@+id/divider1"
+                android:overScrollMode="never"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.055" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
                 android:id="@+id/divider1"
                 android:layout_width="610dp"
                 android:layout_height="2dp"
+                android:contentDescription="@string/divider"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -71,20 +372,21 @@
                 app:srcCompat="@color/colorGray" />
 
             <Button
-                android:id="@+id/addEquipment"
+                android:id="@+id/addEquipmentButton"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="240dp"
                 android:layout_height="55dp"
                 android:background="@drawable/gray_button_border"
                 android:fontFamily="@font/nunito_sans"
-                android:text="Add Equipment"
+                android:text="@string/add_equipment"
                 android:textAllCaps="false"
-                android:textColor="#919191"
+                android:textColor="@color/GrayText"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider1" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.96" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -119,18 +421,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
-            android:text="Equipment Details"
+            android:text="@string/equipment_details"
             android:textColor="#6D7377"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/divider2"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.499"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.025" />
 
         <ImageView
             android:id="@+id/divider2"
             android:layout_width="1077dp"
             android:layout_height="2dp"
+            android:contentDescription="@string/divider"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -140,19 +445,21 @@
             app:srcCompat="@color/colorGray" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/detailsColumn1"
             android:layout_width="257dp"
             android:layout_height="388dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/constraintLayout5"
+            app:layout_constraintEnd_toStartOf="@id/detailsColumn2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider2">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9">
 
             <TextView
                 android:id="@+id/displayNameText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="DISPLAY NAME"
+                android:text="@string/display_name"
                 android:textAlignment="viewStart"
                 android:textColor="#BEC3C7"
                 android:textSize="14sp"
@@ -168,7 +475,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="--"
                 android:textAlignment="textStart"
                 android:textColor="#6D7377"
                 android:textSize="26sp"
@@ -176,15 +482,15 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/serialNumberText"
-                app:layout_constraintVertical_bias="0.02" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.43" />
 
             <TextView
                 android:id="@+id/lastServiceDateText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="LAST SERVICE DATE"
+                android:text="@string/last_service_date"
                 android:textColor="#BEC3C7"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -199,7 +505,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="--"
                 android:textAlignment="textStart"
                 android:textColor="#6D7377"
                 android:textSize="26sp"
@@ -207,15 +512,15 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lastServiceDateText"
-                app:layout_constraintVertical_bias="0.02" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.71" />
 
             <TextView
                 android:id="@+id/serialNumberText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="SERIAL NUMBER"
+                android:text="@string/serial_number"
                 android:textColor="#BEC3C7"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -230,7 +535,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="--"
                 android:textAlignment="textStart"
                 android:textColor="#6D7377"
                 android:textSize="26sp"
@@ -238,26 +542,25 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/displayNameText"
-                app:layout_constraintVertical_bias="0.02" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout5"
+            android:id="@+id/detailsColumn2"
             android:layout_width="257dp"
             android:layout_height="388dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider2"
-            app:layout_constraintVertical_bias="0.45">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.90">
 
             <TextView
                 android:id="@+id/manufacturer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="--"
                 android:textAlignment="textStart"
                 android:textColor="#6D7377"
                 android:textSize="26sp"
@@ -265,15 +568,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/manufacturerText"
-                app:layout_constraintVertical_bias="0.02" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15" />
 
             <TextView
                 android:id="@+id/location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="--"
                 android:textAlignment="textStart"
                 android:textColor="#6D7377"
                 android:textSize="26sp"
@@ -281,15 +583,15 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/locationText"
-                app:layout_constraintVertical_bias="0.02" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.43" />
 
             <TextView
                 android:id="@+id/locationText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="LOCATION"
+                android:text="@string/location"
                 android:textColor="#BEC3C7"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -304,7 +606,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="MANUFACTURER"
+                android:text="@string/manufacturer"
                 android:textColor="#BEC3C7"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -321,7 +623,7 @@
                 android:layout_height="55dp"
                 android:background="@drawable/gray_button_border"
                 android:fontFamily="@font/nunito_sans"
-                android:text="Edit"
+                android:text="@string/edit"
                 android:textAllCaps="false"
                 android:textColor="#919191"
                 android:textSize="24sp"
@@ -333,21 +635,21 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout6"
+            android:id="@+id/detailsColumn3"
             android:layout_width="257dp"
             android:layout_height="388dp"
-            android:layout_marginTop="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/constraintLayout5"
-            app:layout_constraintTop_toBottomOf="@+id/divider2">
+            app:layout_constraintStart_toEndOf="@+id/detailsColumn2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9">
 
             <TextView
                 android:id="@+id/modelNumberText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="MODEL NUMBER"
+                android:text="@string/model_number"
                 android:textColor="#BEC3C7"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -362,7 +664,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="LAST SERVICE BY"
+                android:text="@string/last_service_by"
                 android:textColor="#BEC3C7"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -377,7 +679,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="--"
                 android:textAlignment="textStart"
                 android:textColor="#6D7377"
                 android:textSize="26sp"
@@ -385,15 +686,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/modelNumberText"
-                app:layout_constraintVertical_bias="0.02" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15" />
 
             <TextView
                 android:id="@+id/lastServiceBy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="--"
                 android:textAlignment="textStart"
                 android:textColor="#6D7377"
                 android:textSize="26sp"
@@ -401,8 +701,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lastServiceByText"
-                app:layout_constraintVertical_bias="0.02" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.43" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
