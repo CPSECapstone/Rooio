@@ -29,7 +29,7 @@
         android:layout_width="885dp"
         android:layout_height="475dp"
         android:background="@drawable/shadow"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/equipmentBarConstraint"
@@ -44,15 +44,17 @@
             android:text="@string/add_equipment"
             android:textColor="#6D7377"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.03" />
 
         <ImageView
             android:id="@+id/divider"
             android:layout_width="1077dp"
             android:layout_height="2dp"
+            android:contentDescription="@string/divider"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -62,13 +64,14 @@
             app:srcCompat="@color/colorGray" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/column1"
+            android:id="@+id/addColumn1"
             android:layout_width="257dp"
             android:layout_height="388dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/column2"
+            app:layout_constraintEnd_toStartOf="@+id/addColumn2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.90">
 
             <TextView
                 android:id="@+id/addDisplayNameText"
@@ -108,12 +111,12 @@
                 android:background="@drawable/edittextbackground"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                app:layout_constraintBottom_toTopOf="@+id/addSerialNumberText"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addDisplayNameText"
-                app:layout_constraintVertical_bias="0.06" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.17000002" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/addSerialNumber"
@@ -126,8 +129,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addSerialNumberText"
-                app:layout_constraintVertical_bias="0.05" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.53" />
 
             <TextView
                 android:id="@+id/addDisplayNameError"
@@ -145,15 +148,15 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/column2"
+            android:id="@+id/addColumn2"
             android:layout_width="257dp"
             android:layout_height="385dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.521"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
-            app:layout_constraintVertical_bias="0.476">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9">
 
             <TextView
                 android:id="@+id/addLocationText"
@@ -177,12 +180,12 @@
                 android:background="@drawable/edittextbackground"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                app:layout_constraintBottom_toTopOf="@+id/addLocationText"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addManufacturerText"
-                app:layout_constraintVertical_bias="0.06" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.17" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/addLocation"
@@ -195,8 +198,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addLocationText"
-                app:layout_constraintVertical_bias="0.05" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.525" />
 
             <TextView
                 android:id="@+id/addManufacturerText"
@@ -216,14 +219,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/column3"
+            android:id="@+id/addColumn3"
             android:layout_width="257dp"
             android:layout_height="388dp"
-            android:layout_marginTop="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/column2"
-            app:layout_constraintTop_toBottomOf="@+id/divider">
+            app:layout_constraintStart_toEndOf="@+id/addColumn2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.90">
 
             <TextView
                 android:id="@+id/addModelNumberText"
@@ -266,8 +269,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addModelNumberText"
-                app:layout_constraintVertical_bias="0.01" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.17" />
 
             <Spinner
                 android:id="@+id/addEquipmentTypeSpinner"
@@ -277,8 +280,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addEquipmentType"
-                app:layout_constraintVertical_bias="0.050000012" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.52" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -347,19 +350,20 @@
                 android:id="@+id/equipmentList"
                 android:layout_width="363dp"
                 android:layout_height="785dp"
-                android:overScrollMode = "never"
                 android:background="#00E63528"
                 android:divider="@drawable/blank_border"
-                app:layout_constraintBottom_toTopOf="@+id/divider1"
+                android:overScrollMode="never"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.055" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
                 android:id="@+id/divider1"
                 android:layout_width="610dp"
                 android:layout_height="2dp"
+                android:contentDescription="@string/divider"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -374,14 +378,15 @@
                 android:layout_height="55dp"
                 android:background="@drawable/gray_button_border"
                 android:fontFamily="@font/nunito_sans"
-                android:text="Add Equipment"
+                android:text="@string/add_equipment"
                 android:textAllCaps="false"
                 android:textColor="@color/GrayText"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider1" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.96" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -419,15 +424,18 @@
             android:text="@string/equipment_details"
             android:textColor="#6D7377"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/divider2"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.499"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.025" />
 
         <ImageView
             android:id="@+id/divider2"
             android:layout_width="1077dp"
             android:layout_height="2dp"
+            android:contentDescription="@string/divider"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -437,12 +445,14 @@
             app:srcCompat="@color/colorGray" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/detailsColumn1"
             android:layout_width="257dp"
             android:layout_height="388dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/constraintLayout5"
+            app:layout_constraintEnd_toStartOf="@id/detailsColumn2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider2">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9">
 
             <TextView
                 android:id="@+id/displayNameText"
@@ -472,8 +482,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/serialNumberText"
-                app:layout_constraintVertical_bias="0.02" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.43" />
 
             <TextView
                 android:id="@+id/lastServiceDateText"
@@ -502,8 +512,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lastServiceDateText"
-                app:layout_constraintVertical_bias="0.02" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.71" />
 
             <TextView
                 android:id="@+id/serialNumberText"
@@ -532,19 +542,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/displayNameText"
-                app:layout_constraintVertical_bias="0.02" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout5"
+            android:id="@+id/detailsColumn2"
             android:layout_width="257dp"
             android:layout_height="388dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider2"
-            app:layout_constraintVertical_bias="0.45">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.90">
 
             <TextView
                 android:id="@+id/manufacturer"
@@ -558,8 +568,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/manufacturerText"
-                app:layout_constraintVertical_bias="0.02" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15" />
 
             <TextView
                 android:id="@+id/location"
@@ -573,8 +583,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/locationText"
-                app:layout_constraintVertical_bias="0.02" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.43" />
 
             <TextView
                 android:id="@+id/locationText"
@@ -625,14 +635,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout6"
+            android:id="@+id/detailsColumn3"
             android:layout_width="257dp"
             android:layout_height="388dp"
-            android:layout_marginTop="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/constraintLayout5"
-            app:layout_constraintTop_toBottomOf="@+id/divider2">
+            app:layout_constraintStart_toEndOf="@+id/detailsColumn2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9">
 
             <TextView
                 android:id="@+id/modelNumberText"
@@ -676,8 +686,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/modelNumberText"
-                app:layout_constraintVertical_bias="0.02" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15" />
 
             <TextView
                 android:id="@+id/lastServiceBy"
@@ -691,8 +701,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lastServiceByText"
-                app:layout_constraintVertical_bias="0.02" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.43" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
