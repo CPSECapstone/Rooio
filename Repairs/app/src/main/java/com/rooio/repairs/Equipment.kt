@@ -45,23 +45,18 @@ class Equipment : NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_equipment)
 
-        //sets the navigation bar onto the page
-        val navInflater = layoutInflater
-        val tmpView = navInflater.inflate(R.layout.activity_navigation_bar, null)
-
-        window.addContentView(tmpView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-        //sets the action bar onto the page
-        val actionbarInflater = layoutInflater
-        val actionbarView = actionbarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionbarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        supportActionBar!!.elevation = 0.0f
-
-        //making navigation bar w/ Equipment text highlighted
+        initializeVariable()
+        setNavigationBar()
+        setActionBar()
         createNavigationBar("equipment")
+        onAddEquipmentClick();
+        onAddClick();
+        onCancelClick();
+        loadEquipment();
+    }
 
+    //initialize UI variables
+    private fun initializeVariable() {
         textView = findViewById<TextView>(R.id.equipmentPageNoSelectionText)
         equipmentListView = findViewById<View>(R.id.equipmentList) as ListView
         addEquipmentConstraint = findViewById<ConstraintLayout>(R.id.addEquipmentConstraint)
@@ -79,15 +74,27 @@ class Equipment : NavigationBar() {
         modelNumber = findViewById(R.id.addModelNumber)
         equipmentType = findViewById(R.id.addEquipmentTypeSpinner)
 
-
         equipmentType!!.adapter = ArrayAdapter<EquipmentType>(this, android.R.layout.simple_list_item_1, EquipmentType.values())
+    }
 
-        onAddEquipmentClick();
-        onAddClick();
-        onCancelClick();
+    // Sets the navigation bar onto the page
+    private fun setNavigationBar() {
+        //sets the navigation bar onto the page
+        val navInflater = layoutInflater
+        val tmpView = navInflater.inflate(R.layout.activity_navigation_bar, null)
 
-        //get equipment
-        loadEquipment();
+        window.addContentView(tmpView,
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+    }
+
+    // Sets the action bar onto the page
+    private fun setActionBar() {
+        //sets the action bar onto the page
+        val actionbarInflater = layoutInflater
+        val actionbarView = actionbarInflater.inflate(R.layout.action_bar, null)
+        window.addContentView(actionbarView,
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+        supportActionBar!!.elevation = 0.0f
     }
 
     // show add equipment constraint and reset the UI for all other elements
@@ -108,6 +115,7 @@ class Equipment : NavigationBar() {
         }
     }
 
+    // creating JsonRequest object
     private fun onAddClick() {
         val params = HashMap<String, Any>()
         addButton!!.setOnClickListener {
@@ -123,25 +131,28 @@ class Equipment : NavigationBar() {
         }
     }
 
-    //reload the Equipment page
     @JvmField
+    // reloading the Equipment page
     var responseFuncAdd = Function<Any, Void?> { jsonObj: Any ->
         startActivity(Intent(this@Equipment, Equipment::class.java))
         null
     }
 
     @JvmField
+    // add equipment UI disappears and shows error message
     var errorFuncAdd = Function<String, Void?> {
         addEquipmentConstraint!!.visibility = View.GONE
         textView!!.visibility = View.VISIBLE
         textView!!.text = it.toString()
+        textView!!.setTextColor(resources.getColor(R.color.Red))
         null
     }
 
+    // sending JsonObject request
     private fun sendAddEquipmentInfo(request: JsonRequest) {
         val displayName = request.params["display_name"].toString()
 
-        if(!displayName.isNullOrEmpty())
+        if(displayName.isNotEmpty())
             requestJsonObject(Request.Method.POST, request)
         else
             displayNameError!!.text = resources.getText(R.string.required)
@@ -167,28 +178,32 @@ class Equipment : NavigationBar() {
         displayNameError!!.setText("")
     }
 
+    // load equipments in the equipment list
     var responseFuncLoad = Function<Any, Void?> { jsonResponse: Any? ->
         try {
             val jsonArray = jsonResponse as JSONArray
-            loadElements(jsonArray)
+            loadEquipment(jsonArray)
         } catch (e: JSONException) {
             e.printStackTrace()
         }
         null
     }
 
+    // set error message
     var errorFuncLoad = Function<String, Void?> { string: String? ->
         textView!!.text = string
-        textView!!.setTextColor(Color.parseColor("#E4E40B0B"))
+        textView!!.setTextColor(resources.getColor(R.color.Red))
         null
     }
 
+    // send JsonRequest
     private fun loadEquipment() {
         val request = JsonRequest(false, url, null, responseFuncLoad, errorFuncLoad, true)
         requestGetJsonArray(request)
     }
 
-    private fun loadElements(response: JSONArray) {
+    // getting all the equipment for the equipment list
+    private fun loadEquipment(response: JSONArray) {
         equipmentList.clear()
         for (i in 0 until response.length()) {
             val equipment = EquipmentData(response.getJSONObject(i))
@@ -201,6 +216,7 @@ class Equipment : NavigationBar() {
         if (equipmentList?.size != 0) equipmentListView!!.adapter = customAdapter
     }
 
+    //Animates the main page content when the navigation bar collapses/expands
     override fun animateActivity(boolean: Boolean){
         val pageConstraint = findViewById<ConstraintLayout>(R.id.equipmentPageConstraint)
 

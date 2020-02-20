@@ -106,6 +106,7 @@ class EquipmentCustomAdapter implements ListAdapter {
                         b.setTextColor(Color.parseColor("#747479"));
                     }
 
+                    // set the color of the selected button to green
                     equipment.setBackgroundResource(R.drawable.green_button_border);
                     equipment.setTextColor(Color.parseColor("#00CA8F"));
 
@@ -124,6 +125,7 @@ class EquipmentCustomAdapter implements ListAdapter {
         return convertView;
     }
 
+    // setting text fields with equipment information
     public void equipmentDetails(EquipmentData equipment, ConstraintLayout constraintLayout){
         TextView displayName = constraintLayout.findViewById(R.id.displayName);
         if(equipment.name.isEmpty())
