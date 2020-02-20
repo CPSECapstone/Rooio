@@ -1,6 +1,6 @@
 package com.rooio.repairs
 
-enum class EquipmentType (val value: String) {
+enum class EquipmentType (private val value: String) {
     HVAC("HVAC"),
     PLUMBING("Plumbing"),
     LIGHTING_AND_ELECTRICAL("Lighting and Electrical"),
@@ -11,11 +11,11 @@ enum class EquipmentType (val value: String) {
     }
 
     fun getIntRepr(): Int {
-        when (this) {
-            HVAC -> return 1
-            PLUMBING -> return 2
-            LIGHTING_AND_ELECTRICAL -> return 3
-            GENERAL_APPLIANCE -> return 4
+        return when (this) {
+            HVAC -> 1
+            PLUMBING -> 2
+            LIGHTING_AND_ELECTRICAL -> 3
+            GENERAL_APPLIANCE -> 4
         }
     }
 }
