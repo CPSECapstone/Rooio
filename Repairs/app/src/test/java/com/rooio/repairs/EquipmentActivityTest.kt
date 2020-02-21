@@ -2,6 +2,7 @@ package com.rooio.repairs
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 
@@ -20,4 +21,38 @@ class EquipmentActivityTest{
     }
 
 
+    @Test
+    fun testAddEquipmentButton(){
+
+    }
+
+    @Test
+    fun testCancelAddEquipmentButton(){
+
+    }
+
+    @Test
+    fun testEmptyDisplayName() {
+
+    }
+
+    @Test
+    fun testAddResponseFunc() {
+
+    }
+
+    @Test
+    fun testAddErrorFunc() {
+
+    }
+
+    @Test
+    fun testLoadResponseFunc(){
+
+    }
+
+    @Test
+    fun testLoadErrorFunc(){
+
+    }
 }

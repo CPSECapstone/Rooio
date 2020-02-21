@@ -51,7 +51,7 @@ class Equipment : NavigationBar() {
         onAddEquipmentClick()
         onAddClick()
         onCancelClick()
-        loadEquipment()
+        loadEquipmentElements()
     }
 
     //initialize UI variables
@@ -177,8 +177,15 @@ class Equipment : NavigationBar() {
         displayNameError.text = ""
     }
 
+    // send JsonRequest Object
+    private fun loadEquipmentElements() {
+        val request = JsonRequest(false, url, null, responseFuncLoad, errorFuncLoad, true)
+        requestGetJsonArray(request)
+    }
+
+    @JvmField
     // load equipments in the equipment list
-    private var responseFuncLoad = Function<Any, Void?> { jsonResponse: Any? ->
+    var responseFuncLoad = Function<Any, Void?> { jsonResponse: Any? ->
         try {
             val jsonArray = jsonResponse as JSONArray
             loadEquipment(jsonArray)
@@ -188,20 +195,16 @@ class Equipment : NavigationBar() {
         null
     }
 
+    @JvmField
     // set error message
-    private var errorFuncLoad = Function<String, Void?> { string: String? ->
+    var errorFuncLoad = Function<String, Void?> { string: String? ->
         textView.text = string
         textView.setTextColor(ContextCompat.getColor(this,R.color.Red))
         null
     }
 
-    // send JsonRequest
-    private fun loadEquipment() {
-        val request = JsonRequest(false, url, null, responseFuncLoad, errorFuncLoad, true)
-        requestGetJsonArray(request)
-    }
-
     // getting all the equipment for the equipment list
+    // passing equipment list to custom adapter
     private fun loadEquipment(response: JSONArray) {
         equipmentList.clear()
         for (i in 0 until response.length()) {
