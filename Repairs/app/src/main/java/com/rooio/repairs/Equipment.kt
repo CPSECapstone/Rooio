@@ -3,6 +3,7 @@ package com.rooio.repairs
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -20,13 +21,16 @@ class Equipment : NavigationBar() {
 
     val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/equipment/"
 
-    private lateinit var textView: TextView
+    private lateinit var messageText: TextView
     private lateinit var equipmentListView: ListView
     private lateinit var addEquipmentConstraint: ConstraintLayout
+    private lateinit var editEquipmentConstraint: ConstraintLayout
     private lateinit var equipmentDetailsConstraint: ConstraintLayout
     private lateinit var analyticsConstraint: ConstraintLayout
     private lateinit var addEquipmentButton: Button
     private lateinit var addButton: Button
+    private lateinit var editButton: Button
+    private lateinit var saveButton: Button
     private lateinit var cancelButton: Button
     private lateinit var displayName: TextInputEditText
     private lateinit var serialNumber: TextInputEditText
@@ -35,6 +39,14 @@ class Equipment : NavigationBar() {
     private lateinit var modelNumber: TextInputEditText
     private lateinit var equipmentType: Spinner
     private lateinit var displayNameError: TextView
+    private lateinit var editDisplayName: TextInputEditText
+    private lateinit var editSerialNumber: TextInputEditText
+    private lateinit var editManufacturer: TextInputEditText
+    private lateinit var editLocation: TextInputEditText
+    private lateinit var editModelNumber: TextInputEditText
+    private lateinit var editEquipmentType: Spinner
+    private lateinit var editDisplayNameError: TextView
+
 
     private val equipmentList = ArrayList<EquipmentData>()
     private var customAdapter = EquipmentCustomAdapter(this, equipmentList)
@@ -50,21 +62,30 @@ class Equipment : NavigationBar() {
         createNavigationBar("equipment")
         onAddEquipmentClick()
         onAddClick()
+        onEditClick()
+        onSaveClick()
         onCancelClick()
         loadEquipment()
     }
 
     //initialize UI variables
     private fun initializeVariable() {
-        textView = findViewById(R.id.equipmentPageNoSelectionText)
+        messageText = findViewById(R.id.equipmentPageNoSelectionText)
+        displayNameError = findViewById(R.id.addDisplayNameError)
+        editDisplayNameError = findViewById(R.id.editDisplayNameError)
+
+
         equipmentListView = findViewById(R.id.equipmentList)
         addEquipmentConstraint = findViewById(R.id.addEquipmentConstraint)
+        editEquipmentConstraint = findViewById(R.id.editEquipmentConstraint)
         equipmentDetailsConstraint = findViewById(R.id.equipmentDetailsConstraint)
         analyticsConstraint = findViewById(R.id.analyticsConstraint)
+
         addEquipmentButton = findViewById(R.id.addEquipmentButton)
         addButton = findViewById(R.id.addButton)
+        editButton = findViewById(R.id.editButton)
+        saveButton = findViewById(R.id.saveButton)
         cancelButton = findViewById(R.id.cancelButton)
-        displayNameError = findViewById(R.id.addDisplayNameError)
 
         displayName = findViewById(R.id.addDisplayName)
         serialNumber = findViewById(R.id.addSerialNumber)
@@ -73,7 +94,16 @@ class Equipment : NavigationBar() {
         modelNumber = findViewById(R.id.addModelNumber)
         equipmentType = findViewById(R.id.addEquipmentTypeSpinner)
 
+        editDisplayName = findViewById(R.id.editDisplayName)
+        editSerialNumber = findViewById(R.id.editSerialNumber)
+        editManufacturer = findViewById(R.id.editManufacturer)
+        editLocation = findViewById(R.id.editLocation)
+        editModelNumber = findViewById(R.id.editModelNumber)
+        editEquipmentType = findViewById(R.id.editEquipmentType)
+
+        // setting up spinners (drop down)
         equipmentType.adapter = ArrayAdapter<EquipmentType>(this, android.R.layout.simple_list_item_1, EquipmentType.values())
+        editEquipmentType.adapter = ArrayAdapter<EquipmentType>(this, android.R.layout.simple_list_item_1, EquipmentType.values())
     }
 
     // Sets the navigation bar onto the page
@@ -141,9 +171,9 @@ class Equipment : NavigationBar() {
     // add equipment UI disappears and shows error message
     var errorFuncAdd = Function<String, Void?> {
         addEquipmentConstraint.visibility = View.GONE
-        textView.visibility = View.VISIBLE
-        textView.text = it.toString()
-        textView.setTextColor(ContextCompat.getColor(this,R.color.Red))
+        messageText.visibility = View.VISIBLE
+        messageText.text = it.toString()
+        messageText.setTextColor(ContextCompat.getColor(this,R.color.Red))
         null
     }
 
@@ -157,11 +187,60 @@ class Equipment : NavigationBar() {
             displayNameError.text = resources.getText(R.string.required)
         }
 
+    // displaying edit equipment constraint & setting all prompts to the existing information
+    private fun onEditClick() {
+        editButton.setOnClickListener {
+            equipmentDetailsConstraint.visibility = View.GONE
+            editEquipmentConstraint.visibility = View.VISIBLE
+        }
+    }
+
+    private fun onSaveClick() {
+        val params = HashMap<String, Any>()
+        saveButton.setOnClickListener {
+            params["display_name"] = editDisplayName.text.toString()
+            params["serial_number"] = editSerialNumber.text.toString()
+            params["manufacturer"] = editManufacturer.text.toString()
+            params["location"] = editLocation.text.toString()
+            params["model_number"] = editModelNumber.text.toString()
+            params["type"] = (editEquipmentType.selectedItem as EquipmentType).getIntRepr()
+
+            val url = url + customAdapter.equipmentId + "/"
+
+            val request = JsonRequest(false, url, params, responseFuncSave, errorFuncSave, true)
+            sendSaveEditRequest(request)
+        }
+    }
+
+    @JvmField
+    var responseFuncSave = Function<Any, Void> {
+        editEquipmentConstraint.visibility = View.GONE
+        equipmentDetailsConstraint.visibility = View.VISIBLE
+        null
+    }
+
+    @JvmField
+    var errorFuncSave = Function<String, Void> {
+        editEquipmentConstraint.visibility = View.GONE
+        messageText.text = resources.getText(R.string.save_equipment_error)
+        messageText.setTextColor(ContextCompat.getColor(this,R.color.Red))
+        null
+    }
+
+    private fun sendSaveEditRequest(request : JsonRequest){
+        val displayName = request.params["display_name"].toString()
+
+        if(displayName.isNotEmpty())
+            requestJsonObject(Request.Method.PUT, request)
+        else
+            editDisplayNameError.text = resources.getText(R.string.required)
+    }
+
     // reset the UI
     private fun onCancelClick() {
         cancelButton.setOnClickListener {
             addEquipmentConstraint.visibility = View.GONE
-            textView.visibility = View.VISIBLE
+            messageText.visibility = View.VISIBLE
             addEquipmentButton.setTextColor(ContextCompat.getColor(this,R.color.GrayText))
             addEquipmentButton.setBackgroundResource(R.drawable.gray_button_border)
         }
@@ -190,8 +269,8 @@ class Equipment : NavigationBar() {
 
     // set error message
     private var errorFuncLoad = Function<String, Void?> { string: String? ->
-        textView.text = string
-        textView.setTextColor(ContextCompat.getColor(this,R.color.Red))
+        messageText.text = string
+        messageText.setTextColor(ContextCompat.getColor(this,R.color.Red))
         null
     }
 

@@ -80,6 +80,8 @@
     <string name="display_name">Display Name</string>
     <string name="equipment_type">Equipment Type</string>
     <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="save_equipment_error">Equipment details could not be saved at this time.</string>
     <string-array name="industry_type">
         <item>Residential</item>
         <item>Commercial Business</item>
