@@ -56,6 +56,7 @@
     <string name="remove_provider"> Remove Provider</string>
     <string name="details_exception_message"> No %1$s provided.</string>
     <string name="details_price_exception_message">$%1$s / hour</string>
+    <string name="chooseEquipmentTitle">Choose Equipment</string>
     <string-array name="industry_type">
         <item>Residential</item>
         <item>Commercial Business</item>
