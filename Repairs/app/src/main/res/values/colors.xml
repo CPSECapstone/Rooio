@@ -8,4 +8,5 @@
     <color name="lightGray">#A6A9AC</color>
     <color name="GrayText">#6D6B6B</color>
     <color name="Red">#CA2500</color>
+    <color name="grayedOut">#336B6B6B</color>
 </resources>

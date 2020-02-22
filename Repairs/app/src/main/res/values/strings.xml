@@ -5,6 +5,22 @@
     <string name="cancel">Cancel</string>
     <string name="green_bar">green bar</string>
     <string name="register">Register</string>
+    <string name="job_details">Job Details</string>
+    <string name="service_type">Service Type</string>
+    <string name="technician">Assigned Technician(s)</string>
+    <string name="drop_down_arrow">drop down arrow</string>
+    <string name="divider">divider</string>
+    <string name="manufacturer">Manufacturer</string>
+    <string name="model_number">Model Number</string>
+    <string name="serial_number">Serial Number</string>
+    <string name="last_service_by">Last Service By</string>
+    <string name="last_service_date">Last Service Date</string>
+    <string name="click_view_equipment">Click to view equipment information.</string>
+    <string name="location">Location</string>
+    <string name="active">Active</string>
+    <string name="started_on">Started On</string>
+    <string name="point_of_contact">Point of Contact</string>
+    <string name="details">Details</string>
     <string name="landing_message">Click the Connect Account button below to connect your Roopairs account to start requesting on-demand service. If you do not have a Roopairs account, click Create Account.</string>
     <string name="mainbox">TextView</string>
     <string name="change_service_location">Change Service Location</string>
@@ -57,6 +73,14 @@
     <string name="details_exception_message"> No %1$s provided.</string>
     <string name="details_price_exception_message">$%1$s / hour</string>
     <string name="chooseEquipmentTitle">Choose Equipment</string>
+    <string name="select_one_of_the_equipment_items_on_the_left_to_view_details_and_analytics">Select one of the equipment items on the left to view details and analytics.</string>
+    <string name="add_equipment">Add Equipment</string>
+    <string name="equipment_details">Equipment Details</string>
+    <string name="add">Add</string>
+    <string name="required">Required Field</string>
+    <string name="display_name">Display Name</string>
+    <string name="equipment_type">Equipment Type</string>
+    <string name="edit">Edit</string>
     <string-array name="industry_type">
         <item>Residential</item>
         <item>Commercial Business</item>
