@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ECF0F1"
@@ -9,38 +10,40 @@
 
     <ScrollView
         style="@android:style/Widget.ScrollView"
+        android:id="@+id/locationScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/locationScrollLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="100dp">
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline6"
+                android:id="@+id/rightGuideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="1385dp" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline5"
+                android:id="@+id/leftGuideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="535dp" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline4"
+                android:id="@+id/lowerGuideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintGuide_begin="510dp" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline3"
+                android:id="@+id/upperGuideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -53,9 +56,9 @@
                 android:background="@drawable/shadow"
                 android:isScrollContainer="false"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline6"
-                app:layout_constraintStart_toEndOf="@+id/guideline5"
-                app:layout_constraintTop_toTopOf="@+id/guideline3">
+                app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+                app:layout_constraintStart_toEndOf="@+id/leftGuideline"
+                app:layout_constraintTop_toTopOf="@+id/upperGuideline">
 
                 <TextView
                     android:id="@+id/addAnother"
@@ -73,7 +76,7 @@
                     app:layout_constraintVertical_bias="1.0" />
 
                 <TextView
-                    android:id="@+id/title"
+                    android:id="@+id/locationTitle"
                     android:layout_width="321dp"
                     android:layout_height="37dp"
                     android:layout_marginTop="25dp"
@@ -101,7 +104,7 @@
                     app:srcCompat="@color/colorAccent" />
 
                 <ListView
-                    android:id="@+id/service"
+                    android:id="@+id/locationListView"
                     android:layout_width="750dp"
                     android:layout_height="105dp"
                     android:layout_marginTop="130dp"
@@ -152,5 +155,17 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

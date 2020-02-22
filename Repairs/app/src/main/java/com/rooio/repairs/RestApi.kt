@@ -57,7 +57,8 @@ abstract class RestApi : AppCompatActivity() {
         val errorFunc = request.errorFunc
         val headersFlag = request.headersFlag
         val jsonParams = JSONObject(request.params)
-        return object : JsonObjectRequest(type!!, url, jsonParams, Response.Listener { input: JSONObject -> responseFunc.apply(input) },
+        return object : JsonObjectRequest(type!!, url, jsonParams,
+                Response.Listener { input: JSONObject -> responseFunc.apply(input) },
                 Response.ErrorListener { error: VolleyError -> errorFunc.apply(errorMsgHandler(error)) }) {
             override fun getHeaders(): Map<String, String> {
                 //If true is given through headersFlag parameter the Post request will be sent with Headers
@@ -79,7 +80,10 @@ abstract class RestApi : AppCompatActivity() {
         val responseFunc = request.responseFunc
         val errorFunc = request.errorFunc
         val headersFlag = request.headersFlag
-        return object : JsonArrayRequest(type!!, url, Response.Listener { input: JSONArray -> responseFunc.apply(input) }, Response.ErrorListener { error: VolleyError -> errorFunc.apply(errorMsgHandler(error)) }) {
+        val jsonParams = JSONObject(request.params)
+        return object : JsonArrayRequest(type!!, url, jsonParams,
+                Response.Listener { input: JSONArray -> responseFunc.apply(input) },
+                Response.ErrorListener { error: VolleyError -> errorFunc.apply(errorMsgHandler(error)) }) {
             override fun getHeaders(): Map<String, String> {
                 //If true is given through headersFlag parameter the Post request will be sent with Headers
                 return if (headersFlag) {
