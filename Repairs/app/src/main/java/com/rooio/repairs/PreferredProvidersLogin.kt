@@ -39,7 +39,8 @@ class PreferredProvidersLogin : RestApi() {
 
     private fun loadPreferredProviders() {
         val url = "https://capstone.api.roopairs.com/v0/service-providers/"
-        val responseFunc = Function<JSONArray, Void?> { jsonArray: JSONArray ->
+        val responseFunc = Function<Any, Void?> { response : Any ->
+            val jsonArray = response as JSONArray
             try {
                 loadElements(jsonArray)
             } catch (e: JSONException) {
@@ -51,7 +52,8 @@ class PreferredProvidersLogin : RestApi() {
             error!!.text = string
             null
         }
-        requestGetJsonArray(url, responseFunc, errorFunc, true)
+        val request = JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true)
+        requestGetJsonArray(request)
     }
 
     @Throws(JSONException::class)

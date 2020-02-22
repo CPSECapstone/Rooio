@@ -6,10 +6,12 @@
     <string name="green_bar">green bar</string>
     <string name="register">Register</string>
     <string name="landing_message">Click the Connect Account button below to connect your Roopairs account to start requesting on-demand service. If you do not have a Roopairs account, click Create Account.</string>
-    <string name="mainbox">TextView</string>
+    <string name="main_box">TextView</string>
     <string name="change_service_location">Change Service Location</string>
-    <string name="errorLogin">Incorrect username and/or password.</string>
+    <string name="error_login">Incorrect username and/or password.</string>
+    <string name="error_register">Email is already registered with a Roopairs account.</string>
     <string name="choose_service_location">CHOOSE A SERVICE LOCATION</string>
+    <string name="invalid_address">Not a valid address.</string>
     <string name="loading">Loading</string>
     <string name="continue_button">Continue</string>
     <string name="error_server">"Error connecting with the server."</string>
@@ -29,7 +31,7 @@
     <string name="networkInfo">networkInfo</string>
     <string name="phone_number">PHONE NUMBER</string>
     <string name="add_provider">Add Provider</string>
-    <string name="enter_phone_number">Enter the phone number of one of your preferred service providers to start requesting service from them</string>
+    <string name="enter_phone_number">Enter the phone number of one of your preferred service providers to start requesting service from them.</string>
     <string name="preferred_service_provider">Preferred Service Providers</string>
     <string name="add_another_service_provider">+ Add Another Service Provider</string>
     <string name="newJobRequest">New Job Request</string>

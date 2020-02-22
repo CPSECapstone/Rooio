@@ -11,14 +11,14 @@
     tools:context=".Login">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mainBox"
+        android:id="@+id/loginBox"
         android:layout_width="850dp"
         android:layout_height="360dp"
         android:background="@drawable/shadow"
-        app:layout_constraintBottom_toTopOf="@+id/lower_guideline"
-        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-        app:layout_constraintStart_toStartOf="@+id/left_guideline"
-        app:layout_constraintTop_toTopOf="@+id/upper_guideline">
+        app:layout_constraintBottom_toTopOf="@+id/lowerGuideline"
+        app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+        app:layout_constraintTop_toTopOf="@+id/upperGuideline">
 
 
         <EditText
@@ -36,7 +36,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias=".35" />
+            app:layout_constraintVertical_bias=".38" />
 
         <EditText
             android:id="@+id/passwordField"
@@ -53,19 +53,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias=".60" />
+            app:layout_constraintVertical_bias=".6" />
 
         <TextView
             android:id="@+id/errorMessage"
             android:layout_width="616dp"
             android:layout_height="19dp"
             android:textAlignment="center"
-            android:textColor="#E4E40B0B"
+            android:textColor="#CA2500"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.27999997" />
+            app:layout_constraintVertical_bias=".27" />
 
         <Button
             android:id="@+id/connectAccount"
@@ -115,15 +116,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.23"
+            app:layout_constraintVertical_bias="0.22"
             app:srcCompat="@color/colorAccent" />
 
         <TextView
-            android:id="@+id/providerName"
+            android:id="@+id/loginTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
             android:text="@string/title_activity_landing"
+            android:textColor="#6D7377"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -134,31 +136,43 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/left_guideline"
+        android:id="@+id/leftGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="535dp" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/upper_guideline"
+        android:id="@+id/upperGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="150dp" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/lower_guideline"
+        android:id="@+id/lowerGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="510dp" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/right_guideline"
+        android:id="@+id/rightGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="1385dp" />
+
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

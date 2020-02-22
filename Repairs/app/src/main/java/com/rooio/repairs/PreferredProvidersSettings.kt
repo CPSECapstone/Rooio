@@ -9,6 +9,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import java.util.ArrayList
 import java.util.HashMap
+import androidx.arch.core.util.Function
 
 class PreferredProvidersSettings  : NavigationBar() {
 
@@ -96,8 +97,9 @@ class PreferredProvidersSettings  : NavigationBar() {
     fun loadPreferredProviders() {
         val url = "https://capstone.api.roopairs.com/v0/service-providers/"
 
-        val responseFunc = { jsonArray : JSONArray ->
+        val responseFunc = Function<Any, Void?> { response : Any ->
             try {
+                val jsonArray = response as JSONArray
                 loadElements(jsonArray)
             } catch (e: JSONException) {
                 e.printStackTrace()
@@ -106,12 +108,12 @@ class PreferredProvidersSettings  : NavigationBar() {
             null
         }
 
-        val errorFunc = { string : String ->
+        val errorFunc = Function<String, Void?>{ string : String ->
             error.setText(string)
             null
         }
-
-        requestGetJsonArray(url, responseFunc, errorFunc, true)
+        val request = JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true)
+        requestGetJsonArray(request)
     }
 
     @Throws(JSONException::class)

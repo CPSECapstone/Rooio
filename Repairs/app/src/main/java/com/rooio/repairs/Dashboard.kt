@@ -67,7 +67,7 @@ class Dashboard : NavigationBar() {
         name!!.text = nameVal
         address!!.text = addressVal
         time!!.text = timeVal
-        name_greeting!!.text = "Hi, " + firstName + "!"
+        name_greeting!!.text = "Hi, " + userName + "!"
 
         Picasso.with(this)
                 .load(imageVal)

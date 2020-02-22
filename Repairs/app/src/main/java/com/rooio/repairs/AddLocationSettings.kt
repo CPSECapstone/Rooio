@@ -61,7 +61,7 @@ class AddLocationSettings  : NavigationBar() {
             val inputted_address = new_address?.text!!.toString()
             if (inputted_address != "") {
                 //     -- Example params initiations
-                val params = HashMap<String, Any>()
+                val params = HashMap<Any?, Any?>()
                 params["physical_address"] = inputted_address
 
                 val request = JsonRequest(false, url, params, responseFunc, errorFunc, true)

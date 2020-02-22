@@ -82,7 +82,7 @@ class ChangeLocationSettings  : NavigationBar() {
                 val tv = view as TextView
                 Toast.makeText(this@ChangeLocationSettings, "You chose " + tv.text, Toast.LENGTH_SHORT).show()
 
-                userLocationID = locationIds[tv.text]
+                userLocationID = locationIds[tv.text] as String
 
                 val intent1 = Intent(this@ChangeLocationSettings, LocationSettings::class.java)
                 startActivity(intent1)
@@ -93,7 +93,7 @@ class ChangeLocationSettings  : NavigationBar() {
 
     private fun getLocations(){
         val url = "https://capstone.api.roopairs.com/v0/service-locations/"
-        requestGetJsonArray(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+        requestGetJsonArray(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
     }
 
     @JvmField

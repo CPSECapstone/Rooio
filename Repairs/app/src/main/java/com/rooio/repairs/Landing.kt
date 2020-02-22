@@ -6,32 +6,42 @@ import android.widget.Button
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 
+//First page that will show up if a user token is not stored
 class Landing : AppCompatActivity() {
-    private var createAccount: Button? = null
-    private var connectAccount: Button? = null
-    override fun onCreate(savedInstanceState: Bundle?) { //Load activity view
+    private lateinit var createAccount: Button
+    private lateinit var connectAccount: Button
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
-        //Centers "Repairs" title
+
+        centerTitleBar()
+        initializeVariables()
+        onCreateAccount()
+        onConnectAccount()
+    }
+
+    //Centers "Repairs" title
+    private fun centerTitleBar() {
         supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         supportActionBar!!.setCustomView(R.layout.action_bar)
         supportActionBar!!.elevation = 0f
-        //Initializing UI variables
-        createAccount = findViewById(R.id.createAccount)
-        connectAccount = findViewById(R.id.connectAccount)
-        createAccountBtn()
-        connectAccountBtn()
     }
 
-    fun createAccountBtn() {
-        createAccount!!.setOnClickListener {
+    //Initializes UI variables
+    private fun initializeVariables() {
+        createAccount = findViewById(R.id.createAccount)
+        connectAccount = findViewById(R.id.connectAccount)
+    }
+
+    private fun onCreateAccount() {
+        createAccount.setOnClickListener {
             val intent1 = Intent(this@Landing, Registration::class.java)
             startActivity(intent1)
         }
     }
 
-    fun connectAccountBtn() {
-        connectAccount!!.setOnClickListener {
+    private fun onConnectAccount() {
+        connectAccount.setOnClickListener {
             val intent1 = Intent(this@Landing, Login::class.java)
             startActivity(intent1)
         }

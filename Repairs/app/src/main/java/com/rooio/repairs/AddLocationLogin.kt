@@ -1,87 +1,87 @@
 package com.rooio.repairs
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
-import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONException
-import org.json.JSONObject
 import java.util.*
 
+//Page where user is able to add a location when initially logging in
 class AddLocationLogin : RestApi() {
-    private var addAddress: Button? = null
-    private var backButton: ImageView? = null
-    private lateinit var newAddress: TextInputEditText
-    private var errorMessage: TextView? = null
+
+    private lateinit var addLocation: Button
+    private lateinit var cancelButton: Button
+    private lateinit var newLocation: EditText
+    private lateinit var errorMessage: TextView
+    private val url = "https://capstone.api.roopairs.com/v0/service-locations/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_location_login)
-        addAddress = findViewById<View>(R.id.addLocation) as Button
-        backButton = findViewById<View>(R.id.backArrow) as ImageView
-        newAddress = findViewById<TextInputEditText>(R.id.newLocationLogin)
-        errorMessage = findViewById<View>(R.id.errorMessage) as TextView
-        errorMessage!!.text = ""
-        supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        supportActionBar!!.setCustomView(R.layout.action_bar)
-        supportActionBar!!.elevation = 0f
-        onAddClick()
-        onBackClick()
-    }
 
-    private fun onAddClick() {
-        val url = "https://capstone.api.roopairs.com/v0/service-locations/"
-        addAddress!!.setOnClickListener {
-            errorMessage!!.setTextColor(Color.parseColor("#A6A9AC"))
-            errorMessage!!.text = "Loading"
-            val inputtedAddress = newAddress!!.text.toString()
-            if (inputtedAddress != "") { //     -- Example params initiations
-                val params = HashMap<String, Any>()
-                params["physical_address"] = inputtedAddress
-                val request = JsonRequest(false, url, params, responseFunc, errorFunc, true)
-                requestPostJsonObj(request)
-            } else {
-                errorMessage!!.setTextColor(Color.parseColor("#E4E40B0B"))
-                errorMessage!!.text = "Invalid Address"
-            }
-        }
+        centerTitleBar()
+        initializeVariables()
+        onAddLocation()
         onCancel()
     }
 
-    private fun onCancel() {
-        backButton!!.setOnClickListener { view: View? -> startActivity(Intent(this@AddLocationLogin, LocationLogin::class.java)) }
+    //Initializes UI variables
+    private fun initializeVariables() {
+        addLocation = findViewById(R.id.addLocation)
+        cancelButton = findViewById(R.id.cancel)
+        newLocation = findViewById(R.id.newLocation)
+        errorMessage = findViewById(R.id.errorMessage)
     }
 
-    private fun onBackClick() {
-        backButton!!.setOnClickListener { startActivity(Intent(this@AddLocationLogin, LocationLogin::class.java)) }
+    //Centers "Repairs" title
+    private fun centerTitleBar() {
+        supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
+        supportActionBar!!.setCustomView(R.layout.action_bar)
+        supportActionBar!!.elevation = 0f
     }
 
-    private var responseFunc = Function<Any, Void?> { jsonObj: Any ->
-        val responseObj = jsonObj as JSONObject
-        var address: String? = null
-        var id: String? = null
-        try {
-            address = responseObj.getString("physical_address")
-            id = responseObj.getString("id")
-        } catch (e: JSONException) {
-            e.printStackTrace()
+    //Handles when a user adds a location
+    private fun onAddLocation() {
+        addLocation.setOnClickListener {
+            val params = HashMap<Any?, Any?>()
+            params["physical_address"] = newLocation.text.toString()
+            val request = JsonRequest(false, url, params, responseFunc, errorFunc, true)
+            sendLocationInfo(request)
         }
-        val intent = Intent(this@AddLocationLogin, LocationLogin::class.java)
-        intent.putExtra("address", address)
-        intent.putExtra("id", id)
-        startActivity(intent)
+    }
+
+    //Sends a location to the API through a request
+    private fun sendLocationInfo(request: JsonRequest) {
+        val inputAddress = request.params["physical_address"]
+        if (inputAddress != "") {
+            requestPostJsonObj(request)
+        } else errorMessage.setText(R.string.invalid_address)
+    }
+
+    //Sends user back to locations list view
+    private fun onCancel() {
+        cancelButton.setOnClickListener { startActivity(Intent(this@AddLocationLogin, LocationLogin::class.java)) }
+    }
+
+    //Response that reloads the location list view with the new location
+    @JvmField
+    var responseFunc = Function<Any, Void?> {
+        try {
+            startActivity(Intent(this@AddLocationLogin, LocationLogin::class.java))
+        } catch (e: JSONException) {
+            errorMessage.setText(R.string.error_server)
+        }
         null
     }
-    var errorFunc = Function<String, Void?> { string: String? ->
-        errorMessage!!.setTextColor(Color.parseColor("#E4E40B0B"))
-        errorMessage!!.text = "Invalid Address"
+
+    //Error checking for if there are any issues with requests and API
+    @JvmField
+    var errorFunc = Function<String, Void?> { error: String? ->
+        errorMessage.text = error
         null
     }
 }

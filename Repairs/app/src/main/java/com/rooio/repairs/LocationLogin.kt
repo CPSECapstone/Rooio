@@ -33,7 +33,7 @@ class LocationLogin : RestApi(), OnItemClickListener {
         lv!!.onItemClickListener = this
     }
     private fun loadLocations() {
-        val request = JsonRequest(false, url, null, responseFunc, errorFunc, true)
+        val request = JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true)
         requestGetJsonArray(request)
     }
 
