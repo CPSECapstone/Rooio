@@ -116,7 +116,7 @@ class Equipment : NavigationBar() {
 
     // creating JsonRequest object
     private fun onAddClick() {
-        val params = HashMap<String, Any>()
+        val params = HashMap<Any?, Any?>()
         addButton.setOnClickListener {
             params["display_name"] = displayName.text.toString()
             params["serial_number"] = serialNumber.text.toString()
@@ -152,7 +152,7 @@ class Equipment : NavigationBar() {
         val displayName = request.params["display_name"].toString()
 
         if(displayName.isNotEmpty())
-            requestJsonObject(Request.Method.POST, request)
+            requestJson(Request.Method.POST, JsonType.OBJECT, request)
         else
             displayNameError.text = resources.getText(R.string.required)
         }
