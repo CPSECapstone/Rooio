@@ -1,9 +1,9 @@
 package com.rooio.repairs;
 
 class ServiceProviderData {
-    String name;
-    String image;
-    Integer id;
+    public String name;
+    public String image;
+    public Integer id;
 
     public ServiceProviderData(String name, String image, Integer id){
         this.name = name;

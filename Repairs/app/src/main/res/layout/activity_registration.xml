@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +9,7 @@
     tools:context=".Login">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mainBox"
+        android:id="@+id/registerBox"
         android:layout_width="849dp"
         android:layout_height="650dp"
         android:layout_marginStart="535dp"
@@ -60,7 +61,7 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <EditText
-            android:id="@+id/lastname"
+            android:id="@+id/lastName"
             android:layout_width="250dp"
             android:layout_height="45dp"
             android:ems="10"
@@ -102,7 +103,7 @@
             app:layout_constraintVertical_bias="0.456" />
 
         <EditText
-            android:id="@+id/restaurantname"
+            android:id="@+id/restaurantName"
             android:layout_width="250dp"
             android:layout_height="45dp"
             android:ems="10"
@@ -116,7 +117,7 @@
             app:layout_constraintVertical_bias="0.826" />
 
         <EditText
-            android:id="@+id/firstname"
+            android:id="@+id/firstName"
             android:layout_width="250dp"
             android:layout_height="45dp"
             android:ems="10"
@@ -157,11 +158,12 @@
             app:srcCompat="@color/colorAccent" />
 
         <TextView
-            android:id="@+id/error"
+            android:id="@+id/errorMessage"
             android:layout_width="363dp"
             android:layout_height="25dp"
             android:textAlignment="center"
-            android:textColor="#E4E40B0B"
+            android:textColor="#CA2500"
+            android:textSize="16sp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -171,11 +173,11 @@
             tools:visibility="invisible" />
 
         <EditText
-            android:id="@+id/Password_verify"
+            android:id="@+id/verifyPassword"
             android:layout_width="250dp"
             android:layout_height="45dp"
             android:ems="10"
-            android:hint="Verify Password"
+            android:hint="Verify password"
             android:inputType="textPassword"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -187,31 +189,43 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
+        android:id="@+id/upperGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="150dp" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
+        android:id="@+id/lowerGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="810dp" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
+        android:id="@+id/leftGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="535dp" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline6"
+        android:id="@+id/rightGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="1385dp" />
+
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

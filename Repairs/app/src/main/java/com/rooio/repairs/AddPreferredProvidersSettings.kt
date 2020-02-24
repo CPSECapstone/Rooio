@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.arch.core.util.Function
 import org.json.JSONArray
 import org.json.JSONException
 import java.util.HashMap
@@ -76,28 +77,32 @@ class AddPreferredProvidersSettings  : NavigationBar() {
     fun addPreferredServiceProvider(phoneInput: String) {
         val url = "https://capstone.api.roopairs.com/v0/service-providers/"
 
-        val params = HashMap<String, Any>()
+        val params = HashMap<Any?, Any?>()
         params["phone"] = phoneInput
 
-        val responseFunc = { jsonArray : JSONArray ->
-            startActivity(Intent(this@AddPreferredProvidersSettings, PreferredProvidersSettings::class.java))
-            null
-        }
 
-        val errorFunc = { string : String ->
-            error.text = "This service provider $string. Please use another phone number."
-            null
-        }
+        val request = JsonRequest(false, url, params, responseFunc, errorFunc, true)
+        requestPostJsonArray(request)
+    }
 
-        requestPostJsonArray(url, params, responseFunc, errorFunc, true)
+
+    val responseFunc = Function<Any, Void?> {
+        startActivity(Intent(this@AddPreferredProvidersSettings, PreferredProvidersSettings::class.java))
+        null
+    }
+
+    val errorFunc = Function<String, Void?>{ string : String ->
+        error.text = "This service provider $string. Please use another phone number."
+        null
     }
 
     private fun checkIfAlreadyAdded(phoneInput: String) {
 
         val url = "https://capstone.api.roopairs.com/v0/service-providers/"
 
-        val responseFunc = { jsonArray : JSONArray ->
+        val provResponseFunc = Function<Any, Void?> { response : Any ->
             try {
+                val jsonArray = response as JSONArray
                 var added: Boolean? = false
 
                 for (i in 0 until jsonArray.length()) {
@@ -124,9 +129,10 @@ class AddPreferredProvidersSettings  : NavigationBar() {
             null
         }
 
-        val errorFunc = { string : String -> null }
+        val provErrorFunc = Function<String, Void?> { string : String -> null }
 
-        requestGetJsonArray(url, responseFunc, errorFunc, true)
+        val request = JsonRequest(false, url, HashMap(), provResponseFunc, provErrorFunc, true)
+        requestGetJsonArray(request)
     }
 
 }

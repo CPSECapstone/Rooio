@@ -2,40 +2,43 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ECF0F1"
-    tools:context=".AddLocationLogin">
+    tools:context=".AddPreferredProvidersLogin">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/providerBox"
         android:layout_width="850dp"
-        android:layout_height="360dp"
+        android:layout_height="430dp"
         android:background="@drawable/shadow"
-        app:layout_constraintBottom_toTopOf="@+id/lower_guideline3"
-        app:layout_constraintEnd_toStartOf="@+id/right_guideline3"
-        app:layout_constraintStart_toStartOf="@+id/left_guideline3"
-        app:layout_constraintTop_toTopOf="@+id/upper_guideline3">
+        app:layout_constraintBottom_toTopOf="@+id/lowerGuideline"
+        app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+        app:layout_constraintTop_toTopOf="@+id/upperGuideline">
 
         <EditText
-            android:id="@+id/new_phone"
+            android:id="@+id/newProvider"
             android:layout_width="735dp"
             android:layout_height="60dp"
             android:background="@drawable/gray_phone_border"
             android:ems="10"
             android:inputType="phone"
-            android:labelFor="@id/new_phone"
-            android:paddingLeft="15dp"
+            android:labelFor="@id/newProvider"
+            android:paddingStart="15dp"
+            android:paddingEnd="0dp"
             android:textColor="#6D7377"
             android:textSize="27sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.523" />
+            app:layout_constraintVertical_bias="0.47" />
 
         <Button
-            android:id="@+id/add_provider"
+            android:id="@+id/addProvider"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="240dp"
             android:layout_height="55dp"
@@ -53,10 +56,10 @@
             app:layout_constraintHorizontal_bias="0.25"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.88" />
+            app:layout_constraintVertical_bias=".8" />
 
         <TextView
-            android:id="@+id/providerName"
+            android:id="@+id/providerTitle"
             android:layout_width="700dp"
             android:layout_height="62dp"
             android:fontFamily="@font/nunito"
@@ -67,10 +70,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.110000014" />
+            app:layout_constraintVertical_bias=".12" />
 
         <TextView
-            android:id="@+id/textViewPhoneNumber"
+            android:id="@+id/phoneText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/phone_number"
@@ -78,10 +81,10 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.081"
+            app:layout_constraintHorizontal_bias="0.075"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.395" />
+            app:layout_constraintVertical_bias="0.35" />
 
         <Button
             android:id="@+id/cancel"
@@ -90,7 +93,7 @@
             android:layout_height="55dp"
             android:background="@drawable/gray_button_border"
             android:fontFamily="@font/nunito_sans"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textAllCaps="false"
             android:textColor="#919191"
             android:textColorHighlight="#00F8F6F6"
@@ -99,51 +102,65 @@
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.74"
+            app:layout_constraintHorizontal_bias="0.75"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.88" />
+            app:layout_constraintVertical_bias=".8" />
 
         <TextView
-            android:id="@+id/error"
+            android:id="@+id/errorMessage"
             android:layout_width="600dp"
             android:layout_height="40dp"
+            android:fontFamily="@font/nunito_sans"
             android:textAlignment="textStart"
-            android:textColor="#E4E40B0B"
+            android:textColor="#CA2500"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.244"
+            app:layout_constraintHorizontal_bias="0.22"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.706" />
+            app:layout_constraintVertical_bias="0.61" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/lower_guideline3"
+        android:id="@+id/lowerGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="510dp" />
+        app:layout_constraintGuide_begin="580dp" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/right_guideline3"
+        android:id="@+id/rightGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="1385dp" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/left_guideline3"
+        android:id="@+id/leftGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="535dp" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/upper_guideline3"
+        android:id="@+id/upperGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="150dp" />
+
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

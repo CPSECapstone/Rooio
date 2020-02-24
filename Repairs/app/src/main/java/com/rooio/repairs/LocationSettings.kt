@@ -83,7 +83,7 @@ class LocationSettings  : NavigationBar() {
     private fun getCurrLocation(){
         val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/"
 
-        requestGetJsonObj(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+        requestGetJsonObj(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
     }
 
     @JvmField
