@@ -59,6 +59,7 @@ class AddPreferredProvidersLogin : RestApi() {
     private fun onAddProvider() {
         loadingPanel.visibility = View.GONE
         addProvider.setOnClickListener {
+            errorMessage.text = ""
             val phoneInput = newProvider.text.toString()
             val request = JsonRequest(false, url, HashMap(), checkResponseFunc, checkErrorFunc, true)
             checkPhoneNumber(phoneInput, request)
@@ -133,7 +134,7 @@ class AddPreferredProvidersLogin : RestApi() {
         for (i in 0 until jsonArray.length()) {
             val restaurant = jsonArray.getJSONObject(i)
             val phoneNum = restaurant["phone"] as String
-            if (phoneNum.contains(phoneInput)) {
+            if (phoneNum == phoneInput) {
                 return true
             }
         }
