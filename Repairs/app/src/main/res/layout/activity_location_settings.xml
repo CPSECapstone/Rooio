@@ -2,24 +2,25 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ECF0F1"
     tools:context=".Login">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout3"
-        android:layout_width="837dp"
-        android:layout_height="370dp"
+        android:id="@+id/currentLocationLayout"
+        android:layout_width="850dp"
+        android:layout_height="360dp"
         android:background="@drawable/shadow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.19999999">
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/locationSettingsTitle"
             android:layout_width="321dp"
             android:layout_height="37dp"
             android:text="@string/service_location"
@@ -34,9 +35,9 @@
 
         <ImageView
             android:id="@+id/greenBar"
-            android:layout_width="99dp"
+            android:layout_width="75dp"
             android:layout_height="3dp"
-            android:contentDescription="Green Bar"
+            android:contentDescription="@string/green_bar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,10 +46,10 @@
             app:srcCompat="@color/colorAccent" />
 
         <TextView
-            android:id="@+id/current_service_location"
+            android:id="@+id/currentServiceLocationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CURRENT SERVICE LOCATION"
+            android:text="@string/current_service_location"
             android:textColor="#52161616"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -56,30 +57,29 @@
             app:layout_constraintHorizontal_bias="0.08"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.29000002" />
+            app:layout_constraintVertical_bias="0.3" />
 
         <TextView
-            android:id="@+id/CurrLocation"
+            android:id="@+id/currentLocation"
             android:layout_width="700dp"
             android:layout_height="80dp"
-            android:layout_marginStart="32dp"
             android:textColor="@color/GrayText"
-            android:textSize="26sp"
+            android:textSize="27sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.154"
+            app:layout_constraintHorizontal_bias="0.34"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.48000002" />
+            app:layout_constraintVertical_bias="0.45" />
 
         <Button
-            android:id="@+id/change_location_button"
+            android:id="@+id/changeLocation"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="240dp"
             android:layout_height="55dp"
             android:background="@drawable/gray_button_border"
             android:fontFamily="@font/nunito_sans"
-            android:text="Change Location"
+            android:text="@string/change_location"
             android:textAllCaps="false"
             android:textColor="@color/GrayText"
             android:textColorHighlight="#00F8F6F6"
@@ -90,30 +90,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.8" />
+            app:layout_constraintVertical_bias="0.85" />
 
         <TextView
-            android:id="@+id/error_Messages"
+            android:id="@+id/errorMessage"
             android:layout_width="344dp"
             android:layout_height="34dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="8dp"
             android:textAlignment="textStart"
-            android:textColor="#E4E40B0B"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/CurrLocation"
+            android:textColor="#CA2500"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.748"
+            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/greenBar"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.64" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="67dp"
+        android:layout_height="90dp"
         android:background="@drawable/no_elevation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -124,10 +122,11 @@
 
         <Spinner
             android:id="@+id/settings_spinner"
-            android:layout_width="340dp"
-            android:layout_height="40dp"
-            android:entries="@array/settings_type"
+            android:layout_width="510dp"
+            android:layout_height="60dp"
             android:background="@drawable/spinner_background"
+            android:entries="@array/settings_type"
+            android:spinnerMode="dropdown"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -136,33 +135,5 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="100dp" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="760dp" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.7161458" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="1385dp" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

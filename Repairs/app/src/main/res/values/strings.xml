@@ -28,10 +28,13 @@
     <string name="error_register">Email is already registered with a Roopairs account.</string>
     <string name="choose_service_location">CHOOSE A SERVICE LOCATION</string>
     <string name="invalid_address">Not a valid address.</string>
+    <string name="add_service_provider">Add Service Provider</string>
+    <string name="change_location">Change Location</string>
     <string name="error_phone">Please enter a valid phone number.</string>
     <string name="error_provider">No service provider with this phone number was found in our system.</string>
     <string name="already_added_provider">You have already added this provider.</string>
     <string name="already_added_location">You have already added this location.</string>
+    <string name="current_service_location">CURRENT SERVICE LOCATION</string>
     <string name="loading">Loading</string>
     <string name="continue_button">Continue</string>
     <string name="error_server">Error connecting with the server.</string>
