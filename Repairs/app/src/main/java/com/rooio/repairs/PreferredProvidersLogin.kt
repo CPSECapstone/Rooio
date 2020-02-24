@@ -49,8 +49,8 @@ class PreferredProvidersLogin : RestApi() {
     private fun initializeVariables() {
         addButton = findViewById(R.id.addAnother)
         continueButton = findViewById(R.id.done)
-        serviceProvidersListView = findViewById(R.id.list)
-        errorMessage = findViewById(R.id.error)
+        serviceProvidersListView = findViewById(R.id.providerListView)
+        errorMessage = findViewById(R.id.errorMessage)
         providerBox = findViewById(R.id.providerBox)
         loadingPanel = findViewById(R.id.loadingPanel)
     }
