@@ -31,7 +31,7 @@ public class RegistrationInstrumentedTest{
 
     @Test
     public void testLaunchActivity() {
-        onView(withId(R.id.title)).check(matches(withText("Register for a Roopairs account")));
+        onView(withId(R.id.repairType)).check(matches(withText("Register for a Roopairs account")));
         onView(withId(R.id.cancelRegistration)).check(matches(withText("Cancel")));
         //onView(withId(R.id.register)).check(matches(withText("Register")));
     }

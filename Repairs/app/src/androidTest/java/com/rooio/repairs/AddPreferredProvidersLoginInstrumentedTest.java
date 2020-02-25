@@ -24,7 +24,7 @@ public class AddPreferredProvidersLoginInstrumentedTest {
 
     @Test
     public void testLaunchActivity() {
-        onView(withId(R.id.title)).check(matches(withText("Enter the phone number of one of your preferred service providers to start requesting service from them")));
+        onView(withId(R.id.repairType)).check(matches(withText("Enter the phone number of one of your preferred service providers to start requesting service from them")));
         onView(withId(R.id.textViewPhoneNumber)).check(matches(withText("PHONE NUMBER")));
         onView(withId(R.id.add_provider)).check(matches(withText("Add Provider")));
         onView(withId(R.id.cancel)).check(matches(withText("Cancel")));

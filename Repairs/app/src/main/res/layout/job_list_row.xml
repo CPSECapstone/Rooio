@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shadow"
+    tools:context=".LocationLogin">
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="337dp"
+        android:layout_height="51dp"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="0dp"
+        android:layout_marginStart="30dp"
+        android:fontFamily="@font/nunito_sans"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="#BEC3C7"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout5"
+        android:layout_width="352dp"
+        android:layout_height="162dp"
+        android:background="@drawable/gray_button_border"
+        android:translationY="19dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.013"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.535">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/layout_bg_nopadding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/repairType"
+            android:layout_width="250dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/nunito_bold"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="250dp"
+            android:layout_height="23dp"
+            android:layout_marginStart="25dp"
+            android:fontFamily="@font/nunito_sans"
+            android:textColor="@color/colorGray"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintTop_toBottomOf="@+id/name" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="250dp"
+            android:layout_height="23dp"
+            android:layout_marginStart="25dp"
+            android:fontFamily="@font/nunito_sans"
+            android:textColor="@color/colorGray"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintTop_toBottomOf="@+id/repairType" />
+
+        <ImageView
+            android:id="@+id/clockImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image"
+            app:layout_constraintVertical_bias="0.976"
+            app:srcCompat="@drawable/clock" />
+
+        <TextView
+            android:id="@+id/timeImage"
+            android:layout_width="225dp"
+            android:layout_height="23dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="19dp"
+            android:fontFamily="@font/nunito_sans"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/clockImage"
+            app:layout_constraintTop_toBottomOf="@+id/image"
+            app:layout_constraintVertical_bias="0.937" />
+
+        <ImageView
+            android:id="@+id/repairImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.997"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.851"
+            app:srcCompat="@drawable/repair" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="10dp"
+            android:layout_height="167dp"
+            android:layout_marginStart="2dp"
+
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/notable_jobs_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

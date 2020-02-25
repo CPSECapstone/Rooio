@@ -20,7 +20,7 @@ public class PreferredProvidersLoginInstrumentedTest {
 
     @Test
     public void testLaunchActivity() {
-        onView(withId(R.id.title)).check(matches(withText("Preferred Service Providers")));
+        onView(withId(R.id.repairType)).check(matches(withText("Preferred Service Providers")));
         onView(withId(R.id.addAnother)).check(matches(withText("+ Add Another Service Provider")));
         onView(withId(R.id.Done)).check(matches(withText("Continue")));
     }
