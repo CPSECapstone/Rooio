@@ -145,7 +145,7 @@ class Jobs : NavigationBar() {
     private fun sizes(str: String) {
         var value = 0
         if (str in statuses) {
-            value = 210
+            value = 200
         } else {
             statuses.add(str)
             value = 240

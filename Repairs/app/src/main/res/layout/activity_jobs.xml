@@ -42,17 +42,17 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/scheduledConstraint"
         android:layout_width="455dp"
-        android:layout_height="1dp"
+        android:layout_height="40dp"
         android:layout_marginTop="165dp"
         android:layout_marginEnd="110dp"
-        android:background="#FFFFFF"
+        android:background="@drawable/gray_button_border_bottom"
         app:layout_constraintEnd_toStartOf="@+id/inProgressConstraint"
         app:layout_constraintTop_toTopOf="parent">
 
         <ListView
             android:id="@+id/id2"
             android:layout_width="356dp"
-            android:layout_height="4dp"
+            android:layout_height="1dp"
             android:background="#FAFFFFFF"
             android:divider="@drawable/blank_border"
             android:dividerHeight="20dp"
@@ -65,17 +65,17 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/inProgressConstraint"
         android:layout_width="455dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="164dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="165dp"
         android:layout_marginEnd="30dp"
-        android:background="#FFFFFF"
+        android:background="@drawable/gray_button_border_bottom"
         app:layout_constraintEnd_toStartOf="@+id/sideMover"
         app:layout_constraintTop_toTopOf="parent">
 
         <ListView
             android:id="@+id/id3"
             android:layout_width="356dp"
-            android:layout_height="4dp"
+            android:layout_height="1dp"
             android:background="#FAFFFFFF"
             android:divider="#00000000"
             android:dividerHeight="20dp"
@@ -115,6 +115,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -183,11 +184,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/pendingConstraint"
-        android:layout_width="455dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="168dp"
-        android:layout_marginEnd="110dp"
-        android:background="#FFFFFF"
+        android:layout_width="454dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="160dp"
+        android:layout_marginEnd="108dp"
+        android:background="@drawable/gray_button_border_bottom"
         app:layout_constraintEnd_toStartOf="@+id/scheduledConstraint"
         app:layout_constraintTop_toTopOf="parent">
 
