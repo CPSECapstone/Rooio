@@ -140,7 +140,7 @@ class AddLocationSettings  : NavigationBar() {
     var locationResponseFunc = Function<Any, Void?> {
         loadingPanel.visibility = View.GONE
         try {
-            startActivity(Intent(this@AddLocationSettings, LocationLogin::class.java))
+            startActivity(Intent(this@AddLocationSettings, ChangeLocationSettings::class.java))
         } catch (e: JSONException) {
             errorMessage.setText(R.string.error_server)
         }
@@ -168,10 +168,10 @@ class AddLocationSettings  : NavigationBar() {
     //Sends the user to the Jobs page
     private fun onBack() {
         expandBackButton.setOnClickListener{
-            startActivity(Intent(this@AddLocationSettings, PreferredProvidersSettings::class.java))
+            startActivity(Intent(this@AddLocationSettings, ChangeLocationSettings::class.java))
         }
         collapseBackButton.setOnClickListener{
-            startActivity(Intent(this@AddLocationSettings, PreferredProvidersSettings::class.java))
+            startActivity(Intent(this@AddLocationSettings, ChangeLocationSettings::class.java))
         }
     }
 }

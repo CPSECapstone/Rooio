@@ -58,7 +58,7 @@ class LocationSettings  : NavigationBar() {
         ArrayAdapter.createFromResource(
                 this,
                 R.array.settings_type,
-                android.R.layout.simple_spinner_item
+                R.layout.spinner_item
         ).also { adapter ->
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
