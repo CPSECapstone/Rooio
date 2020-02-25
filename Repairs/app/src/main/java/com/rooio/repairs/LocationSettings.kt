@@ -16,6 +16,7 @@ class LocationSettings  : NavigationBar() {
     private lateinit var errorMessage: TextView
     private lateinit var changeLocation: Button
     private lateinit var spinner: Spinner
+    private lateinit var loadingPanel: RelativeLayout
     private val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,6 +92,7 @@ class LocationSettings  : NavigationBar() {
         errorMessage = findViewById(R.id.errorMessage)
         changeLocation = findViewById(R.id.changeLocation)
         spinner = findViewById(R.id.settings_spinner)
+        loadingPanel = findViewById(R.id.loadingPanel)
     }
 
     //Requests the current location from the API
@@ -101,6 +103,7 @@ class LocationSettings  : NavigationBar() {
     //If API returns a location, sets the physical address
     @JvmField
     var responseFunc = Function<Any, Void?> { response: Any ->
+        loadingPanel.visibility = View.GONE
         val responseObj = response as JSONObject
         currentLocation.text = responseObj.getString("physical_address")
         null
@@ -109,6 +112,7 @@ class LocationSettings  : NavigationBar() {
     //Handles error if user does not have a location set
     @JvmField
     var errorFunc = Function<String, Void?> { error: String? ->
+        loadingPanel.visibility = View.GONE
         errorMessage.text = error
         null
     }
