@@ -1,28 +1,19 @@
 package com.rooio.repairs
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
-import android.text.Html
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.core.text.HtmlCompat
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_preferred_providers_details.*
-import org.json.JSONArray
 import org.json.JSONException
-import java.net.URL
-import java.util.ArrayList
 import org.json.JSONObject
-import org.w3c.dom.Text
-import java.io.InputStream
 
 class PreferredProviderDetails: NavigationBar() {
 
@@ -138,16 +129,16 @@ class PreferredProviderDetails: NavigationBar() {
             Picasso.with(applicationContext)
                 .load(image)
                 .into(logo)
-        setElementTexts(overview, response,"overview", "overview")
-        setElementTexts(email, response, "email", "email")
-        setElementTexts(skills, response, "skills", "skills")
-        setElementTexts(licenseNumber, response, "contractor_license_number", "license number")
-        setElementTexts(phone, response, "phone", "phone number")
-        setElementTexts(name, response, "name", "name")
+        setElementTexts(overview, response, "overview")
+        setElementTexts(email, response, "email")
+        setElementTexts(skills, response, "skills")
+        setElementTexts(licenseNumber, response, "contractor_license_number")
+        setElementTexts(phone, response, "phone")
+        setElementTexts(name, response, "name")
         setPriceElement(price, response, "starting_hourly_rate", "")
     }
 
-    private fun setElementTexts(element: TextView, response: JSONObject, elementName: String, name: String){
+    private fun setElementTexts(element: TextView, response: JSONObject, elementName: String){
         try {
             var jsonStr = response.get(elementName) as String
             if(jsonStr.isNullOrEmpty())

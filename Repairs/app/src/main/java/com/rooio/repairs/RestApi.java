@@ -25,6 +25,8 @@ import java.util.Map;
 
 public abstract class RestApi extends AppCompatActivity {
 
+    public String BaseUrl = "https://capstone.api.roopairs.com/v0/";
+
     static String userToken = null;
     static String firstName = null;
 
