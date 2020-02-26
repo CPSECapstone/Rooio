@@ -36,7 +36,7 @@ class EquipmentData {
         }
     }
 
-    public EquipmentType createEnum(int i){
+    private EquipmentType createEnum(int i){
         switch (i) {
             case 1: return EquipmentType.HVAC;
             case 2: return EquipmentType.PLUMBING;

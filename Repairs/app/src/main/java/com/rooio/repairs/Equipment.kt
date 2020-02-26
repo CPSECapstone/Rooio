@@ -20,6 +20,7 @@ import org.json.JSONException
 class Equipment : NavigationBar() {
 
     val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/equipment/"
+    val intentVar = "savedEquipment"
 
     private lateinit var messageText: TextView
     private lateinit var equipmentListView: ListView
@@ -60,12 +61,21 @@ class Equipment : NavigationBar() {
         setNavigationBar()
         setActionBar()
         createNavigationBar("equipment")
+        loadAfterEquipmentSave();
         onAddEquipmentClick()
         onAddClick()
         onEditClick()
         onSaveClick()
         onCancelClick()
         loadEquipment()
+    }
+
+    private fun loadAfterEquipmentSave() {
+        val extras = intent.extras
+        if (extras != null){
+            val savedEquipment = extras.get(intentVar)
+            messageText.text = "$savedEquipment successfully saved!"
+        }
     }
 
     //initialize UI variables
@@ -230,8 +240,12 @@ class Equipment : NavigationBar() {
     private fun sendSaveEditRequest(request : JsonRequest){
         val displayName = request.params["display_name"].toString()
 
-        if(displayName.isNotEmpty())
+        if(displayName.isNotEmpty()) {
             requestJsonObject(Request.Method.PUT, request)
+            val intent = Intent( this, Equipment::class.java)
+            intent.putExtra(intentVar, displayName)
+            startActivity(intent)
+        }
         else
             editDisplayNameError.text = resources.getText(R.string.required)
     }
@@ -240,7 +254,9 @@ class Equipment : NavigationBar() {
     private fun onCancelClick() {
         cancelButton.setOnClickListener {
             addEquipmentConstraint.visibility = View.GONE
+            editEquipmentConstraint.visibility = View.GONE
             messageText.visibility = View.VISIBLE
+            messageText.text = resources.getText(R.string.select_one_of_the_equipment_items_on_the_left_to_view_details_and_analytics)
             addEquipmentButton.setTextColor(ContextCompat.getColor(this,R.color.GrayText))
             addEquipmentButton.setBackgroundResource(R.drawable.gray_button_border)
         }

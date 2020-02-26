@@ -17,6 +17,8 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
+import static android.view.View.GONE;
+
 class EquipmentCustomAdapter implements ListAdapter {
     private ArrayList<EquipmentData> arrayList;
     private ArrayList<String> locations = new ArrayList<>();
@@ -80,7 +82,7 @@ class EquipmentCustomAdapter implements ListAdapter {
                 locations.add(data.location.toUpperCase());
             }
             else
-                location.setVisibility(View.GONE);
+                location.setVisibility(GONE);
 
             // displaying equipment buttons
             Button equipment = convertView.findViewById(R.id.equipmentItem);
@@ -91,9 +93,9 @@ class EquipmentCustomAdapter implements ListAdapter {
             equipment.setOnClickListener(v -> {
                 //reset the page's UI
                 ConstraintLayout addEquipmentLayout = ((Activity)context).findViewById(R.id.addEquipmentConstraint);
-                addEquipmentLayout.setVisibility(View.GONE);
+                addEquipmentLayout.setVisibility(GONE);
 
-                editEquipmentDetails.setVisibility(View.GONE);
+                editEquipmentDetails.setVisibility(GONE);
 
                 Button addEquipmentButton = ((Activity)context).findViewById(R.id.addEquipmentButton);
                 addEquipmentButton.setTextColor(context.getResources().getColor(R.color.GrayText));
