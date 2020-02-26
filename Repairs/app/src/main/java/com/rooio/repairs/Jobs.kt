@@ -76,6 +76,8 @@ class Jobs : NavigationBar() {
 
 
 
+
+
     private fun loadJobs(){
         val url = BaseUrl + "service-locations/$userLocationID/jobs/"
         requestGetJsonArray(JsonRequest(false, url, null, responseFunc, errorFunc, true))
@@ -101,9 +103,13 @@ class Jobs : NavigationBar() {
                 scheduledJobs.add(job)
                 sizes("scheduled")
             }
-            else {
+            else if(job.getInt("status") == 5 || job.getInt("status") == 6 ){
                 inProgressJobs.add(job)
                 sizes("inProgress")
+            }
+            else{
+                archivedJobs.add(job)
+
             }
 
         }

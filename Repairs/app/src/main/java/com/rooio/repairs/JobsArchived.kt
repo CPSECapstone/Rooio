@@ -11,13 +11,20 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
 import kotlinx.android.synthetic.main.activity_jobs_archived.*
 import org.json.JSONArray
+import org.json.JSONObject
 import java.util.ArrayList
+import androidx.arch.core.util.Function
 
-public class JobsArchived  : NavigationBar() {
+
+class JobsArchived  : NavigationBar() {
 
         private var id2: ListView? = null
-
         val statuses = arrayListOf<String>()
+
+        companion object{
+
+                @JvmStatic private var archivedJobs = ArrayList<JSONObject>()
+        }
 
         private var CompletedConstraint: ConstraintLayout? = null
 
@@ -25,6 +32,9 @@ public class JobsArchived  : NavigationBar() {
 
         override fun onCreate(savedInstanceState: Bundle?) {
                 super.onCreate(savedInstanceState)
+
+
+
                 setContentView(R.layout.activity_jobs_archived)
                 completedButton = findViewById(R.id.button)
 
@@ -52,72 +62,56 @@ public class JobsArchived  : NavigationBar() {
                 createNavigationBar("jobs")
 
 
-                addElements()
                 onClick()
+                loadJobs()
 
         }
         private fun onClick() {
                 completedButton!!.setOnClickListener { startActivity(Intent(this@JobsArchived, Jobs::class.java)) }
         }
-        private fun addElements() {
-
-                completedJobs.clear()
 
 
+        private fun loadJobs(){
+                val url = BaseUrl + "service-locations/$userLocationID/jobs/"
+                requestGetJsonArray(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+        }
 
-//        for (i in 0 until response.length()) {
-//
-//            //val job = response.getJSONObject(i)
-//            //Have if statement to determine which kind of job
-//
-//            val physicalAddress = job.getString("physical_address")
-//            LocationLogin.addressList.add(physicalAddress)
-//            LocationLogin.locationIds.add(job.getString("id"))
-//
-//            //Creating the height for each row
-//            if (i > 0) {
-//                val params = pendingConstraint!!.layoutParams
-//                params.height += 170
-//                pendingConstraint!!.layoutParams = params
-//                val size = id1!!.layoutParams
-//                size.height += 170
-//            }
-//            //HAVE A NEW ^^ FOR EACH KIND OF ARRAY
-//        }
-                //A FAKE DATA SET
-                val pending = JobsData("completed","San Luis Taqueria", "http://www.lunaredslo.com/images/luna_red_logo.png", "Plumbing", "46017 Paseo Padre", "8:30 PM")
-                val pending2 = JobsData("completed","San Luis Taqueria2", "http://www.lunaredslo.com/images/luna_red_logo.png", "Plumbing", "46017 Paseo Padre", "8:30 PM")
-                val pending3 = JobsData("completed","San Luis Taqueria3", "http://www.lunaredslo.com/images/luna_red_logo.png", "Plumbing", "46017 Paseo Padre", "8:30 PM")
-                val pending4 = JobsData("scheduled","San Luis Taqueria4", "http://www.lunaredslo.com/images/luna_red_logo.png", "Plumbing", "46017 Paseo Padre", "8:30 PM")
+        private fun clearLists(){
+                archivedJobs.clear()
+        }
 
-                val arrayList1 = ArrayList<JobsData>(2)
-                arrayList1.add(pending)
-                arrayList1.add(pending2)
-                arrayList1.add(pending3)
-                arrayList1.add(pending4)
+        private fun populateLists(responseObj: JSONArray){
+                clearLists()
+                for (i in 0 until responseObj.length()) {
+                        val job = responseObj.getJSONObject(i)
 
-
-                //Divide each job by swimlane and set sizes
-                for (item in arrayList1) {
-
-                        if (item.status == "completed"){
-                                completedJobs.add(item)
-                                sizes(item.status)
+                        if (job.getInt("status") == 3){
+                                archivedJobs.add(job)
+                                sizes("completed")
                         }
+
                 }
-
-
-//                val customAdapter = JobsCustomerAdapter(this, completedJobs)
-//                if (completedJobs.size != 0) id2!!.adapter = customAdapter
-
-        }
-
-        companion object {
-                //TextView test;
-                var completedJobs = ArrayList<JobsData>()
+                val customAdapter = JobsCustomerAdapter(this, archivedJobs)
+                if (archivedJobs.size != 0) id2!!.adapter = customAdapter
 
 
         }
+
+        @JvmField
+        var responseFunc = Function<Any, Void?> { jsonObj: Any ->
+                val responseObj = jsonObj as JSONArray
+                populateLists(responseObj)
+
+                null
+        }
+        @JvmField
+        var errorFunc = Function<String, Void?> { string: String? ->
+
+                null
+        }
+
+
+
 
         private fun sizes(str: String) {
                 var value = 0
@@ -125,7 +119,7 @@ public class JobsArchived  : NavigationBar() {
                         value = 200
                 } else {
                         statuses.add(str)
-                        value = 230
+                        value = 240
                 }
                 set_size(str, value)
         }

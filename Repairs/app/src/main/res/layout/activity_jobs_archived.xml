@@ -42,7 +42,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/completedConstraint"
         android:layout_width="455dp"
-        android:layout_height="10dp"
+        android:layout_height="40dp"
         android:layout_marginTop="164dp"
         android:layout_marginEnd="712dp"
         android:background="@drawable/gray_button_border_bottom"

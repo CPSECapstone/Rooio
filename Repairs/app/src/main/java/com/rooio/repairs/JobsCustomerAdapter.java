@@ -1,7 +1,9 @@
 package com.rooio.repairs;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +64,7 @@ class JobsCustomerAdapter implements ListAdapter {
         return false;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         JSONObject data = arrayList.get(position);
@@ -74,47 +77,59 @@ class JobsCustomerAdapter implements ListAdapter {
             ImageView image = convertView.findViewById(R.id.image);
             TextView timeImage = convertView.findViewById(R.id.timeImage);
             TextView status = convertView.findViewById(R.id.status);
-
+            ConstraintLayout color = convertView.findViewById(R.id.color);
             try {
                 Integer status_enum = data.getInt("status");
                 String status_value = null;
                 switch(status_enum) {
                     case 1:
                         status_value = "Pending";
+                        color.setBackgroundColor(Color.parseColor("#9A50BA"));
+
                         break;
                     case 2:
-                        status_value = "Declined";
+                        status_value = "Accepted";
+                        color.setBackgroundColor(Color.parseColor("#96B8F8"));
+
                         break;
                     case 3:
                         status_value = "Completed";
+                        color.setBackgroundColor(Color.parseColor("#A6A9AC"));
+
                         break;
                     case 4:
                         status_value = "Canceled";
                         break;
                     case 5:
                         status_value = "Started";
+                        color.setBackgroundColor(Color.parseColor("#00CA8F"));
                         break;
                     case 6:
                         status_value = "Paused";
+                        color.setBackgroundColor(Color.parseColor("#F6E15C"));
+
                         break;
                     case 0:
                         status_value = "Pending";
+                        color.setBackgroundColor(Color.parseColor("#9A50BA"));
+
                         break;
                 }
                 JSONObject equipmentObj = data.getJSONObject("equipment");
-                repairType.setText(equipmentObj.getInt("service_category"));
+                repairType.setText(equipmentObj.getString("service_category"));
 
                 JSONObject locationObj = data.getJSONObject("service_location");
-                name.setText(locationObj.getString("name"));
+                JSONObject internal_client = locationObj.getJSONObject("internal_client");
+
+                name.setText(internal_client.getString("name"));
 
                 address.setText(locationObj.getString("physical_address"));
 
-                timeImage.setText(data.getString("estimated_arrival_time"));
+                timeImage.setText(data.getString("status_time_value"));
 
-                JSONObject userObject = locationObj.getJSONObject("internal_client");
 
                 Picasso.with(context)
-                        .load(userObject.getString("logo")
+                        .load(internal_client.getString("logo")
                         )
                         .into(image);
 
