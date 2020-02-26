@@ -3,7 +3,6 @@ package com.rooio.repairs
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -206,7 +205,7 @@ class Equipment : NavigationBar() {
     }
 
     private fun onSaveClick() {
-        val params = HashMap<String, Any>()
+        val params = HashMap<Any?, Any?>()
         saveButton.setOnClickListener {
             params["display_name"] = editDisplayName.text.toString()
             params["serial_number"] = editSerialNumber.text.toString()
@@ -223,14 +222,14 @@ class Equipment : NavigationBar() {
     }
 
     @JvmField
-    var responseFuncSave = Function<Any, Void> {
+    var responseFuncSave = Function<Any, Void?> {
         editEquipmentConstraint.visibility = View.GONE
         equipmentDetailsConstraint.visibility = View.VISIBLE
         null
     }
 
     @JvmField
-    var errorFuncSave = Function<String, Void> {
+    var errorFuncSave = Function<String, Void?> {
         editEquipmentConstraint.visibility = View.GONE
         messageText.text = resources.getText(R.string.save_equipment_error)
         messageText.setTextColor(ContextCompat.getColor(this,R.color.Red))
@@ -241,7 +240,7 @@ class Equipment : NavigationBar() {
         val displayName = request.params["display_name"].toString()
 
         if(displayName.isNotEmpty()) {
-            requestJsonObject(Request.Method.PUT, request)
+            requestPutJsonObj(request)
             val intent = Intent( this, Equipment::class.java)
             intent.putExtra(intentVar, displayName)
             startActivity(intent)
@@ -292,7 +291,7 @@ class Equipment : NavigationBar() {
 
     @JvmField
     // set error message
-    private var errorFuncLoad = Function<String, Void?> { string: String? ->
+    var errorFuncLoad = Function<String, Void?> { string: String? ->
         messageText.text = string
         messageText.setTextColor(ContextCompat.getColor(this,R.color.Red))
         null
