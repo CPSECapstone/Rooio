@@ -25,8 +25,8 @@ class LocationLogin : RestApi(), OnItemClickListener {
 
     //Static lists that hold the address list and location ids, move to REST API?
     companion object {
-        var addressList = ArrayList<String>()
-        var locationIds = ArrayList<String>()
+        @JvmStatic var addressList = ArrayList<String>()
+        @JvmStatic var locationIds = ArrayList<String>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,7 +114,6 @@ class LocationLogin : RestApi(), OnItemClickListener {
                 locationListView.layoutParams = size
             }
         }
-
         val customAdapter = LocationCustomAdapter(this, addressList)
         if (addressList.size != 0) locationListView.adapter = customAdapter
     }

@@ -100,16 +100,14 @@ abstract class RestApi : AppCompatActivity() {
 
     //Sends a request to the API or mocks the API call if it is a test
     fun requestJson(type: Int?, jsonType: JsonType?, request: JsonRequest) {
-        when (jsonType) {
-            JsonType.OBJECT -> {
-                val jsonObjectRequest = createJsonObjectRequest(type, request)
-                if (!request.isTest) {
+        if (!request.isTest) {
+            when (jsonType) {
+                JsonType.OBJECT -> {
+                    val jsonObjectRequest = createJsonObjectRequest(type, request)
                     addToVolleyQueue(jsonObjectRequest)
                 }
-            }
             JsonType.ARRAY -> {
                 val jsonArrayRequest = createJsonArrayRequest(type, request)
-                if (!request.isTest) {
                     addToVolleyQueue(jsonArrayRequest)
                 }
             }
