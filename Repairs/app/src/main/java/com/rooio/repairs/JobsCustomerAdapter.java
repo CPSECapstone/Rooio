@@ -116,7 +116,10 @@ class JobsCustomerAdapter implements ListAdapter {
                         break;
                 }
                 JSONObject equipmentObj = data.getJSONObject("equipment");
-                repairType.setText(equipmentObj.getString("service_category"));
+                String category = equipmentObj.getString("service_category");
+
+
+
 
                 JSONObject locationObj = data.getJSONObject("service_location");
                 JSONObject internal_client = locationObj.getJSONObject("internal_client");
@@ -133,6 +136,21 @@ class JobsCustomerAdapter implements ListAdapter {
                         )
                         .into(image);
 
+                switch(category) {
+                    case "0":
+                        repairType.setText("General Appliance");
+                        break;
+                    case "1":
+                        repairType.setText("HVAC");
+                        break;
+                    case "2":
+                        repairType.setText("Lighting and Electrical");
+                        break;
+                    case "3":
+                        repairType.setText("Plumbing");
+                        break;
+                }
+
                 if(!statuses.contains(status_value)){
                     status.setText(status_value.toUpperCase());
                     statuses.add(status_value);
@@ -140,6 +158,7 @@ class JobsCustomerAdapter implements ListAdapter {
                 else
                     status.setVisibility(View.GONE);
                 }
+
 
             catch (JSONException e) {
                 e.printStackTrace();
