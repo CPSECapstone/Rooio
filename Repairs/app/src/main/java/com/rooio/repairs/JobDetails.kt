@@ -51,8 +51,8 @@ class JobDetails: NavigationBar() {
         setActionBar()
         createNavigationBar("jobs")
         loadJobDetails()
-        onBackClick()
-        onDropDownClick()
+        onBack()
+        onDropDown()
     }
 
     //Initializes variables that are used in loadElements()
@@ -91,7 +91,7 @@ class JobDetails: NavigationBar() {
 
         //Navigation bar collapse/expand
         expandBackButton = viewGroup.findViewById(R.id.expandBackButton)
-        collapseBackButton = viewGroup.findViewById(R.id.expandBackButton)
+        collapseBackButton = viewGroup.findViewById(R.id.collapseBackButton)
     }
 
     //Animates the main page content when the navigation bar collapses/expands
@@ -151,7 +151,7 @@ class JobDetails: NavigationBar() {
     }
 
     //Sends the user to the Jobs page
-    private fun onBackClick() {
+    private fun onBack() {
         expandBackButton.setOnClickListener{
             startActivity(Intent(this@JobDetails, Jobs::class.java))
         }
@@ -161,7 +161,7 @@ class JobDetails: NavigationBar() {
     }
 
     //Initially closes the equipment dropdown and allows the user to collapse or expand
-    private fun onDropDownClick() {
+    private fun onDropDown() {
         var visible = false
         setVisibility(View.GONE)
         val initial = equipmentLayout.layoutParams

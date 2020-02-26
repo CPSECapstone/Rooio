@@ -67,7 +67,7 @@ class Equipment : NavigationBar() {
         onEditClick()
         onSaveClick()
         onCancelClick()
-        loadEquipment()
+        loadEquipmentElements()
     }
 
     private fun loadAfterEquipmentSave() {
@@ -156,7 +156,7 @@ class Equipment : NavigationBar() {
 
     // creating JsonRequest object
     private fun onAddClick() {
-        val params = HashMap<String, Any>()
+        val params = HashMap<Any?, Any?>()
         addButton.setOnClickListener {
             params["display_name"] = displayName.text.toString()
             params["serial_number"] = serialNumber.text.toString()
@@ -192,7 +192,7 @@ class Equipment : NavigationBar() {
         val displayName = request.params["display_name"].toString()
 
         if(displayName.isNotEmpty())
-            requestJsonObject(Request.Method.POST, request)
+            requestJson(Request.Method.POST, JsonType.OBJECT, request)
         else
             displayNameError.text = resources.getText(R.string.required)
         }
@@ -272,8 +272,15 @@ class Equipment : NavigationBar() {
         displayNameError.text = ""
     }
 
+    // send JsonRequest Object
+    private fun loadEquipmentElements() {
+        val request = JsonRequest(false, url, HashMap(), responseFuncLoad, errorFuncLoad, true)
+        requestGetJsonArray(request)
+    }
+
+    @JvmField
     // load equipments in the equipment list
-    private var responseFuncLoad = Function<Any, Void?> { jsonResponse: Any? ->
+    var responseFuncLoad = Function<Any, Void?> { jsonResponse: Any? ->
         try {
             val jsonArray = jsonResponse as JSONArray
             loadEquipment(jsonArray)
@@ -283,6 +290,7 @@ class Equipment : NavigationBar() {
         null
     }
 
+    @JvmField
     // set error message
     private var errorFuncLoad = Function<String, Void?> { string: String? ->
         messageText.text = string
@@ -290,13 +298,8 @@ class Equipment : NavigationBar() {
         null
     }
 
-    // send JsonRequest
-    private fun loadEquipment() {
-        val request = JsonRequest(false, url, null, responseFuncLoad, errorFuncLoad, true)
-        requestGetJsonArray(request)
-    }
-
     // getting all the equipment for the equipment list
+    // passing equipment list to custom adapter
     private fun loadEquipment(response: JSONArray) {
         equipmentList.clear()
         for (i in 0 until response.length()) {

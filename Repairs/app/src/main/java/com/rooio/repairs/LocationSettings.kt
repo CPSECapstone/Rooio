@@ -6,49 +6,43 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.arch.core.util.Function
+import com.android.volley.Request
 import org.json.JSONObject
 
+//Displays the current location of the user in Settings
 class LocationSettings  : NavigationBar() {
 
-    private var curLocation: TextView? = null
-    private var errorMessage: TextView? = null
-
+    private lateinit var currentLocation: TextView
+    private lateinit var errorMessage: TextView
+    private lateinit var changeLocation: Button
+    private lateinit var spinner: Spinner
+    private lateinit var loadingPanel: RelativeLayout
+    private val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_settings)
 
-        //Location text view
-        curLocation = findViewById(R.id.CurrLocation)
-        getCurrLocation()
-
-        errorMessage = findViewById(R.id.errorMessage)
-
-        var changeLocationButton = findViewById<Button>(R.id.change_location_button)
-
-        //sets the navigation bar onto the page
-        val navInflater = layoutInflater
-        val tmpView = navInflater.inflate(R.layout.activity_navigation_bar, null)
-
-        window.addContentView(tmpView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-        //sets the action bar onto the page
-        val actionbarInflater = layoutInflater
-        val actionBarView = actionbarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
+        initializeVariables()
+        setNavigationBar()
+        setActionBar()
         createNavigationBar("settings")
+        onChangeLocation()
+        getCurrentLocation(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
+        setSettingsSpinner()
+    }
 
+    //Handles when the user clicks the change location button
+    private fun onChangeLocation() {
+        changeLocation.setOnClickListener{
+            startActivity(Intent(this, ChangeLocationSettings::class.java))
+        }
+    }
 
-        val spinner: Spinner = findViewById(R.id.settings_spinner)
-
-
-        // setting on click listeners for the spinner items
-        spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+    //Handles clicking on the spinner items
+    private fun setSettingsSpinner() {
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
             }
 
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
@@ -59,50 +53,71 @@ class LocationSettings  : NavigationBar() {
                     startActivity(Intent(this@LocationSettings, PreferredProvidersSettings::class.java))
                 }
             }
-
         }
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
                 this,
                 R.array.settings_type,
-                android.R.layout.simple_spinner_item
+                R.layout.spinner_item
         ).also { adapter ->
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner
             spinner.adapter = adapter
-            spinner.setSelection(getIntent().getIntExtra("UniqueKey", 0))
-        }
-
-        changeLocationButton.setOnClickListener{
-            startActivity(Intent(this, ChangeLocationSettings::class.java))
+            spinner.setSelection(Intent().getIntExtra("UniqueKey", 1))
         }
     }
 
-    private fun getCurrLocation(){
-        val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/"
-
-        requestGetJsonObj(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+    //Sets the navigation bar onto the page
+    private fun setNavigationBar() {
+        val navBarInflater = layoutInflater
+        val navBarView = navBarInflater.inflate(R.layout.activity_navigation_bar, null)
+        window.addContentView(navBarView,
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
     }
 
-    @JvmField
-    var responseFunc = Function<Any, Void?> { jsonObj: Any ->
-            val responseObj = jsonObj as JSONObject
-            curLocation!!.text = responseObj.getString("physical_address")
+    //Sets the action bar onto the page
+    private fun setActionBar() {
+        val actionBarInflater = layoutInflater
+        val actionBarView = actionBarInflater.inflate(R.layout.action_bar, null)
+        window.addContentView(actionBarView,
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+        supportActionBar!!.elevation = 0.0f
+    }
 
+    //Initializes UI variables
+    private fun initializeVariables() {
+        currentLocation = findViewById(R.id.currentLocation)
+        errorMessage = findViewById(R.id.errorMessage)
+        changeLocation = findViewById(R.id.changeLocation)
+        spinner = findViewById(R.id.settings_spinner)
+        loadingPanel = findViewById(R.id.loadingPanel)
+    }
+
+    //Requests the current location from the API
+    private fun getCurrentLocation(request: JsonRequest){
+        requestJson(Request.Method.GET, JsonType.OBJECT, request)
+    }
+
+    //If API returns a location, sets the physical address
+    @JvmField
+    var responseFunc = Function<Any, Void?> { response: Any ->
+        loadingPanel.visibility = View.GONE
+        val responseObj = response as JSONObject
+        currentLocation.text = responseObj.getString("physical_address")
         null
     }
-    @JvmField
-    var errorFunc = Function<String, Void?> { string: String? ->
 
-        errorMessage!!.text = string
+    //Handles error if user does not have a location set
+    @JvmField
+    var errorFunc = Function<String, Void?> { error: String? ->
+        loadingPanel.visibility = View.GONE
+        errorMessage.text = error
         null
     }
-
 
     override fun animateActivity(boolean: Boolean)
     {
-
     }
 }

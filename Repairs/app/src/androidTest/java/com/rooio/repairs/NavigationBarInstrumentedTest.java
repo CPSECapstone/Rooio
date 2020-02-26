@@ -53,7 +53,7 @@ public class NavigationBarInstrumentedTest {
     @Test
     public void testSettingsButton() {
         onView(withId(R.id.settings)).perform(click());
-        intended(hasComponent(Settings.class.getName()));
+        intended(hasComponent(PreferredProvidersSettings.class.getName()));
     }
 
     @Test
