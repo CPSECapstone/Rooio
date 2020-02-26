@@ -9,7 +9,10 @@ import android.widget.ListView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
 import org.json.JSONArray
+import org.json.JSONObject
 import java.util.ArrayList
+import androidx.arch.core.util.Function
+
 
 class Jobs : NavigationBar() {
     private var id1: ListView? = null
@@ -23,6 +26,13 @@ class Jobs : NavigationBar() {
     private var pendingConstraint: ConstraintLayout? = null
     private var scheduledConstraint: ConstraintLayout? = null
     private var inProgressConstraint: ConstraintLayout? = null
+
+    companion object{
+        @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
+        @JvmStatic private var scheduledJobs = ArrayList<JSONObject>()
+        @JvmStatic private var inProgressJobs = ArrayList<JSONObject>()
+        @JvmStatic private var archivedJobs = ArrayList<JSONObject>()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,9 +65,8 @@ class Jobs : NavigationBar() {
 
         createNavigationBar("jobs")
 
-
-        addElements()
         onClick()
+        loadJobs()
 
     }
 
@@ -65,63 +74,40 @@ class Jobs : NavigationBar() {
         completedButton!!.setOnClickListener { startActivity(Intent(this@Jobs, JobsArchived::class.java)) }
     }
 
-    private fun addElements() {
 
+
+    private fun loadJobs(){
+        val url = BaseUrl + "service-locations/$userLocationID/jobs/"
+        requestGetJsonArray(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+    }
+
+    private fun clearLists(){
         pendingJobs.clear()
         scheduledJobs.clear()
         inProgressJobs.clear()
+        archivedJobs.clear()
+    }
 
+    private fun populateLists(responseObj: JSONArray){
+        clearLists()
+        for (i in 0 until responseObj.length()) {
+            val job = responseObj.getJSONObject(i)
 
-//        for (i in 0 until response.length()) {
-//
-//            //val job = response.getJSONObject(i)
-//            //Have if statement to determine which kind of job
-//
-//            val physicalAddress = job.getString("physical_address")
-//            LocationLogin.addressList.add(physicalAddress)
-//            LocationLogin.locationIds.add(job.getString("id"))
-//
-//            //Creating the height for each row
-//            if (i > 0) {
-//                val params = pendingConstraint!!.layoutParams
-//                params.height += 170
-//                pendingConstraint!!.layoutParams = params
-//                val size = id1!!.layoutParams
-//                size.height += 170
-//            }
-//            //HAVE A NEW ^^ FOR EACH KIND OF ARRAY
-//        }
-        //A FAKE DATA SET
-        val pending = JobsData("pending","San Luis Taqueria", "http://www.lunaredslo.com/images/luna_red_logo.png", "Plumbing", "46017 Paseo Padre", "8:30 PM")
-        val pending2 = JobsData("in","San Luis Taqueria2", "http://www.lunaredslo.com/images/luna_red_logo.png", "Plumbing", "46017 Paseo Padre", "8:30 PM")
-        val pending3 = JobsData("pending","San Luis Taqueria3", "http://www.lunaredslo.com/images/luna_red_logo.png", "Plumbing", "46017 Paseo Padre", "8:30 PM")
-        val pending4 = JobsData("accepted","San Luis Taqueria4", "http://www.lunaredslo.com/images/luna_red_logo.png", "Plumbing", "46017 Paseo Padre", "8:30 PM")
-
-        val arrayList1 = ArrayList<JobsData>(2)
-        arrayList1.add(pending)
-        arrayList1.add(pending2)
-        arrayList1.add(pending3)
-        arrayList1.add(pending4)
-
-
-        //Divide each job by swimlane and set sizes
-        for (item in arrayList1) {
-
-            if (item.status == "pending"){
-                pendingJobs.add(item)
-                sizes(item.status)
+            if (job.getInt("status") == 0){
+                pendingJobs.add(job)
+                sizes("pending")
             }
-            else if(item.status == "scheduled" || item.status == "accepted"){
-                scheduledJobs.add(item)
-                sizes(item.status)
+            else if(job.getInt("status") == 2){
+                scheduledJobs.add(job)
+                sizes("scheduled")
             }
-            else{
-                inProgressJobs.add(item)
-                sizes(item.status)
+            else {
+                inProgressJobs.add(job)
+                sizes("inProgress")
             }
+
         }
 
-        //Sets the Adapter of Jobs_List_Row
         val customAdapter = JobsCustomerAdapter(this, pendingJobs)
         if (pendingJobs.size != 0) id1!!.adapter = customAdapter
 
@@ -133,13 +119,19 @@ class Jobs : NavigationBar() {
 
     }
 
-    companion object {
-        //TextView test;
-        var pendingJobs = ArrayList<JobsData>()
-        var scheduledJobs = ArrayList<JobsData>()
-        var inProgressJobs = ArrayList<JobsData>()
+    @JvmField
+    var responseFunc = Function<Any, Void?> { jsonObj: Any ->
+        val responseObj = jsonObj as JSONArray
+        populateLists(responseObj)
 
+        null
     }
+    @JvmField
+    var errorFunc = Function<String, Void?> { string: String? ->
+
+        null
+    }
+
 
     //Set the sizes for each individual block
     private fun sizes(str: String) {
@@ -172,7 +164,7 @@ class Jobs : NavigationBar() {
             size.height += value
             id2!!.layoutParams = size
         }
-        else {
+        else{
             val params = inProgressConstraint!!.layoutParams
             params.height += value
             inProgressConstraint!!.layoutParams = params
@@ -180,6 +172,7 @@ class Jobs : NavigationBar() {
             size.height += value
             id3!!.layoutParams = size
         }
+
     }
 
     //Shifting the layout in response to navBar position

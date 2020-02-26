@@ -14,14 +14,17 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 class JobsCustomerAdapter implements ListAdapter {
-    private ArrayList<JobsData> arrayList;
+    private ArrayList<JSONObject> arrayList;
     private Context context;
     ArrayList<String> statuses = new ArrayList<>();
 
-    public JobsCustomerAdapter(Context context, ArrayList<JobsData> serviceLocations) {
+    public JobsCustomerAdapter(Context context, ArrayList<JSONObject> serviceLocations) {
         this.arrayList = serviceLocations;
         this.context = context;
     }
@@ -61,7 +64,7 @@ class JobsCustomerAdapter implements ListAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        JobsData data = arrayList.get(position);
+        JSONObject data = arrayList.get(position);
         if(convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
             convertView = layoutInflater.inflate(R.layout.job_list_row, parent, false);
@@ -72,35 +75,61 @@ class JobsCustomerAdapter implements ListAdapter {
             TextView timeImage = convertView.findViewById(R.id.timeImage);
             TextView status = convertView.findViewById(R.id.status);
 
-            if(!statuses.contains(data.status)){
-                status.setText(data.status.toUpperCase());
-            statuses.add(data.status);
+            try {
+                Integer status_enum = data.getInt("status");
+                String status_value = null;
+                switch(status_enum) {
+                    case 1:
+                        status_value = "Pending";
+                        break;
+                    case 2:
+                        status_value = "Declined";
+                        break;
+                    case 3:
+                        status_value = "Completed";
+                        break;
+                    case 4:
+                        status_value = "Canceled";
+                        break;
+                    case 5:
+                        status_value = "Started";
+                        break;
+                    case 6:
+                        status_value = "Paused";
+                        break;
+                    case 0:
+                        status_value = "Pending";
+                        break;
+                }
+                JSONObject equipmentObj = data.getJSONObject("equipment");
+                repairType.setText(equipmentObj.getInt("service_category"));
 
-        }
-        else
-            status.setVisibility(View.GONE);
+                JSONObject locationObj = data.getJSONObject("service_location");
+                name.setText(locationObj.getString("name"));
 
-        repairType.setText(data.repairType);
-        name.setText(data.name);
-        address.setText(data.address);
-        timeImage.setText(data.time);
-        Picasso.with(context)
-                .load(data.image)
-                .into(image);
+                address.setText(locationObj.getString("physical_address"));
 
-//            TextView location = convertView.findViewById(R.id.location);
-//            if(!statuses.contains(data.status)){
-//                location.setText(data.status.toUpperCase());
-//                statuses.add(data.status);
-//            }
-//            else
-//                location.setVisibility(View.GONE);
-//
-//            // displaying equipment buttons
-//            Button equipment = convertView.findViewById(R.id.equipmentItem);
-//            equipment.setText(data.name);
-//            Button equipment2 = convertView.findViewById(R.id.equipmentItem2);
-//            equipment2.setText(data.name);
+                timeImage.setText(data.getString("estimated_arrival_time"));
+
+                JSONObject userObject = locationObj.getJSONObject("internal_client");
+
+                Picasso.with(context)
+                        .load(userObject.getString("logo")
+                        )
+                        .into(image);
+
+                if(!statuses.contains(status_value)){
+                    status.setText(status_value.toUpperCase());
+                    statuses.add(status_value);
+                }
+                else
+                    status.setVisibility(View.GONE);
+                }
+
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
         return convertView;
     }

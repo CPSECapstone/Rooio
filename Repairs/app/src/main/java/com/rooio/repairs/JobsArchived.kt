@@ -107,8 +107,8 @@ public class JobsArchived  : NavigationBar() {
                 }
 
 
-                val customAdapter = JobsCustomerAdapter(this, completedJobs)
-                if (completedJobs.size != 0) id2!!.adapter = customAdapter
+//                val customAdapter = JobsCustomerAdapter(this, completedJobs)
+//                if (completedJobs.size != 0) id2!!.adapter = customAdapter
 
         }
 
