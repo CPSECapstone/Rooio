@@ -4,10 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,6 +26,7 @@ class JobsCustomerAdapter implements ListAdapter {
     private ArrayList<JSONObject> arrayList;
     private Context context;
     ArrayList<String> statuses = new ArrayList<>();
+    ArrayList<String> categories = new ArrayList<>();
 
     public JobsCustomerAdapter(Context context, ArrayList<JSONObject> serviceLocations) {
         this.arrayList = serviceLocations;
@@ -117,11 +119,33 @@ class JobsCustomerAdapter implements ListAdapter {
 
                         break;
                 }
-                JSONObject equipmentObj = data.getJSONObject("equipment");
-               // String category = equipmentObj.getString("service_category");
 
 
 
+                JSONArray equipmentObjList = data.getJSONArray("equipment");
+                for (int i = 0; i < equipmentObjList.length(); i++) {
+                    JSONObject equipmentObj = equipmentObjList.getJSONObject(i);
+                    String category = equipmentObj.getString("service_category");
+
+                    switch(category) {
+                        case "0":
+//                            repairType.setText("General Appliance");
+                            categories.add("General Appliance");
+                            break;
+                        case "1":
+//                            repairType.setText("HVAC");
+                            categories.add("HVAC");
+                            break;
+                        case "2":
+//                            repairType.setText("Lighting and Electrical");
+                            categories.add("Lighting and Electrical");
+                            break;
+                        case "3":
+//                            repairType.setText("Plumbing");
+                            categories.add("Plumbing");
+                            break;
+                    }
+                }
 
                 JSONObject locationObj = data.getJSONObject("service_location");
                 JSONObject internal_client = locationObj.getJSONObject("internal_client");
@@ -138,20 +162,7 @@ class JobsCustomerAdapter implements ListAdapter {
                         )
                         .into(image);
 
-//                switch(category) {
-////                    case "0":
-////                        repairType.setText("General Appliance");
-////                        break;
-////                    case "1":
-////                        repairType.setText("HVAC");
-////                        break;
-////                    case "2":
-////                        repairType.setText("Lighting and Electrical");
-////                        break;
-////                    case "3":
-////                        repairType.setText("Plumbing");
-////                        break;
-////                }
+
 
                 if(!statuses.contains(status_value)){
                     status.setText(status_value.toUpperCase());
@@ -164,6 +175,7 @@ class JobsCustomerAdapter implements ListAdapter {
 
             catch (JSONException e) {
                 error.setText(e.toString());
+                Log.d("exception", e.toString());
             }
 
         }
