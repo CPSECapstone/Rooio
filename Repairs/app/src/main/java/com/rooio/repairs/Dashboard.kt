@@ -5,6 +5,13 @@ import android.media.Image
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import androidx.transition.TransitionManager
+import java.util.ArrayList
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.arch.core.util.Function
@@ -21,7 +28,7 @@ private val have  = ArrayList<ServiceProviderData>()
 class Dashboard : NavigationBar() {
 
 
-    private var scheduledNum: TextView? = null
+    private lateinit var scheduledNum: TextView
     private lateinit var inProgressNum: TextView
     private lateinit var pendingNum: TextView
     private lateinit var image: ImageView
@@ -30,10 +37,10 @@ class Dashboard : NavigationBar() {
     private lateinit var name: TextView
     private lateinit var repairType: TextView
 
-
-
-
-
+    private lateinit var lightingButton: Button
+    private lateinit var plumbingButton: Button
+    private lateinit var hvacButton: Button
+    private lateinit var applianceButton: Button
 
     companion object{
         @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
@@ -55,6 +62,10 @@ class Dashboard : NavigationBar() {
         scheduledNum = findViewById(R.id.scheduledNum)
         inProgressNum = findViewById(R.id.inProgressNum)
 
+        lightingButton = findViewById(R.id.lightingButton)
+        plumbingButton = findViewById(R.id.plumbingButton)
+        hvacButton = findViewById(R.id.hvacButton)
+        applianceButton = findViewById(R.id.applianceButton)
 
         //sets the navigation bar onto the page
         val nav_inflater = layoutInflater
@@ -76,6 +87,7 @@ class Dashboard : NavigationBar() {
         loadJobs()
 
         createNavigationBar("dashboard")
+        jobRequestsClicked()
     }
 
     fun populate_test(){
@@ -95,6 +107,31 @@ class Dashboard : NavigationBar() {
         Picasso.with(this)
                 .load(imageVal)
                 .into(image)
+
+    }
+
+    private fun jobRequestsClicked(){
+
+        hvacButton.setOnClickListener{
+            val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
+            intent.putExtra("equipmentType", 1)
+            startActivity(intent);
+        }
+        plumbingButton.setOnClickListener{
+            val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
+            intent.putExtra("equipmentType", 2)
+            startActivity(intent);
+        }
+        lightingButton.setOnClickListener{
+            val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
+            intent.putExtra("equipmentType", 3)
+            startActivity(intent);
+        }
+        applianceButton.setOnClickListener{
+            val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
+            intent.putExtra("equipmentType", 4)
+            startActivity(intent);
+        }
 
     }
 
