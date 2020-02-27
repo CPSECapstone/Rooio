@@ -76,7 +76,7 @@ class JobsCustomerAdapter implements ListAdapter {
             TextView address = convertView.findViewById(R.id.address);
             ImageView image = convertView.findViewById(R.id.image);
             TextView timeImage = convertView.findViewById(R.id.timeImage);
-            TextView error = convertView.findViewById(R.id.error);
+            TextView error = convertView.findViewById(R.id.error2);
 
             TextView status = convertView.findViewById(R.id.status);
             ConstraintLayout color = convertView.findViewById(R.id.color);
