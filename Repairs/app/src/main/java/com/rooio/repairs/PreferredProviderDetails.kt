@@ -8,12 +8,15 @@ import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
+
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import org.json.JSONException
 import org.json.JSONObject
+import androidx.arch.core.util.Function
+
 
 class PreferredProviderDetails: NavigationBar() {
 
@@ -72,48 +75,52 @@ class PreferredProviderDetails: NavigationBar() {
     private fun loadProvider(){
         val bundle: Bundle ?= intent.extras
         if (bundle!=null){
-
             val theId = bundle.getString("addedProvider")
             url = "https://capstone.api.roopairs.com/v0/service-providers/" + theId.toString() + "/"
-
-            val responseFunc = { jsonObject : JSONObject ->
-                try {
-                    loadElements(jsonObject)
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-
-                null
-            }
-
-            val errorFunc = { string : String ->
-                error.setText(string)
-                null
-            }
-
-            requestGetJsonObj(url, responseFunc, errorFunc, true)
+            val request = JsonRequest(false, url, HashMap(), providerResponseFunc, providerErrorFunc, true)
+            requestGetJsonObj(request)
         }
     }
+
+    @JvmField
+    var providerErrorFunc = Function<String, Void?> {
+        error.setText(R.string.error_login)
+        null
+    }
+
+    @JvmField
+    val providerResponseFunc = Function<Any, Void?> { response : Any ->
+        val jsonObject = response as JSONObject
+        try {
+            loadElements(jsonObject)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        null
+    }
+
     private fun onRemoveClick() {
-        val responseFunc = { jsonObject : Any ->
-            try {
-                jsonObject as JSONObject
-                startActivity(Intent (this@PreferredProviderDetails, PreferredProvidersSettings::class.java ))
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-
-            null
-        }
-
-        val errorFunc = { string : String ->
-            error.setText(string)
-            null
-        }
-        val params = java.util.HashMap<String, Any>()
+        val params = java.util.HashMap<Any?, Any?>()
+        val request = JsonRequest(false, url, params, removeResponseFunc, removeErrorFunc, true)
         removeButton.setOnClickListener {
-            requestDeleteJsonObj(JsonRequest(false, url, params, responseFunc, errorFunc, true))
+            requestDeleteJsonObj(request)
         }
+    }
+
+    @JvmField
+    var removeErrorFunc = Function<String, Void?> {
+        error.setText(R.string.error_login)
+        null
+    }
+
+    @JvmField
+    val removeResponseFunc = Function<Any, Void?> {
+        try {
+            startActivity(Intent (this@PreferredProviderDetails, PreferredProvidersSettings::class.java ))
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        null
     }
 
     @Throws(JSONException::class)
@@ -129,13 +136,16 @@ class PreferredProviderDetails: NavigationBar() {
             Picasso.with(applicationContext)
                 .load(image)
                 .into(logo)
-        setElementTexts(overview, response, "overview")
+
+        setElementTexts(overview, response,"overview")
         setElementTexts(email, response, "email")
         setElementTexts(skills, response, "skills")
         setElementTexts(licenseNumber, response, "contractor_license_number")
         setElementTexts(phone, response, "phone")
         setElementTexts(name, response, "name")
-        setPriceElement(price, response, "starting_hourly_rate", "")
+
+        setPriceElement(price, response, "starting_hourly_rate")
+
     }
 
     private fun setElementTexts(element: TextView, response: JSONObject, elementName: String){
@@ -152,7 +162,7 @@ class PreferredProviderDetails: NavigationBar() {
         }
     }
 
-    private fun setPriceElement(element: TextView, response: JSONObject, elementName: String, name: String){
+    private fun setPriceElement(element: TextView, response: JSONObject, elementName: String){
         try {
             var hoursText = getString((R.string.details_price_exception_message),response.get(elementName) as String)
             var standardText = SpannableStringBuilder(" starting cost")
@@ -170,7 +180,7 @@ class PreferredProviderDetails: NavigationBar() {
     private fun onBackClick() {
         backButton.setOnClickListener{
             val intent = Intent(this@PreferredProviderDetails, PreferredProvidersSettings::class.java)
-            startActivity(intent);
+            startActivity(intent)
         }
     }
 

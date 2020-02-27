@@ -5,55 +5,83 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ListView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.android.volley.Request
 import org.json.JSONArray
 import org.json.JSONException
 import java.util.*
 
+//Page when user first logs in, they will see providers linked to their account and be able to add more
 class PreferredProvidersLogin : RestApi() {
-    private var addButton: TextView? = null
-    private var doneButton: Button? = null
-    private var serviceProvidersListView: ListView? = null
-    private var error: TextView? = null
-    private var providerBox: ConstraintLayout? = null
+
+    private lateinit var addButton: TextView
+    private lateinit var continueButton: Button
+    private lateinit var serviceProvidersListView: ListView
+    private lateinit var errorMessage: TextView
+    private lateinit var providerBox: ConstraintLayout
+    private lateinit var loadingPanel: RelativeLayout
     private val preferredProviders = ArrayList<ServiceProviderData>()
+    private val url = "https://capstone.api.roopairs.com/v0/service-providers/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preferred_providers_login)
+
+        centerTitleBar()
+        initializeVariables()
+        loadPreferredProviders(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
+        onAddAnother()
+        onContinue()
+    }
+
+    //Centers "Repairs" title
+    private fun centerTitleBar() {
         supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         supportActionBar!!.setCustomView(R.layout.action_bar)
         supportActionBar!!.elevation = 0f
-        addButton = findViewById<View>(R.id.addAnother) as TextView
-        doneButton = findViewById<View>(R.id.done) as Button
-        serviceProvidersListView = findViewById<View>(R.id.list) as ListView
-        error = findViewById<View>(R.id.error) as TextView
-        providerBox = findViewById<View>(R.id.providerBox) as ConstraintLayout
-        loadPreferredProviders()
-        onAddClick()
-        onDoneClick()
     }
 
-    private fun loadPreferredProviders() {
-        val url = "https://capstone.api.roopairs.com/v0/service-providers/"
-        val responseFunc = Function<JSONArray, Void?> { jsonArray: JSONArray ->
-            try {
-                loadElements(jsonArray)
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-            null
-        }
-        val errorFunc = Function<String, Void?> { string: String? ->
-            error!!.text = string
-            null
-        }
-        requestGetJsonArray(url, responseFunc, errorFunc, true)
+    //Initializes UI variables
+    private fun initializeVariables() {
+        addButton = findViewById(R.id.addAnother)
+        continueButton = findViewById(R.id.done)
+        serviceProvidersListView = findViewById(R.id.providerListView)
+        errorMessage = findViewById(R.id.errorMessage)
+        providerBox = findViewById(R.id.providerBox)
+        loadingPanel = findViewById(R.id.loadingPanel)
     }
 
+    // Initially loads the current providers by making a call to the API
+    private fun loadPreferredProviders(request: JsonRequest) {
+        requestJson(Request.Method.GET, JsonType.ARRAY, request)
+    }
+
+    //Loads all the elements from the JSON array or displays an error
+    @JvmField
+    val responseFunc = Function<Any, Void?> { response : Any ->
+        loadingPanel.visibility = View.GONE
+        val jsonArray = response as JSONArray
+        try {
+            loadElements(jsonArray)
+        } catch (e: JSONException) {
+            errorMessage.setText(R.string.error_server)
+        }
+        null
+    }
+
+    //Handles error from the API if the user is not authorized
+    @JvmField
+    val errorFunc = Function<String, Void?> { error: String? ->
+        loadingPanel.visibility = View.GONE
+        errorMessage.text = error
+        null
+    }
+
+    //Individually loads each provider into the custom list view and extends the layout based on number
     @Throws(JSONException::class)
     fun loadElements(response: JSONArray) {
         preferredProviders.clear()
@@ -70,25 +98,26 @@ class PreferredProvidersLogin : RestApi() {
                 val serviceProviderData = ServiceProviderData(name, image, id)
                 preferredProviders.add(serviceProviderData)
                 if (i > 0) {
-                    val params = providerBox!!.layoutParams
-                    params.height += 105
-                    providerBox!!.layoutParams = params
-                    val size = serviceProvidersListView!!.layoutParams
-                    size.height += 105
-                    serviceProvidersListView!!.layoutParams = size
+                    val params = providerBox.layoutParams
+                    params.height += 110
+                    providerBox.layoutParams = params
+                    val size = serviceProvidersListView.layoutParams
+                    size.height += 110
+                    serviceProvidersListView.layoutParams = size
                 }
             }
         }
-
         val customAdapter = PreferredProvidersCustomAdapter(this, preferredProviders)
-        if (preferredProviders.size != 0) serviceProvidersListView!!.adapter = customAdapter
+        if (preferredProviders.size != 0) serviceProvidersListView.adapter = customAdapter
     }
 
-    private fun onAddClick() {
-        addButton!!.setOnClickListener { startActivity(Intent(this@PreferredProvidersLogin, AddPreferredProvidersLogin::class.java)) }
+    //Handles when user wants to add another provider
+    private fun onAddAnother() {
+        addButton.setOnClickListener { startActivity(Intent(this@PreferredProvidersLogin, AddPreferredProvidersLogin::class.java)) }
     }
 
-    private fun onDoneClick() {
-        doneButton!!.setOnClickListener { startActivity(Intent(this@PreferredProvidersLogin, Dashboard::class.java)) }
+    //Handles when user is done and presses continue
+    private fun onContinue() {
+        continueButton.setOnClickListener { startActivity(Intent(this@PreferredProvidersLogin, Dashboard::class.java)) }
     }
 }

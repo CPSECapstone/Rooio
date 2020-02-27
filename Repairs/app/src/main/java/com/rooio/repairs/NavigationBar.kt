@@ -68,7 +68,7 @@ abstract class NavigationBar : RestApi() {
 
             TransitionManager.beginDelayedTransition(transitionsContainer)
             visible = !visible
-            val v = if (visible) View.GONE else View.VISIBLE
+            val v = if (visible) View.GONE else VISIBLE
             collapseText.visibility = v
             dashboardText.visibility = v
             jobsText.visibility = v
@@ -102,11 +102,11 @@ abstract class NavigationBar : RestApi() {
         }
 
         settingsImage.setOnClickListener{
-            startActivity(Intent( this, Settings::class.java))
+            startActivity(Intent( this, PreferredProvidersSettings::class.java))
         }
 
         settingsText.setOnClickListener{
-            startActivity(Intent( this, Settings::class.java))
+            startActivity(Intent( this, PreferredProvidersSettings::class.java))
         }
 
         equipmentImage.setOnClickListener{

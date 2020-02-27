@@ -11,4 +11,6 @@
     <color name="Yellow">#F6E15C</color>
     <color name="Blue">#96B8F8</color>
     <color name="Purple">#9A50BA</color>
+    <color name="grayedOut">#336B6B6B</color>
+
 </resources>

@@ -2,15 +2,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ECF0F1"
-    tools:context=".Login">
+    tools:context=".AddPreferredProvidersSettings">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/titleLayout"
         android:layout_width="match_parent"
-        android:layout_height="67dp"
+        android:layout_height="90dp"
         android:background="@drawable/no_elevation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,89 +21,78 @@
         tools:visibility="visible">
 
         <TextView
-            android:id="@+id/textView"
+
+            android:id="@+id/addTitle"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Service Provider"
-            android:textSize="24sp"
+            android:text="@string/add_service_provider"
+            android:textSize="27sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/back_button"
+            android:id="@+id/expandBackButton"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:contentDescription="@string/cancel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.166"
+            app:layout_constraintHorizontal_bias=".15"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.619"
+            app:layout_constraintVertical_bias="0.50"
             app:srcCompat="@mipmap/chevron_left" />
 
+        <ImageView
+            android:id="@+id/collapseBackButton"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:contentDescription="@string/cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.50"
+            app:srcCompat="@mipmap/chevron_left" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="100dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="760dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="545dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="1385dp" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/providerBox"
         android:layout_width="850dp"
-        android:layout_height="360dp"
+        android:layout_height="405dp"
         android:background="@drawable/shadow"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="0.215">
+        app:layout_constraintBottom_toTopOf="@+id/lowerGuideline"
+        app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+        app:layout_constraintTop_toTopOf="@+id/upperGuideline"
+        app:layout_constraintVertical_bias="0.5">
 
         <EditText
-            android:id="@+id/new_phone"
+            android:id="@+id/newProvider"
             android:layout_width="735dp"
             android:layout_height="60dp"
             android:background="@drawable/gray_phone_border"
             android:ems="10"
             android:inputType="phone"
-            android:labelFor="@id/new_phone"
-            android:paddingLeft="15dp"
+            android:labelFor="@id/newProvider"
+            android:paddingStart="15dp"
+            android:paddingEnd="0dp"
             android:textColor="#6D7377"
             android:textSize="27sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.503" />
+            app:layout_constraintVertical_bias="0.47" />
 
         <Button
-            android:id="@+id/add_provider"
+            android:id="@+id/addProvider"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="240dp"
             android:layout_height="55dp"
             android:background="@drawable/green_button_border"
@@ -118,10 +108,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.872" />
+            app:layout_constraintVertical_bias="0.82" />
 
         <TextView
-            android:id="@+id/providerName"
+            android:id="@+id/providerTitle"
             android:layout_width="700dp"
             android:layout_height="62dp"
             android:fontFamily="@font/nunito"
@@ -132,10 +122,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.110000014" />
+            app:layout_constraintVertical_bias=".12" />
 
         <TextView
-            android:id="@+id/textViewPhoneNumber"
+            android:id="@+id/phoneText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/phone_number"
@@ -143,26 +133,65 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.081"
+            app:layout_constraintHorizontal_bias="0.075"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.375" />
+            app:layout_constraintVertical_bias="0.35" />
 
         <TextView
-            android:id="@+id/error"
+            android:id="@+id/errorMessage"
             android:layout_width="600dp"
             android:layout_height="40dp"
+            android:fontFamily="@font/nunito_sans"
             android:textAlignment="textStart"
-            android:textColor="#E4E40B0B"
+            android:textColor="#CA2500"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.244"
+            app:layout_constraintHorizontal_bias="0.22"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.7" />
+            app:layout_constraintVertical_bias="0.61" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lowerGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="580dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="1385dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="535dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/upperGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="100dp" />
+
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-

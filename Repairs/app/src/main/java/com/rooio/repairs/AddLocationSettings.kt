@@ -2,111 +2,172 @@ package com.rooio.repairs
 
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.arch.core.util.Function
-import com.google.android.material.textfield.TextInputEditText
+import androidx.transition.TransitionManager
+import com.android.volley.Request
+import org.json.JSONArray
 import org.json.JSONException
-import org.json.JSONObject
 import java.util.*
 
 
 class AddLocationSettings  : NavigationBar() {
 
-    private var errorMessage: TextView? = null
-    private lateinit var new_address: TextInputEditText
-
+    private lateinit var addLocation: Button
+    private lateinit var newLocation: EditText
+    private lateinit var errorMessage: TextView
+    private lateinit var loadingPanel: RelativeLayout
+    private lateinit var expandBackButton: ImageView
+    private lateinit var collapseBackButton: ImageView
+    private lateinit var viewGroup: ViewGroup
+    private val url = "https://capstone.api.roopairs.com/v0/service-locations/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_location_settings)
-        val backArrow = findViewById<ImageView>(R.id.backArrow)
 
-        val addAddress = findViewById<Button>(R.id.addLocation)
+        initializeVariables()
+        setNavigationBar()
+        setActionBar()
+        createNavigationBar("settings")
+        onAddLocation()
+        onBack()
+    }
 
-        errorMessage = findViewById(R.id.error_Messages)
-        new_address = findViewById<TextInputEditText>(R.id.newLocation2)
+    //Initializes UI variables
+    private fun initializeVariables() {
+        addLocation = findViewById(R.id.addLocation)
+        newLocation = findViewById(R.id.newLocation)
+        errorMessage = findViewById(R.id.errorMessage)
+        loadingPanel = findViewById(R.id.loadingPanel)
+        viewGroup = findViewById(R.id.background)
+        //Navigation bar collapse/expand
+        expandBackButton = viewGroup.findViewById(R.id.expandBackButton)
+        collapseBackButton = viewGroup.findViewById(R.id.collapseBackButton)
+    }
 
-        //sets the navigation bar onto the page
-        val navInflater = layoutInflater
-        val tmpView = navInflater.inflate(R.layout.activity_navigation_bar, null)
-
-        window.addContentView(tmpView,
+    //Sets the navigation bar onto the page
+    private fun setNavigationBar() {
+        val navBarInflater = layoutInflater
+        val navBarView = navBarInflater.inflate(R.layout.activity_navigation_bar, null)
+        window.addContentView(navBarView,
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+    }
 
-        //sets the action bar onto the page
-        val actionbarInflater = layoutInflater
-        val actionBarView = actionbarInflater.inflate(R.layout.action_bar, null)
+    //Sets the action bar onto the page
+    private fun setActionBar() {
+        val actionBarInflater = layoutInflater
+        val actionBarView = actionBarInflater.inflate(R.layout.action_bar, null)
         window.addContentView(actionBarView,
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
         supportActionBar!!.elevation = 0.0f
+    }
 
-        createNavigationBar("settings")
-
-        backArrow.setOnClickListener{
-            startActivity(Intent( this, ChangeLocationSettings::class.java))
+    //Handles when a user adds a location
+    private fun onAddLocation() {
+        loadingPanel.visibility = View.GONE
+        addLocation.setOnClickListener {
+            errorMessage.text = ""
+            val locationInput = newLocation.text.toString()
+            val request = JsonRequest(false, url, HashMap(), checkResponseFunc, checkErrorFunc, true)
+            checkLocationInfo(locationInput, request)
         }
+    }
 
-        addAddress.setOnClickListener{
-            val url = "https://capstone.api.roopairs.com/v0/service-locations/"
+    //Checks if a location is not empty and then gets all the locations from the API
+    private fun checkLocationInfo(inputAddress: String, request: JsonRequest) {
+        if (inputAddress != "") {
+            loadingPanel.visibility = View.VISIBLE
+            requestJson(Request.Method.GET, JsonType.ARRAY, request)
+        } else errorMessage.setText(R.string.invalid_address)
+    }
 
-            errorMessage?.setTextColor(Color.parseColor("#A6A9AC"))
-            errorMessage?.text = "Loading"
+    //Handles an error if the API is unable to retrieve phone numbers for the account
+    @JvmField
+    val checkErrorFunc = Function<String, Void?> { error: String? ->
+        loadingPanel.visibility = View.GONE
+        errorMessage.text = error
+        null
+    }
 
-            val inputted_address = new_address?.text!!.toString()
-            if (inputted_address != "") {
-                //     -- Example params initiations
-                val params = HashMap<String, Any>()
-                params["physical_address"] = inputted_address
+    //Checks if the location is already in the system and tries to add it
+    @JvmField
+    val checkResponseFunc = Function<Any, Void?> { response: Any ->
+        try {
+            val jsonArray = response as JSONArray
+            val locationInput = newLocation.text.toString()
+            val params = HashMap<Any?, Any?>()
+            params["physical_address"] = locationInput
+            val request = JsonRequest(false, url, params, locationResponseFunc, locationErrorFunc, true)
+            addLocation(checkAlreadyAdded(locationInput, jsonArray), request)
+        } catch (e: JSONException) {
+            errorMessage.setText(R.string.error_server)
+        }
+        null
+    }
 
-                val request = JsonRequest(false, url, params, responseFunc, errorFunc, true)
-                requestPostJsonObj(request)
-
-            } else {
-                errorMessage?.setTextColor(Color.parseColor("#E4E40B0B"))
-                errorMessage?.text = "Invalid Address"
+    //Goes through each location returned from the API and checks if it is equal to the current
+    private fun checkAlreadyAdded(addressInput: String, jsonArray: JSONArray): Boolean {
+        for (i in 0 until jsonArray.length()) {
+            val location = jsonArray.getJSONObject(i)
+            val address = location["physical_address"] as String
+            if (address == addressInput) {
+                return true
             }
         }
+        return false
     }
 
-    @JvmField
-    var responseFunc = Function<Any, Void?> { jsonObj: Any ->
-        val responseObj = jsonObj as JSONObject
-        var address: String? = null
-        var id: String? = null
-
-        try {
-            address = responseObj.getString("physical_address")
-            id = responseObj.getString("id")
-
-        } catch (e: JSONException) {
-            e.printStackTrace()
+    //Takes in a boolean if it has been added to the system and makes a call to the API if it has not
+    private fun addLocation(added: Boolean, request: JsonRequest) {
+        if (!added) {
+            requestJson(Request.Method.POST, JsonType.OBJECT, request)
+        } else {
+            loadingPanel.visibility = View.GONE
+            errorMessage.setText(R.string.already_added_location)
         }
-
-
-        val intent = Intent(this@AddLocationSettings, ChangeLocationSettings::class.java)
-        intent.putExtra("address", address)
-        intent.putExtra("id", id)
-        startActivity(intent)
-        null
     }
+
+    //Response that reloads the location list view with the new location
     @JvmField
-    var errorFunc = Function<String, Void?> { string: String? ->
-
-        errorMessage!!.text = string
+    var locationResponseFunc = Function<Any, Void?> {
+        loadingPanel.visibility = View.GONE
+        try {
+            startActivity(Intent(this@AddLocationSettings, ChangeLocationSettings::class.java))
+        } catch (e: JSONException) {
+            errorMessage.setText(R.string.error_server)
+        }
         null
     }
 
+    //Error checking for if there are any issues with requests and API
+    @JvmField
+    var locationErrorFunc = Function<String, Void?> { error: String? ->
+        loadingPanel.visibility = View.GONE
+        errorMessage.text = error
+        null
+    }
+
+    //Animates the main page content when the navigation bar collapses/expands
     override fun animateActivity(boolean: Boolean)
     {
-
+        TransitionManager.beginDelayedTransition(viewGroup)
+        val v = if (boolean) View.VISIBLE else View.GONE
+        val op = if (boolean) View.GONE else View.VISIBLE
+        expandBackButton.visibility = op
+        collapseBackButton.visibility = v
     }
 
-
-
+    //Sends the user to the Jobs page
+    private fun onBack() {
+        expandBackButton.setOnClickListener{
+            startActivity(Intent(this@AddLocationSettings, ChangeLocationSettings::class.java))
+        }
+        collapseBackButton.setOnClickListener{
+            startActivity(Intent(this@AddLocationSettings, ChangeLocationSettings::class.java))
+        }
+    }
 }
