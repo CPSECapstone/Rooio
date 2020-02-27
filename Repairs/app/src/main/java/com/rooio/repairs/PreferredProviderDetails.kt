@@ -61,7 +61,7 @@ class PreferredProviderDetails: NavigationBar() {
 
         createNavigationBar("settings")
         backButton = findViewById<View>(R.id.back_button_details) as ImageView
-        removeButton = findViewById(R.id.removeProvider)
+        removeButton = findViewById<Button>(R.id.removeProvider)
 
         loadProvider()
         onRemoveClick()

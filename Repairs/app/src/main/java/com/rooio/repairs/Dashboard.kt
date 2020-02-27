@@ -1,8 +1,10 @@
 package com.rooio.repairs
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.transition.TransitionManager
 import java.util.ArrayList
 import android.widget.ImageView
@@ -22,7 +24,10 @@ class Dashboard : NavigationBar() {
     private var time: TextView? = null
     private var address: TextView? = null
     private var image: ImageView? = null
-
+    private lateinit var lightingButton: Button
+    private lateinit var plumbingButton: Button
+    private lateinit var hvacButton: Button
+    private lateinit var applianceButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +38,10 @@ class Dashboard : NavigationBar() {
         time = findViewById<View>(R.id.timeImage) as TextView
         address = findViewById<View>(R.id.address) as TextView
         image = findViewById<View>(R.id.image) as ImageView
-
+        lightingButton = findViewById(R.id.lightingButton)
+        plumbingButton = findViewById(R.id.plumbingButton)
+        hvacButton = findViewById(R.id.hvacButton)
+        applianceButton = findViewById(R.id.applianceButton)
 
         //sets the navigation bar onto the page
         val nav_inflater = layoutInflater
@@ -53,6 +61,7 @@ class Dashboard : NavigationBar() {
         populate_test()
 
         createNavigationBar("dashboard")
+        jobRequestsClicked()
     }
 
     fun populate_test(){
@@ -73,11 +82,32 @@ class Dashboard : NavigationBar() {
                 .load(imageVal)
                 .into(image)
 
-
-
     }
 
+    private fun jobRequestsClicked(){
 
+        hvacButton.setOnClickListener{
+            val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
+            intent.putExtra("equipmentType", 1)
+            startActivity(intent);
+        }
+        plumbingButton.setOnClickListener{
+            val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
+            intent.putExtra("equipmentType", 2)
+            startActivity(intent);
+        }
+        lightingButton.setOnClickListener{
+            val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
+            intent.putExtra("equipmentType", 3)
+            startActivity(intent);
+        }
+        applianceButton.setOnClickListener{
+            val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
+            intent.putExtra("equipmentType", 4)
+            startActivity(intent);
+        }
+
+    }
 
 
     override fun animateActivity(boolean: Boolean){
