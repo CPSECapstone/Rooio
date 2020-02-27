@@ -144,7 +144,7 @@ class AddPreferredProvidersSettings  : NavigationBar() {
         for (i in 0 until jsonArray.length()) {
             val restaurant = jsonArray.getJSONObject(i)
             val phoneNum = restaurant["phone"] as String
-            if (phoneNum == phoneInput) {
+            if (phoneNum.contains(phoneInput)) {
                 return true
             }
         }
