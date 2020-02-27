@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 class EquipmentData {
 
+    String id;
     String name;
     String location;
     String manufacturer;
@@ -14,11 +15,12 @@ class EquipmentData {
     String lastServiceBy;
     String notes;
     String serviceLocation;
-    Integer type;
+    EquipmentType type;
     String serviceCategory;
 
     public EquipmentData(JSONObject jsonObject){
         try{
+            this.id = jsonObject.getString("id");
             this.name = jsonObject.getString("display_name");
             this.location = jsonObject.getString("location");
             this.manufacturer = jsonObject.getString("manufacturer");
@@ -28,9 +30,19 @@ class EquipmentData {
             this.lastServiceBy = jsonObject.getString("last_service_by");
             this.notes = jsonObject.getString("notes");
             this.serviceLocation = jsonObject.getString("service_location");
-            this.type = jsonObject.getInt("type");
+            this.type = createEnum(jsonObject.getInt("type"));
             this.serviceCategory = jsonObject.getString("service_category");
         } catch (JSONException e) {
+        }
+    }
+
+    private EquipmentType createEnum(int i){
+        switch (i) {
+            case 1: return EquipmentType.HVAC;
+            case 2: return EquipmentType.PLUMBING;
+            case 3: return EquipmentType.LIGHTING_AND_ELECTRICAL;
+            case 4: return EquipmentType.GENERAL_APPLIANCE;
+            default: throw new IllegalArgumentException("$i does not correspond to an equipment type");
         }
     }
 }

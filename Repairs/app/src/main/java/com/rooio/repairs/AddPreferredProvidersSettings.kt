@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
 import androidx.transition.TransitionManager
 import com.android.volley.Request

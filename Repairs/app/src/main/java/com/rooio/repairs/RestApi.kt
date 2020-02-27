@@ -174,6 +174,36 @@ abstract class RestApi : AppCompatActivity() {
         addToVolleyQueue(jsonObjectRequest)
     }
 
+    fun requestPutJsonObj(req: JsonRequest) {
+        if (req.isTest) {
+            return
+        }
+        val url = req.url
+        val params = req.params
+        val responseFunc = req.responseFunc
+        val errorFunc = req.errorFunc
+        val headersFlag = req.headersFlag
+        //-- Transforms params HashMap into Json Object
+        val jsonParams = JSONObject(params)
+        val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(Method.PUT, url, jsonParams, Response.Listener { response -> responseFunc.apply(response) }, Response.ErrorListener { error ->
+            val errorMsg = errorMsgHandler(error)
+            errorFunc.apply(errorMsg)
+        }) {
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+                return if (headersFlag) {
+                    val headers: MutableMap<String, String> = HashMap()
+                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
+                    headers
+                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+                } else {
+                    emptyMap()
+                }
+            }
+        }
+        addToVolleyQueue(jsonObjectRequest)
+    }
+
     fun requestGetJsonObj(req: JsonRequest) {
         if (req.isTest) {
             return
