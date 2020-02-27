@@ -6,9 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.content.Intent
-import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import androidx.transition.TransitionManager
 import java.util.ArrayList
@@ -16,7 +13,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.transition.TransitionManager
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import org.json.JSONArray

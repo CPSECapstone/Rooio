@@ -139,7 +139,7 @@ class ChooseEquipment : RestApi() {
 
         for (i in 0 until equipmentObjectList.size)
         {
-            if (equipmentObjectList[i].type == equipmentType) {
+            if (equipmentObjectList[i].type.getIntRepr() == equipmentType) {
                 equipmentList.add(equipmentObjectList[i].name)
             }
         }
