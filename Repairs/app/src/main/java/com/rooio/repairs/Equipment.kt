@@ -188,7 +188,7 @@ class Equipment : NavigationBar() {
 
     // sending JsonObject request
     private fun sendAddEquipmentInfo(request: JsonRequest) {
-        val displayName = request.params["display_name"].toString()
+        val displayName = request.params?.get("display_name").toString()
 
         if(displayName.isNotEmpty())
             requestJson(Request.Method.POST, JsonType.OBJECT, request)
@@ -237,7 +237,7 @@ class Equipment : NavigationBar() {
     }
 
     private fun sendSaveEditRequest(request : JsonRequest){
-        val displayName = request.params["display_name"].toString()
+        val displayName = request.params?.get("display_name").toString()
 
         if(displayName.isNotEmpty()) {
             requestPutJsonObj(request)

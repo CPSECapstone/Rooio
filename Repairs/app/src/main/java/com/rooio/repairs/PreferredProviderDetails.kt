@@ -8,11 +8,15 @@ import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import com.squareup.picasso.Picasso
 import org.json.JSONException
 import org.json.JSONObject
 import androidx.arch.core.util.Function
+
 
 class PreferredProviderDetails: NavigationBar() {
 
@@ -132,13 +136,16 @@ class PreferredProviderDetails: NavigationBar() {
             Picasso.with(applicationContext)
                 .load(image)
                 .into(logo)
+
         setElementTexts(overview, response,"overview")
         setElementTexts(email, response, "email")
         setElementTexts(skills, response, "skills")
         setElementTexts(licenseNumber, response, "contractor_license_number")
         setElementTexts(phone, response, "phone")
         setElementTexts(name, response, "name")
+
         setPriceElement(price, response, "starting_hourly_rate")
+
     }
 
     private fun setElementTexts(element: TextView, response: JSONObject, elementName: String){

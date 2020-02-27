@@ -3,7 +3,10 @@ package com.rooio.repairs
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
 import com.android.volley.Request
@@ -101,8 +104,8 @@ class Login : RestApi() {
 
     // Sends username and password to the API through a request
     fun sendLoginInfo(request: JsonRequest) {
-        val username = request.params["username"]
-        val password = request.params["password"]
+        val username = request.params?.get("username")
+        val password = request.params?.get("password")
         if (username != "" && password != "") {
             errorMessage.text = ""
             loadingPanel.visibility = View.VISIBLE

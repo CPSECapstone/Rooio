@@ -3,11 +3,12 @@ package com.rooio.repairs
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
+import org.json.JSONObject
 
 //Job details can be viewed when clicking on a job request found under the Jobs tab
 class JobDetails: NavigationBar() {
@@ -104,31 +105,31 @@ class JobDetails: NavigationBar() {
     }
 
     //Sets the text views in the user interface, with "--" if null
-    private fun loadElements() {
+    private fun loadElements(response: JSONObject) {
         //NEEDS API WORK
-        setElementText(restaurantName, "", "")
-        setElementText(restaurantLocation, "", "")
-        setElementText(serviceType, "", "")
-        setElementText(availableTechnicians, "", "")
-        setElementText(startedOn, "", "")
-        setElementText(pointOfContact, "", "")
-        setElementText(details, "", "")
-        setElementText(equipmentName, "", "")
-        setElementText(manufacturer, "", "")
-        setElementText(serialNumber, "", "")
-        setElementText(modelNumber, "", "")
-        setElementText(location, "", "")
-        setElementText(lastServiceBy, "", "")
-        setElementText(lastServiceDate, "", "")
+        setElementText(restaurantName, response,"")
+        setElementText(restaurantLocation, response,"")
+        setElementText(serviceType, response,"")
+        setElementText(availableTechnicians, response,"")
+        setElementText(startedOn, response,"")
+        setElementText(pointOfContact, response,"")
+        setElementText(details, response,"")
+        setElementText(equipmentName, response,"")
+        setElementText(manufacturer, response,"")
+        setElementText(serialNumber, response,"")
+        setElementText(modelNumber, response,"")
+        setElementText(location, response,"")
+        setElementText(lastServiceBy, response,"")
+        setElementText(lastServiceDate, response,"")
     }
 
     //Loads job request details from API including equipment information
     private fun loadJobDetails() {
         //NEEDS API WORK
-        loadElements()
+//        loadElements()
     }
 
-    private fun setElementText(element: TextView, elementName: String, name: String){
+    private fun setElementText(element: TextView, response: JSONObject, elementName: String){
         //NEEDS API WORK
         element.text = "--"
     }

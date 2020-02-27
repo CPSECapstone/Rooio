@@ -8,5 +8,9 @@
     <color name="lightGray">#A6A9AC</color>
     <color name="GrayText">#6D6B6B</color>
     <color name="Red">#CA2500</color>
+    <color name="Yellow">#F6E15C</color>
+    <color name="Blue">#96B8F8</color>
+    <color name="Purple">#9A50BA</color>
     <color name="grayedOut">#336B6B6B</color>
+
 </resources>

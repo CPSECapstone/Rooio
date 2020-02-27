@@ -1,5 +1,10 @@
 package com.rooio.repairs
 
+
+import android.media.Image
+import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -8,26 +13,41 @@ import android.widget.Button
 import androidx.transition.TransitionManager
 import java.util.ArrayList
 import android.widget.ImageView
-
-
 import android.widget.TextView
+import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.transition.TransitionManager
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_dashboard.*
+import org.json.JSONArray
+import org.json.JSONObject
+import java.util.*
 
 
 private val have  = ArrayList<ServiceProviderData>()
 class Dashboard : NavigationBar() {
 
-    private var repairType: TextView? = null
-    private var name: TextView? = null
-    private var time: TextView? = null
-    private var address: TextView? = null
-    private var image: ImageView? = null
+
+    private lateinit var scheduledNum: TextView
+    private lateinit var inProgressNum: TextView
+    private lateinit var pendingNum: TextView
+    private lateinit var image: ImageView
+    private lateinit var address: TextView
+    private lateinit var time: TextView
+    private lateinit var name: TextView
+    private lateinit var repairType: TextView
+
     private lateinit var lightingButton: Button
     private lateinit var plumbingButton: Button
     private lateinit var hvacButton: Button
     private lateinit var applianceButton: Button
+
+    companion object{
+        @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
+        @JvmStatic private var scheduledJobs = ArrayList<JSONObject>()
+        @JvmStatic private var inProgressJobs = ArrayList<JSONObject>()
+        @JvmStatic private var archivedJobs = ArrayList<JSONObject>()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +58,10 @@ class Dashboard : NavigationBar() {
         time = findViewById<View>(R.id.timeImage) as TextView
         address = findViewById<View>(R.id.address) as TextView
         image = findViewById<View>(R.id.image) as ImageView
+        pendingNum = findViewById(R.id.pendingNum)
+        scheduledNum = findViewById(R.id.scheduledNum)
+        inProgressNum = findViewById(R.id.inProgressNum)
+
         lightingButton = findViewById(R.id.lightingButton)
         plumbingButton = findViewById(R.id.plumbingButton)
         hvacButton = findViewById(R.id.hvacButton)
@@ -59,6 +83,8 @@ class Dashboard : NavigationBar() {
 
         supportActionBar!!.elevation = 0.0f
         populate_test()
+
+        loadJobs()
 
         createNavigationBar("dashboard")
         jobRequestsClicked()
@@ -151,6 +177,54 @@ class Dashboard : NavigationBar() {
         //calling the transitions
         notableJobs.layoutParams = boxParams1
         newJobRequest.layoutParams = boxParams2
+    }
+
+    private fun loadJobs(){
+        val url = BaseUrl + "service-locations/$userLocationID/jobs/"
+        requestGetJsonArray(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+    }
+
+    private fun clearLists(){
+        pendingJobs.clear()
+        scheduledJobs.clear()
+        inProgressJobs.clear()
+        archivedJobs.clear()
+    }
+
+    private fun populateLists(responseObj: JSONArray){
+        clearLists()
+        for (i in 0 until responseObj.length()) {
+            val job = responseObj.getJSONObject(i)
+
+            when(job.getInt("status")) {
+                0 -> pendingJobs.add(job)
+                2 -> scheduledJobs.add(job)
+                5 -> inProgressJobs.add(job)
+//                6 -> inProgressJobs.add(job)
+                3 -> archivedJobs.add(job)
+            }
+        }
+    }
+
+    private fun listCount(){
+//        pendingNum!!.text = "9";
+        pendingNum!!.text = pendingJobs.size.toString()
+        scheduledNum!!.text = scheduledJobs.size.toString()
+        inProgressNum!!.text = inProgressJobs.size.toString()
+    }
+
+    @JvmField
+    var responseFunc = Function<Any, Void?> { jsonObj: Any ->
+        val responseObj = jsonObj as JSONArray
+        populateLists(responseObj)
+        listCount()
+
+        null
+    }
+    @JvmField
+    var errorFunc = Function<String, Void?> { string: String? ->
+
+        null
     }
 
 }

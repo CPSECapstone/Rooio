@@ -67,8 +67,8 @@ class PreferredProvidersCustomAdapter implements ListAdapter {
             tittle.setText(name);
             if(!data.image.isEmpty())
                 Picasso.with(context)
-                    .load(data.image)
-                    .into(imag);
+                        .load(data.image)
+                        .into(imag);
         }
         return convertView;
     }

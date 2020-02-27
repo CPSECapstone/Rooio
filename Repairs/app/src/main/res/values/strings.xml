@@ -67,6 +67,8 @@
     <string name="allJobs">All Jobs</string>
     <string name="pending">Pending</string>
     <string name="scheduled">Scheduled</string>
+    <string name="completed">Completed</string>
+
     <string name="inProgress">In Progress</string>
     <string name="three">3</string>
     <string name="six">6</string>
@@ -75,6 +77,9 @@
     <string name="license_number"> License Number</string>
     <string name="company_phone"> Company Phone</string>
     <string name="company_email"> Company Email</string>
+    <string name="view_completed"><u>View Completed Jobs</u></string>
+    <string name="view_current"><u>View Current Jobs</u></string>
+
     <string name="service_provider_details"> Service Provider Details</string>
     <string name="overview"> Overview</string>
     <string name="starting_cost"> starting cost</string>
