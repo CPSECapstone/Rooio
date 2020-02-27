@@ -13,6 +13,8 @@ import java.util.*
 //and access information such as the user token, location, or first name
 abstract class RestApi : AppCompatActivity() {
     private lateinit var queue: RequestQueue
+    val BaseUrl = "https://capstone.api.roopairs.com/v0/"
+
 
     //Static objects that can be accessed from any Activity
     companion object {
