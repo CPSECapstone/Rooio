@@ -146,7 +146,7 @@ class Jobs : NavigationBar() {
             value = 200
         } else {
             statuses.add(str)
-            value = 240
+            value = 250
         }
         set_size(str, value)
     }

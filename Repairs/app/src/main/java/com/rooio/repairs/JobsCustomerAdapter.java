@@ -25,6 +25,7 @@ import java.util.ArrayList;
 class JobsCustomerAdapter implements ListAdapter {
     private ArrayList<JSONObject> arrayList;
     private Context context;
+    String result_categories = "";
     ArrayList<String> statuses = new ArrayList<>();
     ArrayList<String> categories = new ArrayList<>();
 
@@ -78,7 +79,6 @@ class JobsCustomerAdapter implements ListAdapter {
             TextView address = convertView.findViewById(R.id.address);
             ImageView image = convertView.findViewById(R.id.image);
             TextView timeImage = convertView.findViewById(R.id.timeImage);
-            TextView error = convertView.findViewById(R.id.error2);
 
             TextView status = convertView.findViewById(R.id.status);
             ConstraintLayout color = convertView.findViewById(R.id.color);
@@ -147,6 +147,13 @@ class JobsCustomerAdapter implements ListAdapter {
                     }
                 }
 
+                for (int i = 0; i < categories.size(); i++) {
+                    result_categories = result_categories + categories.get(i);
+                }
+
+                repairType.setText(result_categories);
+
+
                 JSONObject locationObj = data.getJSONObject("service_location");
                 JSONObject internal_client = locationObj.getJSONObject("internal_client");
 
@@ -174,7 +181,6 @@ class JobsCustomerAdapter implements ListAdapter {
 
 
             catch (JSONException e) {
-                error.setText(e.toString());
                 Log.d("exception", e.toString());
             }
 
