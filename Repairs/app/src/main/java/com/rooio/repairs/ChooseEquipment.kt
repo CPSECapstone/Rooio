@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.content.Context;
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.view.View;
@@ -33,6 +34,7 @@ class ChooseEquipment : RestApi() {
     private lateinit var textView: TextView
     private var equipmentObjectList = ArrayList<EquipmentData>()
     private var equipmentList = ArrayList<String>()
+    private lateinit var backButton: ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +48,7 @@ class ChooseEquipment : RestApi() {
         supportActionBar!!.elevation = 0.0f
 
         val equipmentType = intent.getIntExtra("equipmentType", 0)
+        backButton = findViewById<View>(R.id.back_button) as ImageView
         general_equipment = findViewById<Button>(R.id.general_equipment)
         list = findViewById(R.id.list) as RecyclerView
         textView = findViewById(R.id.errorText)
@@ -53,11 +56,11 @@ class ChooseEquipment : RestApi() {
         equipmentNameList = ArrayList()
         enumLoad(equipmentType)
         loadEquipmentElements()
+        onBackClick()
 
         //makes it so that the divider between items is invisible inside the recyclerview
         list!!.addItemDecoration(object : DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL) {
             override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-                // Do not draw the divider
             }
         })
             search!!.addTextChangedListener(object : TextWatcher {
@@ -70,6 +73,13 @@ class ChooseEquipment : RestApi() {
             })
     }
 
+    //Click to go back to Dashboard
+    private fun onBackClick() {
+        backButton.setOnClickListener{
+            val intent = Intent(this@ChooseEquipment, Dashboard::class.java)
+            startActivity(intent);
+        }
+    }
     //loads the first equipment based on the enum, aka the kind of job request the user clicked on
     private fun enumLoad(equipmentType: Int){
 
@@ -166,7 +176,6 @@ class ChooseEquipment : RestApi() {
                 initial.height = 90
                 holder.equipmentName.text = mData[position]
 
-                //holder.manufacturerInfo.text = equipmentObjectList[position].manufacturer
                 setElementTexts(holder.manufacturerInfo, equipmentObjectList[position].manufacturer)
                 setElementTexts(holder.modelInfo, equipmentObjectList[position].modelNumber)
                 setElementTexts(holder.locationInfo, equipmentObjectList[position].location)
@@ -178,8 +187,6 @@ class ChooseEquipment : RestApi() {
                     TransitionManager.beginDelayedTransition(holder.transitionsContainer)
                     holder.visible = !holder.visible
                     val v = if (holder.visible) View.VISIBLE else View.GONE
-                    val op = if (holder.visible) View.GONE else View.VISIBLE
-                    //viewEquipment.visibility = op
                     setVisibility(holder, v)
                     val rotate = if (holder.visible) 180f else 0f
                     holder.greendropDown.rotation = rotate
