@@ -76,6 +76,8 @@ class JobsCustomerAdapter implements ListAdapter {
             TextView address = convertView.findViewById(R.id.address);
             ImageView image = convertView.findViewById(R.id.image);
             TextView timeImage = convertView.findViewById(R.id.timeImage);
+            TextView error = convertView.findViewById(R.id.error);
+
             TextView status = convertView.findViewById(R.id.status);
             ConstraintLayout color = convertView.findViewById(R.id.color);
             try {
@@ -136,20 +138,20 @@ class JobsCustomerAdapter implements ListAdapter {
                         )
                         .into(image);
 
-                switch(category) {
-                    case "0":
-                        repairType.setText("General Appliance");
-                        break;
-                    case "1":
-                        repairType.setText("HVAC");
-                        break;
-                    case "2":
-                        repairType.setText("Lighting and Electrical");
-                        break;
-                    case "3":
-                        repairType.setText("Plumbing");
-                        break;
-                }
+//                switch(category) {
+////                    case "0":
+////                        repairType.setText("General Appliance");
+////                        break;
+////                    case "1":
+////                        repairType.setText("HVAC");
+////                        break;
+////                    case "2":
+////                        repairType.setText("Lighting and Electrical");
+////                        break;
+////                    case "3":
+////                        repairType.setText("Plumbing");
+////                        break;
+////                }
 
                 if(!statuses.contains(status_value)){
                     status.setText(status_value.toUpperCase());
@@ -161,7 +163,7 @@ class JobsCustomerAdapter implements ListAdapter {
 
 
             catch (JSONException e) {
-                e.printStackTrace();
+                error.setText(e.toString());
             }
 
         }
