@@ -1,6 +1,7 @@
 package com.rooio.repairs
 
 
+import android.media.Image
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -19,14 +20,18 @@ import java.util.*
 private val have  = ArrayList<ServiceProviderData>()
 class Dashboard : NavigationBar() {
 
-    private var repairType: TextView? = null
-    private var name: TextView? = null
-    private var time: TextView? = null
-    private var address: TextView? = null
-    private var image: ImageView? = null
-    private var pendingNum: TextView? = null
+
     private var scheduledNum: TextView? = null
-    private var inProgressNum: TextView? = null
+    private lateinit var inProgressNum: TextView
+    private lateinit var pendingNum: TextView
+    private lateinit var image: ImageView
+    private lateinit var address: TextView
+    private lateinit var time: TextView
+    private lateinit var name: TextView
+    private lateinit var repairType: TextView
+
+
+
 
 
 

@@ -50,7 +50,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ListView
-            android:id="@+id/id2"
+            android:id="@+id/scheduledList"
             android:layout_width="356dp"
             android:layout_height="1dp"
             android:background="#FAFFFFFF"
@@ -73,7 +73,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ListView
-            android:id="@+id/id3"
+            android:id="@+id/inProgressList"
             android:layout_width="356dp"
             android:layout_height="1dp"
             android:background="#FAFFFFFF"
@@ -98,7 +98,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <TextView
-            android:id="@+id/prnding"
+            android:id="@+id/pending"
             android:layout_width="138dp"
             android:layout_height="35dp"
             android:layout_marginStart="158dp"
@@ -193,7 +193,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ListView
-            android:id="@+id/id1"
+            android:id="@+id/pendingList"
             android:layout_width="356dp"
             android:layout_height="1dp"
             android:background="#FAFFFFFF"
@@ -225,28 +225,15 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="663dp"
+        android:layout_marginStart="602dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="897dp"
         android:background="#00FFFFFF"
         android:fontFamily="@font/nunito_sans"
         android:text="@string/view_completed"
         android:textAllCaps="false"
         android:textColor="#6D7377"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/sideMover"
-        app:layout_constraintHorizontal_bias="0.358"
         app:layout_constraintStart_toEndOf="@+id/guideline5"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/error"
-        android:layout_width="375dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="231dp"
-        android:layout_marginEnd="330dp"
-        app:layout_constraintEnd_toStartOf="@+id/button"
-        app:layout_constraintStart_toEndOf="@+id/guideline5"
-        tools:layout_editor_absoluteY="32dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -50,7 +50,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ListView
-            android:id="@+id/id2"
+            android:id="@+id/completedList"
             android:layout_width="356dp"
             android:layout_height="1dp"
             android:background="#FAFFFFFF"

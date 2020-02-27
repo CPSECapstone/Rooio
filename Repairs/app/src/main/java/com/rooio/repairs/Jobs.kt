@@ -15,9 +15,9 @@ import androidx.arch.core.util.Function
 
 
 class Jobs : NavigationBar() {
-    private var id1: ListView? = null
-    private var id2: ListView? = null
-    private var id3: ListView? = null
+    private var pendingList: ListView? = null
+    private var scheduledList: ListView? = null
+    private var inProgressList: ListView? = null
     private var completedButton: Button? = null
 
 
@@ -39,9 +39,9 @@ class Jobs : NavigationBar() {
         setContentView(R.layout.activity_jobs)
 
         //sets the navigation bar onto the page
-        id1 = findViewById<View>(R.id.id1) as ListView
-        id2 = findViewById<View>(R.id.id2) as ListView
-        id3 = findViewById<View>(R.id.id3) as ListView
+        pendingList = findViewById<View>(R.id.pendingList) as ListView
+        scheduledList = findViewById<View>(R.id.scheduledList) as ListView
+        inProgressList = findViewById<View>(R.id.inProgressList) as ListView
         completedButton = findViewById(R.id.button)
         pendingConstraint = findViewById<View>(R.id.pendingConstraint) as ConstraintLayout
         scheduledConstraint = findViewById<View>(R.id.scheduledConstraint) as ConstraintLayout
@@ -115,13 +115,13 @@ class Jobs : NavigationBar() {
         }
 
         val customAdapter = JobsCustomerAdapter(this, pendingJobs)
-        if (pendingJobs.size != 0) id1!!.adapter = customAdapter
+        if (pendingJobs.size != 0) pendingList!!.adapter = customAdapter
 
         val customAdapter1 = JobsCustomerAdapter(this, scheduledJobs)
-        if (scheduledJobs.size != 0) id2!!.adapter = customAdapter1
+        if (scheduledJobs.size != 0) scheduledList!!.adapter = customAdapter1
 
         val customAdapter2 = JobsCustomerAdapter(this, inProgressJobs)
-        if (inProgressJobs.size != 0) id3!!.adapter = customAdapter2
+        if (inProgressJobs.size != 0) inProgressList!!.adapter = customAdapter2
 
     }
 
@@ -158,25 +158,25 @@ class Jobs : NavigationBar() {
             val params = pendingConstraint!!.layoutParams
             params.height += value
             pendingConstraint!!.layoutParams = params
-            val size = id1!!.layoutParams
+            val size = pendingList!!.layoutParams
             size.height += value
-            id1!!.layoutParams = size
+            pendingList!!.layoutParams = size
         }
         else if (str == "scheduled" ||str == "accepted"){
             val params = scheduledConstraint!!.layoutParams
             params.height += value
             scheduledConstraint!!.layoutParams = params
-            val size = id2!!.layoutParams
+            val size = scheduledList!!.layoutParams
             size.height += value
-            id2!!.layoutParams = size
+            scheduledList!!.layoutParams = size
         }
         else{
             val params = inProgressConstraint!!.layoutParams
             params.height += value
             inProgressConstraint!!.layoutParams = params
-            val size = id3!!.layoutParams
+            val size = inProgressList!!.layoutParams
             size.height += value
-            id3!!.layoutParams = size
+            inProgressList!!.layoutParams = size
         }
 
     }
@@ -194,23 +194,19 @@ class Jobs : NavigationBar() {
 
         val sideMover = viewGroup.findViewById<ViewGroup>(R.id.sideMover)
 
-
         val pendingTitle = viewGroup.findViewById<ViewGroup>(R.id.pendingTitleConstraint)
         val scheduledTitle = viewGroup.findViewById<ViewGroup>(R.id.scheduledTitleConstraint)
         val inProgressTitle = viewGroup.findViewById<ViewGroup>(R.id.inProgressTitleConstraint)
 
-
-
         val boxParams1 = scheduledTitle.layoutParams
         val boxParams2 = pendingTitle.layoutParams
         val boxParams3 = inProgressTitle.layoutParams
+
         val boxParams4 = pending.layoutParams
         val boxParams5 = scheduled.layoutParams
         val boxParams6 = inProgress.layoutParams
 
-
         val boxParams10 = sideMover.layoutParams
-
 
         val p2 = if (boolean) 480 else 454
         boxParams1.width = p2
@@ -219,23 +215,22 @@ class Jobs : NavigationBar() {
         boxParams4.width = p2
         boxParams5.width = p2
         boxParams6.width = p2
-//
-
-
-        //calling the transitions
-        scheduled.layoutParams = boxParams1
-        pending.layoutParams = boxParams2
-        inProgress.layoutParams = boxParams3
-        pending.layoutParams = boxParams4
-        scheduled.layoutParams = boxParams5
-        inProgress.layoutParams = boxParams6
-
-//
 
         val p3 = if (boolean) 85 else 20
 
         boxParams10.width = p3
 
+
+
+        //calling the transitions
+        scheduledTitle.layoutParams = boxParams1
+        pendingTitle.layoutParams = boxParams2
+        inProgressTitle.layoutParams = boxParams3
+        pending.layoutParams = boxParams4
+        scheduled.layoutParams = boxParams5
+        inProgress.layoutParams = boxParams6
         sideMover.layoutParams = boxParams10
+
+
     }
 }

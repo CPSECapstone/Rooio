@@ -87,7 +87,7 @@ class JobsCustomerAdapter implements ListAdapter {
                 String status_value = null;
                 switch(status_enum) {
                     case 1:
-                        status_value = "Pending";
+                        status_value = "Declined";
                         color.setBackgroundColor(Color.parseColor("#9A50BA"));
 
                         break;
