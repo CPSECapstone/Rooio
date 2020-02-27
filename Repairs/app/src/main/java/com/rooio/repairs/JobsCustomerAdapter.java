@@ -118,7 +118,7 @@ class JobsCustomerAdapter implements ListAdapter {
                         break;
                 }
                 JSONObject equipmentObj = data.getJSONObject("equipment");
-                String category = equipmentObj.getString("service_category");
+               // String category = equipmentObj.getString("service_category");
 
 
 
