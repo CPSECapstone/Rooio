@@ -208,7 +208,7 @@ class Jobs : NavigationBar() {
 
         val boxParams10 = sideMover.layoutParams
 
-        val p2 = if (boolean) 480 else 454
+        val p2 = if (boolean) 478 else 454
         boxParams1.width = p2
         boxParams2.width = p2
         boxParams3.width = p2

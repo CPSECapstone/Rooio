@@ -43,8 +43,8 @@
         android:id="@+id/scheduledConstraint"
         android:layout_width="455dp"
         android:layout_height="40dp"
-        android:layout_marginTop="165dp"
-        android:layout_marginEnd="110dp"
+        android:layout_marginTop="163dp"
+        android:layout_marginEnd="108dp"
         android:background="@drawable/gray_button_border_bottom"
         app:layout_constraintEnd_toStartOf="@+id/inProgressConstraint"
         app:layout_constraintTop_toTopOf="parent">
@@ -66,7 +66,7 @@
         android:id="@+id/inProgressConstraint"
         android:layout_width="455dp"
         android:layout_height="40dp"
-        android:layout_marginTop="165dp"
+        android:layout_marginTop="163dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/gray_button_border_bottom"
         app:layout_constraintEnd_toStartOf="@+id/sideMover"
@@ -187,7 +187,7 @@
         android:layout_width="454dp"
         android:layout_height="40dp"
         android:layout_marginTop="160dp"
-        android:layout_marginEnd="108dp"
+        android:layout_marginEnd="110dp"
         android:background="@drawable/gray_button_border_bottom"
         app:layout_constraintEnd_toStartOf="@+id/scheduledConstraint"
         app:layout_constraintTop_toTopOf="parent">
