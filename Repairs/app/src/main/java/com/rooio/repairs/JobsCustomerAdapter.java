@@ -161,7 +161,7 @@ class JobsCustomerAdapter implements ListAdapter {
 
                 address.setText(locationObj.getString("physical_address"));
 
-                timeImage.setText(data.getString("status_time_value"));
+                timeImage.setText(data.getString("estimated_arrival_time"));
 
 
                 Picasso.with(context)
