@@ -280,9 +280,9 @@ class ChooseEquipment : RestApi() {
                         equipmentNameList.addAll(equipmentList)
                     } else {
                         val filterPattern = charSequence.toString().toLowerCase().trim { it <= ' ' }
-                        for (listcountry in equipmentList) {
-                            if (listcountry.toLowerCase().startsWith(filterPattern)) {
-                                equipmentNameList.add(listcountry)
+                        for (equipmentName in equipmentList) {
+                            if (equipmentName.toLowerCase().startsWith(filterPattern)) {
+                                equipmentNameList.add(equipmentName)
                             }
                         }
                     }
