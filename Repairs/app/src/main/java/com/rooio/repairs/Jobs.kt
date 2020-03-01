@@ -38,7 +38,7 @@ class Jobs : NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jobs)
 
-        //sets the navigation bar onto the page
+
         pendingList = findViewById<View>(R.id.pendingList) as ListView
         scheduledList = findViewById<View>(R.id.scheduledList) as ListView
         inProgressList = findViewById<View>(R.id.inProgressList) as ListView
@@ -47,17 +47,13 @@ class Jobs : NavigationBar() {
         scheduledConstraint = findViewById<View>(R.id.scheduledConstraint) as ConstraintLayout
         inProgressConstraint = findViewById<View>(R.id.inProgressConstraint) as ConstraintLayout
 
-        val nav_inflater = layoutInflater
-        val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
-
-        window.addContentView(tmpView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+        //Set navigation bar function call
+        setNavigationBar()
 
         //sets the action bar onto the page
-
         val actionbar_inflater = layoutInflater
-        val poopView = actionbar_inflater.inflate(R.layout.action_bar, null)
-        window.addContentView(poopView,
+        val actionBar = actionbar_inflater.inflate(R.layout.action_bar, null)
+        window.addContentView(actionBar,
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
         supportActionBar!!.elevation = 0.0f
@@ -232,5 +228,14 @@ class Jobs : NavigationBar() {
         sideMover.layoutParams = boxParams10
 
 
+    }
+
+    private fun setNavigationBar() {
+        //sets the navigation bar onto the page
+        val nav_inflater = layoutInflater
+        val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
+
+        window.addContentView(tmpView,
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
     }
 }
