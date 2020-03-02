@@ -18,24 +18,21 @@ tools:context=".AddLocationLogin">
     app:layout_constraintStart_toStartOf="@+id/leftGuideline"
     app:layout_constraintTop_toTopOf="@+id/upperGuideline">
 
-    <EditText
-        android:id="@+id/newLocation"
+    <AutoCompleteTextView
+        android:id="@+id/autocomplete_fragment_login"
         android:layout_width="735dp"
         android:layout_height="60dp"
         android:background="@drawable/gray_phone_border"
-        android:ems="10"
-        android:inputType="textPostalAddress"
-        android:labelFor="@id/newLocation"
         android:paddingStart="15dp"
-        android:paddingEnd="0dp"
-        android:textColor="#6D7377"
+        android:paddingEnd="15dp"
+        android:textColor="@color/GrayText"
         android:textSize="27sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
+        app:layout_constraintVertical_bias="0.46" />
 
     <ImageView
         android:id="@+id/greenBar"

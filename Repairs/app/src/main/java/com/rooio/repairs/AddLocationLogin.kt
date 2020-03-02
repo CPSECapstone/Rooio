@@ -2,35 +2,31 @@ package com.rooio.repairs
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
 import com.android.volley.Request
-import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.PlacesClient
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import org.json.JSONArray
 import org.json.JSONException
 import java.util.*
 
 //Page where user is able to add a location when initially logging in
-class AddLocationLogin : RestApi(), PlaceSelectionListener {
+class AddLocationLogin : RestApi(){
 
     private lateinit var addLocation: Button
     private lateinit var cancelButton: Button
-    private lateinit var newLocation: EditText
     private lateinit var errorMessage: TextView
     private lateinit var loadingPanel: RelativeLayout
-    private lateinit var autoCompleteTextView: AutoCompleteTextView
+    private lateinit var autocomplete: AutoCompleteTextView
     private lateinit var placesClient: PlacesClient
     private val url = "https://capstone.api.roopairs.com/v0/service-locations/"
     //private val apiKey = getString(R.string.placesApiKey)
     private val apiKey = "AIzaSyDhRY5q6woF-h1LWCxkXkO5SYMI3PG1iXg"
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,24 +50,14 @@ class AddLocationLogin : RestApi(), PlaceSelectionListener {
     private fun initializeVariables() {
         addLocation = findViewById(R.id.addLocation)
         cancelButton = findViewById(R.id.cancel)
-        newLocation = findViewById(R.id.newLocation)
         errorMessage = findViewById(R.id.errorMessage)
         loadingPanel = findViewById(R.id.loadingPanel)
-        initializeAutoComplete();
+        initializeAutoComplete()
     }
 
     private fun initializeAutoComplete() {
-        autoCompleteSupportFragment = supportFragmentManager.findFragmentById(R.id.autocomplete_fragment_login) as AutocompleteSupportFragment
-        autoCompleteSupportFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME))
-        autoCompleteSupportFragment.setOnPlaceSelectedListener(this)
-    }
-
-    override fun onPlaceSelected(p0: Place) {
-        Log.i("api", "place: " + p0)
-    }
-
-    override fun onError(p0: Status) {
-        Log.i("api", "error: " + p0)
+        autocomplete = findViewById(R.id.autocomplete_fragment_login)
+        autocomplete.setAdapter(PlaceAutoCompleteAdapter(this, android.R.layout.simple_list_item_1))
     }
 
     //Centers "Repairs" title
@@ -86,7 +72,7 @@ class AddLocationLogin : RestApi(), PlaceSelectionListener {
         loadingPanel.visibility = View.GONE
         addLocation.setOnClickListener {
             errorMessage.text = ""
-            val locationInput = newLocation.text.toString()
+            val locationInput = autocomplete.text.toString()
             val request = JsonRequest(false, url, HashMap(), checkResponseFunc, checkErrorFunc, true)
             checkLocationInfo(locationInput, request)
         }
@@ -113,7 +99,7 @@ class AddLocationLogin : RestApi(), PlaceSelectionListener {
     val checkResponseFunc = Function<Any, Void?> { response: Any ->
         try {
             val jsonArray = response as JSONArray
-            val locationInput = newLocation.text.toString()
+            val locationInput = autocomplete.text.toString()
             val params = HashMap<Any?, Any?>()
             params["physical_address"] = locationInput
             val request = JsonRequest(false, url, params, locationResponseFunc, locationErrorFunc, true)
