@@ -99,7 +99,6 @@ abstract class NavigationBar : RestApi() {
             collapseBar()
         }
 
-
         dashboardImage.setOnClickListener{
             startActivity(Intent(this, Dashboard::class.java))
         }

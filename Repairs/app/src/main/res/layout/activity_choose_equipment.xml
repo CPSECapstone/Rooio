@@ -127,8 +127,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list"
-            android:layout_width="1099dp"
-            android:layout_height="515dp"
+            android:layout_width="1077dp"
+            android:layout_height="753dp"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"
             android:overScrollMode="never"
@@ -139,34 +139,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.941" />
 
-        <Button
-            android:id="@+id/general_equipment"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="520dp"
-            android:layout_height="90dp"
-            android:background="@drawable/gray_button_border"
-            android:fontFamily="@font/nunito_sans"
-            android:paddingLeft="35dp"
-            android:textAlignment="viewStart"
-            android:textAllCaps="false"
-            android:textColor="#333232"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/list"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.383" />
-
-        <View
-            android:id="@+id/divider3"
-            android:layout_width="520dp"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintBottom_toTopOf="@+id/list"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.856" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -19,13 +19,13 @@ import org.json.JSONArray
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
+import kotlinx.android.synthetic.main.recyclerview_adapter1.*
 import org.json.JSONException
 import org.json.JSONObject
 
 
 class ChooseEquipment : RestApi() {
 
-    private lateinit var general_equipment: Button
     val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/equipment/"
     private var list: RecyclerView? = null
     private var search: EditText? = null
@@ -49,12 +49,10 @@ class ChooseEquipment : RestApi() {
 
         val equipmentType = intent.getIntExtra("equipmentType", 0)
         backButton = findViewById<View>(R.id.back_button) as ImageView
-        general_equipment = findViewById<Button>(R.id.general_equipment)
         list = findViewById(R.id.list) as RecyclerView
         textView = findViewById(R.id.errorText)
         search = findViewById(R.id.search) as EditText
         equipmentNameList = ArrayList()
-        enumLoad(equipmentType)
         loadEquipmentElements()
         onBackClick()
 
@@ -80,24 +78,7 @@ class ChooseEquipment : RestApi() {
             startActivity(intent);
         }
     }
-    //loads the first equipment based on the enum, aka the kind of job request the user clicked on
-    private fun enumLoad(equipmentType: Int){
-
-        if (equipmentType == 1){
-            general_equipment.text = "General HVAC (No Appliance)"
-        }
-        else if (equipmentType == 2){
-            general_equipment.text = "General Plumbing (No Appliance)"
-        }
-        else if (equipmentType == 3){
-            general_equipment.text = "General Lighting (No Appliance)"
-        }
-        else {
-            general_equipment.text = "General Appliance"
-        }
-    }
-
-        // send JsonRequest Object
+    // send JsonRequest Object
     private fun loadEquipmentElements() {
         val request = JsonRequest(false, url, null, responseFuncLoad, errorFuncLoad, true)
         requestGetJsonArray(request)
@@ -123,17 +104,14 @@ class ChooseEquipment : RestApi() {
         null
     }
 
-    // getting all the equipment for the equipment list
-    // passing equipment list to custom adapter
+    // getting all the equipment for the equipment list and passing the equipment list to custom adapter
     private fun loadEquipment(response: JSONArray) {
         val equipmentType = intent.getIntExtra("equipmentType", 0)
         equipmentObjectList.clear()
-        //equipmentList.clear()
         for (i in 0 until response.length()) {
             val equipment = EquipmentData(response.getJSONObject(i))
             equipmentObjectList.add(equipment)
         }
-
         equipmentObjectList.sortWith(compareBy {it.location})
 
 
@@ -143,13 +121,28 @@ class ChooseEquipment : RestApi() {
                 equipmentList.add(equipmentObjectList[i].name)
             }
         }
-
+        loadEquipmentType(equipmentType, equipmentNameList)
         equipmentNameList.addAll(equipmentList)
         val layoutManager = LinearLayoutManager(this)
         list!!.setLayoutManager(layoutManager)
         recyclerAdapter = adapter(this@ChooseEquipment, equipmentNameList)
         list!!.setAdapter(recyclerAdapter)
 
+    }
+    //loads the first equipment based on the enum, aka the kind of job request the user clicked on
+    private fun loadEquipmentType(equipmentType: Int, equipmentNameList: ArrayList<String>){
+        if (equipmentType == 1){
+            equipmentNameList.add("General HVAC (No Appliance)")
+        }
+        else if (equipmentType == 2){
+            equipmentNameList.add("General Plumbing (No Appliance)")
+        }
+        else if (equipmentType == 3){
+            equipmentNameList.add("General Lighting (No Appliance)")
+        }
+        else {
+            return
+        }
     }
 
         private inner class adapter(internal var context: Context, internal var mData: List<String>) : RecyclerView.Adapter<adapter.myViewHolder>(), Filterable {
@@ -170,42 +163,63 @@ class ChooseEquipment : RestApi() {
                 return myViewHolder(view)
             }
 
+            private fun configureElements(holder: adapter.myViewHolder, position: Int){
+                val pos : Int
+
+                    if (equipmentNameList.size != equipmentList.size)
+                    {
+                        if (position == 0)
+                        {
+                            holder.equipmentName.text = mData[position]
+                            holder.graydropDown.visibility = View.GONE
+                            pos = position
+                        }
+                        else {
+                            pos = position + 1
+                        }
+                    }
+                    else {
+                        pos = position
+                    }
+                    holder.equipmentName.text = mData[position]
+
+                    setElementTexts(holder.manufacturerInfo, equipmentObjectList[pos].manufacturer)
+                    setElementTexts(holder.modelInfo, equipmentObjectList[pos].modelNumber)
+                    setElementTexts(holder.locationInfo, equipmentObjectList[pos].location)
+                    setElementTexts(holder.serialInfo, equipmentObjectList[pos].serialNumber)
+                    setElementTexts(holder.lastServiceByInfo, equipmentObjectList[pos].lastServiceBy)
+                    setElementTexts(holder.lastServiceDateInfo, equipmentObjectList[pos].lastServiceDate)
+
+                    holder.equipmentView.setOnClickListener {
+                        TransitionManager.beginDelayedTransition(holder.transitionsContainer)
+                        holder.visible = !holder.visible
+                        val v = if (holder.visible) View.VISIBLE else View.GONE
+                        setVisibility(holder, v)
+                        val rotate = if (holder.visible) 180f else 0f
+                        holder.greendropDown.rotation = rotate
+                        val params = holder.equipmentLayout.layoutParams
+                        val p = if (holder.visible) 500 else 90
+                        if (holder.visible) {
+                            holder.equipmentName.setTextColor(Color.parseColor("#00CA8F"))
+                            holder.equipmentLayout.setBackgroundResource(R.drawable.green_button_border)
+                            holder.graydropDown.visibility = View.GONE
+                        } else {
+                            holder.equipmentName.setTextColor(Color.parseColor("#333232"))
+                            holder.equipmentLayout.setBackgroundResource(R.drawable.gray_button_border)
+                            holder.graydropDown.visibility = View.VISIBLE
+                            }
+                        params.height = p
+                        }
+
+            }
+
             override fun onBindViewHolder(holder: adapter.myViewHolder, position: Int) {
                 setVisibility(holder, View.GONE)
                 val initial = holder.equipmentLayout.layoutParams
                 initial.height = 90
-                holder.equipmentName.text = mData[position]
 
-                setElementTexts(holder.manufacturerInfo, equipmentObjectList[position].manufacturer)
-                setElementTexts(holder.modelInfo, equipmentObjectList[position].modelNumber)
-                setElementTexts(holder.locationInfo, equipmentObjectList[position].location)
-                setElementTexts(holder.serialInfo, equipmentObjectList[position].serialNumber)
-                setElementTexts(holder.lastServiceByInfo, equipmentObjectList[position].lastServiceBy)
-                setElementTexts(holder.lastServiceDateInfo, equipmentObjectList[position].lastServiceDate)
-
-                holder.equipmentView.setOnClickListener{
-                    TransitionManager.beginDelayedTransition(holder.transitionsContainer)
-                    holder.visible = !holder.visible
-                    val v = if (holder.visible) View.VISIBLE else View.GONE
-                    setVisibility(holder, v)
-                    val rotate = if (holder.visible) 180f else 0f
-                    holder.greendropDown.rotation = rotate
-                    val params = holder.equipmentLayout.layoutParams
-                    val p = if (holder.visible) 500 else 90
-                    if (holder.visible) {
-                        holder.equipmentName.setTextColor(Color.parseColor("#00CA8F"))
-                        holder.equipmentLayout.setBackgroundResource(R.drawable.green_button_border)
-                        holder.graydropDown.visibility = View.GONE
-                    }
-                    else {
-                        holder.equipmentName.setTextColor(Color.parseColor("#333232"))
-                        holder.equipmentLayout.setBackgroundResource(R.drawable.gray_button_border)
-                        holder.graydropDown.visibility = View.VISIBLE
-
-                    }
-                    params.height = p
-                }
-
+                //checking if equipment type is a general appliance or one of the other enum options
+                configureElements(holder, position)
             }
             private fun setElementTexts(element: TextView, str: String){
                 try {
