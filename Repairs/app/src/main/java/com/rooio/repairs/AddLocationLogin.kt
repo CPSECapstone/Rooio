@@ -7,7 +7,6 @@ import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
 import com.android.volley.Request
-import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import org.json.JSONArray
 import org.json.JSONException
@@ -21,12 +20,7 @@ class AddLocationLogin : RestApi(){
     private lateinit var errorMessage: TextView
     private lateinit var loadingPanel: RelativeLayout
     private lateinit var autocomplete: AutoCompleteTextView
-    private lateinit var placesClient: PlacesClient
     private val url = "https://capstone.api.roopairs.com/v0/service-locations/"
-    //private val apiKey = getString(R.string.placesApiKey)
-    private val apiKey = "AIzaSyDhRY5q6woF-h1LWCxkXkO5SYMI3PG1iXg"
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,16 +28,8 @@ class AddLocationLogin : RestApi(){
 
         centerTitleBar()
         initializeVariables()
-        initializePlacesSDK()
         onAddLocation()
         onCancel()
-    }
-
-    private fun initializePlacesSDK() {
-        if(!Places.isInitialized())
-            Places.initialize(applicationContext, apiKey)
-
-        placesClient = Places.createClient(this)
     }
 
     //Initializes UI variables
@@ -56,7 +42,7 @@ class AddLocationLogin : RestApi(){
     }
 
     private fun initializeAutoComplete() {
-        autocomplete = findViewById(R.id.autocomplete_fragment_login)
+        autocomplete = findViewById(R.id.autocomplete_login)
         autocomplete.setAdapter(PlaceAutoCompleteAdapter(this, android.R.layout.simple_list_item_1))
     }
 

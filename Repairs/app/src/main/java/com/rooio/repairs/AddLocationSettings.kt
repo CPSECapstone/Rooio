@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.arch.core.util.Function
 import androidx.transition.TransitionManager
 import com.android.volley.Request
+import com.google.android.libraries.places.api.net.PlacesClient
 import org.json.JSONArray
 import org.json.JSONException
 import java.util.*
@@ -17,12 +18,12 @@ import java.util.*
 class AddLocationSettings  : NavigationBar() {
 
     private lateinit var addLocation: Button
-    private lateinit var newLocation: EditText
     private lateinit var errorMessage: TextView
     private lateinit var loadingPanel: RelativeLayout
     private lateinit var expandBackButton: ImageView
     private lateinit var collapseBackButton: ImageView
     private lateinit var viewGroup: ViewGroup
+    private lateinit var autocomplete: AutoCompleteTextView
     private val url = "https://capstone.api.roopairs.com/v0/service-locations/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,13 +41,19 @@ class AddLocationSettings  : NavigationBar() {
     //Initializes UI variables
     private fun initializeVariables() {
         addLocation = findViewById(R.id.addLocation)
-        newLocation = findViewById(R.id.newLocation)
         errorMessage = findViewById(R.id.errorMessage)
         loadingPanel = findViewById(R.id.loadingPanel)
         viewGroup = findViewById(R.id.background)
         //Navigation bar collapse/expand
         expandBackButton = viewGroup.findViewById(R.id.expandBackButton)
         collapseBackButton = viewGroup.findViewById(R.id.collapseBackButton)
+
+        initializeAutoComplete()
+    }
+
+    private fun initializeAutoComplete() {
+        autocomplete = findViewById(R.id.autocomplete_setting)
+        autocomplete.setAdapter(PlaceAutoCompleteAdapter(this, android.R.layout.simple_list_item_1))
     }
 
     //Sets the navigation bar onto the page
@@ -71,7 +78,7 @@ class AddLocationSettings  : NavigationBar() {
         loadingPanel.visibility = View.GONE
         addLocation.setOnClickListener {
             errorMessage.text = ""
-            val locationInput = newLocation.text.toString()
+            val locationInput = autocomplete.text.toString()
             val request = JsonRequest(false, url, HashMap(), checkResponseFunc, checkErrorFunc, true)
             checkLocationInfo(locationInput, request)
         }
@@ -98,7 +105,7 @@ class AddLocationSettings  : NavigationBar() {
     val checkResponseFunc = Function<Any, Void?> { response: Any ->
         try {
             val jsonArray = response as JSONArray
-            val locationInput = newLocation.text.toString()
+            val locationInput = autocomplete.text.toString()
             val params = HashMap<Any?, Any?>()
             params["physical_address"] = locationInput
             val request = JsonRequest(false, url, params, locationResponseFunc, locationErrorFunc, true)

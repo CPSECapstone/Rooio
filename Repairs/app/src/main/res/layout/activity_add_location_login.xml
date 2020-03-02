@@ -19,7 +19,7 @@ tools:context=".AddLocationLogin">
     app:layout_constraintTop_toTopOf="@+id/upperGuideline">
 
     <AutoCompleteTextView
-        android:id="@+id/autocomplete_fragment_login"
+        android:id="@+id/autocomplete_login"
         android:layout_width="735dp"
         android:layout_height="60dp"
         android:background="@drawable/gray_phone_border"
