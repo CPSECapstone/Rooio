@@ -39,7 +39,7 @@ class AddPreferredProvidersLogin : RestApi() {
         addProvider = findViewById(R.id.addProvider)
         cancelButton = findViewById(R.id.cancel)
         newProvider = findViewById(R.id.newProvider)
-        errorMessage = findViewById(R.id.errorMessage)
+        errorMessage = findViewById(R.id.addProviderErrorMessage)
         loadingPanel = findViewById(R.id.loadingPanel)
     }
 
@@ -91,7 +91,7 @@ class AddPreferredProvidersLogin : RestApi() {
         if (error == "Does not exist.") {
             errorMessage.setText(R.string.error_provider)
         }
-        else errorMessage.text = error
+        //else errorMessage.text = error
         null
     }
 
@@ -109,7 +109,7 @@ class AddPreferredProvidersLogin : RestApi() {
     @JvmField
     val checkErrorFunc = Function<String, Void?> { error: String? ->
         loadingPanel.visibility = View.GONE
-        errorMessage.text = error
+        //errorMessage.text = error
         null
     }
 
