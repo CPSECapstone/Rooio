@@ -58,7 +58,6 @@ class Jobs : NavigationBar() {
 
         supportActionBar!!.elevation = 0.0f
 
-
         createNavigationBar("jobs")
 
         onClick()
@@ -66,14 +65,12 @@ class Jobs : NavigationBar() {
 
     }
 
+    //Transition to completed items
     private fun onClick() {
         completedButton!!.setOnClickListener { startActivity(Intent(this@Jobs, JobsArchived::class.java)) }
     }
 
-
-
-
-
+    //Load jobs in
     private fun loadJobs(){
         val url = BaseUrl + "service-locations/$userLocationID/jobs/"
         requestGetJsonArray(JsonRequest(false, url, null, responseFunc, errorFunc, true))
@@ -107,7 +104,6 @@ class Jobs : NavigationBar() {
                 archivedJobs.add(job)
 
             }
-
         }
 
         val customAdapter = JobsCustomerAdapter(this, pendingJobs)
@@ -133,7 +129,6 @@ class Jobs : NavigationBar() {
 
         null
     }
-
 
     //Set the sizes for each individual block
     private fun sizes(str: String) {

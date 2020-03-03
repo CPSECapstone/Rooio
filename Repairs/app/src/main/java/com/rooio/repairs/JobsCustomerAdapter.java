@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.ParseException;
+import java.util.Date;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -24,7 +29,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 class JobsCustomerAdapter implements ListAdapter {
     private ArrayList<JSONObject> arrayList;
@@ -71,6 +83,7 @@ class JobsCustomerAdapter implements ListAdapter {
         return false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -83,6 +96,7 @@ class JobsCustomerAdapter implements ListAdapter {
             TextView address = convertView.findViewById(R.id.address);
             ImageView image = convertView.findViewById(R.id.image);
             TextView timeImage = convertView.findViewById(R.id.timeImage);
+            Date currentTime = Calendar.getInstance().getTime();
 
             TextView status = convertView.findViewById(R.id.status);
             ConstraintLayout color = convertView.findViewById(R.id.color);
@@ -94,14 +108,17 @@ class JobsCustomerAdapter implements ListAdapter {
                 Drawable unwrappedDrawable = AppCompatResources.getDrawable(context, R.drawable.notable_jobs_color);
                 Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
 
+
                 switch(status_enum) {
                     case 1:
                         status_value = "Declined";
 
 
                         break;
+                        //Scheduled uses time as status
                     case 2:
-                        status_value = "Accepted";
+                        status_value = timeConvert(data.getString("estimated_arrival_time"));
+                        ;
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.Blue)
@@ -138,14 +155,11 @@ class JobsCustomerAdapter implements ListAdapter {
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.Purple)
                         );
-
-
                         break;
                 }
 
 
-
-                JSONArray equipmentObjList = data.getJSONArray("equipment");
+                        JSONArray equipmentObjList = data.getJSONArray("equipment");
                 for (int i = 0; i < equipmentObjList.length(); i++) {
                     JSONObject equipmentObj = equipmentObjList.getJSONObject(i);
                     String category = equipmentObj.getString("service_category");
@@ -174,6 +188,7 @@ class JobsCustomerAdapter implements ListAdapter {
                     result_categories = result_categories + categories.get(i);
                 }
 
+
                 repairType.setText(result_categories);
 
 
@@ -184,8 +199,9 @@ class JobsCustomerAdapter implements ListAdapter {
 
                 address.setText(locationObj.getString("physical_address"));
 
-                timeImage.setText(data.getString("estimated_arrival_time"));
-
+                //Change format of date
+                Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("estimated_arrival_time")));
+                timeImage.setText(date1.toString());
 
                 Picasso.with(context)
                         .load(internal_client.getString("logo")
@@ -201,14 +217,139 @@ class JobsCustomerAdapter implements ListAdapter {
                     status.setVisibility(View.GONE);
                 }
 
-
             catch (JSONException e) {
                 Log.d("exception", e.toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
 
         }
         return convertView;
     }
+
+    public static String convertToNewFormat(String dateStr) throws ParseException {
+        TimeZone utc = TimeZone.getTimeZone("UTC");
+        SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat destFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sourceFormat.setTimeZone(utc);
+        Date convertedDate = sourceFormat.parse(dateStr);
+        return destFormat.format(convertedDate);
+    }
+
+    public  String timeConvert(String dateStr) throws ParseException {
+        String eta = convertToNewFormat(dateStr);
+
+        //GET NOW DATE + TIME
+        String now = now();
+
+        String endOfToday = endOfToday();
+        String endOfTomorrow = endofTomorrow();
+        String endofWeek = endofWeek();
+        String endofNextWeek = endofNextWeek();
+        String endofThisMonth = endofThisMonth();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        if (sdf.parse(eta).before(sdf.parse(now))) {
+            return "PAST DUE";
+        }
+        else if ((sdf.parse(eta).after(sdf.parse(now))) && (sdf.parse(eta).before(sdf.parse(endOfToday))))  {
+            return "TODAY";
+        }
+        else if ((sdf.parse(eta).after(sdf.parse(endOfToday))) && (sdf.parse(eta).before(sdf.parse(endofTomorrow()))))  {
+            return "TOMORROW";
+        }
+        else if ((sdf.parse(eta).after(sdf.parse(endOfTomorrow))) && (sdf.parse(eta).before(sdf.parse(endofWeek))))  {
+            return "THIS WEEK";
+        }
+        else if ((sdf.parse(eta).after(sdf.parse(endofWeek))) && (sdf.parse(eta).before(sdf.parse(endofNextWeek))))  {
+            return "NEXT WEEK";
+        }
+        else if ((sdf.parse(eta).after(sdf.parse(endofNextWeek))) && (sdf.parse(eta).before(sdf.parse(endofThisMonth))))  {
+            return "LATER THIS MONTH";
+        }
+        else{
+            return "FUTURE";
+        }
+
+    }
+
+    private String endOfToday(){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        Date endOfToday = cal.getTime();
+        return df.format(endOfToday);
+    }
+
+    private String now(){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        Calendar c = Calendar.getInstance();
+        return df.format(c.getTime());
+    }
+
+    private String endofTomorrow(){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        cal.add(Calendar.DAY_OF_YEAR, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);// <--
+        Date endOfTomorrow = cal.getTime();
+        return df.format(endOfTomorrow);
+    }
+
+    private String endofWeek(){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        while (cal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
+            cal.add(Calendar.DATE, 1);
+        }
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        Date endOfTomorrow = cal.getTime();
+        return df.format(endOfTomorrow);
+    }
+
+    private String endofNextWeek(){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        while (cal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
+            cal.add(Calendar.DATE, 1);
+        }
+        cal.add(Calendar.DAY_OF_YEAR, 7);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        Date endOfTomorrow = cal.getTime();
+        return df.format(endOfTomorrow);
+    }
+    private String endofThisMonth(){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        Date endOfTomorrow = cal.getTime();
+        return df.format(endOfTomorrow);
+    }
+
+
     @Override
     public int getItemViewType(int position) {
         return position;
