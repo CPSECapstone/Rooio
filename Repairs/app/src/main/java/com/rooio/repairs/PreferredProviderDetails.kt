@@ -20,18 +20,18 @@ import androidx.arch.core.util.Function
 
 class PreferredProviderDetails: NavigationBar() {
 
-    lateinit var error: TextView
-    lateinit var backButton: ImageView
-    lateinit var removeButton: Button
-    lateinit var url: String
-    lateinit var email: TextView
-    lateinit var skills: TextView
-    lateinit var licenseNumber: TextView
-    lateinit var overview: TextView
-    lateinit var phone: TextView
-    lateinit var name: TextView
-    lateinit var price: TextView
-    lateinit var logo: ImageView
+    private lateinit var error: TextView
+    private lateinit var backButton: View
+    private lateinit var removeButton: Button
+    private lateinit var url: String
+    private lateinit var email: TextView
+    private lateinit var skills: TextView
+    private lateinit var licenseNumber: TextView
+    private lateinit var overview: TextView
+    private lateinit var phone: TextView
+    private lateinit var name: TextView
+    private lateinit var price: TextView
+    private lateinit var logo: ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,12 +64,13 @@ class PreferredProviderDetails: NavigationBar() {
         supportActionBar!!.elevation = 0.0f
 
         createNavigationBar("settings")
-        backButton = findViewById<View>(R.id.back_button_details) as ImageView
-        removeButton = findViewById<Button>(R.id.removeProvider)
+        backButton = findViewById<View>(R.id.back_button_details)
+        removeButton = findViewById(R.id.removeProvider)
 
+        onBackClick()
         loadProvider()
         onRemoveClick()
-        onBackClick()
+
     }
 
     private fun loadProvider(){
@@ -132,7 +133,7 @@ class PreferredProviderDetails: NavigationBar() {
             // if there is no logo for the service provider
             image =""
         }
-        if(!image.isNullOrEmpty())
+        if(image.isNotEmpty())
             Picasso.with(applicationContext)
                 .load(image)
                 .into(logo)
@@ -150,8 +151,8 @@ class PreferredProviderDetails: NavigationBar() {
 
     private fun setElementTexts(element: TextView, response: JSONObject, elementName: String){
         try {
-            var jsonStr = response.get(elementName) as String
-            if(jsonStr.isNullOrEmpty())
+            val jsonStr = response.get(elementName) as String
+            if(jsonStr.isEmpty() || jsonStr == "null")
                 element.text = "--"
             else
                 element.text = jsonStr
@@ -164,8 +165,8 @@ class PreferredProviderDetails: NavigationBar() {
 
     private fun setPriceElement(element: TextView, response: JSONObject, elementName: String){
         try {
-            var hoursText = getString((R.string.details_price_exception_message),response.get(elementName) as String)
-            var standardText = SpannableStringBuilder(" starting cost")
+            val hoursText = getString((R.string.details_price_exception_message),response.get(elementName) as String)
+            val standardText = SpannableStringBuilder(" starting cost")
             standardText.setSpan(ForegroundColorSpan(Color.parseColor("#00CA8F")), 0, 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
             element.text = standardText.insert(1, "$hoursText ")
         } catch (e: Exception) {

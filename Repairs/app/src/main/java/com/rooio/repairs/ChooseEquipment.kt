@@ -35,6 +35,7 @@ class ChooseEquipment : RestApi() {
     private lateinit var textView: TextView
     private var equipmentObjectList = ArrayList<EquipmentData>()
     private var equipmentList = ArrayList<String>()
+    private var savedEquipmentList = ArrayList<String>()
     private lateinit var backButton: ImageView
 
 
@@ -124,14 +125,14 @@ class ChooseEquipment : RestApi() {
         }
         equipmentObjectList.sortWith(compareBy {it.location})
 
-
+        loadEquipmentType(equipmentType, equipmentList)
         for (i in 0 until equipmentObjectList.size)
         {
             if (equipmentObjectList[i].type.getIntRepr() == equipmentType) {
                 equipmentList.add(equipmentObjectList[i].name)
+                savedEquipmentList.add(equipmentObjectList[i].name)
             }
         }
-        loadEquipmentType(equipmentType, equipmentNameList)
         equipmentNameList.addAll(equipmentList)
         val layoutManager = LinearLayoutManager(this)
         list.layoutManager = layoutManager
@@ -140,11 +141,11 @@ class ChooseEquipment : RestApi() {
 
     }
     //loads the first equipment based on the enum, aka the kind of job request the user clicked on
-    private fun loadEquipmentType(equipmentType: Int, equipmentNameList: ArrayList<String>){
+    private fun loadEquipmentType(equipmentType: Int, equipmentList: ArrayList<String>){
         when (equipmentType) {
-            1 -> equipmentNameList.add("General HVAC (No Appliance)")
-            2 -> equipmentNameList.add("General Plumbing (No Appliance)")
-            3 -> equipmentNameList.add("General Lighting (No Appliance)")
+            1 -> equipmentList.add("General HVAC (No Appliance)")
+            2 -> equipmentList.add("General Plumbing (No Appliance)")
+            3 -> equipmentList.add("General Lighting (No Appliance)")
             else -> return
         }
     }
@@ -170,51 +171,66 @@ class ChooseEquipment : RestApi() {
             private fun configureElements(holder: ViewHolder, position: Int){
                 val pos : Int
 
-                    if (equipmentNameList.size != equipmentList.size)
+                    //checking if case of General Appliance or one of the other 3 appliance options
+                    //If one of the other 3, the equipmentNameList size will have one more than the
+                    //equipmentList size because of the "General Equipment option"
+
+                    if (savedEquipmentList.size != equipmentList.size)
                     {
-                        if (position == 0)
-                        {
+                        if (equipmentNameList[position] == "General HVAC (No Appliance)" || equipmentNameList[position] == "General Lighting (No Appliance)" || equipmentNameList[position] == "General Plumbing (No Appliance)"){
                             holder.equipmentName.text = mData[position]
                             holder.grayDropDown.visibility = View.GONE
-                            pos = position
                         }
+
+//                        if (position == 0)
+//                        {
+//                            holder.equipmentName.text = mData[position]
+//                            holder.grayDropDown.visibility = View.GONE
+//                        }
                         else {
                             pos = position + 1
+                            equipmentExpansion(holder, position, pos)
                         }
                     }
                     else {
                         pos = position
+                        equipmentExpansion(holder, position, pos)
                     }
-                    holder.equipmentName.text = mData[position]
 
-                    setElementTexts(holder.manufacturerInfo, equipmentObjectList[pos].manufacturer)
-                    setElementTexts(holder.modelInfo, equipmentObjectList[pos].modelNumber)
-                    setElementTexts(holder.locationInfo, equipmentObjectList[pos].location)
-                    setElementTexts(holder.serialInfo, equipmentObjectList[pos].serialNumber)
-                    setElementTexts(holder.lastServiceByInfo, equipmentObjectList[pos].lastServiceBy)
-                    setElementTexts(holder.lastServiceDateInfo, equipmentObjectList[pos].lastServiceDate)
+            }
 
-                    holder.equipmentView.setOnClickListener {
-                        TransitionManager.beginDelayedTransition(holder.transitionsContainer)
-                        holder.visible = !holder.visible
-                        val v = if (holder.visible) View.VISIBLE else View.GONE
-                        setVisibility(holder, v)
-                        val rotate = if (holder.visible) 180f else 0f
-                        holder.greenDropDown.rotation = rotate
-                        val params = holder.equipmentLayout.layoutParams
-                        val p = if (holder.visible) 500 else 90
-                        if (holder.visible) {
-                            holder.equipmentName.setTextColor(Color.parseColor("#00CA8F"))
-                            holder.equipmentLayout.setBackgroundResource(R.drawable.green_button_border)
-                            holder.grayDropDown.visibility = View.GONE
-                        } else {
-                            holder.equipmentName.setTextColor(Color.parseColor("#333232"))
-                            holder.equipmentLayout.setBackgroundResource(R.drawable.gray_button_border)
-                            holder.grayDropDown.visibility = View.VISIBLE
-                            }
-                        params.height = p
-                        }
+            //Function that creates the expanded equipment view for an equipment piece, when
+            //a user clicks on the equipment, it will drop down and show the details
+            private fun equipmentExpansion(holder: ViewHolder, position: Int, pos: Int){
+                holder.equipmentName.text = mData[position]
 
+                setElementTexts(holder.manufacturerInfo, equipmentObjectList[pos].manufacturer)
+                setElementTexts(holder.modelInfo, equipmentObjectList[pos].modelNumber)
+                setElementTexts(holder.locationInfo, equipmentObjectList[pos].location)
+                setElementTexts(holder.serialInfo, equipmentObjectList[pos].serialNumber)
+                setElementTexts(holder.lastServiceByInfo, equipmentObjectList[pos].lastServiceBy)
+                setElementTexts(holder.lastServiceDateInfo, equipmentObjectList[pos].lastServiceDate)
+
+                holder.equipmentView.setOnClickListener {
+                    TransitionManager.beginDelayedTransition(holder.transitionsContainer)
+                    holder.visible = !holder.visible
+                    val v = if (holder.visible) View.VISIBLE else View.GONE
+                    setVisibility(holder, v)
+                    val rotate = if (holder.visible) 180f else 0f
+                    holder.greenDropDown.rotation = rotate
+                    val params = holder.equipmentLayout.layoutParams
+                    val p = if (holder.visible) 500 else 90
+                    if (holder.visible) {
+                        holder.equipmentName.setTextColor(Color.parseColor("#00CA8F"))
+                        holder.equipmentLayout.setBackgroundResource(R.drawable.green_button_border)
+                        holder.grayDropDown.visibility = View.GONE
+                    } else {
+                        holder.equipmentName.setTextColor(Color.parseColor("#333232"))
+                        holder.equipmentLayout.setBackgroundResource(R.drawable.gray_button_border)
+                        holder.grayDropDown.visibility = View.VISIBLE
+                    }
+                    params.height = p
+                }
             }
 
             override fun onBindViewHolder(holder: ViewHolder, position: Int) {

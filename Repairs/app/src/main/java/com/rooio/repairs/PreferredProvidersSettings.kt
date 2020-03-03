@@ -38,7 +38,20 @@ class PreferredProvidersSettings  : NavigationBar() {
         setSpinner()
         loadPreferredProviders(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
         onAddAnother()
+        goToPreferredProviderDetails()
         onPause()
+
+    }
+
+    //goes to the PreferredProviderDetails page
+    private fun goToPreferredProviderDetails() {
+        serviceProvidersListView.setOnItemClickListener{ _, _, position, _ ->
+            val id = preferredProviders[position].id.toString()
+            val listIntent = Intent(this@PreferredProvidersSettings, PreferredProviderDetails::class.java)
+            listIntent.putExtra("addedProvider", id)
+            startActivity(listIntent)
+        }
+
     }
 
     //Sets the navigation bar onto the page
@@ -168,6 +181,7 @@ class PreferredProvidersSettings  : NavigationBar() {
     {
     }
 
+    //gets rid of sound from app
     public override fun onResume() {
         super.onResume()
         val mgr = getSystemService(Context.AUDIO_SERVICE) as AudioManager
