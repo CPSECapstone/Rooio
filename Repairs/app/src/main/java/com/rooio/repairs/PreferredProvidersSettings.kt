@@ -1,6 +1,8 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +30,7 @@ class PreferredProvidersSettings  : NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preferred_providers_settings)
 
+        onResume()
         initializeVariables()
         setNavigationBar()
         setActionBar()
@@ -35,6 +38,7 @@ class PreferredProvidersSettings  : NavigationBar() {
         setSpinner()
         loadPreferredProviders(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
         onAddAnother()
+        onPause()
     }
 
     //Sets the navigation bar onto the page
@@ -162,5 +166,18 @@ class PreferredProvidersSettings  : NavigationBar() {
     //Animates anything along with the collapsing and expanding nav bar
     override fun animateActivity(boolean: Boolean)
     {
+    }
+
+    public override fun onResume() {
+        super.onResume()
+        val mgr = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        mgr.setStreamMute(AudioManager.STREAM_SYSTEM, true)
+    }
+
+
+    public override fun onPause() {
+        super.onPause()
+        val mgr = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        mgr.setStreamMute(AudioManager.STREAM_SYSTEM, false)
     }
 }

@@ -1,7 +1,9 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.media.AudioManager
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +58,7 @@ class Equipment : NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_equipment)
 
+        onResume()
         initializeVariable()
         setNavigationBar()
         setActionBar()
@@ -67,6 +70,7 @@ class Equipment : NavigationBar() {
         onSaveClick()
         onCancelClick()
         loadEquipmentElements()
+        onPause()
     }
 
     private fun loadAfterEquipmentSave() {
@@ -324,5 +328,19 @@ class Equipment : NavigationBar() {
         params.width = change
 
         equipment.layoutParams = params
+    }
+
+    //gets rid of sound Android makes when the spinner is pressed
+    public override fun onResume() {
+        super.onResume()
+        val mgr = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        mgr.setStreamMute(AudioManager.STREAM_SYSTEM, true)
+    }
+
+
+    public override fun onPause() {
+        super.onPause()
+        val mgr = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        mgr.setStreamMute(AudioManager.STREAM_SYSTEM, false)
     }
 }

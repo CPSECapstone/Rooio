@@ -71,6 +71,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.203"
+            android:soundEffectsEnabled="false"
             app:srcCompat="@mipmap/chevron_left" />
 
         <TextView

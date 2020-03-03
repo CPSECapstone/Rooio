@@ -1,10 +1,14 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.arch.core.util.Function
 import com.android.volley.Request
 import org.json.JSONObject
@@ -23,6 +27,7 @@ class LocationSettings  : NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_settings)
 
+        onResume()
         initializeVariables()
         setNavigationBar()
         setActionBar()
@@ -30,6 +35,7 @@ class LocationSettings  : NavigationBar() {
         onChangeLocation()
         getCurrentLocation(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
         setSettingsSpinner()
+        onPause()
     }
 
     //Handles when the user clicks the change location button
@@ -119,5 +125,18 @@ class LocationSettings  : NavigationBar() {
 
     override fun animateActivity(boolean: Boolean)
     {
+    }
+
+    public override fun onResume() {
+        super.onResume()
+        val mgr = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        mgr.setStreamMute(AudioManager.STREAM_SYSTEM, true)
+    }
+
+
+    public override fun onPause() {
+        super.onPause()
+        val mgr = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        mgr.setStreamMute(AudioManager.STREAM_SYSTEM, false)
     }
 }
