@@ -39,30 +39,9 @@ class PreferredProviderDetails: NavigationBar() {
         setContentView(R.layout.activity_preferred_providers_details)
 
         //initializes variables that are used in loadElements()
-        overview = findViewById(R.id.info_overview)
-        email = findViewById(R.id.info_email)
-        skills = findViewById(R.id.info_skills)
-        licenseNumber = findViewById(R.id.info_license_number)
-        phone = findViewById(R.id.info_phone)
-        logo = findViewById(R.id.logo)
-        name = findViewById(R.id.name)
-        price = findViewById(R.id.price)
-
-        //sets the navigation bar onto the page
-        val navInflater = layoutInflater
-        val tmpView = navInflater.inflate(R.layout.activity_navigation_bar, null)
-
-        window.addContentView(tmpView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-        //sets the action bar onto the page
-        val actionbarInflater = layoutInflater
-        val actionBarView = actionbarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-        supportActionBar!!.elevation = 0.0f
-
+        initializeVariables()
+        setNavigationBar()
+        setActionBar()
         createNavigationBar("settings")
         backButton = findViewById<View>(R.id.back_button_details)
         removeButton = findViewById(R.id.removeProvider)
@@ -173,6 +152,37 @@ class PreferredProviderDetails: NavigationBar() {
             element.text = "--"
         }
     }
+    //Initializes UI variables
+    private fun initializeVariables() {
+        overview = findViewById(R.id.info_overview)
+        email = findViewById(R.id.info_email)
+        skills = findViewById(R.id.info_skills)
+        licenseNumber = findViewById(R.id.info_license_number)
+        phone = findViewById(R.id.info_phone)
+        logo = findViewById(R.id.logo)
+        name = findViewById(R.id.name)
+        price = findViewById(R.id.price)
+    }
+    // Sets the navigation bar onto the page
+    private fun setNavigationBar() {
+        //sets the navigation bar onto the page
+        val navInflater = layoutInflater
+        val tmpView = navInflater.inflate(R.layout.activity_navigation_bar, null)
+
+        window.addContentView(tmpView,
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+    }
+
+    // Sets the action bar onto the page
+    private fun setActionBar() {
+        //sets the action bar onto the page
+        val actionbarInflater = layoutInflater
+        val actionbarView = actionbarInflater.inflate(R.layout.action_bar, null)
+        window.addContentView(actionbarView,
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+        supportActionBar!!.elevation = 0.0f
+    }
+
 
 
     override fun animateActivity(boolean: Boolean)
