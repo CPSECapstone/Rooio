@@ -34,7 +34,7 @@ class PreferredProvidersSettings  : NavigationBar() {
         initializeVariables()
         setNavigationBar()
         setActionBar()
-        createNavigationBar("settings")
+        createNavigationBar(NavigationType.SETTINGS)
         setSpinner()
         loadPreferredProviders(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
         onAddAnother()
@@ -54,22 +54,6 @@ class PreferredProvidersSettings  : NavigationBar() {
 
     }
 
-    //Sets the navigation bar onto the page
-    private fun setNavigationBar() {
-        val navBarInflater = layoutInflater
-        val navBarView = navBarInflater.inflate(R.layout.activity_navigation_bar, null)
-        window.addContentView(navBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-    }
-
-    //Sets the action bar onto the page
-    private fun setActionBar() {
-        val actionBarInflater = layoutInflater
-        val actionBarView = actionBarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        supportActionBar!!.elevation = 0.0f
-    }
 
     //Initializes UI variables
     private fun initializeVariables() {

@@ -21,7 +21,7 @@ abstract class NavigationBar : RestApi() {
 
 
 
-    fun createNavigationBar(string: String) {
+    fun createNavigationBar(navType: NavigationType) {
         var visible = false
 
         //transitionsContainer initializes the container and stores all transition objects
@@ -46,20 +46,20 @@ abstract class NavigationBar : RestApi() {
         val coloredEquipment = transitionsContainer.findViewById<ImageView>(R.id.colored_equipment)
 
 
-        if (string == "dashboard") {
+        if (navType.getIntRepr() == 1) {
             coloredDashboard.visibility = VISIBLE
             dashboardText.setTextColor(Color.parseColor("#00CA8F"))
         }
-        if (string == "settings"){
+        if (navType.getIntRepr() == 2){
             coloredSettings.visibility = VISIBLE
             settingsText.setTextColor(Color.parseColor("#00CA8F"))
 
         }
-        if (string == "equipment"){
+        if (navType.getIntRepr() == 3){
             coloredEquipment.visibility = VISIBLE
             equipmentText.setTextColor(Color.parseColor("#00CA8F"))
         }
-        if (string == "jobs"){
+        if (navType.getIntRepr() == 4){
             coloredJobs.visibility = VISIBLE
             jobsText.setTextColor(Color.parseColor("#00CA8F"))
         }

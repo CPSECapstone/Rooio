@@ -27,7 +27,6 @@ class PreferredProviderDetailsActivityTest {
     @Throws(Exception::class)
     fun setUp() {
         RestApi.queue = queue
-        RestApi.userLocationID = "1"
 
         activity = Robolectric.buildActivity(PreferredProviderDetails::class.java)
                 .create()

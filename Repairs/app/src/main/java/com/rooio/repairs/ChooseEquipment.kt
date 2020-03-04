@@ -63,15 +63,6 @@ class ChooseEquipment : RestApi() {
             })
     }
 
-    //Sets the action bar onto the page
-    private fun setActionBar() {
-        val actionBarInflater = layoutInflater
-        val actionBarView = actionBarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        supportActionBar!!.elevation = 0.0f
-    }
-
     //Initializes variables that are used in loadElements()
     private fun initializeVariables() {
         //val equipmentType = intent.getIntExtra("equipmentType", 0)

@@ -96,7 +96,15 @@
     <string name="equipment_type">Equipment Type</string>
     <string name="edit">Edit</string>
     <string name="save">Save</string>
+    <string name="overview_text">overview</string>
+    <string name="email">email</string>
+    <string name="skills_text">skills</string>
+    <string name="contractor_license_number">contractor_license_number</string>
     <string name="save_equipment_error">Equipment details could not be saved at this time.</string>
+    <string name="phone">phone</string>
+    <string name="empty_field">--</string>
+    <string name="name">name</string>
+    <string name="starting_cost_text"> \u0020starting cost</string>
     <string-array name="industry_type">
         <item>Residential</item>
         <item>Commercial Business</item>

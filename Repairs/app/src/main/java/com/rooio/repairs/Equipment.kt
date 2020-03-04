@@ -62,7 +62,7 @@ class Equipment : NavigationBar() {
         initializeVariable()
         setNavigationBar()
         setActionBar()
-        createNavigationBar("equipment")
+        createNavigationBar(NavigationType.EQUIPMENT)
         loadAfterEquipmentSave();
         onAddEquipmentClick()
         onAddClick()
@@ -119,25 +119,6 @@ class Equipment : NavigationBar() {
         editEquipmentType.adapter = ArrayAdapter<EquipmentType>(this, android.R.layout.simple_list_item_1, EquipmentType.values())
     }
 
-    // Sets the navigation bar onto the page
-    private fun setNavigationBar() {
-        //sets the navigation bar onto the page
-        val navInflater = layoutInflater
-        val tmpView = navInflater.inflate(R.layout.activity_navigation_bar, null)
-
-        window.addContentView(tmpView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-    }
-
-    // Sets the action bar onto the page
-    private fun setActionBar() {
-        //sets the action bar onto the page
-        val actionbarInflater = layoutInflater
-        val actionbarView = actionbarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionbarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        supportActionBar!!.elevation = 0.0f
-    }
 
     // show add equipment constraint and reset the UI for all other elements
     private fun onAddEquipmentClick() {
