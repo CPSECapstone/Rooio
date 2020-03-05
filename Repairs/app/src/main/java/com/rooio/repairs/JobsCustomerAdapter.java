@@ -1,6 +1,7 @@
 package com.rooio.repairs;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -37,6 +39,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.TimeZone;
+
+import static android.view.View.GONE;
 
 class JobsCustomerAdapter implements ListAdapter {
     private ArrayList<JSONObject> arrayList;
@@ -89,6 +93,7 @@ class JobsCustomerAdapter implements ListAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         JSONObject data = arrayList.get(position);
         if(convertView == null) {
+            //Set
             LayoutInflater layoutInflater = LayoutInflater.from(context);
             convertView = layoutInflater.inflate(R.layout.job_list_row, parent, false);
             TextView repairType = convertView.findViewById(R.id.repairType);
@@ -96,27 +101,26 @@ class JobsCustomerAdapter implements ListAdapter {
             TextView address = convertView.findViewById(R.id.address);
             ImageView image = convertView.findViewById(R.id.image);
             TextView timeImage = convertView.findViewById(R.id.timeImage);
-            Date currentTime = Calendar.getInstance().getTime();
+            Button jobsButton = convertView.findViewById(R.id.jobsButton);
 
             TextView status = convertView.findViewById(R.id.status);
             ConstraintLayout color = convertView.findViewById(R.id.color);
             try {
                 Integer status_enum = data.getInt("status");
+                Integer jobId = data.getInt("id");
+
                 String status_value = null;
 
-
-                Drawable unwrappedDrawable = AppCompatResources.getDrawable(context, R.drawable.notable_jobs_color);
-                Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
-
-
+                //Display Statuses for each swimlane
                 switch(status_enum) {
+                    //Declined Swimlane
                     case 1:
                         status_value = "Declined";
 
-
                         break;
-                        //Scheduled uses time as status
+                        //Scheduled swimlane uses time as status
                     case 2:
+                        //Time Based Statuses
                         status_value = timeConvert(data.getString("estimated_arrival_time"));
                         ;
                         DrawableCompat.setTint(
@@ -124,23 +128,28 @@ class JobsCustomerAdapter implements ListAdapter {
                                 ContextCompat.getColor(context, R.color.Blue)
                         );
                         break;
+                        //Archived Swimlane Status
                     case 3:
-                        status_value = "Completed";
+                        status_value = "Archived";
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.lightGray)
                         );
                         break;
+                        //Cancelled Swimlane Status
                     case 4:
                         status_value = "Canceled";
 
                         break;
                     case 5:
+                        //In Progress Swimlane Status
                         status_value = "Started";
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.colorPrimary)
-                        );                        break;
+                        );
+                        break;
+                        //In Progress Swimlane Status
                     case 6:
                         status_value = "Paused";
                         DrawableCompat.setTint(
@@ -149,6 +158,7 @@ class JobsCustomerAdapter implements ListAdapter {
                         );
 
                         break;
+                        //Pending Swimlane Status
                     case 0:
                         status_value = "Pending";
                         DrawableCompat.setTint(
@@ -158,8 +168,8 @@ class JobsCustomerAdapter implements ListAdapter {
                         break;
                 }
 
-
-                        JSONArray equipmentObjList = data.getJSONArray("equipment");
+                //Sets the Equipment for Job: May be multiple equipment per job
+                JSONArray equipmentObjList = data.getJSONArray("equipment");
                 for (int i = 0; i < equipmentObjList.length(); i++) {
                     JSONObject equipmentObj = equipmentObjList.getJSONObject(i);
                     String category = equipmentObj.getString("service_category");
@@ -183,21 +193,19 @@ class JobsCustomerAdapter implements ListAdapter {
                             break;
                     }
                 }
-
                 for (int i = 0; i < categories.size(); i++) {
                     result_categories = result_categories + categories.get(i);
                 }
-
-
                 repairType.setText(result_categories);
 
-
+                //Get Service Location
                 JSONObject locationObj = data.getJSONObject("service_location");
-                JSONObject internal_client = locationObj.getJSONObject("internal_client");
+                address.setText(locationObj.getString("physical_address"));
 
+                //Get Restraunt Name
+                JSONObject internal_client = locationObj.getJSONObject("internal_client");
                 name.setText(internal_client.getString("name"));
 
-                address.setText(locationObj.getString("physical_address"));
 
                 //Change format of date
                 Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("estimated_arrival_time")));
@@ -209,6 +217,7 @@ class JobsCustomerAdapter implements ListAdapter {
                         .into(image);
 
 
+
                 if(!statuses.contains(status_value)){
                     status.setText(status_value.toUpperCase());
                     statuses.add(status_value);
@@ -217,11 +226,29 @@ class JobsCustomerAdapter implements ListAdapter {
                     status.setVisibility(View.GONE);
                 }
 
+
             catch (JSONException e) {
                 Log.d("exception", e.toString());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
+            //JobId Holds the JobId. ** Displays on UI as a string for testing purposes**
+            jobsButton.setOnClickListener(v -> {
+                try {
+                    Integer jobId = data.getInt("id");
+                    CharSequence text = jobId.toString();
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+
+                }
+                catch (JSONException e) {
+                    Log.d("exception", e.toString());
+                }
+
+            });
 
         }
         return convertView;
