@@ -142,7 +142,7 @@ class Dashboard : NavigationBar() {
                 0 -> pendingJobs.add(job)
                 2 -> scheduledJobs.add(job)
                 5 -> inProgressJobs.add(job)
-                //6 -> inProgressJobs.add(job)
+                6 -> inProgressJobs.add(job)
                 3 -> archivedJobs.add(job)
             }
         }
