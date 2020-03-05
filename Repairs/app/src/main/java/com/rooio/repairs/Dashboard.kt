@@ -108,7 +108,7 @@ class Dashboard : NavigationBar() {
     }
 
     //Placeholder for Notable Jobs
-    fun populate_test(){
+    private fun populate_test(){
 
         val nameVal = "Luna Red"
         val imageVal = "http://www.lunaredslo.com/images/luna_red_logo.png"
