@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ListView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
@@ -15,11 +16,11 @@ import androidx.arch.core.util.Function
 
 
 class Jobs : NavigationBar() {
-    private var pendingList: ListView? = null
-    private var scheduledList: ListView? = null
-    private var inProgressList: ListView? = null
-    private var completedButton: Button? = null
 
+    private lateinit var pendingList: ListView
+    private lateinit var scheduledList: ListView
+    private lateinit var inProgressList: ListView
+    private lateinit var completedButton: Button
 
     val statuses = arrayListOf<String>()
 
