@@ -25,7 +25,7 @@ class PreferredProvidersLogin : RestApi() {
     private lateinit var providerBox: ConstraintLayout
     private lateinit var loadingPanel: RelativeLayout
     private val preferredProviders = ArrayList<ServiceProviderData>()
-    private val url = "https://capstone.api.roopairs.com/v0/service-providers/"
+    private val url = "service-providers/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

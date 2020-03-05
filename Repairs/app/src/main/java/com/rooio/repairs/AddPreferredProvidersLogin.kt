@@ -22,7 +22,7 @@ class AddPreferredProvidersLogin : RestApi() {
     private lateinit var newProvider: EditText
     private lateinit var errorMessage: TextView
     private lateinit var loadingPanel: RelativeLayout
-    private val url: String = "https://capstone.api.roopairs.com/v0/service-providers/"
+    private val url: String = "service-providers/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

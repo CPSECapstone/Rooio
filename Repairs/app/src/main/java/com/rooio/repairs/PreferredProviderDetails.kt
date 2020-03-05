@@ -8,14 +8,13 @@ import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
-
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.arch.core.util.Function
 import com.squareup.picasso.Picasso
 import org.json.JSONException
 import org.json.JSONObject
-import androidx.arch.core.util.Function
 
 
 class PreferredProviderDetails: NavigationBar() {
@@ -76,7 +75,7 @@ class PreferredProviderDetails: NavigationBar() {
         val bundle: Bundle ?= intent.extras
         if (bundle!=null){
             val theId = bundle.getString("addedProvider")
-            url = "https://capstone.api.roopairs.com/v0/service-providers/" + theId.toString() + "/"
+            url = "service-providers/" + theId.toString() + "/"
             val request = JsonRequest(false, url, HashMap(), providerResponseFunc, providerErrorFunc, true)
             requestGetJsonObj(request)
         }

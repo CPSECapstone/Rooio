@@ -17,7 +17,7 @@ class LocationSettings  : NavigationBar() {
     private lateinit var changeLocation: Button
     private lateinit var spinner: Spinner
     private lateinit var loadingPanel: RelativeLayout
-    private val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/"
+    private val url = "service-locations/$userLocationID/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

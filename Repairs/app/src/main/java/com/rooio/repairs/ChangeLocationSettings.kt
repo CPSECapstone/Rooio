@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import android.widget.AdapterView.OnItemClickListener
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
-import android.widget.AdapterView.OnItemClickListener
 import androidx.transition.TransitionManager
 import com.android.volley.Request
 import org.json.JSONArray
@@ -26,7 +26,7 @@ class ChangeLocationSettings  : NavigationBar(), OnItemClickListener  {
     private lateinit var expandBackButton: ImageView
     private lateinit var collapseBackButton: ImageView
     private lateinit var viewGroup: ViewGroup
-    private val url = "https://capstone.api.roopairs.com/v0/service-locations/"
+    private val url = "service-locations/"
 
     //Static lists that hold the address list and location ids, move to REST API?
     companion object {

@@ -10,7 +10,7 @@ import androidx.transition.TransitionManager
 import com.android.volley.Request
 import org.json.JSONArray
 import org.json.JSONException
-import java.util.HashMap
+import java.util.*
 
 //Page where user can add a preferred provider from settings
 class AddPreferredProvidersSettings  : NavigationBar() {
@@ -22,7 +22,7 @@ class AddPreferredProvidersSettings  : NavigationBar() {
     private lateinit var expandBackButton: ImageView
     private lateinit var collapseBackButton: ImageView
     private lateinit var viewGroup: ViewGroup
-    private val url: String = "https://capstone.api.roopairs.com/v0/service-providers/"
+    private val url: String = "service-providers/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

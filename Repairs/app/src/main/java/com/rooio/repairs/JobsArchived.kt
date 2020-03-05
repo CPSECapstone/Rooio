@@ -7,12 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ListView
+import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.android.volley.Request
 import kotlinx.android.synthetic.main.activity_jobs_archived.*
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.ArrayList
-import androidx.arch.core.util.Function
+import java.util.*
 
 
 class JobsArchived  : NavigationBar() {
@@ -62,6 +63,7 @@ class JobsArchived  : NavigationBar() {
 
 
                 onClick()
+                clearLists()
                 loadJobs()
 
         }
@@ -71,16 +73,20 @@ class JobsArchived  : NavigationBar() {
 
 
         private fun loadJobs(){
-                val url = BaseUrl + "service-locations/$userLocationID/jobs/"
-                requestGetJsonArray(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+                loadArchivedJobs()
         }
 
+        private fun loadArchivedJobs(){
+                val Archived = "?status=1&status=3&status=4&ordering=-completion_time"
+                val url = "service-locations/$userLocationID/jobs/$Archived"
+                requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
+                        null, responseFunc, errorFunc, true))
+        }
         private fun clearLists(){
                 archivedJobs.clear()
         }
 
         private fun populateLists(responseObj: JSONArray){
-                clearLists()
                 for (i in 0 until responseObj.length()) {
                         val job = responseObj.getJSONObject(i)
 

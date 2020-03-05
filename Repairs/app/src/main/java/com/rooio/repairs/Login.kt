@@ -25,7 +25,6 @@ class Login : RestApi() {
     private lateinit var cancelLogin: Button
     private lateinit var errorMessage: TextView
     private lateinit var loadingPanel: RelativeLayout
-    private val url = "https://capstone.api.roopairs.com/v0/auth/login/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +54,7 @@ class Login : RestApi() {
 
     // Attempts to log in the user after clicking Connect Account
     private fun onConnectAccount() {
+        val url = "auth/login/"
         val params = HashMap<Any?, Any?>()
         loadingPanel.visibility = View.GONE
         connectAccount.setOnClickListener {

@@ -59,11 +59,15 @@ abstract class RestApi : AppCompatActivity() {
 
     //Creates a JSONObject request based on REST type and information provided
     private fun createJsonObjectRequest(type: Int?, request: JsonRequest): JsonObjectRequest {
-        val url = request.url
+        val url = BaseUrl + request.url
         val responseFunc = request.responseFunc
         val errorFunc = request.errorFunc
         val headersFlag = request.headersFlag
-        val jsonParams = JSONObject(request.params)
+
+        var  jsonParams : JSONObject? = if (!request.params.isNullOrEmpty()) {
+            JSONObject(request.params)
+        } else null
+
         return object : JsonObjectRequest(type!!, url, jsonParams,
                 Response.Listener { input: JSONObject -> responseFunc.apply(input) },
                 Response.ErrorListener { error: VolleyError -> errorFunc.apply(errorMsgHandler(error)) }) {
@@ -83,11 +87,15 @@ abstract class RestApi : AppCompatActivity() {
 
     //Creates a JSONArray request based on REST type and information provided
     private fun createJsonArrayRequest(type: Int?, request: JsonRequest): JsonArrayRequest {
-        val url = request.url
+        val url = BaseUrl + request.url
         val responseFunc = request.responseFunc
         val errorFunc = request.errorFunc
         val headersFlag = request.headersFlag
-        val jsonParams = JSONObject(request.params)
+
+        var  jsonParams : JSONObject? = if (!request.params.isNullOrEmpty()) {
+            JSONObject(request.params)
+        } else null
+
         return object : JsonArrayRequest(type!!, url, jsonParams,
                 Response.Listener { input: JSONArray -> responseFunc.apply(input) },
                 Response.ErrorListener { error: VolleyError -> errorFunc.apply(errorMsgHandler(error)) }) {
@@ -113,8 +121,8 @@ abstract class RestApi : AppCompatActivity() {
                     val jsonObjectRequest = createJsonObjectRequest(type, request)
                     addToVolleyQueue(jsonObjectRequest)
                 }
-            JsonType.ARRAY -> {
-                val jsonArrayRequest = createJsonArrayRequest(type, request)
+                JsonType.ARRAY -> {
+                    val jsonArrayRequest = createJsonArrayRequest(type, request)
                     addToVolleyQueue(jsonArrayRequest)
                 }
             }
