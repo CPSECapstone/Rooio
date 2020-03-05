@@ -10,8 +10,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
 import org.json.JSONObject
 
+
+
 //Job details can be viewed when clicking on a job request found under the Jobs tab
 class JobDetails: NavigationBar() {
+
+    private lateinit var jobId: String
 
     private lateinit var restaurantName: TextView
     private lateinit var restaurantLocation: TextView
@@ -54,6 +58,12 @@ class JobDetails: NavigationBar() {
         loadJobDetails()
         onBack()
         onDropDown()
+        getJobId()
+    }
+
+    private fun getJobId(){
+        val incomingIntent = intent
+        jobId = incomingIntent.getStringExtra("id")
     }
 
     //Initializes variables that are used in loadElements()

@@ -2,6 +2,7 @@ package com.rooio.repairs;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Build;
 import android.util.Log;
@@ -227,6 +228,12 @@ class JobsCustomerAdapter implements ListAdapter {
             jobsButton.setOnClickListener(v -> {
                 try {
                     Integer jobId = data.getInt("id");
+
+                    Intent intent = new Intent(context, JobDetails.class);
+                    intent.putExtra("id", jobId.toString());
+                    context.startActivity(intent);
+
+
                     CharSequence text = jobId.toString();
                     int duration = Toast.LENGTH_SHORT;
 
