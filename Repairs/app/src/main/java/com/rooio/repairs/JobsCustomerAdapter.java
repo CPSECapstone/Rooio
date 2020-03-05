@@ -1,11 +1,8 @@
 package com.rooio.repairs;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,10 +14,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.ParseException;
-import java.util.Date;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -31,16 +25,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
-
-import static android.view.View.GONE;
 
 class JobsCustomerAdapter implements ListAdapter {
     private ArrayList<JSONObject> arrayList;
@@ -121,8 +111,8 @@ class JobsCustomerAdapter implements ListAdapter {
                         //Scheduled swimlane uses time as status
                     case 2:
                         //Time Based Statuses
-                        status_value = timeConvert(data.getString("estimated_arrival_time"));
-                        ;
+                        status_value = timeConvert(data.getString("status_time_value"));
+                        
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.Blue)
@@ -208,7 +198,7 @@ class JobsCustomerAdapter implements ListAdapter {
 
 
                 //Change format of date
-                Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("estimated_arrival_time")));
+                Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("status_time_value")));
                 timeImage.setText(date1.toString());
 
                 Picasso.with(context)
