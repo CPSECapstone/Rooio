@@ -3,6 +3,8 @@ package com.rooio.repairs
 import org.json.JSONArray
 import org.json.JSONObject
 
+// Class for handling preferred provider data sent from the API
+// Each attribute corresponds to the API equivalent
 class ProviderData(jsonObject: JSONObject) {
 
     var id: Int = jsonObject.get("id") as Int
@@ -10,7 +12,8 @@ class ProviderData(jsonObject: JSONObject) {
     var email: String = jsonObject.get("email") as String
     var phone: String = jsonObject.get("phone") as String
     var website: String = jsonObject.get("website") as String
-    //var logo: String = jsonObject.get("logo") as String
+    var logo: String = try { jsonObject.get("logo") as String }
+    catch (e: Exception){ "" }
     var physicalAddress: String = jsonObject.get("physical_address") as String
     var incorporated: String = jsonObject.get("incorporated") as String
     var contractor_license_number: String = jsonObject.get("contractor_license_number") as String

@@ -77,7 +77,7 @@ class Login : RestApi() {
         errorMessage.text = ""
         val jsonObj = response as JSONObject
         storeToken(jsonObj)
-        startActivity(Intent(this@Login, ChooseServiceProvider::class.java))
+        startActivity(Intent(this@Login, LocationLogin::class.java))
         null
     }
     //Error provided if login information is incorrect or cannot be found from request
