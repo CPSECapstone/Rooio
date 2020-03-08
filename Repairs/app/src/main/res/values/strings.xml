@@ -27,6 +27,7 @@
     <string name="error_login">Incorrect username and/or password.</string>
     <string name="error_register">Email is already registered with a Roopairs account.</string>
     <string name="choose_service_location">CHOOSE A SERVICE LOCATION</string>
+    <string name="choose_service_provider">Choose a Service Provider</string>
     <string name="invalid_address">Not a valid address.</string>
     <string name="add_service_provider">Add Service Provider</string>
     <string name="change_location">Change Location</string>
@@ -79,7 +80,7 @@
     <string name="company_email"> Company Email</string>
     <string name="view_completed"><u>View Completed Jobs</u></string>
     <string name="view_current"><u>View Current Jobs</u></string>
-
+    <string name="search_service_provider">Search Service Provider</string>
     <string name="service_provider_details"> Service Provider Details</string>
     <string name="overview"> Overview</string>
     <string name="starting_cost"> starting cost</string>

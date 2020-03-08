@@ -75,13 +75,9 @@ class Login : RestApi() {
     var responseFunc = Function<Any, Void?> { response: Any ->
         loadingPanel.visibility = View.GONE
         errorMessage.text = ""
-        try {
-            val jsonObj = response as JSONObject
-            storeToken(jsonObj)
-            startActivity(Intent(this@Login, LocationLogin::class.java))
-        } catch (e: JSONException) {
-            errorMessage.setText(R.string.error_server)
-        }
+        val jsonObj = response as JSONObject
+        storeToken(jsonObj)
+        startActivity(Intent(this@Login, ChooseServiceProvider::class.java))
         null
     }
     //Error provided if login information is incorrect or cannot be found from request

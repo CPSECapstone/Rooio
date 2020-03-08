@@ -90,7 +90,7 @@
             android:id="@+id/search"
             android:layout_width="474dp"
             android:layout_height="56dp"
-            android:background="@drawable/searchbar_border"
+            android:background="@drawable/search_bar_border"
             android:fontFamily="@font/nunito"
             android:hint="Search Equipment..."
             android:paddingLeft="15dp"
