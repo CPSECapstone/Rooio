@@ -15,7 +15,6 @@ abstract class RestApi : AppCompatActivity() {
 
     val BaseUrl = "https://capstone.api.roopairs.com/v0/"
 
-
     //Static objects that can be accessed from any Activity
     companion object {
         var queue: RequestQueue? = null

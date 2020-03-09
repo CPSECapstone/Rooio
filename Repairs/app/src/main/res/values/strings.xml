@@ -27,6 +27,7 @@
     <string name="error_login">Incorrect username and/or password.</string>
     <string name="error_register">Email is already registered with a Roopairs account.</string>
     <string name="choose_service_location">CHOOSE A SERVICE LOCATION</string>
+    <string name="choose_service_provider">Choose a Service Provider</string>
     <string name="invalid_address">Not a valid address.</string>
     <string name="add_service_provider">Add Service Provider</string>
     <string name="change_location">Change Location</string>
@@ -79,13 +80,16 @@
     <string name="company_email"> Company Email</string>
     <string name="view_completed"><u>View Completed Jobs</u></string>
     <string name="view_current"><u>View Current Jobs</u></string>
-
+    <string name="search_service_provider">Search Service Provider</string>
     <string name="service_provider_details"> Service Provider Details</string>
     <string name="overview"> Overview</string>
     <string name="starting_cost"> starting cost</string>
     <string name="remove_provider"> Remove Provider</string>
     <string name="details_exception_message"> No %1$s provided.</string>
     <string name="details_price_exception_message">$%1$s / hour</string>
+    <string name="network_service">This service is currently not available.</string>
+    <string name="preferred">Preferred</string>
+    <string name="network">Network</string>
     <string name="chooseEquipmentTitle">Choose Equipment</string>
     <string name="select_one_of_the_equipment_items_on_the_left_to_view_details_and_analytics">Select one of the equipment items on the left to view details and analytics.</string>
     <string name="add_equipment">Add Equipment</string>
