@@ -11,6 +11,7 @@ import android.graphics.Color
 import android.view.View
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View.GONE
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -30,12 +31,13 @@ class ChooseEquipment : RestApi() {
     val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/equipment/"
     private lateinit var list: RecyclerView
     private lateinit var search: EditText
-    private lateinit var recyclerChooseAdapter: ChooseAdapter
-    private var equipmentNameList = ArrayList<String>()
+    private lateinit var recyclerChooseAdapter: ChooseEquipmentAdapter
+    //private var equipmentNameList = ArrayList<String>()
     private lateinit var textView: TextView
-    private var equipmentObjectList = ArrayList<EquipmentData>()
-    private var equipmentList = ArrayList<String>()
-    private var savedEquipmentList = ArrayList<String>()
+    private var equipmentObjectList: ArrayList<EquipmentData> = ArrayList()
+    //private var equipmentList = ArrayList<String>()
+    private val locations = ArrayList<String>()
+    //private var savedEquipmentList = ArrayList<String>()
     private lateinit var backButton: ImageView
 
 
@@ -47,20 +49,13 @@ class ChooseEquipment : RestApi() {
         initializeVariables()
         onBackClick()
         loadEquipmentElements()
-
+        setFilter()
         //makes it so that the divider between items is invisible inside the recyclerview
-        list.addItemDecoration(object : DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL) {
-            override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-            }
-        })
-            search.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-                override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                    recyclerChooseAdapter.filter.filter(charSequence.toString())
-                }
+        //list.addItemDecoration(object : DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL) {
+            //override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+            //}
+        //})
 
-                override fun afterTextChanged(editable: Editable) {}
-            })
     }
 
     //Initializes variables that are used in loadElements()
@@ -70,7 +65,7 @@ class ChooseEquipment : RestApi() {
         list = findViewById(R.id.list)
         textView = findViewById(R.id.errorText)
         search = findViewById(R.id.search)
-        equipmentNameList = ArrayList()
+        //equipmentNameList = ArrayList()
     }
 
     //Click to go back to Dashboard
@@ -82,19 +77,14 @@ class ChooseEquipment : RestApi() {
     // send JsonRequest Object
     private fun loadEquipmentElements() {
         val request = JsonRequest(false, url, HashMap(), responseFuncLoad, errorFuncLoad, true)
-        //requestGetJsonArray(request)
         requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
 
     @JvmField
     // load equipments in the equipment list
     var responseFuncLoad = Function<Any, Void?> { jsonResponse: Any? ->
-        try {
-            val jsonArray = jsonResponse as JSONArray
-            loadEquipment(jsonArray)
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
+        val jsonArray = jsonResponse as JSONArray
+        loadEquipment(jsonArray)
         null
     }
 
@@ -109,249 +99,46 @@ class ChooseEquipment : RestApi() {
     // getting all the equipment for the equipment list and passing the equipment list to custom ChooseAdapter
     private fun loadEquipment(response: JSONArray) {
         val equipmentType = intent.getIntExtra("equipmentType", 0)
-        equipmentObjectList.clear()
+        loadEquipmentType(equipmentType)
         for (i in 0 until response.length()) {
             val equipment = EquipmentData(response.getJSONObject(i))
             equipmentObjectList.add(equipment)
         }
         equipmentObjectList.sortWith(compareBy {it.location})
-
-        loadEquipmentType(equipmentType, equipmentList)
+        //adding the different equipment types to the equipmentObjectList
+        var equipmentDataList: ArrayList<EquipmentData> = ArrayList()
         for (i in 0 until equipmentObjectList.size)
         {
+            //savedEquipmentList.add(equipmentObjectList[i].name)
             if (equipmentObjectList[i].type.getIntRepr() == equipmentType) {
-                equipmentList.add(equipmentObjectList[i].name)
-                savedEquipmentList.add(equipmentObjectList[i].name)
+                equipmentDataList.add(equipmentObjectList[i])
             }
         }
-        equipmentNameList.addAll(equipmentList)
+
         val layoutManager = LinearLayoutManager(this)
         list.layoutManager = layoutManager
-        recyclerChooseAdapter = ChooseAdapter(this@ChooseEquipment, equipmentNameList)
+        recyclerChooseAdapter = ChooseEquipmentAdapter(this@ChooseEquipment, equipmentDataList)
         list.adapter = recyclerChooseAdapter
 
     }
     //loads the first equipment based on the enum, aka the kind of job request the user clicked on
-    private fun loadEquipmentType(equipmentType: Int, equipmentList: ArrayList<String>){
+    private fun loadEquipmentType(equipmentType: Int){
         when (equipmentType) {
-            1 -> equipmentList.add("General HVAC (No Appliance)")
-            2 -> equipmentList.add("General Plumbing (No Appliance)")
-            3 -> equipmentList.add("General Lighting (No Appliance)")
+            1 -> equipmentObjectList.add(EquipmentData ("General HVAC (No Appliance)", EquipmentType.HVAC))
+            2 -> equipmentObjectList.add(EquipmentData("General Plumbing (No Appliance)", EquipmentType.PLUMBING))
+            3 -> equipmentObjectList.add(EquipmentData("General Lighting (No Appliance)", EquipmentType.LIGHTING_AND_ELECTRICAL))
             else -> return
         }
     }
 
-        private inner class ChooseAdapter(internal var context: Context, internal var mData: List<String>) : RecyclerView.Adapter<ChooseAdapter.ViewHolder>(), Filterable {
-
-            internal var mfilter: NewFilter
-
-            override fun getFilter(): Filter {
-                return mfilter
+    private fun setFilter() {
+        search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                recyclerChooseAdapter.filter(charSequence.toString())
             }
-
-            init {
-                mfilter = NewFilter(this@ChooseAdapter)
-            }
-
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-                val view =
-                        LayoutInflater.from(context).inflate(R.layout.recyclerview_adapter1, parent, false)
-                return ViewHolder(view)
-            }
-
-            private fun configureElements(holder: ViewHolder, position: Int){
-                val pos : Int
-
-                    //checking if case of General Appliance or one of the other 3 appliance options
-                    //If one of the other 3, the equipmentNameList size will have one more than the
-                    //equipmentList size because of the "General Equipment option"
-
-                    if (savedEquipmentList.size != equipmentList.size)
-                    {
-                        if (equipmentNameList[position] == "General HVAC (No Appliance)" || equipmentNameList[position] == "General Lighting (No Appliance)" || equipmentNameList[position] == "General Plumbing (No Appliance)"){
-                            holder.equipmentName.text = mData[position]
-                            holder.grayDropDown.visibility = View.GONE
-                        }
-
-//                        if (position == 0)
-//                        {
-//                            holder.equipmentName.text = mData[position]
-//                            holder.grayDropDown.visibility = View.GONE
-//                        }
-                        else {
-                            pos = position + 1
-                            equipmentExpansion(holder, position, pos)
-                        }
-                    }
-                    else {
-                        pos = position
-                        equipmentExpansion(holder, position, pos)
-                    }
-
-            }
-
-            //Function that creates the expanded equipment view for an equipment piece, when
-            //a user clicks on the equipment, it will drop down and show the details
-            private fun equipmentExpansion(holder: ViewHolder, position: Int, pos: Int){
-                holder.equipmentName.text = mData[position]
-
-                setElementTexts(holder.manufacturerInfo, equipmentObjectList[pos].manufacturer)
-                setElementTexts(holder.modelInfo, equipmentObjectList[pos].modelNumber)
-                setElementTexts(holder.locationInfo, equipmentObjectList[pos].location)
-                setElementTexts(holder.serialInfo, equipmentObjectList[pos].serialNumber)
-                setElementTexts(holder.lastServiceByInfo, equipmentObjectList[pos].lastServiceBy)
-                setElementTexts(holder.lastServiceDateInfo, equipmentObjectList[pos].lastServiceDate)
-
-                holder.equipmentView.setOnClickListener {
-                    TransitionManager.beginDelayedTransition(holder.transitionsContainer)
-                    holder.visible = !holder.visible
-                    val v = if (holder.visible) View.VISIBLE else View.GONE
-                    setVisibility(holder, v)
-                    val rotate = if (holder.visible) 180f else 0f
-                    holder.greenDropDown.rotation = rotate
-                    val params = holder.equipmentLayout.layoutParams
-                    val p = if (holder.visible) 500 else 90
-                    if (holder.visible) {
-                        holder.equipmentName.setTextColor(Color.parseColor("#00CA8F"))
-                        holder.equipmentLayout.setBackgroundResource(R.drawable.green_button_border)
-                        holder.grayDropDown.visibility = View.GONE
-                    } else {
-                        holder.equipmentName.setTextColor(Color.parseColor("#333232"))
-                        holder.equipmentLayout.setBackgroundResource(R.drawable.gray_button_border)
-                        holder.grayDropDown.visibility = View.VISIBLE
-                    }
-                    params.height = p
-                }
-            }
-
-            override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-                setVisibility(holder, View.GONE)
-                val initial = holder.equipmentLayout.layoutParams
-                initial.height = 90
-
-                //checking if equipment type is a general appliance or one of the other enum options
-                configureElements(holder, position)
-            }
-            private fun setElementTexts(element: TextView, str: String){
-                try {
-                    if(str.isEmpty() || str == "null")
-                        element.text = "--"
-                    else
-                        element.text = str
-
-                }
-                catch (e: Exception) {
-                    element.text = "--"
-                }
-            }
-
-            override fun getItemCount(): Int {
-                return mData.size
-            }
-
-            inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-                internal var greenDropDown: ImageView
-                internal var equipmentName: TextView
-                internal var equipmentLayout : ConstraintLayout
-                internal var transitionsContainer : ViewGroup
-                internal var visible: Boolean = false
-                internal var manufacturerText : TextView
-                internal var modelText : TextView
-                internal var locationText: TextView
-                internal var serialText: TextView
-                internal var lastServiceByText: TextView
-                internal var lastServiceDateText: TextView
-                internal var manufacturer: TextView
-                internal var modelNumber: TextView
-                internal var location: TextView
-                internal var serialNumber: TextView
-                internal var equipmentDivider: ImageView
-                internal var manufacturerInfo: TextView
-                internal var modelInfo: TextView
-                internal var locationInfo: TextView
-                internal var serialInfo: TextView
-                internal var lastServiceByInfo: TextView
-                internal var lastServiceDateInfo: TextView
-                internal var select: Button
-                internal var equipmentView : View
-                internal var grayDropDown : ImageView
-
-                init {
-                    equipmentName = itemView.findViewById(R.id.equipmentName)
-                    transitionsContainer = itemView.findViewById(R.id.relativeLayout)
-                    equipmentLayout = transitionsContainer.findViewById(R.id.equipmentLayout)
-                    greenDropDown = transitionsContainer.findViewById(R.id.dropDown)
-                    grayDropDown = transitionsContainer.findViewById(R.id.graydropDown)
-                    manufacturer = transitionsContainer.findViewById(R.id.manufacturerInfo)
-                    modelNumber = transitionsContainer.findViewById(R.id.modelInfo)
-                    location = transitionsContainer.findViewById(R.id.locationInfo)
-                    serialNumber = transitionsContainer.findViewById(R.id.serialInfo)
-                    manufacturerText = transitionsContainer.findViewById(R.id.manufacturerText)
-                    modelText = transitionsContainer.findViewById(R.id.modelText)
-                    locationText = transitionsContainer.findViewById(R.id.locationText)
-                    serialText = transitionsContainer.findViewById(R.id.serialText)
-                    lastServiceByText = transitionsContainer.findViewById(R.id.lastServiceByText)
-                    lastServiceDateText = transitionsContainer.findViewById(R.id.lastServiceDateText)
-                    equipmentDivider = transitionsContainer.findViewById(R.id.equipmentDivider)
-                    manufacturerInfo = transitionsContainer.findViewById(R.id.manufacturerInfo)
-                    modelInfo = transitionsContainer.findViewById(R.id.modelInfo)
-                    locationInfo = transitionsContainer.findViewById(R.id.locationInfo)
-                    serialInfo = transitionsContainer.findViewById(R.id.serialInfo)
-                    lastServiceByInfo = transitionsContainer.findViewById(R.id.lastServiceByInfo)
-                    lastServiceDateInfo = transitionsContainer.findViewById(R.id.lastServiceDateInfo)
-                    select = transitionsContainer.findViewById(R.id.select)
-                    equipmentView = transitionsContainer.findViewById(R.id.view)
-                }
-            }
-            inner class NewFilter(var mChooseAdapter: ChooseAdapter) : Filter() {
-                override fun performFiltering(charSequence: CharSequence): FilterResults {
-                    equipmentNameList.clear()
-                    val results = FilterResults()
-                    if (charSequence.isEmpty()) {
-                        equipmentNameList.addAll(equipmentList)
-                    } else {
-                        val filterPattern = charSequence.toString().toLowerCase(Locale.ROOT).trim { it <= ' ' }
-                        for (equipmentName in equipmentList) {
-                            if (equipmentName.toLowerCase(Locale.ROOT).startsWith(filterPattern)) {
-                                equipmentNameList.add(equipmentName)
-                            }
-                        }
-                    }
-                    results.values = equipmentNameList
-                    results.count = equipmentNameList.size
-                    return results
-                }
-
-                override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
-                    this.mChooseAdapter.notifyDataSetChanged()
-                }
-
-            }
-
-            //Switches the visibility of Equipment UI elements
-            private fun setVisibility(holder: ViewHolder, v: Int) {
-                holder.manufacturerText.visibility = v
-                holder.modelText.visibility = v
-                holder.locationText.visibility = v
-                holder.serialText.visibility = v
-                holder.lastServiceByText.visibility = v
-                holder.lastServiceDateText.visibility = v
-                holder.manufacturer.visibility = v
-                holder.modelNumber.visibility = v
-                holder.location.visibility = v
-                holder.serialNumber.visibility = v
-                holder.equipmentDivider.visibility = v
-                holder.manufacturerInfo.visibility = v
-                holder.modelInfo.visibility = v
-                holder.locationInfo.visibility = v
-                holder.serialInfo.visibility = v
-                holder.lastServiceByInfo.visibility = v
-                holder.lastServiceDateInfo.visibility = v
-                holder.select.visibility = v
-                holder.greenDropDown.visibility = v
-            }
-
-        }
-
-
+            override fun afterTextChanged(editable: Editable) {}
+        })
     }
+
+}
