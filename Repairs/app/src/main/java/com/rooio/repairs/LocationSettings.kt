@@ -28,8 +28,9 @@ class LocationSettings  : NavigationBar() {
         setActionBar()
         createNavigationBar("settings")
         onChangeLocation()
-        getCurrentLocation(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
         setSettingsSpinner()
+        getCurrentLocation(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+        
     }
 
     //Handles when the user clicks the change location button
