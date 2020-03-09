@@ -42,7 +42,7 @@ class ChangeLocationSettings  : NavigationBar(), OnItemClickListener  {
         setNavigationBar()
         setActionBar()
         createNavigationBar("settings")
-        loadLocations(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
+        loadLocations(JsonRequest(false, url, null, responseFunc, errorFunc, true))
         onAddAnother()
         onBack()
     }
