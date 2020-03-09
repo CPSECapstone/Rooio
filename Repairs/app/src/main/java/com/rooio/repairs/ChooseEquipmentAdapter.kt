@@ -41,12 +41,10 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
         if (equipmentDataList[position].name == "General HVAC (No Appliance)" ||
             equipmentDataList[position].name == "General Lighting (No Appliance)" ||
             equipmentDataList[position].name == "General Plumbing (No Appliance)") {
-            //holder.equipmentName.text = equipmentNameList[position]
                 holder.equipmentName.text = equipmentDataList[position].name
                 holder.grayDropDown.visibility = View.GONE
                 holder.locationName.visibility = View.GONE
                 val params = holder.equipmentLocationLayout.layoutParams
-                //val p = if (holder.visible) 570 else 150
                 params.height = 150
         }
         else {
@@ -65,8 +63,6 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
         setElementTexts(holder.serialInfo, equipmentDataList[position].serialNumber)
         setElementTexts(holder.lastServiceByInfo, equipmentDataList[position].lastServiceBy)
         setElementTexts(holder.lastServiceDateInfo, equipmentDataList[position].lastServiceDate)
-
-
 
 
         holder.equipmentView.setOnClickListener {

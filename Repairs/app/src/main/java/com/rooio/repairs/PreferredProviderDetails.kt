@@ -131,6 +131,9 @@ class PreferredProviderDetails: NavigationBar() {
             Picasso.with(applicationContext)
                 .load(image)
                 .into(logo)
+        else{
+            logo.setBackgroundResource(R.drawable.blank_border)
+        }
 
         setElementTexts(overview, response, getString(R.string.overview_text))
         setElementTexts(email, response, getString(R.string.email))

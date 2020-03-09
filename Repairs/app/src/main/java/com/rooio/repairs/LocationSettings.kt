@@ -6,9 +6,7 @@ import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.arch.core.util.Function
 import com.android.volley.Request
 import org.json.JSONObject
@@ -111,16 +109,26 @@ class LocationSettings  : NavigationBar() {
     {
     }
 
+    // gets rid of sound when the user clicks on the spinner
     public override fun onResume() {
-        super.onResume()
-        val mgr = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        mgr.setStreamMute(AudioManager.STREAM_SYSTEM, true)
+    super.onResume()
+    val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
+    } else {
+        am.setStreamMute(AudioManager.STREAM_MUSIC, true);
     }
 
+}
 
     public override fun onPause() {
         super.onPause()
-        val mgr = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        mgr.setStreamMute(AudioManager.STREAM_SYSTEM, false)
+        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0);
+        }
+        else {
+            am.setStreamMute(AudioManager.STREAM_SYSTEM, false)
+        }
     }
 }
