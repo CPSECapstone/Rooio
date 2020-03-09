@@ -61,7 +61,7 @@ class ChooseServiceProvider : RestApi() {
 
     //Populates a list from API call
     private fun populateList() {
-        val request = JsonRequest(false, BaseUrl + "service-providers/", HashMap(), providerResponseFunc, providerErrorFunc, true)
+        val request = JsonRequest(false, "service-providers/", HashMap(), providerResponseFunc, providerErrorFunc, true)
         requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
 
