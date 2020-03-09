@@ -46,13 +46,14 @@
                 android:id="@+id/equipmentLayout"
                 android:layout_width="520dp"
                 android:layout_height="395dp"
+                android:layout_marginTop="1150dp"
                 android:background="@drawable/green_button_border"
                 android:translationY="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.95">
+                app:layout_constraintVertical_bias="0.0">
 
                 <TextView
                     android:id="@+id/manufacturerText"
