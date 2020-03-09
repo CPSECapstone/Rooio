@@ -39,7 +39,7 @@ class AddPreferredProvidersLogin : RestApi() {
         addProvider = findViewById(R.id.addProvider)
         cancelButton = findViewById(R.id.cancel)
         newProvider = findViewById(R.id.newProvider)
-        errorMessage = findViewById(R.id.errorMessage)
+        errorMessage = findViewById(R.id.addProviderErrorMessage)
         loadingPanel = findViewById(R.id.loadingPanel)
     }
 
@@ -61,9 +61,44 @@ class AddPreferredProvidersLogin : RestApi() {
         addProvider.setOnClickListener {
             errorMessage.text = ""
             val phoneInput = newProvider.text.toString()
-            val request = JsonRequest(false, url, HashMap(), checkResponseFunc, checkErrorFunc, true)
+            val request = JsonRequest(false, BaseUrl, HashMap(), checkResponseFunc, checkErrorFunc, true)
             checkPhoneNumber(phoneInput, request)
         }
+    }
+
+    //Checks if the phone number is already in the system, and then adds it if it is not
+    @JvmField
+    val checkResponseFunc = Function<Any, Void?> { response: Any ->
+        try {
+            val jsonArray = response as JSONArray
+            val phoneInput = newProvider.text.toString()
+            val params = HashMap<Any?, Any?>()
+            params["phone"] = phoneInput
+            val request = JsonRequest(false, BaseUrl, params, providerResponseFunc, providerErrorFunc, true)
+            val added = checkAlreadyAdded(phoneInput, jsonArray)
+            addPreferredServiceProvider(added, request)
+        } catch (e: JSONException) {
+            errorMessage.setText(R.string.error_server)
+        }
+        null
+    }
+
+    //Handles an error if the API is unable to retrieve phone numbers for the account
+    @JvmField
+    val checkErrorFunc = Function<String, Void?> { error: String? ->
+        loadingPanel.visibility = View.GONE
+        errorMessage.text = error
+        null
+    }
+
+    //Checks if the phone number given is either empty or not a phone number, and then calls the API
+    //if it is neither
+    private fun checkPhoneNumber(phoneInput: String, request: JsonRequest) {
+        if (phoneInput.isNotEmpty() && (phoneInput.length == 10 || phoneInput.length == 9)) {
+            loadingPanel.visibility = View.VISIBLE
+            requestJson(Request.Method.GET, JsonType.ARRAY, request)
+        }
+        else errorMessage.setText(R.string.error_phone)
     }
 
     //Takes in a boolean if it has been added to the system and makes a call to the API if it has not
@@ -92,40 +127,6 @@ class AddPreferredProvidersLogin : RestApi() {
             errorMessage.setText(R.string.error_provider)
         }
         else errorMessage.text = error
-        null
-    }
-
-    //Checks if the phone number given is either empty or not a phone number, and then calls the API
-    //if it is neither
-    private fun checkPhoneNumber(phoneInput: String, request: JsonRequest) {
-        if (phoneInput.isNotEmpty() && (phoneInput.length == 10 || phoneInput.length == 9)) {
-            loadingPanel.visibility = View.VISIBLE
-            requestJson(Request.Method.GET, JsonType.ARRAY, request)
-        }
-        else errorMessage.setText(R.string.error_phone)
-    }
-
-    //Handles an error if the API is unable to retrieve phone numbers for the account
-    @JvmField
-    val checkErrorFunc = Function<String, Void?> { error: String? ->
-        loadingPanel.visibility = View.GONE
-        errorMessage.text = error
-        null
-    }
-
-    //Checks if the phone number is already in the system, and then adds it if it is not
-    @JvmField
-    val checkResponseFunc = Function<Any, Void?> { response: Any ->
-        try {
-            val jsonArray = response as JSONArray
-            val phoneInput = newProvider.text.toString()
-            val params = HashMap<Any?, Any?>()
-            params["phone"] = phoneInput
-            val request = JsonRequest(false, url, params, providerResponseFunc, providerErrorFunc, true)
-            addPreferredServiceProvider(checkAlreadyAdded(phoneInput, jsonArray), request)
-        } catch (e: JSONException) {
-            errorMessage.setText(R.string.error_server)
-        }
         null
     }
 
