@@ -1,5 +1,8 @@
 package com.rooio.repairs
 
+import android.app.Application
+import android.content.Intent
+import android.widget.Button
 import android.widget.TextView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.android.volley.RequestQueue
@@ -11,6 +14,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.mock
 import org.robolectric.Robolectric
+import org.robolectric.Shadows
 
 
 @RunWith(AndroidJUnit4::class)
@@ -32,14 +36,14 @@ class LocationSettingsActivityTest {
                 .get()
     }
 
-//    @Test
-//    fun testAddAnotherLocation() {
-//        val button = activity.findViewById(R.id.changeLocation) as Button
-//        button.performClick()
-//        val expectedIntent = Intent(activity, ChangeLocationSettings::class.java)
-//        val actual: Intent = Shadows.shadowOf(Application()).nextStartedActivity
-//        assertEquals(expectedIntent.component, actual.component)
-//    }
+    @Test
+    fun testChangeLocation() {
+        val button = activity.findViewById(R.id.changeLocation) as Button
+        button.performClick()
+        val expectedIntent = Intent(activity, ChangeLocationSettings::class.java)
+        val actual: Intent = Shadows.shadowOf(Application()).nextStartedActivity
+        assertEquals(expectedIntent.component, actual.component)
+    }
 
     @Test
     fun testResponseFunc() {
