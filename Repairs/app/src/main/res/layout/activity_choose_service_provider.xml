@@ -33,7 +33,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25" />
+            app:layout_constraintVertical_bias="0.23000002" />
 
         <Button
             android:id="@+id/preferredButton"
@@ -42,7 +42,7 @@
             android:layout_height="50dp"
             android:background="@drawable/provider_tab"
             android:fontFamily="@font/nunito_bold"
-            android:text="Preferred"
+            android:text="@string/preferred"
             android:textAllCaps="false"
             android:textColor="#00CA8F"
             android:textSize="21sp"
@@ -60,7 +60,7 @@
             android:layout_height="50dp"
             android:background="@drawable/blank_border"
             android:fontFamily="@font/nunito_bold"
-            android:text="Network"
+            android:text="@string/network"
             android:textAllCaps="false"
             android:textColor="#6D7377"
             android:textSize="21sp"
@@ -115,11 +115,11 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-        android:id="@+id/greenBar2"
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginTop="80dp"
-        android:contentDescription="@string/green_bar"
+        android:contentDescription="@string/divider"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,7 +130,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/tabBackground"
         android:layout_width="match_parent"
-        android:layout_height="730dp"
+        android:layout_height="725dp"
         android:background="#ECF0F1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -149,6 +149,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/networkText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:text="@string/network_service"
+            android:textColor="#374245"
+            android:textSize="21sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/serviceProviderList"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/serviceProviderList"
+            app:layout_constraintVertical_bias="0.2" />
+
+        <TextView
+            android:id="@+id/errorMessage"
+            android:layout_width="616dp"
+            android:layout_height="19dp"
+            android:textAlignment="center"
+            android:textColor="#CA2500"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.13" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
