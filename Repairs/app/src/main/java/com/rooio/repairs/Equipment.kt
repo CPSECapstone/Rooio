@@ -225,7 +225,7 @@ class Equipment : NavigationBar() {
         val displayName = request.params?.get("display_name").toString()
 
         if(displayName.isNotEmpty()) {
-            requestPutJsonObj(request)
+            requestJson(Request.Method.PUT, JsonType.OBJECT, request)
             val intent = Intent( this, Equipment::class.java)
             intent.putExtra(intentVar, displayName)
             startActivity(intent)

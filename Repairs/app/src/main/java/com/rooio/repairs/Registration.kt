@@ -9,6 +9,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
+import com.android.volley.Request
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
@@ -72,8 +73,9 @@ class Registration : RestApi() {
         internalClient["industry_type"] = industryInt
         params["internal_client"] = internalClient
         loadingPanel.visibility = View.VISIBLE
-        val request = JsonRequest(false, url, params, responseFunc, errorFunc, false)
-        requestPostJsonObj(request)
+
+        requestJson(Request.Method.POST, JsonType.OBJECT, JsonRequest(false, url, params,
+                responseFunc, errorFunc, false))
     }
 
     val responseFunc = Function<Any, Void?> { response: Any ->
