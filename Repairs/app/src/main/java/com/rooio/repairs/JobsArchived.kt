@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_jobs_archived.*
 import org.json.JSONArray
 import org.json.JSONObject
 import androidx.arch.core.util.Function
+import com.android.volley.Request
 import java.util.*
 
 
@@ -74,8 +75,9 @@ class JobsArchived  : NavigationBar() {
         }
 
         private fun loadJobs(){
-                val url = BaseUrl + "service-locations/$userLocationID/jobs/"
-                requestGetJsonArray(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+                val url = "service-locations/$userLocationID/jobs/"
+                requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url, null,
+                        responseFunc, errorFunc, true))
         }
 
         private fun clearLists(){

@@ -100,8 +100,8 @@ class Dashboard : NavigationBar() {
     }
 
     private fun loadJobs(){
-        val url = BaseUrl + "service-locations/$userLocationID/jobs/"
-        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
+        val url = "service-locations/$userLocationID/jobs/"
+        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url, null, responseFunc, errorFunc, true))
     }
 
 
