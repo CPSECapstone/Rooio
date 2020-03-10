@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.arch.core.util.Function
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.arch.core.util.Function
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
@@ -39,16 +38,6 @@ class ChooseServiceProvider : RestApi() {
         onNetwork()
     }
 
-    // Sets the action bar onto the page
-    private fun setActionBar() {
-        //sets the action bar onto the page
-        val actionbarInflater = layoutInflater
-        val actionbarView = actionbarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionbarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        supportActionBar!!.elevation = 0.0f
-    }
-
     //Initializes UI variables
     private fun initializeVariables() {
         serviceProviderList = findViewById(R.id.serviceProviderList)
@@ -61,7 +50,7 @@ class ChooseServiceProvider : RestApi() {
 
     //Populates a list from API call
     private fun populateList() {
-        val request = JsonRequest(false, "service-providers/", HashMap(), providerResponseFunc, providerErrorFunc, true)
+        val request = JsonRequest(false, "service-providers/", null, providerResponseFunc, providerErrorFunc, true)
         requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
 
@@ -116,7 +105,12 @@ class ChooseServiceProvider : RestApi() {
 
     //Sets the list adapter to a custom one that handles providers
     private fun changeAdapter() {
-        adapter = ChooseServiceProviderAdapter(this, providerDataList)
+        val bundle: Bundle? = intent.extras
+        var equipmentId = ""
+        if (bundle != null) {
+            equipmentId = bundle.getString("equipment") as String
+        }
+        adapter = ChooseServiceProviderAdapter(this, providerDataList, equipmentId)
         val layoutManager = LinearLayoutManager(this)
         serviceProviderList.layoutManager = layoutManager
         serviceProviderList.adapter = adapter

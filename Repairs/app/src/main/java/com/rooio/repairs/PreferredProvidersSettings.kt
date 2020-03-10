@@ -1,17 +1,18 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
-import org.json.JSONArray
-import org.json.JSONException
-import java.util.ArrayList
-import java.util.HashMap
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.android.volley.Request
+import org.json.JSONArray
+import org.json.JSONException
+import java.util.*
 
 class PreferredProvidersSettings  : NavigationBar() {
 
@@ -22,37 +23,36 @@ class PreferredProvidersSettings  : NavigationBar() {
     private lateinit var loadingPanel: RelativeLayout
     private lateinit var spinner: Spinner
     private val preferredProviders = ArrayList<ServiceProviderData>()
-    private val url = "https://capstone.api.roopairs.com/v0/service-providers/"
+    private val url = "service-providers/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preferred_providers_settings)
 
+        onResume()
         initializeVariables()
         setNavigationBar()
         setActionBar()
-        createNavigationBar("settings")
+        createNavigationBar(NavigationType.SETTINGS)
         setSpinner()
-        loadPreferredProviders(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
+        loadPreferredProviders(JsonRequest(false, url, null, responseFunc, errorFunc, true))
         onAddAnother()
+        goToPreferredProviderDetails()
+        onPause()
+
     }
 
-    //Sets the navigation bar onto the page
-    private fun setNavigationBar() {
-        val navBarInflater = layoutInflater
-        val navBarView = navBarInflater.inflate(R.layout.activity_navigation_bar, null)
-        window.addContentView(navBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+    //goes to the PreferredProviderDetails page
+    private fun goToPreferredProviderDetails() {
+        serviceProvidersListView.setOnItemClickListener{ _, _, position, _ ->
+            val id = preferredProviders[position].id.toString()
+            val listIntent = Intent(this@PreferredProvidersSettings, PreferredProviderDetails::class.java)
+            listIntent.putExtra("addedProvider", id)
+            startActivity(listIntent)
+        }
+
     }
 
-    //Sets the action bar onto the page
-    private fun setActionBar() {
-        val actionBarInflater = layoutInflater
-        val actionBarView = actionBarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        supportActionBar!!.elevation = 0.0f
-    }
 
     //Initializes UI variables
     private fun initializeVariables() {
@@ -163,4 +163,28 @@ class PreferredProvidersSettings  : NavigationBar() {
     override fun animateActivity(boolean: Boolean)
     {
     }
+
+// gets rid of sound when the user clicks on the spinner
+    public override fun onResume() {
+        super.onResume()
+        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
+        } else {
+            am.setStreamMute(AudioManager.STREAM_MUSIC, true);
+        }
+
+    }
+
+    public override fun onPause() {
+        super.onPause()
+        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0);
+        }
+        else {
+            am.setStreamMute(AudioManager.STREAM_SYSTEM, false)
+        }
+    }
+
 }

@@ -1,15 +1,17 @@
 package com.rooio.repairs
 
+
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.content.Intent
 import android.widget.Button
 import androidx.transition.TransitionManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.transition.AutoTransition
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import org.json.JSONArray
@@ -53,7 +55,6 @@ class Dashboard : NavigationBar() {
         @JvmStatic private var inProgressJobs = ArrayList<JSONObject>()
         @JvmStatic private var archivedJobs = ArrayList<JSONObject>()
         @JvmStatic private var resultSort = ArrayList<JSONObject>()
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +65,7 @@ class Dashboard : NavigationBar() {
         setNavigationBar()
         setActionBar()
         loadJobs()
-        createNavigationBar("dashboard")
+        createNavigationBar(NavigationType.DASHBOARD)
         jobRequestsClicked()
     }
 
@@ -86,23 +87,8 @@ class Dashboard : NavigationBar() {
         repairImage = findViewById(R.id.repairImage)
     }
 
-    private fun setNavigationBar() {
-        //sets the navigation bar onto the page
-        val nav_inflater = layoutInflater
-        val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
 
-        window.addContentView(tmpView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-    }
 
-    private fun setActionBar() {
-        supportActionBar!!.elevation = 0.0f
-    }
-
-    private fun loadJobs(){
-        val url = "service-locations/$userLocationID/jobs/"
-        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url, null, responseFunc, errorFunc, true))
-    }
 
 
     @JvmField
@@ -141,13 +127,69 @@ class Dashboard : NavigationBar() {
             intent.putExtra("equipmentType", 4)
             startActivity(intent);
         }
+
+
+    }
+
+
+    override fun animateActivity(boolean: Boolean){
+        val viewGroup = findViewById<ViewGroup>(R.id.dashboardConstraint)
+
+        //changing the width of the notableJobs and newJobRequest
+        val notableJobs = viewGroup.findViewById<ViewGroup>(R.id.notableJobs)
+        val newJobRequest = viewGroup.findViewById<ViewGroup>(R.id.newJobRequest)
+        val allJobs = viewGroup.findViewById<ViewGroup>(R.id.allJobs)
+
+        val notableJobsDivider = viewGroup.findViewById<View>(R.id.notableJobsDivider)
+        val newJobDivider = viewGroup.findViewById<View>(R.id.newJobDivider)
+        val allJobsDivider = viewGroup.findViewById<View>(R.id.allJobsDivider)
+        val jobsLayout = viewGroup.findViewById<ConstraintLayout>(R.id.JobsLayout)
+
+
+        if (boolean) {
+            val autoTransition = AutoTransition()
+            autoTransition.duration = 900
+            TransitionManager.beginDelayedTransition(viewGroup, autoTransition)
+        } else {
+            TransitionManager.beginDelayedTransition(viewGroup)
+        }
+        val boxParams1 = notableJobs.layoutParams
+        val boxParams2 = newJobRequest.layoutParams
+        val boxParams3 = allJobs.layoutParams
+        val boxParams4 = notableJobsDivider.layoutParams
+        val boxParams5 = newJobDivider.layoutParams
+        val boxParams6 = allJobsDivider.layoutParams
+        val boxParams7 = jobsLayout.layoutParams
+
+
+        val p2 = if (boolean) 1004 else 803
+        boxParams1.width = p2
+        boxParams2.width = p2
+        boxParams3.width = p2
+        boxParams4.width = p2
+        boxParams5.width = p2
+        boxParams6.width = p2
+
+        val p3 = if (boolean) 980 else 803
+
+        boxParams7.width = p3
+
+
+        //calling the transitions
+        notableJobs.layoutParams = boxParams1
+        newJobRequest.layoutParams = boxParams2
+    }
+
+    private fun loadJobs(){
+        val url = "service-locations/$userLocationID/jobs/"
+        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
+                null, responseFunc, errorFunc, true))
     }
 
     private fun clearLists(){
         pendingJobs.clear()
         scheduledJobs.clear()
         inProgressJobs.clear()
-        archivedJobs.clear()
     }
 
     private fun populateLists(responseObj: JSONArray){
@@ -160,6 +202,7 @@ class Dashboard : NavigationBar() {
                 5 -> inProgressJobs.add(job)
                 6 -> inProgressJobs.add(job)
                 3 -> archivedJobs.add(job)
+
             }
         }
         notableJobsFill()
@@ -328,43 +371,6 @@ class Dashboard : NavigationBar() {
 
 
 
-    //Transitions for navigation bar open/close
-    override fun animateActivity(boolean: Boolean){
-        val viewGroup = findViewById<ViewGroup>(R.id.dashboardConstraint)
-        val notableJobs = viewGroup.findViewById<ViewGroup>(R.id.notableJobs)
-        val newJobRequest = viewGroup.findViewById<ViewGroup>(R.id.newJobRequest)
-        val allJobs = viewGroup.findViewById<ViewGroup>(R.id.allJobs)
-        val notableJobsDivider = viewGroup.findViewById<View>(R.id.notableJobsDivider)
-        val newJobDivider = viewGroup.findViewById<View>(R.id.newJobDivider)
-        val allJobsDivider = viewGroup.findViewById<View>(R.id.allJobsDivider)
-        val jobsLayout = viewGroup.findViewById<ConstraintLayout>(R.id.JobsLayout)
 
-        TransitionManager.beginDelayedTransition(viewGroup)
-        val notableJobsParams = notableJobs.layoutParams
-        val newJobsParams = newJobRequest.layoutParams
-        val allJobsParams = allJobs.layoutParams
-        val notableJobsDividerParams = notableJobsDivider.layoutParams
-        val newJobsDividerParams = newJobDivider.layoutParams
-        val allJobsDividerParams = allJobsDivider.layoutParams
-        val jobParams = jobsLayout.layoutParams
-
-        //Changing width of widgets and dividers for Navigation Bar
-        val p2 = if (boolean) 1004 else 803
-        notableJobsParams.width = p2
-        newJobsParams.width = p2
-        allJobsParams.width = p2
-        notableJobsDividerParams.width = p2
-        newJobsDividerParams.width = p2
-        allJobsDividerParams.width = p2
-
-        //Changing width of job in notable jobs for Navigation Bar
-        val p3 = if (boolean) 1004 else 803
-        jobParams.width = p3
-
-        //calling the transitions
-        notableJobs.layoutParams = notableJobsParams
-        newJobRequest.layoutParams = newJobsParams
-        allJobs.layoutParams = allJobsParams
-    }
 
 }

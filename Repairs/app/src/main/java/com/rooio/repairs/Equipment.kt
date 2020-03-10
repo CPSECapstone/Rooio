@@ -1,10 +1,12 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +20,7 @@ import org.json.JSONException
 
 class Equipment : NavigationBar() {
 
-    val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/equipment/"
+    val url = "service-locations/$userLocationID/equipment/"
     val intentVar = "savedEquipment"
 
     private lateinit var messageText: TextView
@@ -56,10 +58,11 @@ class Equipment : NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_equipment)
 
+        onResume()
         initializeVariable()
         setNavigationBar()
         setActionBar()
-        createNavigationBar("equipment")
+        createNavigationBar(NavigationType.EQUIPMENT)
         loadAfterEquipmentSave();
         onAddEquipmentClick()
         onAddClick()
@@ -67,6 +70,7 @@ class Equipment : NavigationBar() {
         onSaveClick()
         onCancelClick()
         loadEquipmentElements()
+        onPause()
     }
 
     private fun loadAfterEquipmentSave() {
@@ -115,25 +119,6 @@ class Equipment : NavigationBar() {
         editEquipmentType.adapter = ArrayAdapter<EquipmentType>(this, android.R.layout.simple_list_item_1, EquipmentType.values())
     }
 
-    // Sets the navigation bar onto the page
-    private fun setNavigationBar() {
-        //sets the navigation bar onto the page
-        val navInflater = layoutInflater
-        val tmpView = navInflater.inflate(R.layout.activity_navigation_bar, null)
-
-        window.addContentView(tmpView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-    }
-
-    // Sets the action bar onto the page
-    private fun setActionBar() {
-        //sets the action bar onto the page
-        val actionbarInflater = layoutInflater
-        val actionbarView = actionbarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionbarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        supportActionBar!!.elevation = 0.0f
-    }
 
     // show add equipment constraint and reset the UI for all other elements
     private fun onAddEquipmentClick() {
@@ -240,7 +225,7 @@ class Equipment : NavigationBar() {
         val displayName = request.params?.get("display_name").toString()
 
         if(displayName.isNotEmpty()) {
-            requestPutJsonObj(request)
+            requestJson(Request.Method.PUT, JsonType.OBJECT, request)
             val intent = Intent( this, Equipment::class.java)
             intent.putExtra(intentVar, displayName)
             startActivity(intent)
@@ -273,8 +258,8 @@ class Equipment : NavigationBar() {
 
     // send JsonRequest Object
     private fun loadEquipmentElements() {
-        val request = JsonRequest(false, url, HashMap(), responseFuncLoad, errorFuncLoad, true)
-        requestGetJsonArray(request)
+        val request = JsonRequest(false, url, null, responseFuncLoad, errorFuncLoad, true)
+        requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
 
     @JvmField
@@ -324,5 +309,28 @@ class Equipment : NavigationBar() {
         params.width = change
 
         equipment.layoutParams = params
+    }
+
+    // gets rid of sound when the user clicks on the spinner when editing the equipment type
+    public override fun onResume() {
+        super.onResume()
+        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
+        } else {
+            am.setStreamMute(AudioManager.STREAM_MUSIC, true);
+        }
+
+    }
+
+    public override fun onPause() {
+        super.onPause()
+        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0);
+        }
+        else {
+            am.setStreamMute(AudioManager.STREAM_SYSTEM, false)
+        }
     }
 }

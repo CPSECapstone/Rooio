@@ -22,6 +22,7 @@ class AddPreferredProvidersLogin : RestApi() {
     private lateinit var newProvider: EditText
     private lateinit var errorMessage: TextView
     private lateinit var loadingPanel: RelativeLayout
+    private val url: String = "service-providers/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +61,7 @@ class AddPreferredProvidersLogin : RestApi() {
         addProvider.setOnClickListener {
             errorMessage.text = ""
             val phoneInput = newProvider.text.toString()
-            val request = JsonRequest(false, BaseUrl, HashMap(), checkResponseFunc, checkErrorFunc, true)
+            val request = JsonRequest(false, url, null, checkResponseFunc, checkErrorFunc, true)
             checkPhoneNumber(phoneInput, request)
         }
     }
@@ -73,7 +74,7 @@ class AddPreferredProvidersLogin : RestApi() {
             val phoneInput = newProvider.text.toString()
             val params = HashMap<Any?, Any?>()
             params["phone"] = phoneInput
-            val request = JsonRequest(false, BaseUrl, params, providerResponseFunc, providerErrorFunc, true)
+            val request = JsonRequest(false, url, params, providerResponseFunc, providerErrorFunc, true)
             val added = checkAlreadyAdded(phoneInput, jsonArray)
             addPreferredServiceProvider(added, request)
         } catch (e: JSONException) {

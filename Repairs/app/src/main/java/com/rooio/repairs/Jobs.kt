@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
+import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
+import com.android.volley.Request
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.ArrayList
-import androidx.arch.core.util.Function
+import java.util.*
 
 
 class Jobs : NavigationBar() {
@@ -34,7 +35,6 @@ class Jobs : NavigationBar() {
         @JvmStatic private var inProgressJobs = ArrayList<JSONObject>()
         @JvmStatic private var startedJobs = ArrayList<JSONObject>()
         @JvmStatic private var pausedJobs = ArrayList<JSONObject>()
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,32 +52,53 @@ class Jobs : NavigationBar() {
 
         //Set navigation bar function call
         setNavigationBar()
+        setActionBar()
 
-        //sets the action bar onto the page
-        val actionbar_inflater = layoutInflater
-        val actionBar = actionbar_inflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionBar,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
-        supportActionBar!!.elevation = 0.0f
 
-        createNavigationBar("jobs")
+
+        createNavigationBar(NavigationType.JOBS)
 
         onClick()
+        clearLists()
         loadJobs()
 
     }
 
     //Transition to completed items
     private fun onClick() {
-        completedButton!!.setOnClickListener { startActivity(Intent(this@Jobs, JobsArchived::class.java)) }
+        completedButton.setOnClickListener { startActivity(Intent(this@Jobs, JobsArchived::class.java)) }
     }
 
-    //Load jobs in
+
+
     private fun loadJobs(){
-        val url = BaseUrl + "service-locations/$userLocationID/jobs/"
-        requestGetJsonArray(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+        loadPendingJobs()
+        loadScheduledJobs()
+        loadInProgressJobs()
     }
+
+    private fun loadPendingJobs(){
+        val Pending = "?status=0"
+        val url = "service-locations/$userLocationID/jobs/$Pending"
+        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
+                null, responseFunc, errorFunc, true))
+    }
+
+    private fun loadScheduledJobs(){
+        val Scheduled = "?status=2"
+        val url = "service-locations/$userLocationID/jobs/$Scheduled"
+        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
+                null, responseFunc, errorFunc, true))
+    }
+
+    private fun loadInProgressJobs(){
+        val InProgress = "?status=5&status=6"
+        val url = "service-locations/$userLocationID/jobs/$InProgress"
+        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
+                null, responseFunc, errorFunc, true))
+    }
+
 
     private fun clearLists(){
         pendingJobs.clear()
@@ -85,10 +106,10 @@ class Jobs : NavigationBar() {
         inProgressJobs.clear()
         startedJobs.clear()
         pausedJobs.clear()
+
     }
 
     private fun populateLists(responseObj: JSONArray){
-        clearLists()
         for (i in 0 until responseObj.length()) {
             val job = responseObj.getJSONObject(i)
 
@@ -109,6 +130,7 @@ class Jobs : NavigationBar() {
                 sizes("paused")
             }
 
+
         }
 
         for(i in 0 until startedJobs.size){
@@ -119,13 +141,13 @@ class Jobs : NavigationBar() {
         }
 
         val customAdapter = JobsCustomerAdapter(this, pendingJobs)
-        if (pendingJobs.size != 0) pendingList!!.adapter = customAdapter
+        if (pendingJobs.size != 0) pendingList.adapter = customAdapter
 
         val customAdapter1 = JobsCustomerAdapter(this, scheduledJobs)
-        if (scheduledJobs.size != 0) scheduledList!!.adapter = customAdapter1
+        if (scheduledJobs.size != 0) scheduledList.adapter = customAdapter1
 
         val customAdapter2 = JobsCustomerAdapter(this, inProgressJobs)
-        if (inProgressJobs.size != 0) inProgressList!!.adapter = customAdapter2
+        if (inProgressJobs.size != 0) inProgressList.adapter = customAdapter2
 
     }
 
@@ -237,12 +259,4 @@ class Jobs : NavigationBar() {
 
     }
 
-    private fun setNavigationBar() {
-        //sets the navigation bar onto the page
-        val nav_inflater = layoutInflater
-        val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
-
-        window.addContentView(tmpView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-    }
 }

@@ -56,6 +56,7 @@
             app:layout_constraintHorizontal_bias="0.25"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:soundEffectsEnabled="false"
             app:layout_constraintVertical_bias=".8" />
 
         <TextView
@@ -105,6 +106,7 @@
             app:layout_constraintHorizontal_bias="0.75"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:soundEffectsEnabled="false"
             app:layout_constraintVertical_bias=".8" />
 
         <TextView

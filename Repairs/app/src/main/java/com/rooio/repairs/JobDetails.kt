@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.transition.TransitionManager
 import org.json.JSONException
 import org.json.JSONObject
 import androidx.arch.core.util.Function
+import com.android.volley.Request
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,8 +43,7 @@ class JobDetails: NavigationBar() {
     private lateinit var lastServiceDateText: TextView
     private lateinit var pointOfContact: TextView
     private lateinit var details: TextView
-    private lateinit var expandBackButton: ImageView
-    private lateinit var collapseBackButton: ImageView
+    private lateinit var backButton: ImageView
     private lateinit var dropDown: ImageView
     private lateinit var equipmentDivider: ImageView
     private lateinit var equipmentLayout: ConstraintLayout
@@ -58,8 +59,8 @@ class JobDetails: NavigationBar() {
         initializeAnimationVariables()
         setNavigationBar()
         setActionBar()
-        createNavigationBar("jobs")
-        //loadJobDetails()
+
+        createNavigationBar(NavigationType.JOBS)
         onBack()
         onDropDown()
         getJobId()
@@ -89,8 +90,8 @@ class JobDetails: NavigationBar() {
         null
     }
     private fun loadJobs(){
-        val url = BaseUrl + "service-locations/$userLocationID/jobs/$jobId/"
-        requestGetJsonObj(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+        val url =  "service-locations/$userLocationID/jobs/$jobId/"
+        requestJson(Request.Method.GET, JsonType.OBJECT, JsonRequest(false, url, null, responseFunc, errorFunc, true))
     }
 
 
@@ -130,17 +131,15 @@ class JobDetails: NavigationBar() {
         viewEquipment = transitionsContainer.findViewById(R.id.viewEquipment)
 
         //Navigation bar collapse/expand
-        expandBackButton = viewGroup.findViewById(R.id.expandBackButton)
-        collapseBackButton = viewGroup.findViewById(R.id.collapseBackButton)
+        backButton = viewGroup.findViewById(R.id.backButton)
     }
 
     //Animates the main page content when the navigation bar collapses/expands
     override fun animateActivity(boolean: Boolean){
-        TransitionManager.beginDelayedTransition(viewGroup)
-        val v = if (boolean) View.VISIBLE else View.GONE
-        val op = if (boolean) View.GONE else View.VISIBLE
-        expandBackButton.visibility = v
-        collapseBackButton.visibility = op
+        val amount = if (boolean) -190f else 0f
+        val animation = ObjectAnimator.ofFloat(backButton, "translationX", amount)
+        if (boolean) animation.duration = 1300 else animation.duration = 300
+        animation.start()
     }
 
     //Sets the text views in the user interface, with "--" if null
@@ -172,7 +171,7 @@ class JobDetails: NavigationBar() {
         restaurantName.setText(internal_client.getString("name"))
         availableTechnicians.setText(serviceObj.getString("name"))
         if(!response.isNull("status_time_value")){
-            val date2 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(response.getString("status_time_value")))
+            val date2 = (SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(convertToNewFormat(response.getString("status_time_value")))
             startedOn.setText(date2!!.toString())
         }
         pointOfContact.setText(response.getString("point_of_contact_name"))
@@ -192,29 +191,10 @@ class JobDetails: NavigationBar() {
         }
     }
 
-    //Sets the navigation bar onto the page
-    private fun setNavigationBar() {
-        val navBarInflater = layoutInflater
-        val navBarView = navBarInflater.inflate(R.layout.activity_navigation_bar, null)
-        window.addContentView(navBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-    }
-
-    //Sets the action bar onto the page
-    private fun setActionBar() {
-        val actionBarInflater = layoutInflater
-        val actionBarView = actionBarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        supportActionBar!!.elevation = 0.0f
-    }
 
     //Sends the user to the Jobs page
     private fun onBack() {
-        expandBackButton.setOnClickListener{
-            startActivity(Intent(this@JobDetails, Jobs::class.java))
-        }
-        collapseBackButton.setOnClickListener{
+        backButton.setOnClickListener{
             startActivity(Intent(this@JobDetails, Jobs::class.java))
         }
     }

@@ -133,6 +133,7 @@
         app:layout_constraintEnd_toStartOf="@+id/sideMover"
         app:layout_constraintHorizontal_bias="0.358"
         app:layout_constraintStart_toEndOf="@+id/guideline5"
+        android:soundEffectsEnabled="false"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
