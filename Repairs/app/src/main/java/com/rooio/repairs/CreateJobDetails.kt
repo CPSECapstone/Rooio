@@ -49,6 +49,7 @@ class CreateJobDetails: NavigationBar() {
     private lateinit var viewEquipment: TextView
     private lateinit var transitionsContainer: ViewGroup
     private lateinit var viewGroup: ViewGroup
+    private lateinit var scrollView: ScrollView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +80,7 @@ class CreateJobDetails: NavigationBar() {
         sendRequestButton = findViewById(R.id.sendRequestButton)
         transitionsContainer = findViewById(R.id.jobDetailLayout)
         viewGroup = findViewById(R.id.jobDetailTitleLayout)
+        scrollView = findViewById(R.id.jobDetailScrollView)
 
         serviceType.adapter = ArrayAdapter<ServiceType>(this, android.R.layout.simple_list_item_1, ServiceType.values())
     }
@@ -186,7 +188,7 @@ class CreateJobDetails: NavigationBar() {
             params["requested_arrival_time"] = month.selectedItem.toString() + date.selectedItem.toString() + time.selectedItem.toString()
 
             val request = JsonRequest(false, url, params, responseFuncSendRequest, errorFuncSendRequest, false)
-            requestJson(Request.Method.POST, JsonType.OBJECT, request)
+            sendJobRequest(request)
         }
     }
 
@@ -200,6 +202,26 @@ class CreateJobDetails: NavigationBar() {
     val errorFuncSendRequest = Function<String, Void?> {
         errorMsg.text = it
         null
+    }
+
+    private fun sendJobRequest(request: JsonRequest) {
+        if(validJobRequest(request))
+            requestJson(Request.Method.POST, JsonType.OBJECT, request)
+        else {
+            errorMsg.text = resources.getString(R.string.fill_out_fields)
+            scrollView.fullScroll(ScrollView.FOCUS_UP)
+        }
+    }
+
+    private fun validJobRequest(request: JsonRequest) : Boolean{
+        val serviceCompany = request.params?.get("service_company")
+        val serviceCategory = request.params?.get("service_category")
+        val serviceType = request.params?.get("service_type")
+        val details = request.params?.get("details")
+        val contactName = request.params?.get("point_of_contact_name")
+        val requestedTime = request.params?.get("requested_arrival_time")
+
+        return (serviceCompany != "") && (serviceCategory != "") && (serviceType != "") && (details != "") && (contactName != "") && (requestedTime != "")
     }
 
     //Initially closes the equipment dropdown and allows the user to collapse or expand
