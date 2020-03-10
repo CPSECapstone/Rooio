@@ -35,14 +35,27 @@ class JobsArchived  : NavigationBar() {
 
         override fun onCreate(savedInstanceState: Bundle?) {
                 super.onCreate(savedInstanceState)
+                initialize()
+                setNavBar()
+                createNavigationBar("jobs")
+                onClick()
+                loadJobs()
 
+        }
 
-
+        private fun initialize(){
                 setContentView(R.layout.activity_jobs_archived)
                 completedButton = findViewById(R.id.button)
                 //sets the navigation bar onto the page
                 completedList = findViewById<View>(R.id.completedList) as ListView
                 completedConstraint = findViewById<View>(R.id.completedConstraint) as ConstraintLayout
+
+        }
+        private fun onClick() {
+                completedButton!!.setOnClickListener { startActivity(Intent(this@JobsArchived, Jobs::class.java)) }
+        }
+
+        private fun setNavBar(){
 
                 val nav_inflater = layoutInflater
                 val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
@@ -58,17 +71,7 @@ class JobsArchived  : NavigationBar() {
                         ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
                 supportActionBar!!.elevation = 0.0f
-
-
-                createNavigationBar("jobs")
-                onClick()
-                loadJobs()
-
         }
-        private fun onClick() {
-                completedButton!!.setOnClickListener { startActivity(Intent(this@JobsArchived, Jobs::class.java)) }
-        }
-
 
         private fun loadJobs(){
                 val url = BaseUrl + "service-locations/$userLocationID/jobs/"
@@ -139,9 +142,6 @@ class JobsArchived  : NavigationBar() {
 
                 null
         }
-
-
-
 
         private fun sizes(str: String) {
                 var value = 0

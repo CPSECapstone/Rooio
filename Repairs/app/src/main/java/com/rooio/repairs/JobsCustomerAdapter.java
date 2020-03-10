@@ -122,7 +122,7 @@ class JobsCustomerAdapter implements ListAdapter {
                         );
                         break;
                     case 3:
-                        status_value = "Completed";
+                        status_value = "Archived";
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.lightGray)
@@ -155,7 +155,7 @@ class JobsCustomerAdapter implements ListAdapter {
                         break;
                         //Pending Swimlane Status
                     case 0:
-                        status_value = "Pending";
+                        status_value = "Awaiting Response";
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.Purple)

@@ -92,7 +92,7 @@
             android:layout_marginBottom="27dp"
             android:background="#00FFFFFF"
             android:fontFamily="@font/nunito"
-            android:text="@string/completed"
+            android:text="@string/archived"
             android:textAlignment="center"
             android:textColor="#BEC3C7"
             android:textSize="24sp"

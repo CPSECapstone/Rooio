@@ -59,6 +59,15 @@ class Dashboard : NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
+        initialize()
+        setNavigationBar()
+        setActionBar()
+        loadJobs()
+        createNavigationBar("dashboard")
+        jobRequestsClicked()
+    }
+
+    private fun initialize(){
         //initialize variables
         repairType = findViewById<View>(R.id.repairType) as TextView
         name = findViewById<View>(R.id.name) as TextView
@@ -74,12 +83,6 @@ class Dashboard : NavigationBar() {
         applianceButton = findViewById(R.id.applianceButton)
         clockImage = findViewById(R.id.clockImage)
         repairImage = findViewById(R.id.repairImage)
-
-        setNavigationBar()
-        setActionBar()
-        loadJobs()
-        createNavigationBar("dashboard")
-        jobRequestsClicked()
     }
 
     private fun setNavigationBar() {
@@ -101,7 +104,6 @@ class Dashboard : NavigationBar() {
     }
 
 
-
     @JvmField
     var responseFunc = Function<Any, Void?> { jsonObj: Any ->
         val responseObj = jsonObj as JSONArray
@@ -110,6 +112,7 @@ class Dashboard : NavigationBar() {
 
         null
     }
+
     @JvmField
     var errorFunc = Function<String, Void?> { string: String? ->
         null
@@ -138,7 +141,6 @@ class Dashboard : NavigationBar() {
             startActivity(intent);
         }
     }
-
 
     private fun clearLists(){
         pendingJobs.clear()
@@ -203,7 +205,6 @@ class Dashboard : NavigationBar() {
             repairImage.setVisibility(View.GONE)
 
         }
-
     }
 
 

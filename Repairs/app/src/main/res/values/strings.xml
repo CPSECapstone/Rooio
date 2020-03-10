@@ -69,6 +69,8 @@
     <string name="pending">Pending</string>
     <string name="scheduled">Scheduled</string>
     <string name="completed">Completed</string>
+    <string name="archived">Archived</string>
+
 
     <string name="inProgress">In Progress</string>
     <string name="three">3</string>
@@ -78,7 +80,7 @@
     <string name="license_number"> License Number</string>
     <string name="company_phone"> Company Phone</string>
     <string name="company_email"> Company Email</string>
-    <string name="view_completed"><u>View Completed Jobs</u></string>
+    <string name="view_completed"><u>View Archived Jobs</u></string>
     <string name="view_current"><u>View Current Jobs</u></string>
     <string name="search_service_provider">Search Service Provider</string>
     <string name="service_provider_details"> Service Provider Details</string>
