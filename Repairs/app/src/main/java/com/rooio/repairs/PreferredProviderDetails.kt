@@ -6,15 +6,15 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.arch.core.util.Function
+import androidx.core.content.ContextCompat
+import com.android.volley.Request
 import com.squareup.picasso.Picasso
 import org.json.JSONException
 import org.json.JSONObject
-import androidx.core.content.ContextCompat
 
 
 class PreferredProviderDetails: NavigationBar() {
@@ -76,7 +76,8 @@ class PreferredProviderDetails: NavigationBar() {
             
             //set url to an empty string, as a private val
             url = "service-providers/" + theId.toString() + "/"
-            requestGetJsonObj(JsonRequest(false, url, null, providerResponseFunc, providerErrorFunc, true))
+            requestJson(Request.Method.GET, JsonType.OBJECT, JsonRequest(false, url, null,
+                    providerResponseFunc, providerErrorFunc, true))
         }
     }
 
@@ -99,8 +100,8 @@ class PreferredProviderDetails: NavigationBar() {
 
     private fun onRemoveClick() {
         removeButton.setOnClickListener {
-            val request = JsonRequest(false, url, null, removeResponseFunc, removeErrorFunc, true)
-            requestDeleteJsonObj(request)
+            requestJson(Request.Method.DELETE, JsonType.OBJECT, JsonRequest(false, url, null,
+                    removeResponseFunc, removeErrorFunc, true))
         }
     }
 
