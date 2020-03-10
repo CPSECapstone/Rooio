@@ -39,16 +39,6 @@ class ChooseServiceProvider : RestApi() {
         onNetwork()
     }
 
-    // Sets the action bar onto the page
-    private fun setActionBar() {
-        //sets the action bar onto the page
-        val actionbarInflater = layoutInflater
-        val actionbarView = actionbarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionbarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        supportActionBar!!.elevation = 0.0f
-    }
-
     //Initializes UI variables
     private fun initializeVariables() {
         serviceProviderList = findViewById(R.id.serviceProviderList)
