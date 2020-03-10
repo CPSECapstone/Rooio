@@ -10,6 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
+
+import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.android.volley.Request
 import com.squareup.picasso.Picasso
@@ -144,8 +146,13 @@ class Dashboard : NavigationBar() {
         val jobsLayout = viewGroup.findViewById<ConstraintLayout>(R.id.JobsLayout)
 
 
-
-        TransitionManager.beginDelayedTransition(viewGroup)
+        if (boolean) {
+            val autoTransition = AutoTransition()
+            autoTransition.duration = 900
+            TransitionManager.beginDelayedTransition(viewGroup, autoTransition)
+        } else {
+            TransitionManager.beginDelayedTransition(viewGroup)
+        }
         val boxParams1 = notableJobs.layoutParams
         val boxParams2 = newJobRequest.layoutParams
         val boxParams3 = allJobs.layoutParams

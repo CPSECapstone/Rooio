@@ -34,7 +34,7 @@
             app:layout_constraintVertical_bias="0.50" />
 
         <ImageView
-            android:id="@+id/expandBackButton"
+            android:id="@+id/backButton"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:contentDescription="@string/cancel"
@@ -47,19 +47,6 @@
             android:soundEffectsEnabled="false"
             app:srcCompat="@mipmap/chevron_left" />
 
-        <ImageView
-            android:id="@+id/collapseBackButton"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:contentDescription="@string/cancel"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.50"
-            android:soundEffectsEnabled="false"
-            app:srcCompat="@mipmap/chevron_left" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

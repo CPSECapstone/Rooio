@@ -1,6 +1,7 @@
 package com.rooio.repairs
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -8,23 +9,23 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.MemoryPolicy
-import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import java.util.*
 import kotlin.collections.ArrayList
 
+
 // Custom adapter for choosing a service provider with a special view
-class ChooseServiceProviderAdapter(ctx: Context, dataList: ArrayList<ProviderData>) :
+class ChooseServiceProviderAdapter(private val applicationContext: Context, dataList: ArrayList<ProviderData>, private val equipmentId: String) :
 RecyclerView.Adapter<ChooseServiceProviderAdapter.MyViewHolder>() {
 
     private val providerDataList = dataList
-    private val inflater: LayoutInflater = LayoutInflater.from(ctx)
+    private val inflater: LayoutInflater = LayoutInflater.from(applicationContext)
     private val providerData: ArrayList<ProviderData> = ArrayList()
-    private val applicationContext = ctx
 
     //Adds every provider from the API to the adapter
     init {
@@ -35,13 +36,19 @@ RecyclerView.Adapter<ChooseServiceProviderAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
         val view = inflater.inflate(R.layout.provider_item, parent, false)
-
         return MyViewHolder(view)
     }
 
     //Updates the view for the correct item information based on position
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
+        holder.itemView.setOnClickListener {
+            val id = providerDataList[position].id
+            val intent = Intent(applicationContext, Dashboard::class.java)
+            intent.putExtra("provider", id)
+            intent.putExtra("equipment", equipmentId)
+            applicationContext.startActivity(intent)
+        }
         setElement(holder.nameInfo, providerDataList[position].name)
         setElement(holder.locationInfo, providerDataList[position].physicalAddress.toUpperCase(Locale.getDefault()))
         setElement(holder.skillsInfo, setSkills(providerDataList[position].skills))
