@@ -59,7 +59,7 @@ class CreateJobDetails: NavigationBar() {
         initializeAnimationVariables()
         setNavigationBar()
         setActionBar()
-        createNavigationBar("jobs")
+        createNavigationBar(NavigationType.JOBS)
 
         initializeUI()
         onSendRequest()
@@ -120,32 +120,15 @@ class CreateJobDetails: NavigationBar() {
         collapseBackButton.visibility = op
     }
 
-    //Sets the navigation bar onto the page
-    private fun setNavigationBar() {
-        val navBarInflater = layoutInflater
-        val navBarView = navBarInflater.inflate(R.layout.activity_navigation_bar, null)
-        window.addContentView(navBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-    }
-
-    //Sets the action bar onto the page
-    private fun setActionBar() {
-        val actionBarInflater = layoutInflater
-        val actionBarView = actionBarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        supportActionBar!!.elevation = 0.0f
-    }
-
     // initializing restaurant location text and equipment widget
     private fun initializeUI() {
         requestLocation()
-        //requestEquipmentInfo()
+        requestEquipmentInfo()
     }
 
     private fun requestEquipmentInfo() {
         // get equipment information from whichever piece of equipment that the user chose earlier
-        TODO("not implemented")
+        //val equipment = intent.getE
     }
 
     // sending JSONRequest for the restaurant location
@@ -193,7 +176,7 @@ class CreateJobDetails: NavigationBar() {
     }
 
     @JvmField
-    val responseFuncSendRequest = Function<Any, Void?> {jsonResponse: Any ->
+    val responseFuncSendRequest = Function<Any, Void?> {
         startActivity(Intent(this@CreateJobDetails, Dashboard::class.java))
         null
     }
