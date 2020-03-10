@@ -36,12 +36,12 @@ import java.util.TimeZone;
 class JobsCustomerAdapter implements ListAdapter {
     private ArrayList<JSONObject> arrayList;
     private Context context;
-    String result_categories = "";
-    ArrayList<String> statuses = new ArrayList<>();
+    private String result_categories = "";
+    private ArrayList<String> statuses = new ArrayList<>();
     ArrayList<String> categories = new ArrayList<>();
 
-    public JobsCustomerAdapter(Context context, ArrayList<JSONObject> serviceLocations) {
-        this.arrayList = serviceLocations;
+    public JobsCustomerAdapter(Context context, ArrayList<JSONObject> jobs) {
+        this.arrayList = jobs;
         this.context = context;
     }
 
@@ -98,7 +98,6 @@ class JobsCustomerAdapter implements ListAdapter {
             ConstraintLayout color = convertView.findViewById(R.id.color);
             try {
                 Integer status_enum = data.getInt("status");
-                Integer jobId = data.getInt("id");
 
                 String status_value = null;
 
@@ -107,21 +106,23 @@ class JobsCustomerAdapter implements ListAdapter {
                     //Declined Swimlane
                     case 1:
                         status_value = "Declined";
-
+                        DrawableCompat.setTint(
+                                DrawableCompat.wrap(color.getBackground()),
+                                ContextCompat.getColor(context, R.color.lightGray)
+                        );
                         break;
                         //Scheduled swimlane uses time as status
                     case 2:
                         //Time Based Statuses
                         status_value = timeConvert(data.getString("status_time_value"));
-                        
+
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.Blue)
                         );
                         break;
-                        //Archived Swimlane Status
                     case 3:
-                        status_value = "Archived";
+                        status_value = "Completed";
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.lightGray)
@@ -129,8 +130,11 @@ class JobsCustomerAdapter implements ListAdapter {
                         break;
                         //Cancelled Swimlane Status
                     case 4:
-                        status_value = "Canceled";
-
+                        status_value = "Cancelled";
+                        DrawableCompat.setTint(
+                                DrawableCompat.wrap(color.getBackground()),
+                                ContextCompat.getColor(context, R.color.lightGray)
+                        );
                         break;
                     case 5:
                         //In Progress Swimlane Status
@@ -161,33 +165,31 @@ class JobsCustomerAdapter implements ListAdapter {
 
                 //Sets the Equipment for Job: May be multiple equipment per job
                 JSONArray equipmentObjList = data.getJSONArray("equipment");
-                for (int i = 0; i < equipmentObjList.length(); i++) {
-                    JSONObject equipmentObj = equipmentObjList.getJSONObject(i);
-                    String category = equipmentObj.getString("service_category");
+
+                JSONObject equipmentObj = equipmentObjList.getJSONObject(0);
+                String category = equipmentObj.getString("service_category");
 
                     switch(category) {
                         case "0":
 //                            repairType.setText("General Appliance");
-                            categories.add("General Appliance");
+                            //categories.add("General Appliance");
+                            repairType.setText("General Appliance");
+
                             break;
                         case "1":
 //                            repairType.setText("HVAC");
-                            categories.add("HVAC");
+                            repairType.setText("HVAC");
                             break;
                         case "2":
 //                            repairType.setText("Lighting and Electrical");
-                            categories.add("Lighting and Electrical");
+                            repairType.setText("Lighting and Electrical");
                             break;
                         case "3":
 //                            repairType.setText("Plumbing");
-                            categories.add("Plumbing");
+                            repairType.setText("Plumbing");
                             break;
                     }
-                }
-                for (int i = 0; i < categories.size(); i++) {
-                    result_categories = result_categories + categories.get(i);
-                }
-                repairType.setText(result_categories);
+
 
                 //Get Service Location
                 JSONObject locationObj = data.getJSONObject("service_location");
@@ -199,8 +201,11 @@ class JobsCustomerAdapter implements ListAdapter {
 
 
                 //Change format of date
-                Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("status_time_value")));
-                timeImage.setText(date1.toString());
+                if (!(data.isNull("status_time_value") )){
+                    Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("status_time_value")));
+                    timeImage.setText(date1.toString());
+
+                }
 
                 Picasso.with(context)
                         .load(internal_client.getString("logo")
@@ -232,13 +237,6 @@ class JobsCustomerAdapter implements ListAdapter {
                     Intent intent = new Intent(context, JobDetails.class);
                     intent.putExtra("id", jobId.toString());
                     context.startActivity(intent);
-
-
-                    CharSequence text = jobId.toString();
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
 
                 }
                 catch (JSONException e) {
@@ -341,8 +339,8 @@ class JobsCustomerAdapter implements ListAdapter {
         cal.set(Calendar.HOUR_OF_DAY, 23);
         cal.set(Calendar.MINUTE, 59);
         cal.set(Calendar.SECOND, 59);
-        Date endOfTomorrow = cal.getTime();
-        return df.format(endOfTomorrow);
+        Date endOfWeek = cal.getTime();
+        return df.format(endOfWeek);
     }
 
     private String endofNextWeek(){
@@ -357,8 +355,8 @@ class JobsCustomerAdapter implements ListAdapter {
         cal.set(Calendar.HOUR_OF_DAY, 23);
         cal.set(Calendar.MINUTE, 59);
         cal.set(Calendar.SECOND, 59);
-        Date endOfTomorrow = cal.getTime();
-        return df.format(endOfTomorrow);
+        Date endofNext = cal.getTime();
+        return df.format(endofNext);
     }
     private String endofThisMonth(){
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -369,8 +367,8 @@ class JobsCustomerAdapter implements ListAdapter {
         cal.set(Calendar.HOUR_OF_DAY, 23);
         cal.set(Calendar.MINUTE, 59);
         cal.set(Calendar.SECOND, 59);
-        Date endOfTomorrow = cal.getTime();
-        return df.format(endOfTomorrow);
+        Date endofThis = cal.getTime();
+        return df.format(endofThis);
     }
 
 

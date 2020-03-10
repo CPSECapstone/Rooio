@@ -3,6 +3,7 @@ package com.rooio.repairs;
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -11,21 +12,24 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.activity_jobs_archived.*
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.ArrayList
 import androidx.arch.core.util.Function
+import java.util.*
 
 
 class JobsArchived  : NavigationBar() {
 
-        private var completedList: ListView? = null
+        private lateinit var completedList: ListView
+        private lateinit var completedConstraint: ConstraintLayout
+
         val statuses = arrayListOf<String>()
 
         companion object{
 
                 @JvmStatic private var archivedJobs = ArrayList<JSONObject>()
+                @JvmStatic private var completedJobs = ArrayList<JSONObject>()
+                @JvmStatic private var declinedJobs = ArrayList<JSONObject>()
+                @JvmStatic private var cancelledJobs = ArrayList<JSONObject>()
         }
-
-        private var CompletedConstraint: ConstraintLayout? = null
 
         private var completedButton: Button? = null
 
@@ -36,11 +40,9 @@ class JobsArchived  : NavigationBar() {
 
                 setContentView(R.layout.activity_jobs_archived)
                 completedButton = findViewById(R.id.button)
-
                 //sets the navigation bar onto the page
                 completedList = findViewById<View>(R.id.completedList) as ListView
-
-                CompletedConstraint = findViewById<View>(R.id.completedConstraint) as ConstraintLayout
+                completedConstraint = findViewById<View>(R.id.completedConstraint) as ConstraintLayout
 
                 val nav_inflater = layoutInflater
                 val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
@@ -59,8 +61,6 @@ class JobsArchived  : NavigationBar() {
 
 
                 createNavigationBar("jobs")
-
-
                 onClick()
                 loadJobs()
 
@@ -77,23 +77,54 @@ class JobsArchived  : NavigationBar() {
 
         private fun clearLists(){
                 archivedJobs.clear()
+                completedJobs.clear()
+                cancelledJobs.clear()
+                declinedJobs.clear()
         }
 
+        private fun sortJobsList(list: ArrayList<JSONObject>){
+
+                Collections.sort(list, JSONComparator())
+
+                Log.e("sort", "start");
+                for (obj in list) {
+                        Log.e("sort", obj.getString("status_time_value"));
+                }
+        }
         private fun populateLists(responseObj: JSONArray){
                 clearLists()
                 for (i in 0 until responseObj.length()) {
                         val job = responseObj.getJSONObject(i)
 
                         if (job.getInt("status") == 3){
-                                archivedJobs.add(job)
+                                completedJobs.add(job)
                                 sizes("completed")
+                        }
+                        else if(job.getInt("status") == 4){
+                                cancelledJobs.add(job)
+                                sizes("cancelled")
+                        }
+                        else if(job.getInt("status") == 1){
+                                declinedJobs.add(job)
+                                sizes("declined")
                         }
 
                 }
+                //Put each job in a list. Append all lists together to sort
+                for (job in completedJobs){
+                        archivedJobs.add(job)
+                }
+                for (job in declinedJobs){
+                        archivedJobs.add(job)
+                }
+                for (job in cancelledJobs){
+                        archivedJobs.add(job)
+                }
+
+                sortJobsList(archivedJobs)
+
                 val customAdapter = JobsCustomerAdapter(this, archivedJobs)
                 if (archivedJobs.size != 0) completedList!!.adapter = customAdapter
-
-
         }
 
         @JvmField
@@ -118,21 +149,19 @@ class JobsArchived  : NavigationBar() {
                         value = 200
                 } else {
                         statuses.add(str)
-                        value = 240
+                        value = 260
                 }
-                set_size(str, value)
+                set_size( value)
         }
+        private fun set_size( value: Int){
 
-        private fun set_size(str: String, value: Int){
+                val params = completedConstraint!!.layoutParams
+                params.height += value
+                completedConstraint!!.layoutParams = params
+                val size = completedList!!.layoutParams
+                size.height += value
+                completedList!!.layoutParams = size
 
-                if (str == "completed"){
-                        val params = completedConstraint!!.layoutParams
-                        params.height += value
-                        completedConstraint!!.layoutParams = params
-                        val size = completedList!!.layoutParams
-                        size.height += value
-                        completedList!!.layoutParams = size
-                }
 
         }override fun animateActivity(boolean: Boolean){
 

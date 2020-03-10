@@ -60,10 +60,11 @@
             app:layout_constraintVertical_bias="0.3">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/color"
                 android:layout_width="10dp"
                 android:layout_height="167dp"
-                android:background="@drawable/notable_jobs_color"
 
+                android:background="@drawable/job_detail_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/image"
                 app:layout_constraintHorizontal_bias="0.07"

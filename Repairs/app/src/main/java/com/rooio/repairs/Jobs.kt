@@ -32,7 +32,9 @@ class Jobs : NavigationBar() {
         @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
         @JvmStatic private var scheduledJobs = ArrayList<JSONObject>()
         @JvmStatic private var inProgressJobs = ArrayList<JSONObject>()
-        @JvmStatic private var archivedJobs = ArrayList<JSONObject>()
+        @JvmStatic private var startedJobs = ArrayList<JSONObject>()
+        @JvmStatic private var pausedJobs = ArrayList<JSONObject>()
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +83,8 @@ class Jobs : NavigationBar() {
         pendingJobs.clear()
         scheduledJobs.clear()
         inProgressJobs.clear()
-        archivedJobs.clear()
+        startedJobs.clear()
+        pausedJobs.clear()
     }
 
     private fun populateLists(responseObj: JSONArray){
@@ -97,14 +100,22 @@ class Jobs : NavigationBar() {
                 scheduledJobs.add(job)
                 sizes("scheduled")
             }
-            else if(job.getInt("status") == 5 || job.getInt("status") == 6 ){
-                inProgressJobs.add(job)
-                sizes("inProgress")
+            else if(job.getInt("status") == 5){
+                startedJobs.add(job)
+                sizes("started")
             }
-            else{
-                archivedJobs.add(job)
+            else if(job.getInt("status") == 6){
+                pausedJobs.add(job)
+                sizes("paused")
+            }
 
-            }
+        }
+
+        for(i in 0 until startedJobs.size){
+            inProgressJobs.add(startedJobs[i])
+        }
+        for(i in 0 until pausedJobs.size){
+            inProgressJobs.add(pausedJobs[i])
         }
 
         val customAdapter = JobsCustomerAdapter(this, pendingJobs)
@@ -138,7 +149,7 @@ class Jobs : NavigationBar() {
             value = 200
         } else {
             statuses.add(str)
-            value = 250
+            value = 260
         }
         set_size(str, value)
     }
@@ -154,7 +165,7 @@ class Jobs : NavigationBar() {
             size.height += value
             pendingList!!.layoutParams = size
         }
-        else if (str == "scheduled" ||str == "accepted"){
+        else if (str == "scheduled" ){
             val params = scheduledConstraint!!.layoutParams
             params.height += value
             scheduledConstraint!!.layoutParams = params

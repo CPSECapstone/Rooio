@@ -8,8 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
+import org.json.JSONException
 import org.json.JSONObject
-
+import androidx.arch.core.util.Function
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 //Job details can be viewed when clicking on a job request found under the Jobs tab
@@ -55,16 +59,41 @@ class JobDetails: NavigationBar() {
         setNavigationBar()
         setActionBar()
         createNavigationBar("jobs")
-        loadJobDetails()
+        //loadJobDetails()
         onBack()
         onDropDown()
         getJobId()
+        loadJobs()
     }
 
     private fun getJobId(){
         val incomingIntent = intent
-        jobId = incomingIntent.getStringExtra("id")
+        jobId = (incomingIntent.getStringExtra("id")).toString()
     }
+
+    @JvmField
+    val responseFunc = Function<Any, Void?> { response : Any ->
+        val jsonObject1 = response as JSONObject
+
+        try {
+            loadElements(jsonObject1)
+
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        null
+    }
+
+    @JvmField
+    var errorFunc = Function<String, Void?> {  string: String? ->
+        null
+    }
+    private fun loadJobs(){
+        val url = BaseUrl + "service-locations/$userLocationID/jobs/$jobId/"
+        requestGetJsonObj(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+    }
+
+
 
     //Initializes variables that are used in loadElements()
     private fun initializeVariables() {
@@ -116,33 +145,51 @@ class JobDetails: NavigationBar() {
 
     //Sets the text views in the user interface, with "--" if null
     private fun loadElements(response: JSONObject) {
-        //NEEDS API WORK
-        setElementText(restaurantName, response,"")
-        setElementText(restaurantLocation, response,"")
-        setElementText(serviceType, response,"")
-        setElementText(availableTechnicians, response,"")
-        setElementText(startedOn, response,"")
-        setElementText(pointOfContact, response,"")
-        setElementText(details, response,"")
-        setElementText(equipmentName, response,"")
-        setElementText(manufacturer, response,"")
-        setElementText(serialNumber, response,"")
-        setElementText(modelNumber, response,"")
-        setElementText(location, response,"")
-        setElementText(lastServiceBy, response,"")
-        setElementText(lastServiceDate, response,"")
-    }
 
-    //Loads job request details from API including equipment information
-    private fun loadJobDetails() {
-        //NEEDS API WORK
-        val response = JSONObject()
-        loadElements(response)
-    }
+        val locationObj = response.getJSONObject("service_location")
+        val internal_client = locationObj.getJSONObject("internal_client")
+        val serviceObj = response.getJSONObject("service_company")
+        val equipmentObjList = response.getJSONArray("equipment")
+        //ALlow multiple different Equipment Cards to be made
+        val equipmentObj = equipmentObjList.getJSONObject(0)
 
-    private fun setElementText(element: TextView, response: JSONObject, elementName: String){
-        //NEEDS API WORK
-        element.text = "--"
+        //set serviceType
+        val category = equipmentObj.getString("service_category")
+        var repairCategory = ""
+        when (category) {
+            "0" ->
+                repairCategory = "General Appliance"
+            "1" ->
+                repairCategory = "HVAC"
+            "2" ->
+                repairCategory = "Lighting and Electrical"
+            "3" ->
+                repairCategory = "Plumbing"
+        }
+        serviceType.setText(repairCategory)
+
+        restaurantLocation.setText(locationObj.getString("physical_address"))
+        restaurantName.setText(internal_client.getString("name"))
+        availableTechnicians.setText(serviceObj.getString("name"))
+        if(!response.isNull("status_time_value")){
+            val date2 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(response.getString("status_time_value")))
+            startedOn.setText(date2!!.toString())
+        }
+        pointOfContact.setText(response.getString("point_of_contact_name"))
+        details.setText(response.getString("details"))
+        equipmentName.setText(equipmentObj.getString("display_name"))
+        manufacturer.setText(equipmentObj.getString("manufacturer"))
+        serialNumber.setText(equipmentObj.getString("serial_number"))
+        modelNumber.setText(equipmentObj.getString("model_number"))
+        location.setText(equipmentObj.getString("location"))
+        lastServiceBy.setText(equipmentObj.getString("last_service_by"))
+        if (equipmentObj.isNull("last_service_date")){
+            lastServiceDate.setText("--")
+        }
+        else{
+            val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(equipmentObj.getString("last_service_date")))
+            lastServiceDate.setText(date1!!.toString())
+        }
     }
 
     //Sets the navigation bar onto the page
@@ -193,6 +240,15 @@ class JobDetails: NavigationBar() {
         }
     }
 
+    @Throws(ParseException::class)
+    fun convertToNewFormat(dateStr: String): String {
+        val utc = TimeZone.getTimeZone("UTC")
+        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        sourceFormat.timeZone = utc
+        val convertedDate = sourceFormat.parse(dateStr)
+        return destFormat.format(convertedDate!!)
+    }
     //Switches the visibility of Equipment UI elements
     private fun setVisibility(v: Int) {
         manufacturerText.visibility = v
