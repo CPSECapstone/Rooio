@@ -128,7 +128,27 @@ class CreateJobDetails: NavigationBar() {
 
     private fun requestEquipmentInfo() {
         // get equipment information from whichever piece of equipment that the user chose earlier
-        //val equipment = intent.getE
+        val equipmentID = intent.getStringExtra("equipment")
+        val url = "service_locations/$userLocationID/equipment/$equipmentID/"
+        val request = JsonRequest(false, url, null, responseFuncEquipment, errorFuncEquipment, true)
+
+    }
+
+    @JvmField
+    val responseFuncEquipment = Function<Any, Void?> {jsonResponse: Any? ->
+        try{
+            val jsonObject = jsonResponse as JSONObject
+            set
+        } catch (e: JSONException){
+            errorMsg.text = e.toString()
+        }
+        null
+    }
+
+    @JvmField
+    val errorFuncEquipment = Function<String, Void?> {
+        errorMsg.text = it
+        null
     }
 
     // sending JSONRequest for the restaurant location
@@ -170,7 +190,7 @@ class CreateJobDetails: NavigationBar() {
             params["point_of_contact_phone"] = phoneNumber.text.toString()
             params["requested_arrival_time"] = month.selectedItem.toString() + date.selectedItem.toString() + time.selectedItem.toString()
 
-            val request = JsonRequest(false, url, params, responseFuncSendRequest, errorFuncSendRequest, false)
+            val request = JsonRequest(false, url, params, responseFuncSendRequest, errorFuncSendRequest, true)
             sendJobRequest(request)
         }
     }

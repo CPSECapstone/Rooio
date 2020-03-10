@@ -91,8 +91,7 @@ class LocationLogin : RestApi(), OnItemClickListener {
     override fun onItemClick(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
         Toast.makeText(this, "You chose " + addressList[position], Toast.LENGTH_SHORT).show()
         userLocationID = locationIds[position]
-        //startActivity(Intent(this@LocationLogin, PreferredProvidersLogin::class.java))
-        startActivity(Intent(this@LocationLogin, CreateJobDetails::class.java))
+        startActivity(Intent(this@LocationLogin, PreferredProvidersLogin::class.java))
     }
 
     //Adds locations to the list view using a custom adapter, and increases the size every time a

@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -70,6 +71,8 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
             val id = equipmentDataList[position].id
             val intent = Intent(applicationContext, ChooseServiceProvider::class.java)
             intent.putExtra("equipment", id)
+            val activity = applicationContext as Activity
+            intent.putExtra("service_type", activity.intent.getIntExtra("equipmentType", 0))
             applicationContext.startActivity(intent)
         }
 
