@@ -12,6 +12,7 @@ import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 
 import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import com.android.volley.Request
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_dashboard.*
