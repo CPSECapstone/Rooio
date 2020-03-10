@@ -1,6 +1,7 @@
 package com.rooio.repairs
 
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -23,8 +24,7 @@ class ChangeLocationSettings  : NavigationBar(), OnItemClickListener  {
     private lateinit var errorMessage: TextView
     private lateinit var locationBox: ConstraintLayout
     private lateinit var loadingPanel: RelativeLayout
-    private lateinit var expandBackButton: ImageView
-    private lateinit var collapseBackButton: ImageView
+    private lateinit var backButton: ImageView
     private lateinit var viewGroup: ViewGroup
     private val url = "https://capstone.api.roopairs.com/v0/service-locations/"
 
@@ -75,8 +75,7 @@ class ChangeLocationSettings  : NavigationBar(), OnItemClickListener  {
         locationListView.onItemClickListener = this
         viewGroup = findViewById(R.id.background)
         //Navigation bar collapse/expand
-        expandBackButton = viewGroup.findViewById(R.id.expandBackButton)
-        collapseBackButton = viewGroup.findViewById(R.id.collapseBackButton)
+        backButton = viewGroup.findViewById(R.id.backButton)
     }
 
     //Calls the API initially to load the locations into the page
@@ -143,19 +142,15 @@ class ChangeLocationSettings  : NavigationBar(), OnItemClickListener  {
 
     override fun animateActivity(boolean: Boolean)
     {
-        TransitionManager.beginDelayedTransition(viewGroup)
-        val v = if (boolean) View.VISIBLE else View.GONE
-        val op = if (boolean) View.GONE else View.VISIBLE
-        expandBackButton.visibility = op
-        collapseBackButton.visibility = v
+        val amount = if (boolean) -190f else 0f
+        val animation = ObjectAnimator.ofFloat(backButton, "translationX", amount)
+        if (boolean) animation.duration = 1300 else animation.duration = 300
+        animation.start()
     }
 
     //Sends the user to the Jobs page
     private fun onBack() {
-        expandBackButton.setOnClickListener{
-            startActivity(Intent(this@ChangeLocationSettings, LocationSettings::class.java))
-        }
-        collapseBackButton.setOnClickListener{
+        backButton.setOnClickListener{
             startActivity(Intent(this@ChangeLocationSettings, LocationSettings::class.java))
         }
     }

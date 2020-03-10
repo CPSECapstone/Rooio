@@ -1,15 +1,15 @@
 package com.rooio.repairs
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
-
-import android.graphics.Color
-import android.view.View.VISIBLE
 
 
 abstract class NavigationBar : RestApi() {
@@ -26,14 +26,15 @@ abstract class NavigationBar : RestApi() {
 
         //transitionsContainer initializes the container and stores all transition objects
         val transitionsContainer = findViewById<ViewGroup>(R.id.navConstraint)
+        val transitionsContainer2 = findViewById<ViewGroup>(R.id.navConstraint)
 
         //adding objects into the transitionsContainer
         val navBar = transitionsContainer.findViewById<ViewGroup>(R.id.navigationView)
-        val collapseText = transitionsContainer.findViewById<TextView>(R.id.collapse_text)
-        val dashboardText = transitionsContainer.findViewById<TextView>(R.id.dashboard_text)
-        val jobsText = transitionsContainer.findViewById<TextView>(R.id.jobs_text)
-        val equipmentText = transitionsContainer.findViewById<TextView>(R.id.equipment_text)
-        val settingsText = transitionsContainer.findViewById<TextView>(R.id.settings_text)
+        val collapseText = transitionsContainer2.findViewById<TextView>(R.id.collapse_text)
+        val dashboardText = transitionsContainer2.findViewById<TextView>(R.id.dashboard_text)
+        val jobsText = transitionsContainer2.findViewById<TextView>(R.id.jobs_text)
+        val equipmentText = transitionsContainer2.findViewById<TextView>(R.id.equipment_text)
+        val settingsText = transitionsContainer2.findViewById<TextView>(R.id.settings_text)
         val collapse = transitionsContainer.findViewById<ImageView>(R.id.collapse)
         val divider = transitionsContainer.findViewById<View>(R.id.nav_divider)
         val dashboardImage = transitionsContainer.findViewById<ImageView>(R.id.dashboard)
@@ -67,15 +68,9 @@ abstract class NavigationBar : RestApi() {
 
             TransitionManager.beginDelayedTransition(transitionsContainer)
             visible = !visible
-            val v = if (visible) View.GONE else VISIBLE
-            collapseText.visibility = v
-            dashboardText.visibility = v
-            jobsText.visibility = v
-            equipmentText.visibility = v
-            settingsText.visibility = v
+
             val rotate = if (visible) 180f else 0f
             collapse.rotation = rotate
-
 
 
             val params = navBar.layoutParams
@@ -88,6 +83,14 @@ abstract class NavigationBar : RestApi() {
             params2.width = p2
 
             animateActivity(visible)
+
+            val v = if (visible) View.GONE else VISIBLE
+
+            collapseText.visibility = v
+            dashboardText.visibility = v
+            jobsText.visibility = v
+            equipmentText.visibility = v
+            settingsText.visibility = v
         }
 
 
@@ -131,8 +134,6 @@ abstract class NavigationBar : RestApi() {
         jobsText.setOnClickListener{
             startActivity(Intent( this, Jobs::class.java))
         }
-
-
 
     }
 

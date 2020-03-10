@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -176,11 +177,15 @@ class PreferredProviderDetails: NavigationBar() {
 
     override fun animateActivity(boolean: Boolean)
     {
+        val amount = if (boolean) -190f else 0f
+        val animation = ObjectAnimator.ofFloat(backButton, "translationX", amount)
+        if (boolean) animation.duration = 1300 else animation.duration = 300
+        animation.start()
     }
+    
     private fun onBackClick() {
         backButton.setOnClickListener{
-            val intent = Intent(this@PreferredProviderDetails, PreferredProvidersSettings::class.java)
-            startActivity(intent)
+            startActivity(Intent(this@PreferredProviderDetails, PreferredProvidersSettings::class.java))
         }
     }
 
