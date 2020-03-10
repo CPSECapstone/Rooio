@@ -1,6 +1,7 @@
 package com.rooio.repairs
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -65,6 +66,12 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
         setElementTexts(holder.lastServiceByInfo, equipmentDataList[position].lastServiceBy)
         setElementTexts(holder.lastServiceDateInfo, equipmentDataList[position].lastServiceDate)
 
+        holder.select.setOnClickListener{
+            val id = equipmentDataList[position].id
+            val intent = Intent(applicationContext, ChooseServiceProvider::class.java)
+            intent.putExtra("equipment", id)
+            applicationContext.startActivity(intent)
+        }
 
         holder.equipmentView.setOnClickListener {
             TransitionManager.beginDelayedTransition(holder.transitionsContainer)
