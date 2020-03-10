@@ -4,10 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
 import com.google.android.material.textfield.TextInputEditText
@@ -74,6 +71,7 @@ class CreateJobDetails: NavigationBar() {
         transitionsContainer = findViewById(R.id.jobDetailLayout)
         viewGroup = findViewById(R.id.jobDetailTitleLayout)
 
+        serviceType.adapter = ArrayAdapter<ServiceType>(this, android.R.layout.simple_list_item_1, ServiceType.values())
     }
 
     //Initializes variables that are used in loadElements and animated

@@ -1,7 +1,5 @@
 package com.rooio.repairs
 
-import java.lang.IllegalArgumentException
-
 enum class EquipmentType (private val value: String) {
     HVAC("HVAC"),
     PLUMBING("Plumbing"),
