@@ -50,7 +50,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/JobsLayout"
-            android:layout_width="777dp"
+            android:layout_width="803dp"
             android:layout_height="170dp"
             android:background="@drawable/gray_button_border"
             app:layout_constraintBottom_toBottomOf="parent"

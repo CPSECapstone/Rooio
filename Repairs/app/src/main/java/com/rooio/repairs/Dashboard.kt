@@ -358,7 +358,7 @@ class Dashboard : NavigationBar() {
         allJobsDividerParams.width = p2
 
         //Changing width of job in notable jobs for Navigation Bar
-        val p3 = if (boolean) 980 else 803
+        val p3 = if (boolean) 1004 else 803
         jobParams.width = p3
 
         //calling the transitions
