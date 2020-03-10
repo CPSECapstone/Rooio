@@ -8,12 +8,16 @@ import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
 import com.google.android.material.textfield.TextInputEditText
+import org.json.JSONException
 import org.json.JSONObject
-import java.time.Month
+import androidx.arch.core.util.Function
+import com.android.volley.Request
+import kotlinx.android.synthetic.main.activity_create_job_details.*
 
 //Job details can be viewed when clicking on a job request found under the Jobs tab
 class CreateJobDetails: NavigationBar() {
 
+    private lateinit var restuarantLocation: TextView
     private lateinit var serviceType: Spinner
     private lateinit var whatHappened: TextInputEditText
     private lateinit var month: Spinner
@@ -22,6 +26,7 @@ class CreateJobDetails: NavigationBar() {
     private lateinit var contact: TextInputEditText
     private lateinit var phoneNumber: TextInputEditText
     private lateinit var sendRequestButton: Button
+    private lateinit var errorMsg: TextView
 
     private lateinit var equipmentName: TextView
     private lateinit var manufacturer: TextView
@@ -54,12 +59,15 @@ class CreateJobDetails: NavigationBar() {
         setNavigationBar()
         setActionBar()
         createNavigationBar("jobs")
+
+        initializeUI()
         onSendRequest()
         onDropDown()
     }
 
     //Initializes variables that are used in loadElements()
     private fun initializeVariables() {
+        restuarantLocation = findViewById(R.id.restaurantLocation)
         serviceType = findViewById(R.id.serviceTypeSpinner)
         whatHappened = findViewById(R.id.whatHappenedInput)
         month = findViewById(R.id.monthSpinner)
@@ -67,6 +75,7 @@ class CreateJobDetails: NavigationBar() {
         time = findViewById(R.id.timeSpinner)
         contact = findViewById(R.id.contactInput)
         phoneNumber = findViewById(R.id.phoneNumberInput)
+        errorMsg = findViewById(R.id.errorMessage)
         sendRequestButton = findViewById(R.id.sendRequestButton)
         transitionsContainer = findViewById(R.id.jobDetailLayout)
         viewGroup = findViewById(R.id.jobDetailTitleLayout)
@@ -126,8 +135,71 @@ class CreateJobDetails: NavigationBar() {
         supportActionBar!!.elevation = 0.0f
     }
 
-    private fun onSendRequest() {
+    // initializing restaurant location text and equipment widget
+    private fun initializeUI() {
+        requestLocation()
+        //requestEquipmentInfo()
+    }
 
+    private fun requestEquipmentInfo() {
+        // get equipment information from whichever piece of equipment that the user chose earlier
+        TODO("not implemented")
+    }
+
+    // sending JSONRequest for the restaurant location
+    private fun requestLocation() {
+        val url = BaseUrl + "service-locations/$userLocationID/"
+        val request = JsonRequest(false, url, HashMap(), responseFuncLoad, errorFuncLoad, true)
+        requestJson(Request.Method.GET, JsonType.OBJECT, request)
+    }
+
+    @JvmField
+    // set restaurant location text at top of screen
+    var responseFuncLoad = Function<Any, Void?>{ jsonResponse: Any? ->
+        try{
+            val jsonObject = jsonResponse as JSONObject
+            restuarantLocation.text = jsonObject.getString("physical_address_formatted")
+        } catch (e: JSONException){
+            errorMsg.text = e.toString()
+        }
+        null
+    }
+
+    @JvmField
+    var errorFuncLoad = Function<String, Void?> {
+        restuarantLocation.text = it
+        null
+    }
+
+    private fun onSendRequest() {
+        val params = HashMap<Any?, Any?>()
+        val url = BaseUrl + "service-locations/$userLocationID/jobs/"
+        sendRequestButton.setOnClickListener {
+            errorMsg.text = ""
+            params["equipment"] = intent.getStringExtra("equipment")
+            params["service_company"] = intent.getIntExtra("service_company", 0)
+            params["service_category"] = intent.getIntExtra("service_category", 0)
+            params["service_type"] = (serviceTypeSpinner.selectedItem as ServiceType).getIntRepr()
+            params["details"] = whatHappened.text.toString()
+            params["point_of_contact_name"] = contact.text.toString()
+            params["point_of_contact_phone"] = phoneNumber.text.toString()
+            params["requested_arrival_time"] = month.selectedItem.toString() + date.selectedItem.toString() + time.selectedItem.toString()
+
+            val request = JsonRequest(false, url, params, responseFuncSendRequest, errorFuncSendRequest, false)
+            requestJson(Request.Method.POST, JsonType.OBJECT, request)
+        }
+    }
+
+    @JvmField
+    val responseFuncSendRequest = Function<Any, Void?> {jsonResponse: Any ->
+        startActivity(Intent(this@CreateJobDetails, Dashboard::class.java))
+        null
+    }
+
+    @JvmField
+    val errorFuncSendRequest = Function<String, Void?> {
+        errorMsg.text = it
+        null
     }
 
     //Initially closes the equipment dropdown and allows the user to collapse or expand

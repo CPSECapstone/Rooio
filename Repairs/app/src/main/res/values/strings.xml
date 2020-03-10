@@ -101,7 +101,7 @@
     <string name="what_happened">What Happened?</string>
     <string name="when_do_you_need_it_fixed">When do you need it fixed?</string>
     <string name="who_should_they_ask_for">Who should they ask for?</string>
-    <string name="what_s_their_phone_number">What\'s their phone number?</string>
+    <string name="what_s_their_phone_number">What\'s their phone number? (optional)</string>
     <string name="send_request">Send Request</string>
     <string-array name="industry_type">
         <item>Residential</item>
