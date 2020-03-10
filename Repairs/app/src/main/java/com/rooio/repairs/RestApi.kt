@@ -120,7 +120,8 @@ abstract class RestApi : AppCompatActivity() {
         } else if (error is AuthFailureError) {
             errorMsg = "You are not authorized."
         } else if (error is ServerError) {
-            errorMsg = "Does not exist."
+            //errorMsg = "Does not exist."
+            errorMsg = error.toString()
         } else if (error is NetworkError) {
             errorMsg = "Network Error. Try again."
         } else if (error is ParseError) {

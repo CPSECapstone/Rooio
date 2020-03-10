@@ -2,6 +2,7 @@ package com.rooio.repairs
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -11,6 +12,7 @@ import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONException
 import org.json.JSONObject
 import androidx.arch.core.util.Function
+import com.android.volley.NetworkResponse
 import com.android.volley.Request
 import kotlinx.android.synthetic.main.activity_create_job_details.*
 
@@ -129,16 +131,16 @@ class CreateJobDetails: NavigationBar() {
     private fun requestEquipmentInfo() {
         // get equipment information from whichever piece of equipment that the user chose earlier
         val equipmentID = intent.getStringExtra("equipment")
-        val url = "service_locations/$userLocationID/equipment/$equipmentID/"
+        val url = "service-locations/$userLocationID/equipment/$equipmentID/"
         val request = JsonRequest(false, url, null, responseFuncEquipment, errorFuncEquipment, true)
-
+        requestJson(Request.Method.GET, JsonType.OBJECT, request)
     }
 
     @JvmField
     val responseFuncEquipment = Function<Any, Void?> {jsonResponse: Any? ->
         try{
             val jsonObject = jsonResponse as JSONObject
-            set
+            setEquipmentInfo(jsonObject)
         } catch (e: JSONException){
             errorMsg.text = e.toString()
         }
@@ -149,6 +151,24 @@ class CreateJobDetails: NavigationBar() {
     val errorFuncEquipment = Function<String, Void?> {
         errorMsg.text = it
         null
+    }
+
+    private fun setEquipmentInfo(response: JSONObject){
+        setElementText(equipmentName, response, "display_name")
+        setElementText(manufacturer, response, "manufacturer")
+        setElementText(location, response, "location")
+        setElementText(lastServiceBy, response, "last_service_by")
+        setElementText(lastServiceDate, response, "last_service_date")
+        setElementText(modelNumber, response, "model_number")
+        setElementText(serialNumber, response, "serial_number")
+    }
+
+    private fun setElementText(element: TextView, response: JSONObject, elementName: String){
+        val txt = response[elementName].toString()
+        if(!txt.isBlank() && txt != "null")
+            element.text = txt
+        else
+            element.text = "--"
     }
 
     // sending JSONRequest for the restaurant location
@@ -181,13 +201,28 @@ class CreateJobDetails: NavigationBar() {
         val url = "service-locations/$userLocationID/jobs/"
         sendRequestButton.setOnClickListener {
             errorMsg.text = ""
+            Log.i("try", "equipment: " + intent.getStringExtra("equipment"))
             params["equipment"] = intent.getStringExtra("equipment")
+
+            Log.i("try", "company: " + intent.getIntExtra("service_company", 0))
             params["service_company"] = intent.getIntExtra("service_company", 0)
+
+            Log.i("try", "category: " + intent.getIntExtra("service_category", 0))
             params["service_category"] = intent.getIntExtra("service_category", 0)
+
+            Log.i("try", "type: " + (serviceTypeSpinner.selectedItem as ServiceType).getIntRepr())
             params["service_type"] = (serviceTypeSpinner.selectedItem as ServiceType).getIntRepr()
+
+            Log.i("try", "details: " + whatHappened.text.toString())
             params["details"] = whatHappened.text.toString()
+
+            Log.i("try", "contact: " + contact.text.toString())
             params["point_of_contact_name"] = contact.text.toString()
+
+            Log.i("try", "phone: " + phoneNumber.text.toString())
             params["point_of_contact_phone"] = phoneNumber.text.toString()
+
+            Log.i("try", "time: " + month.selectedItem.toString() + date.selectedItem.toString() + time.selectedItem.toString())
             params["requested_arrival_time"] = month.selectedItem.toString() + date.selectedItem.toString() + time.selectedItem.toString()
 
             val request = JsonRequest(false, url, params, responseFuncSendRequest, errorFuncSendRequest, true)
