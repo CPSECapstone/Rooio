@@ -40,7 +40,8 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
         }
         if (equipmentDataList[position].name == "General HVAC (No Appliance)" ||
             equipmentDataList[position].name == "General Lighting (No Appliance)" ||
-            equipmentDataList[position].name == "General Plumbing (No Appliance)") {
+            equipmentDataList[position].name == "General Plumbing (No Appliance)")
+        {
                 holder.equipmentName.text = equipmentDataList[position].name
                 holder.grayDropDown.visibility = View.GONE
                 holder.locationName.visibility = View.GONE

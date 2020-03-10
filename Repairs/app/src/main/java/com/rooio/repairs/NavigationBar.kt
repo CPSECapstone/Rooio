@@ -46,20 +46,20 @@ abstract class NavigationBar : RestApi() {
         val coloredEquipment = transitionsContainer.findViewById<ImageView>(R.id.colored_equipment)
 
 
-        if (navType.getIntRepr() == 1) {
+        if (navType == NavigationType.DASHBOARD) {
             coloredDashboard.visibility = VISIBLE
             dashboardText.setTextColor(Color.parseColor("#00CA8F"))
         }
-        if (navType.getIntRepr() == 2){
+        if (navType == NavigationType.SETTINGS){
             coloredSettings.visibility = VISIBLE
             settingsText.setTextColor(Color.parseColor("#00CA8F"))
 
         }
-        if (navType.getIntRepr() == 3){
+        if (navType == NavigationType.EQUIPMENT){
             coloredEquipment.visibility = VISIBLE
             equipmentText.setTextColor(Color.parseColor("#00CA8F"))
         }
-        if (navType.getIntRepr() == 4){
+        if (navType == NavigationType.JOBS){
             coloredJobs.visibility = VISIBLE
             jobsText.setTextColor(Color.parseColor("#00CA8F"))
         }
