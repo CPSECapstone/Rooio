@@ -133,8 +133,8 @@ class CreateJobDetails: NavigationBar() {
 
     // sending JSONRequest for the restaurant location
     private fun requestLocation() {
-        val url = BaseUrl + "service-locations/$userLocationID/"
-        val request = JsonRequest(false, url, HashMap(), responseFuncLoad, errorFuncLoad, true)
+        val url = "service-locations/$userLocationID/"
+        val request = JsonRequest(false, url, null, responseFuncLoad, errorFuncLoad, true)
         requestJson(Request.Method.GET, JsonType.OBJECT, request)
     }
 
@@ -158,7 +158,7 @@ class CreateJobDetails: NavigationBar() {
 
     private fun onSendRequest() {
         val params = HashMap<Any?, Any?>()
-        val url = BaseUrl + "service-locations/$userLocationID/jobs/"
+        val url = "service-locations/$userLocationID/jobs/"
         sendRequestButton.setOnClickListener {
             errorMsg.text = ""
             params["equipment"] = intent.getStringExtra("equipment")
