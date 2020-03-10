@@ -10,7 +10,6 @@ import android.widget.*
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import android.widget.AdapterView.OnItemClickListener
-import androidx.transition.TransitionManager
 import com.android.volley.Request
 import org.json.JSONArray
 import org.json.JSONException

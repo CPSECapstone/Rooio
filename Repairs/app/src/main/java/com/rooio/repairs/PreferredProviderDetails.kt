@@ -182,7 +182,7 @@ class PreferredProviderDetails: NavigationBar() {
         if (boolean) animation.duration = 1300 else animation.duration = 300
         animation.start()
     }
-    
+
     private fun onBackClick() {
         backButton.setOnClickListener{
             startActivity(Intent(this@PreferredProviderDetails, PreferredProvidersSettings::class.java))

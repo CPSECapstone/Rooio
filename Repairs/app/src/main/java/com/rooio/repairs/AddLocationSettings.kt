@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.arch.core.util.Function
-import androidx.transition.TransitionManager
 import com.android.volley.Request
 import org.json.JSONArray
 import org.json.JSONException
