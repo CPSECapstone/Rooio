@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ListView
+import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
+import com.android.volley.Request
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.ArrayList
-import androidx.arch.core.util.Function
+import java.util.*
 
 
 class Jobs : NavigationBar() {
@@ -31,7 +32,6 @@ class Jobs : NavigationBar() {
         @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
         @JvmStatic private var scheduledJobs = ArrayList<JSONObject>()
         @JvmStatic private var inProgressJobs = ArrayList<JSONObject>()
-        @JvmStatic private var archivedJobs = ArrayList<JSONObject>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,19 +49,14 @@ class Jobs : NavigationBar() {
 
         //Set navigation bar function call
         setNavigationBar()
-
-        //sets the action bar onto the page
-        val actionbar_inflater = layoutInflater
-        val actionBar = actionbar_inflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionBar,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-        supportActionBar!!.elevation = 0.0f
+        setActionBar()
 
 
-        createNavigationBar("jobs")
+
+        createNavigationBar(NavigationType.JOBS)
 
         onClick()
+        clearLists()
         loadJobs()
 
     }
@@ -71,23 +66,41 @@ class Jobs : NavigationBar() {
     }
 
 
-
-
-
     private fun loadJobs(){
-        val url = BaseUrl + "service-locations/$userLocationID/jobs/"
-        requestGetJsonArray(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+        loadPendingJobs()
+        loadScheduledJobs()
+        loadInProgressJobs()
     }
+
+    private fun loadPendingJobs(){
+        val Pending = "?status=0"
+        val url = "service-locations/$userLocationID/jobs/$Pending"
+        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
+                null, responseFunc, errorFunc, true))
+    }
+
+    private fun loadScheduledJobs(){
+        val Scheduled = "?status=2"
+        val url = "service-locations/$userLocationID/jobs/$Scheduled"
+        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
+                null, responseFunc, errorFunc, true))
+    }
+
+    private fun loadInProgressJobs(){
+        val InProgress = "?status=5&status=6"
+        val url = "service-locations/$userLocationID/jobs/$InProgress"
+        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
+                null, responseFunc, errorFunc, true))
+    }
+
 
     private fun clearLists(){
         pendingJobs.clear()
         scheduledJobs.clear()
         inProgressJobs.clear()
-        archivedJobs.clear()
     }
 
     private fun populateLists(responseObj: JSONArray){
-        clearLists()
         for (i in 0 until responseObj.length()) {
             val job = responseObj.getJSONObject(i)
 
@@ -102,10 +115,6 @@ class Jobs : NavigationBar() {
             else if(job.getInt("status") == 5 || job.getInt("status") == 6 ){
                 inProgressJobs.add(job)
                 sizes("inProgress")
-            }
-            else{
-                archivedJobs.add(job)
-
             }
 
         }
@@ -230,12 +239,12 @@ class Jobs : NavigationBar() {
 
     }
 
-    private fun setNavigationBar() {
-        //sets the navigation bar onto the page
-        val nav_inflater = layoutInflater
-        val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
-
-        window.addContentView(tmpView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-    }
+//    private fun setNavigationBar() {
+//        //sets the navigation bar onto the page
+//        val nav_inflater = layoutInflater
+//        val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
+//
+//        window.addContentView(tmpView,
+//                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+//    }
 }

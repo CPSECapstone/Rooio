@@ -39,16 +39,6 @@ class ChooseServiceProvider : RestApi() {
         onNetwork()
     }
 
-    // Sets the action bar onto the page
-    private fun setActionBar() {
-        //sets the action bar onto the page
-        val actionbarInflater = layoutInflater
-        val actionbarView = actionbarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionbarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        supportActionBar!!.elevation = 0.0f
-    }
-
     //Initializes UI variables
     private fun initializeVariables() {
         serviceProviderList = findViewById(R.id.serviceProviderList)
@@ -116,7 +106,12 @@ class ChooseServiceProvider : RestApi() {
 
     //Sets the list adapter to a custom one that handles providers
     private fun changeAdapter() {
-        adapter = ChooseServiceProviderAdapter(this, providerDataList)
+        val bundle: Bundle? = intent.extras
+        var equipmentId = ""
+        if (bundle != null) {
+            equipmentId = bundle.getString("equipment") as String
+        }
+        adapter = ChooseServiceProviderAdapter(this, providerDataList, equipmentId)
         val layoutManager = LinearLayoutManager(this)
         serviceProviderList.layoutManager = layoutManager
         serviceProviderList.adapter = adapter

@@ -30,6 +30,7 @@
         android:textAlignment="textStart"
         android:textAllCaps="false"
         android:textColor="#747479"
+        android:soundEffectsEnabled="false"
         android:textSize="24sp" />
 
 </LinearLayout>

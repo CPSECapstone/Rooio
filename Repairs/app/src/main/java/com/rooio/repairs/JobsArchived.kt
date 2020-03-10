@@ -7,12 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ListView
+import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.android.volley.Request
 import kotlinx.android.synthetic.main.activity_jobs_archived.*
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.ArrayList
-import androidx.arch.core.util.Function
+import java.util.*
 
 
 class JobsArchived  : NavigationBar() {
@@ -42,26 +43,15 @@ class JobsArchived  : NavigationBar() {
 
                 CompletedConstraint = findViewById<View>(R.id.completedConstraint) as ConstraintLayout
 
-                val nav_inflater = layoutInflater
-                val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
-
-                window.addContentView(tmpView,
-                        ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-                //sets the action bar onto the page
-
-                val actionbar_inflater = layoutInflater
-                val poopView = actionbar_inflater.inflate(R.layout.action_bar, null)
-                window.addContentView(poopView,
-                        ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-                supportActionBar!!.elevation = 0.0f
+                setNavigationBar()
+                setActionBar()
 
 
-                createNavigationBar("jobs")
+                createNavigationBar(NavigationType.JOBS)
 
 
                 onClick()
+                clearLists()
                 loadJobs()
 
         }
@@ -71,16 +61,20 @@ class JobsArchived  : NavigationBar() {
 
 
         private fun loadJobs(){
-                val url = BaseUrl + "service-locations/$userLocationID/jobs/"
-                requestGetJsonArray(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+                loadArchivedJobs()
         }
 
+        private fun loadArchivedJobs(){
+                val Archived = "?status=1&status=3&status=4&ordering=-completion_time"
+                val url = "service-locations/$userLocationID/jobs/$Archived"
+                requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
+                        null, responseFunc, errorFunc, true))
+        }
         private fun clearLists(){
                 archivedJobs.clear()
         }
 
         private fun populateLists(responseObj: JSONArray){
-                clearLists()
                 for (i in 0 until responseObj.length()) {
                         val job = responseObj.getJSONObject(i)
 
