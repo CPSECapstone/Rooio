@@ -19,7 +19,7 @@ class LocationSettings  : NavigationBar() {
     private lateinit var changeLocation: Button
     private lateinit var spinner: Spinner
     private lateinit var loadingPanel: RelativeLayout
-    private val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/"
+    private val url = "service-locations/$userLocationID/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,9 +31,12 @@ class LocationSettings  : NavigationBar() {
         setActionBar()
         createNavigationBar(NavigationType.SETTINGS)
         onChangeLocation()
-        getCurrentLocation(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
         setSettingsSpinner()
         onPause()
+        
+        getCurrentLocation(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+        
+
     }
 
     //Handles when the user clicks the change location button
@@ -49,7 +52,7 @@ class LocationSettings  : NavigationBar() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
                 if(selectedItem == "Preferred Providers") {
                     val spinner: Spinner = findViewById(R.id.settings_spinner)

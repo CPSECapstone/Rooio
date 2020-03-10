@@ -7,13 +7,12 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.*
-import org.json.JSONArray
-import org.json.JSONException
-import java.util.ArrayList
-import java.util.HashMap
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.android.volley.Request
+import org.json.JSONArray
+import org.json.JSONException
+import java.util.*
 
 class PreferredProvidersSettings  : NavigationBar() {
 
@@ -24,7 +23,7 @@ class PreferredProvidersSettings  : NavigationBar() {
     private lateinit var loadingPanel: RelativeLayout
     private lateinit var spinner: Spinner
     private val preferredProviders = ArrayList<ServiceProviderData>()
-    private val url = "https://capstone.api.roopairs.com/v0/service-providers/"
+    private val url = "service-providers/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +35,7 @@ class PreferredProvidersSettings  : NavigationBar() {
         setActionBar()
         createNavigationBar(NavigationType.SETTINGS)
         setSpinner()
-        loadPreferredProviders(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
+        loadPreferredProviders(JsonRequest(false, url, null, responseFunc, errorFunc, true))
         onAddAnother()
         goToPreferredProviderDetails()
         onPause()
