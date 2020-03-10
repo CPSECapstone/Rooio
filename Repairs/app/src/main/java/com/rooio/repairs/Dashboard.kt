@@ -80,7 +80,7 @@ class Dashboard : NavigationBar() {
 
         loadJobs()
 
-        createNavigationBar("dashboard")
+        createNavigationBar(NavigationType.DASHBOARD)
         jobRequestsClicked()
     }
 

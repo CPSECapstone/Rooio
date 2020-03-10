@@ -63,7 +63,7 @@ class Jobs : NavigationBar() {
         supportActionBar!!.elevation = 0.0f
 
 
-        createNavigationBar("jobs")
+        createNavigationBar(NavigationType.JOBS)
 
         onClick()
         clearLists()
