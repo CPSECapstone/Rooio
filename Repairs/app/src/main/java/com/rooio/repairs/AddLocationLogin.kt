@@ -22,7 +22,7 @@ class AddLocationLogin : RestApi() {
     private lateinit var newLocation: EditText
     private lateinit var errorMessage: TextView
     private lateinit var loadingPanel: RelativeLayout
-    private val url = "https://capstone.api.roopairs.com/v0/service-locations/"
+    private val url = "service-locations/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

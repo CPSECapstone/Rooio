@@ -13,12 +13,12 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View.GONE
 import android.widget.*
+import androidx.arch.core.util.Function
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import org.json.JSONArray
-import androidx.arch.core.util.Function
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.android.volley.Request
 import org.json.JSONException
@@ -28,7 +28,7 @@ import kotlin.collections.HashMap
 
 class ChooseEquipment : RestApi() {
 
-    val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/equipment/"
+    val url = "service-locations/$userLocationID/equipment/"
     private lateinit var list: RecyclerView
     private lateinit var search: EditText
     private lateinit var recyclerChooseAdapter: ChooseEquipmentAdapter
