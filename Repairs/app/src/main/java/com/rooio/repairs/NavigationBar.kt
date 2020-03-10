@@ -63,8 +63,7 @@ abstract class NavigationBar : RestApi() {
             coloredJobs.visibility = VISIBLE
             jobsText.setTextColor(Color.parseColor("#00CA8F"))
         }
-
-        collapse.setOnClickListener {
+        fun collapseBar(){
 
             TransitionManager.beginDelayedTransition(transitionsContainer)
             visible = !visible
@@ -89,9 +88,17 @@ abstract class NavigationBar : RestApi() {
             params2.width = p2
 
             animateActivity(visible)
-
-
         }
+
+
+        collapse.setOnClickListener {
+            collapseBar()
+        }
+
+        collapseText.setOnClickListener{
+            collapseBar()
+        }
+
 
         dashboardImage.setOnClickListener{
             startActivity(Intent(this, Dashboard::class.java))
@@ -128,6 +135,7 @@ abstract class NavigationBar : RestApi() {
 
 
     }
+
 
     abstract fun animateActivity(boolean: Boolean)
 

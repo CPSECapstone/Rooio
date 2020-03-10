@@ -126,7 +126,8 @@ class JobDetails: NavigationBar() {
     //Loads job request details from API including equipment information
     private fun loadJobDetails() {
         //NEEDS API WORK
-//        loadElements()
+        val response = JSONObject()
+        loadElements(response)
     }
 
     private fun setElementText(element: TextView, response: JSONObject, elementName: String){

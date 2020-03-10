@@ -75,13 +75,9 @@ class Login : RestApi() {
     var responseFunc = Function<Any, Void?> { response: Any ->
         loadingPanel.visibility = View.GONE
         errorMessage.text = ""
-        try {
-            val jsonObj = response as JSONObject
-            storeToken(jsonObj)
-            startActivity(Intent(this@Login, LocationLogin::class.java))
-        } catch (e: JSONException) {
-            errorMessage.setText(R.string.error_server)
-        }
+        val jsonObj = response as JSONObject
+        storeToken(jsonObj)
+        startActivity(Intent(this@Login, LocationLogin::class.java))
         null
     }
     //Error provided if login information is incorrect or cannot be found from request
@@ -95,7 +91,7 @@ class Login : RestApi() {
 
     //Stores user token so that user does not have to login every time
     @Throws(JSONException::class)
-    fun storeToken(jsonObj: JSONObject) {
+    private fun storeToken(jsonObj: JSONObject) {
         val token = jsonObj["token"] as String
         val name = jsonObj["first_name"] as String
         userToken = token
@@ -103,7 +99,7 @@ class Login : RestApi() {
     }
 
     // Sends username and password to the API through a request
-    fun sendLoginInfo(request: JsonRequest) {
+    private fun sendLoginInfo(request: JsonRequest) {
         val username = request.params?.get("username")
         val password = request.params?.get("password")
         if (username != "" && password != "") {

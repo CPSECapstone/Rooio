@@ -12,12 +12,12 @@ import java.util.*
 //The overarching class that any Activity inherits from so that they can use REST API functionality
 //and access information such as the user token, location, or first name
 abstract class RestApi : AppCompatActivity() {
-    private lateinit var queue: RequestQueue
-    val BaseUrl = "https://capstone.api.roopairs.com/v0/"
 
+    val BaseUrl = "https://capstone.api.roopairs.com/v0/"
 
     //Static objects that can be accessed from any Activity
     companion object {
+        var queue: RequestQueue? = null
         lateinit var userToken: String
         lateinit var userName: String
         lateinit var userLocationID: String
@@ -25,14 +25,18 @@ abstract class RestApi : AppCompatActivity() {
 
     //Sends a JSONObject request to the API
     private fun addToVolleyQueue(request: JsonObjectRequest) {
-        queue = Volley.newRequestQueue(applicationContext)
-        queue.add(request)
+        if (queue == null) {
+            queue = Volley.newRequestQueue(applicationContext)
+        }
+        queue!!.add(request)
     }
 
     //Sends a JSONArray request to the API
     private fun addToVolleyQueue(request: JsonArrayRequest) {
-        queue = Volley.newRequestQueue(applicationContext)
-        queue.add(request)
+        if (queue == null) {
+            queue = Volley.newRequestQueue(applicationContext)
+        }
+        queue!!.add(request)
     }
 
     //Handles volley error messages if there is a server error
