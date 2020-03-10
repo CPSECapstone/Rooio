@@ -56,7 +56,7 @@ class PreferredProvidersLogin : RestApi() {
     }
 
     // Initially loads the current providers by making a call to the API
-    private fun loadPreferredProviders(request: JsonRequest) {
+    fun loadPreferredProviders(request: JsonRequest) {
         requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
 
