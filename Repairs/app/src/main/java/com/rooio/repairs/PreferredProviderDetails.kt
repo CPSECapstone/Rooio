@@ -1,14 +1,11 @@
 package com.rooio.repairs
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
-import android.view.ViewGroup
-
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,29 +13,41 @@ import com.squareup.picasso.Picasso
 import org.json.JSONException
 import org.json.JSONObject
 import androidx.arch.core.util.Function
+import androidx.core.content.ContextCompat
 
 
 class PreferredProviderDetails: NavigationBar() {
 
-    lateinit var error: TextView
-    lateinit var backButton: ImageView
-    lateinit var removeButton: Button
-    lateinit var url: String
-    lateinit var email: TextView
-    lateinit var skills: TextView
-    lateinit var licenseNumber: TextView
-    lateinit var overview: TextView
-    lateinit var phone: TextView
-    lateinit var name: TextView
-    lateinit var price: TextView
-    lateinit var logo: ImageView
+    private lateinit var message: TextView
+    private lateinit var backButton: View
+    private lateinit var removeButton: Button
+    private lateinit var email: TextView
+    private lateinit var skills: TextView
+    private lateinit var licenseNumber: TextView
+    private lateinit var overview: TextView
+    private lateinit var phone: TextView
+    private lateinit var name: TextView
+    private lateinit var price: TextView
+    private lateinit var logo: ImageView
 
+    private var url = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preferred_providers_details)
 
         //initializes variables that are used in loadElements()
+        initializeVariables()
+        setNavigationBar()
+        setActionBar()
+        createNavigationBar(NavigationType.SETTINGS)
+        onBackClick()
+        loadProvider()
+        onRemoveClick()
+
+    }
+    //Initializes UI variables
+    private fun initializeVariables() {
         overview = findViewById(R.id.info_overview)
         email = findViewById(R.id.info_email)
         skills = findViewById(R.id.info_skills)
@@ -47,44 +56,31 @@ class PreferredProviderDetails: NavigationBar() {
         logo = findViewById(R.id.logo)
         name = findViewById(R.id.name)
         price = findViewById(R.id.price)
+        backButton = findViewById(R.id.back_button_details)
+        removeButton = findViewById(R.id.removeProvider)
 
-        //sets the navigation bar onto the page
-        val navInflater = layoutInflater
-        val tmpView = navInflater.inflate(R.layout.activity_navigation_bar, null)
+    }
 
-        window.addContentView(tmpView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-        //sets the action bar onto the page
-        val actionbarInflater = layoutInflater
-        val actionBarView = actionbarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-        supportActionBar!!.elevation = 0.0f
-
-        createNavigationBar("settings")
-        backButton = findViewById<View>(R.id.back_button_details) as ImageView
-        removeButton = findViewById<Button>(R.id.removeProvider)
-
-        loadProvider()
-        onRemoveClick()
-        onBackClick()
+    private fun onBackClick() {
+        backButton.setOnClickListener{
+            val intent = Intent(this@PreferredProviderDetails, PreferredProvidersSettings::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun loadProvider(){
         val bundle: Bundle ?= intent.extras
         if (bundle!=null){
             val theId = bundle.getString("addedProvider")
+            //set url to an empty string, as a private val
             url = "https://capstone.api.roopairs.com/v0/service-providers/" + theId.toString() + "/"
-            val request = JsonRequest(false, url, HashMap(), providerResponseFunc, providerErrorFunc, true)
-            requestGetJsonObj(request)
+            requestGetJsonObj(JsonRequest(false, url, null, providerResponseFunc, providerErrorFunc, true))
         }
     }
 
     @JvmField
-    var providerErrorFunc = Function<String, Void?> {
-        error.setText(R.string.error_login)
+    var providerErrorFunc = Function<String, Void?> {error -> String
+        message.text = error
         null
     }
 
@@ -108,8 +104,8 @@ class PreferredProviderDetails: NavigationBar() {
     }
 
     @JvmField
-    var removeErrorFunc = Function<String, Void?> {
-        error.setText(R.string.error_login)
+    var removeErrorFunc = Function<String, Void?> {error -> String
+        message.text = error
         null
     }
 
@@ -125,24 +121,26 @@ class PreferredProviderDetails: NavigationBar() {
 
     @Throws(JSONException::class)
     fun loadElements(response: JSONObject) {
-        var image : String
-        try {
-            image = response.get("logo") as String
+        val image = try {
+            response.get("logo") as String
         } catch (e: Exception) {
             // if there is no logo for the service provider
-            image =""
+            ""
         }
-        if(!image.isNullOrEmpty())
+        if(image.isNotEmpty())
             Picasso.with(applicationContext)
                 .load(image)
                 .into(logo)
+        else{
+            logo.setBackgroundResource(R.drawable.blank_border)
+        }
 
-        setElementTexts(overview, response,"overview")
-        setElementTexts(email, response, "email")
-        setElementTexts(skills, response, "skills")
-        setElementTexts(licenseNumber, response, "contractor_license_number")
-        setElementTexts(phone, response, "phone")
-        setElementTexts(name, response, "name")
+        setElementTexts(overview, response, getString(R.string.overview_text))
+        setElementTexts(email, response, getString(R.string.email))
+        setElementTexts(skills, response, getString(R.string.skills))
+        setElementTexts(licenseNumber, response, getString(R.string.contractor_license_number))
+        setElementTexts(phone, response, getString(R.string.phone))
+        setElementTexts(name, response, getString(R.string.name))
 
         setPriceElement(price, response, "starting_hourly_rate")
 
@@ -150,8 +148,8 @@ class PreferredProviderDetails: NavigationBar() {
 
     private fun setElementTexts(element: TextView, response: JSONObject, elementName: String){
         try {
-            var jsonStr = response.get(elementName) as String
-            if(jsonStr.isNullOrEmpty())
+            val jsonStr = response.get(elementName) as String
+            if(jsonStr.isEmpty() || jsonStr == "null")
                 element.text = "--"
             else
                 element.text = jsonStr
@@ -164,24 +162,18 @@ class PreferredProviderDetails: NavigationBar() {
 
     private fun setPriceElement(element: TextView, response: JSONObject, elementName: String){
         try {
-            var hoursText = getString((R.string.details_price_exception_message),response.get(elementName) as String)
-            var standardText = SpannableStringBuilder(" starting cost")
-            standardText.setSpan(ForegroundColorSpan(Color.parseColor("#00CA8F")), 0, 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            val hoursText = getString((R.string.details_price_exception_message),response.get(elementName) as String)
+            val standardText = SpannableStringBuilder(getString(R.string.starting_cost_text))
+            standardText.setSpan(ForegroundColorSpan(ContextCompat.getColor(applicationContext, R.color.colorAccent)), 0, 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
             element.text = standardText.insert(1, "$hoursText ")
         } catch (e: Exception) {
-            element.text = "--"
+            element.text = getString(R.string.empty_field)
         }
     }
 
 
     override fun animateActivity(boolean: Boolean)
     {
-    }
-    private fun onBackClick() {
-        backButton.setOnClickListener{
-            val intent = Intent(this@PreferredProviderDetails, PreferredProvidersSettings::class.java)
-            startActivity(intent)
-        }
     }
 
 }

@@ -13,5 +13,6 @@
     <color name="Purple">#9A50BA</color>
     <color name="grayedOut">#336B6B6B</color>
     <color name="inputFieldOutline">#ededed</color>
+    <color name="rooioLightGray">#ECF0F1</color>
 
 </resources>

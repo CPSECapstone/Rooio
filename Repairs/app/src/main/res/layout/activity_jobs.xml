@@ -234,6 +234,7 @@
         android:textColor="#6D7377"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/guideline5"
+        android:soundEffectsEnabled="false"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

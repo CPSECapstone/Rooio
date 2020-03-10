@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -13,6 +14,10 @@ import com.android.volley.Request
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
+import android.media.AudioManager
+
+
+
 
 // Activity that creates the login page of the application
 // User is able to login with a username or password
@@ -75,13 +80,9 @@ class Login : RestApi() {
     var responseFunc = Function<Any, Void?> { response: Any ->
         loadingPanel.visibility = View.GONE
         errorMessage.text = ""
-        try {
-            val jsonObj = response as JSONObject
-            storeToken(jsonObj)
-            startActivity(Intent(this@Login, LocationLogin::class.java))
-        } catch (e: JSONException) {
-            errorMessage.setText(R.string.error_server)
-        }
+        val jsonObj = response as JSONObject
+        storeToken(jsonObj)
+        startActivity(Intent(this@Login, LocationLogin::class.java))
         null
     }
     //Error provided if login information is incorrect or cannot be found from request
@@ -112,4 +113,5 @@ class Login : RestApi() {
             requestJson(Request.Method.POST, JsonType.OBJECT, request)
         } else errorMessage.setText(R.string.error_login)
     }
+
 }
