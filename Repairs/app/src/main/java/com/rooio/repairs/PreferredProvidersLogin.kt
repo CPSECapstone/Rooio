@@ -33,7 +33,7 @@ class PreferredProvidersLogin : RestApi() {
 
         centerTitleBar()
         initializeVariables()
-        loadPreferredProviders(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
+        loadPreferredProviders(JsonRequest(false, url, null, responseFunc, errorFunc, true))
         onAddAnother()
         onContinue()
     }

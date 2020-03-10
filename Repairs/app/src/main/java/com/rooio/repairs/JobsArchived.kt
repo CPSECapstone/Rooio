@@ -43,20 +43,8 @@ class JobsArchived  : NavigationBar() {
 
                 CompletedConstraint = findViewById<View>(R.id.completedConstraint) as ConstraintLayout
 
-                val nav_inflater = layoutInflater
-                val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
-
-                window.addContentView(tmpView,
-                        ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-                //sets the action bar onto the page
-
-                val actionbar_inflater = layoutInflater
-                val poopView = actionbar_inflater.inflate(R.layout.action_bar, null)
-                window.addContentView(poopView,
-                        ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-                supportActionBar!!.elevation = 0.0f
+                setNavigationBar()
+                setActionBar()
 
 
                 createNavigationBar(NavigationType.JOBS)

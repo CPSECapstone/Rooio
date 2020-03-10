@@ -38,7 +38,7 @@ class Jobs : NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jobs)
 
-        //sets the navigation bar onto the page
+
         pendingList = findViewById<View>(R.id.pendingList) as ListView
         scheduledList = findViewById<View>(R.id.scheduledList) as ListView
         inProgressList = findViewById<View>(R.id.inProgressList) as ListView
@@ -47,20 +47,10 @@ class Jobs : NavigationBar() {
         scheduledConstraint = findViewById<View>(R.id.scheduledConstraint) as ConstraintLayout
         inProgressConstraint = findViewById<View>(R.id.inProgressConstraint) as ConstraintLayout
 
-        val nav_inflater = layoutInflater
-        val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
+        //Set navigation bar function call
+        setNavigationBar()
+        setActionBar()
 
-        window.addContentView(tmpView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-        //sets the action bar onto the page
-
-        val actionbar_inflater = layoutInflater
-        val poopView = actionbar_inflater.inflate(R.layout.action_bar, null)
-        window.addContentView(poopView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-        supportActionBar!!.elevation = 0.0f
 
 
         createNavigationBar(NavigationType.JOBS)
@@ -223,7 +213,7 @@ class Jobs : NavigationBar() {
 
         val boxParams10 = sideMover.layoutParams
 
-        val p2 = if (boolean) 480 else 454
+        val p2 = if (boolean) 478 else 454
         boxParams1.width = p2
         boxParams2.width = p2
         boxParams3.width = p2
@@ -248,4 +238,13 @@ class Jobs : NavigationBar() {
 
 
     }
+
+//    private fun setNavigationBar() {
+//        //sets the navigation bar onto the page
+//        val nav_inflater = layoutInflater
+//        val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
+//
+//        window.addContentView(tmpView,
+//                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+//    }
 }

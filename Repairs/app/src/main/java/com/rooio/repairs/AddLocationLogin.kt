@@ -56,7 +56,7 @@ class AddLocationLogin : RestApi() {
         addLocation.setOnClickListener {
             errorMessage.text = ""
             val locationInput = newLocation.text.toString()
-            val request = JsonRequest(false, url, HashMap(), checkResponseFunc, checkErrorFunc, true)
+            val request = JsonRequest(false, url, null, checkResponseFunc, checkErrorFunc, true)
             checkLocationInfo(locationInput, request)
         }
     }

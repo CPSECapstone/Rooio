@@ -63,21 +63,8 @@ class Dashboard : NavigationBar() {
         hvacButton = findViewById(R.id.hvacButton)
         applianceButton = findViewById(R.id.applianceButton)
 
-        //sets the navigation bar onto the page
-        val nav_inflater = layoutInflater
-        val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
-
-        window.addContentView(tmpView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-        //sets the action bar onto the page
-
-        val actionbar_inflater = layoutInflater
-        val actionBarView = actionbar_inflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-        supportActionBar!!.elevation = 0.0f
+        setNavigationBar()
+        setActionBar()
         populate_test()
 
         loadJobs()
@@ -226,5 +213,14 @@ class Dashboard : NavigationBar() {
 
         null
     }
+
+//    private fun setNavigationBar() {
+//        //sets the navigation bar onto the page
+//        val nav_inflater = layoutInflater
+//        val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
+//
+//        window.addContentView(tmpView,
+//                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+//    }
 
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,10 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.squareup.picasso.Picasso;
 
@@ -85,37 +89,56 @@ class JobsCustomerAdapter implements ListAdapter {
             try {
                 Integer status_enum = data.getInt("status");
                 String status_value = null;
+
+
+                Drawable unwrappedDrawable = AppCompatResources.getDrawable(context, R.drawable.notable_jobs_color);
+                Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
+
                 switch(status_enum) {
                     case 1:
                         status_value = "Declined";
-                        color.setBackgroundColor(Color.parseColor("#9A50BA"));
+
 
                         break;
                     case 2:
                         status_value = "Accepted";
-                        color.setBackgroundColor(Color.parseColor("#96B8F8"));
-
+                        DrawableCompat.setTint(
+                                DrawableCompat.wrap(color.getBackground()),
+                                ContextCompat.getColor(context, R.color.Blue)
+                        );
                         break;
                     case 3:
                         status_value = "Completed";
-                        color.setBackgroundColor(Color.parseColor("#A6A9AC"));
-
+                        DrawableCompat.setTint(
+                                DrawableCompat.wrap(color.getBackground()),
+                                ContextCompat.getColor(context, R.color.lightGray)
+                        );
                         break;
                     case 4:
                         status_value = "Canceled";
+
                         break;
                     case 5:
                         status_value = "Started";
-                        color.setBackgroundColor(Color.parseColor("#00CA8F"));
-                        break;
+                        DrawableCompat.setTint(
+                                DrawableCompat.wrap(color.getBackground()),
+                                ContextCompat.getColor(context, R.color.colorPrimary)
+                        );                        break;
                     case 6:
                         status_value = "Paused";
-                        color.setBackgroundColor(Color.parseColor("#F6E15C"));
+                        DrawableCompat.setTint(
+                                DrawableCompat.wrap(color.getBackground()),
+                                ContextCompat.getColor(context, R.color.colorPrimary)
+                        );
 
                         break;
                     case 0:
                         status_value = "Pending";
-                        color.setBackgroundColor(Color.parseColor("#9A50BA"));
+                        DrawableCompat.setTint(
+                                DrawableCompat.wrap(color.getBackground()),
+                                ContextCompat.getColor(context, R.color.Purple)
+                        );
+
 
                         break;
                 }
@@ -168,7 +191,6 @@ class JobsCustomerAdapter implements ListAdapter {
                         .load(internal_client.getString("logo")
                         )
                         .into(image);
-
 
 
                 if(!statuses.contains(status_value)){

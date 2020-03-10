@@ -61,7 +61,7 @@ class AddPreferredProvidersLogin : RestApi() {
         addProvider.setOnClickListener {
             errorMessage.text = ""
             val phoneInput = newProvider.text.toString()
-            val request = JsonRequest(false, url, HashMap(), checkResponseFunc, checkErrorFunc, true)
+            val request = JsonRequest(false, url, null, checkResponseFunc, checkErrorFunc, true)
             checkPhoneNumber(phoneInput, request)
         }
     }
