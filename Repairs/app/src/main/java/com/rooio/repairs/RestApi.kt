@@ -1,7 +1,7 @@
 package com.rooio.repairs
 
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.arch.core.util.Function
 import com.android.volley.*
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -21,6 +21,79 @@ abstract class RestApi : AppCompatActivity() {
         lateinit var userToken: String
         lateinit var userName: String
         lateinit var userLocationID: String
+    }
+
+
+    //Sends a request to the API or mocks the API call if it is a test
+    fun requestJson(type: Int?, jsonType: JsonType?, request: JsonRequest) {
+        if (!request.isTest) {
+            when (jsonType) {
+                JsonType.OBJECT -> {
+                    val jsonObjectRequest = createJsonObjectRequest(type, request)
+                    addToVolleyQueue(jsonObjectRequest)
+                }
+                JsonType.ARRAY -> {
+                    val jsonArrayRequest = createJsonArrayRequest(type, request)
+                    addToVolleyQueue(jsonArrayRequest)
+                }
+            }
+        }
+    }
+
+    //Creates a JSONObject request based on REST type and information provided
+    private fun createJsonObjectRequest(type: Int?, request: JsonRequest): JsonObjectRequest {
+        val url = BaseUrl + request.url
+        val responseFunc = request.responseFunc
+        val errorFunc = request.errorFunc
+        val headersFlag = request.headersFlag
+
+        var  jsonParams : JSONObject? = if (!request.params.isNullOrEmpty()) {
+            JSONObject(request.params)
+        } else null
+
+        return object : JsonObjectRequest(type!!, url, jsonParams,
+                Response.Listener { input: JSONObject -> responseFunc.apply(input) },
+                Response.ErrorListener { error: VolleyError -> errorFunc.apply(errorMsgHandler(error)) }) {
+            override fun getHeaders(): Map<String, String> {
+                //If true is given through headersFlag parameter the Post request will be sent with Headers
+                return if (headersFlag) {
+                    val headers: MutableMap<String, String> = HashMap()
+                    headers["Authorization"] = "Token $userToken"
+                    headers
+                 //If false is given through headersFlag parameter the Post request will not be sent with Headers
+                } else {
+                    emptyMap()
+                }
+            }
+        }
+    }
+
+    //Creates a JSONArray request based on REST type and information provided
+    private fun createJsonArrayRequest(type: Int?, request: JsonRequest): JsonArrayRequest {
+        val url = BaseUrl + request.url
+        val responseFunc = request.responseFunc
+        val errorFunc = request.errorFunc
+        val headersFlag = request.headersFlag
+
+        var  jsonParams : JSONObject? = if (!request.params.isNullOrEmpty()) {
+            JSONObject(request.params)
+        } else null
+
+        return object : JsonArrayRequest(type!!, url, jsonParams,
+                Response.Listener { input: JSONArray -> responseFunc.apply(input) },
+                Response.ErrorListener { error: VolleyError -> errorFunc.apply(errorMsgHandler(error)) }) {
+            override fun getHeaders(): Map<String, String> {
+                //If true is given through headersFlag parameter the Post request will be sent with Headers
+                return if (headersFlag) {
+                    val headers: MutableMap<String, String> = HashMap()
+                    headers["Authorization"] = "Token $userToken"
+                    headers
+                 //If false is given through headersFlag parameter the Post request will not be sent with Headers
+                } else {
+                    emptyMap()
+                }
+            }
+        }
     }
 
     //Sends a JSONObject request to the API
@@ -56,394 +129,352 @@ abstract class RestApi : AppCompatActivity() {
         return errorMsg
     }
 
-    //Creates a JSONObject request based on REST type and information provided
-    private fun createJsonObjectRequest(type: Int?, request: JsonRequest): JsonObjectRequest {
-        val url = request.url
-        val responseFunc = request.responseFunc
-        val errorFunc = request.errorFunc
-        val headersFlag = request.headersFlag
-        val jsonParams = JSONObject(request.params)
-        return object : JsonObjectRequest(type!!, url, jsonParams,
-                Response.Listener { input: JSONObject -> responseFunc.apply(input) },
-                Response.ErrorListener { error: VolleyError -> errorFunc.apply(errorMsgHandler(error)) }) {
-            override fun getHeaders(): Map<String, String> {
-                //If true is given through headersFlag parameter the Post request will be sent with Headers
-                return if (headersFlag) {
-                    val headers: MutableMap<String, String> = HashMap()
-                    headers["Authorization"] = "Token $userToken"
-                    headers
-                 //If false is given through headersFlag parameter the Post request will not be sent with Headers
-                } else {
-                    emptyMap()
-                }
-            }
-        }
+    // Sets the navigation bar onto the page
+    fun setNavigationBar() {
+        //sets the navigation bar onto the page
+        val navInflater = layoutInflater
+        val tmpView = navInflater.inflate(R.layout.activity_navigation_bar, null)
+
+        window.addContentView(tmpView,
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
     }
 
-    //Creates a JSONArray request based on REST type and information provided
-    private fun createJsonArrayRequest(type: Int?, request: JsonRequest): JsonArrayRequest {
-        val url = request.url
-        val responseFunc = request.responseFunc
-        val errorFunc = request.errorFunc
-        val headersFlag = request.headersFlag
-        val jsonParams = JSONObject(request.params)
-        return object : JsonArrayRequest(type!!, url, jsonParams,
-                Response.Listener { input: JSONArray -> responseFunc.apply(input) },
-                Response.ErrorListener { error: VolleyError -> errorFunc.apply(errorMsgHandler(error)) }) {
-            override fun getHeaders(): Map<String, String> {
-                //If true is given through headersFlag parameter the Post request will be sent with Headers
-                return if (headersFlag) {
-                    val headers: MutableMap<String, String> = HashMap()
-                    headers["Authorization"] = "Token $userToken"
-                    headers
-                 //If false is given through headersFlag parameter the Post request will not be sent with Headers
-                } else {
-                    emptyMap()
-                }
-            }
-        }
+    // Sets the action bar onto the page
+    fun setActionBar() {
+        //sets the action bar onto the page
+        val actionbarInflater = layoutInflater
+        val actionbarView = actionbarInflater.inflate(R.layout.action_bar, null)
+        window.addContentView(actionbarView,
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+        supportActionBar!!.elevation = 0.0f
     }
 
-    //Sends a request to the API or mocks the API call if it is a test
-    fun requestJson(type: Int?, jsonType: JsonType?, request: JsonRequest) {
-        if (!request.isTest) {
-            when (jsonType) {
-                JsonType.OBJECT -> {
-                    val jsonObjectRequest = createJsonObjectRequest(type, request)
-                    addToVolleyQueue(jsonObjectRequest)
-                }
-            JsonType.ARRAY -> {
-                val jsonArrayRequest = createJsonArrayRequest(type, request)
-                    addToVolleyQueue(jsonArrayRequest)
-                }
-            }
-        }
-    }
-
-    fun requestPostJsonObj(req: JsonRequest) {
-        if (req.isTest) {
-            return
-        }
-        val url = req.url
-        val params = req.params
-        val responseFunc = req.responseFunc
-        val errorFunc = req.errorFunc
-        val headersFlag = req.headersFlag
-        //-- Transforms params HashMap into Json Object
-        val jsonParams = JSONObject(params)
-        val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(Method.POST, url, jsonParams, Response.Listener { response -> responseFunc.apply(response) }, Response.ErrorListener { error ->
-            val errorMsg = errorMsgHandler(error)
-            errorFunc.apply(errorMsg)
-        }) {
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                return if (headersFlag) {
-                    val headers: MutableMap<String, String> = HashMap()
-                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
-                    headers
-                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
-                } else {
-                    emptyMap()
-                }
-            }
-        }
-        addToVolleyQueue(jsonObjectRequest)
-    }
-
-    fun requestDeleteJsonObj(req: JsonRequest) {
-        if (req.isTest) {
-            return
-        }
-        val url = req.url
-        val params = req.params
-        val responseFunc = req.responseFunc
-        val errorFunc = req.errorFunc
-        val headersFlag = req.headersFlag
-        //-- Transforms params HashMap into Json Object
-        val jsonParams = JSONObject(params)
-        val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(Method.DELETE, url, jsonParams, Response.Listener { response -> responseFunc.apply(response) }, Response.ErrorListener { error ->
-            val errorMsg = errorMsgHandler(error)
-            errorFunc.apply(errorMsg)
-        }) {
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                return if (headersFlag) {
-                    val headers: MutableMap<String, String> = HashMap()
-                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
-                    headers
-                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
-                } else {
-                    emptyMap()
-                }
-            }
-        }
-        addToVolleyQueue(jsonObjectRequest)
-    }
-
-    fun requestPutJsonObj(req: JsonRequest) {
-        if (req.isTest) {
-            return
-        }
-        val url = req.url
-        val params = req.params
-        val responseFunc = req.responseFunc
-        val errorFunc = req.errorFunc
-        val headersFlag = req.headersFlag
-        //-- Transforms params HashMap into Json Object
-        val jsonParams = JSONObject(params)
-        val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(Method.PUT, url, jsonParams, Response.Listener { response -> responseFunc.apply(response) }, Response.ErrorListener { error ->
-            val errorMsg = errorMsgHandler(error)
-            errorFunc.apply(errorMsg)
-        }) {
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                return if (headersFlag) {
-                    val headers: MutableMap<String, String> = HashMap()
-                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
-                    headers
-                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
-                } else {
-                    emptyMap()
-                }
-            }
-        }
-        addToVolleyQueue(jsonObjectRequest)
-    }
-
-    fun requestGetJsonObj(req: JsonRequest) {
-        if (req.isTest) {
-            return
-        }
-        val queue = Volley.newRequestQueue(applicationContext)
-        val url = req.url
-        val responseFunc = req.responseFunc
-        val errorFunc = req.errorFunc
-        val headersFlag = req.headersFlag
-        val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(Method.GET, url, null, Response.Listener { response ->
-            responseFunc.apply(response)
-        }, Response.ErrorListener { error ->
-            val errorMsg = errorMsgHandler(error)
-            errorFunc.apply(errorMsg)
-        }) {
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                return if (headersFlag) {
-                    val headers: MutableMap<String, String> = HashMap()
-                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
-                    headers
-                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
-                } else {
-                    emptyMap()
-                }
-            }
-        }
-        //  --> Equivalent of sending the request. Required to WORK...
-        queue.add(jsonObjectRequest)
-    }
-
-    fun requestGetJsonArray(req: JsonRequest) {
-        if (req.isTest) {
-            return
-        }
-        val queue = Volley.newRequestQueue(applicationContext)
-        val url = req.url
-        val responseFunc = req.responseFunc
-        val errorFunc = req.errorFunc
-        val headersFlag = req.headersFlag
-        val jsonObjectRequest: JsonArrayRequest = object : JsonArrayRequest(Method.GET, url, Response.Listener { response ->
-            responseFunc.apply(response)
-        }, Response.ErrorListener { error ->
-            val errorMsg = errorMsgHandler(error)
-            errorFunc.apply(errorMsg)
-        }) {
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                return if (headersFlag) {
-                    val headers: MutableMap<String, String> = HashMap()
-                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
-                    headers
-                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
-                } else {
-                    emptyMap()
-                }
-            }
-        }
-        //  --> Equivalent of sending the request. Required to WORK...
-        queue.add(jsonObjectRequest)
-    }
-
-    fun requestPostJsonArray(req: JsonRequest) {
-        if (req.isTest) {
-            return
-        }
-        val queue = Volley.newRequestQueue(applicationContext)
-        val url = req.url
-        val params = req.params
-        val responseFunc = req.responseFunc
-        val errorFunc = req.errorFunc
-        val headersFlag = req.headersFlag
-        //     -- Transforms params HashMap into Json Object
-        val jsonParams = JSONObject(params)
-        val jsonObjectRequest: JsonArrayRequest = object : JsonArrayRequest(Method.POST, url, jsonParams, Response.Listener { response ->
-            responseFunc.apply(response)
-        }, Response.ErrorListener { error ->
-            val errorMsg = errorMsgHandler(error)
-            errorFunc.apply(errorMsg)
-        }) {
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                return if (headersFlag) {
-                    val headers: MutableMap<String, String> = HashMap()
-                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
-                    headers
-                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
-                } else {
-                    emptyMap()
-                }
-            }
-        }
-        //  --> Equivalent of sending the request. Required to WORK...
-        queue.add(jsonObjectRequest)
-    }
-
-    //____________________________________________________________________
-    fun requestGetJsonObj(url: String?, responseFunc: Function<JSONObject?, Void?>,
-                          errorFunc: Function<String?, Void?>, headersFlag: Boolean) {
-        val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(Method.GET, url, null, Response.Listener { response ->
-            responseFunc.apply(response)
-        }, Response.ErrorListener { error ->
-            var errorMsg = "Unexpected Error!"
-            if (error is TimeoutError || error is NoConnectionError) {
-                errorMsg = "No connection or you timed out. Try again."
-            } else if (error is AuthFailureError) {
-                errorMsg = "You are not authorized."
-            } else if (error is ServerError) {
-                errorMsg = "does not exist."
-            } else if (error is NetworkError) {
-                errorMsg = "Network Error. Try again."
-            } else if (error is ParseError) {
-                errorMsg = "Parse Error. Try again."
-            }
-            errorFunc.apply(errorMsg)
-        }) {
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                return if (headersFlag) {
-                    val headers: MutableMap<String, String> = HashMap()
-                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
-                    headers
-                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
-                } else {
-                    emptyMap()
-                }
-            }
-        }
-        addToVolleyQueue(jsonObjectRequest)
-    }
-
-    fun requestPostJsonObj(url: String?, params: HashMap<String?, Any?>?,
-                           responseFunc: Function<JSONObject?, Void?>, errorFunc: Function<String?, Void?>, headersFlag: Boolean) { //     -- Transforms params HashMap into Json Object
-        val jsonParams = JSONObject(params)
-        val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(Method.POST, url, jsonParams, Response.Listener { response ->
-            responseFunc.apply(response)
-        }, Response.ErrorListener { error ->
-            var errorMsg = "Unexpected Error!"
-            if (error is TimeoutError || error is NoConnectionError) {
-                errorMsg = "No connection or you timed out. Try again."
-            } else if (error is AuthFailureError) {
-                errorMsg = "You are not authorized."
-            } else if (error is ServerError) {
-                errorMsg = "does not exist."
-            } else if (error is NetworkError) {
-                errorMsg = "Network Error. Try again."
-            } else if (error is ParseError) {
-                errorMsg = "Parse Error. Try again."
-            }
-            errorFunc.apply(errorMsg)
-        }) {
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                return if (headersFlag) {
-                    val headers: MutableMap<String, String> = HashMap()
-                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
-                    headers
-                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
-                } else {
-                    emptyMap()
-                }
-            }
-        }
-        addToVolleyQueue(jsonObjectRequest)
-    }
-
-    fun requestGetJsonArray(url: String?, responseFunc: Function<JSONArray?, Void?>,
-                            errorFunc: Function<String?, Void?>, headersFlag: Boolean) {
-        val jsonObjectRequest: JsonArrayRequest = object : JsonArrayRequest(Method.GET, url, Response.Listener { response ->
-            responseFunc.apply(response)
-        }, Response.ErrorListener { error ->
-            var errorMsg = "Unexpected Error!"
-            if (error is TimeoutError || error is NoConnectionError) {
-                errorMsg = "No connection or you timed out. Try again."
-            } else if (error is AuthFailureError) {
-                errorMsg = "You are not authorized."
-            } else if (error is ServerError) {
-                errorMsg = "does not exist."
-            } else if (error is NetworkError) {
-                errorMsg = "Network Error. Try again."
-            } else if (error is ParseError) {
-                errorMsg = "Parse Error. Try again."
-            }
-            errorFunc.apply(errorMsg)
-        }) {
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                return if (headersFlag) {
-                    val headers: MutableMap<String, String> = HashMap()
-                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
-                    headers
-                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
-                } else {
-                    emptyMap()
-                }
-            }
-        }
-        addToVolleyQueue(jsonObjectRequest)
-    }
-
-    fun requestPostJsonArray(url: String?, params: HashMap<String?, Any?>?,
-                             responseFunc: Function<JSONArray?, Void?>, errorFunc: Function<String?, Void?>, headersFlag: Boolean) { //     -- Transforms params HashMap into Json Object
-        val jsonParams = JSONObject(params)
-        val jsonObjectRequest: JsonArrayRequest = object : JsonArrayRequest(Method.POST, url, jsonParams, Response.Listener { response ->
-            responseFunc.apply(response)
-        }, Response.ErrorListener { error ->
-            var errorMsg = "Unexpected Error!"
-            if (error is TimeoutError || error is NoConnectionError) {
-                errorMsg = "No connection or you timed out. Try again."
-            } else if (error is AuthFailureError) {
-                errorMsg = "You are not authorized."
-            } else if (error is ServerError) {
-                errorMsg = "does not exist."
-            } else if (error is NetworkError) {
-                errorMsg = "Network Error. Try again."
-            } else if (error is ParseError) {
-                errorMsg = "Parse Error. Try again."
-            }
-            errorFunc.apply(errorMsg)
-        }) {
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
-                return if (headersFlag) {
-                    val headers: MutableMap<String, String> = HashMap()
-                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
-                    headers
-                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
-                } else {
-                    emptyMap()
-                }
-            }
-        }
-        addToVolleyQueue(jsonObjectRequest)
-    }
-
+//// _________________________________________________________________________________________________
+//
+//    fun requestPostJsonObj(req: JsonRequest) {
+//        if (req.isTest) {
+//            return
+//        }
+//        val url = req.url
+//        val params = req.params
+//        val responseFunc = req.responseFunc
+//        val errorFunc = req.errorFunc
+//        val headersFlag = req.headersFlag
+//        //-- Transforms params HashMap into Json Object
+//        val jsonParams = JSONObject(params)
+//        val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(Method.POST, url, jsonParams, Response.Listener { response -> responseFunc.apply(response) }, Response.ErrorListener { error ->
+//            val errorMsg = errorMsgHandler(error)
+//            errorFunc.apply(errorMsg)
+//        }) {
+//            @Throws(AuthFailureError::class)
+//            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+//                return if (headersFlag) {
+//                    val headers: MutableMap<String, String> = HashMap()
+//                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
+//                    headers
+//                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+//                } else {
+//                    emptyMap()
+//                }
+//            }
+//        }
+//        addToVolleyQueue(jsonObjectRequest)
+//    }
+//
+//    fun requestDeleteJsonObj(req: JsonRequest) {
+//        if (req.isTest) {
+//            return
+//        }
+//        val url = req.url
+//        val params = req.params
+//        val responseFunc = req.responseFunc
+//        val errorFunc = req.errorFunc
+//        val headersFlag = req.headersFlag
+//        //-- Transforms params HashMap into Json Object
+//        val jsonParams = JSONObject(params)
+//        val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(Method.DELETE, url, jsonParams, Response.Listener { response -> responseFunc.apply(response) }, Response.ErrorListener { error ->
+//            val errorMsg = errorMsgHandler(error)
+//            errorFunc.apply(errorMsg)
+//        }) {
+//            @Throws(AuthFailureError::class)
+//            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+//                return if (headersFlag) {
+//                    val headers: MutableMap<String, String> = HashMap()
+//                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
+//                    headers
+//                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+//                } else {
+//                    emptyMap()
+//                }
+//            }
+//        }
+//        addToVolleyQueue(jsonObjectRequest)
+//    }
+//
+//    fun requestPutJsonObj(req: JsonRequest) {
+//        if (req.isTest) {
+//            return
+//        }
+//        val url = req.url
+//        val params = req.params
+//        val responseFunc = req.responseFunc
+//        val errorFunc = req.errorFunc
+//        val headersFlag = req.headersFlag
+//        //-- Transforms params HashMap into Json Object
+//        val jsonParams = JSONObject(params)
+//        val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(Method.PUT, url, jsonParams, Response.Listener { response -> responseFunc.apply(response) }, Response.ErrorListener { error ->
+//            val errorMsg = errorMsgHandler(error)
+//            errorFunc.apply(errorMsg)
+//        }) {
+//            @Throws(AuthFailureError::class)
+//            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+//                return if (headersFlag) {
+//                    val headers: MutableMap<String, String> = HashMap()
+//                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
+//                    headers
+//                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+//                } else {
+//                    emptyMap()
+//                }
+//            }
+//        }
+//        addToVolleyQueue(jsonObjectRequest)
+//    }
+//
+//    fun requestGetJsonObj(req: JsonRequest) {
+//        if (req.isTest) {
+//            return
+//        }
+//        val queue = Volley.newRequestQueue(applicationContext)
+//        val url = req.url
+//        val responseFunc = req.responseFunc
+//        val errorFunc = req.errorFunc
+//        val headersFlag = req.headersFlag
+//        val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(Method.GET, url, null, Response.Listener { response ->
+//            responseFunc.apply(response)
+//        }, Response.ErrorListener { error ->
+//            val errorMsg = errorMsgHandler(error)
+//            errorFunc.apply(errorMsg)
+//        }) {
+//            @Throws(AuthFailureError::class)
+//            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+//                return if (headersFlag) {
+//                    val headers: MutableMap<String, String> = HashMap()
+//                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
+//                    headers
+//                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+//                } else {
+//                    emptyMap()
+//                }
+//            }
+//        }
+//        //  --> Equivalent of sending the request. Required to WORK...
+//        queue.add(jsonObjectRequest)
+//    }
+//
+//    fun requestGetJsonArray(req: JsonRequest) {
+//        if (req.isTest) {
+//            return
+//        }
+//        val queue = Volley.newRequestQueue(applicationContext)
+//        val url = req.url
+//        val responseFunc = req.responseFunc
+//        val errorFunc = req.errorFunc
+//        val headersFlag = req.headersFlag
+//        val jsonObjectRequest: JsonArrayRequest = object : JsonArrayRequest(Method.GET, url, Response.Listener { response ->
+//            responseFunc.apply(response)
+//        }, Response.ErrorListener { error ->
+//            val errorMsg = errorMsgHandler(error)
+//            errorFunc.apply(errorMsg)
+//        }) {
+//            @Throws(AuthFailureError::class)
+//            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+//                return if (headersFlag) {
+//                    val headers: MutableMap<String, String> = HashMap()
+//                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
+//                    headers
+//                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+//                } else {
+//                    emptyMap()
+//                }
+//            }
+//        }
+//        //  --> Equivalent of sending the request. Required to WORK...
+//        queue.add(jsonObjectRequest)
+//    }
+//
+//    fun requestPostJsonArray(req: JsonRequest) {
+//        if (req.isTest) {
+//            return
+//        }
+//        val queue = Volley.newRequestQueue(applicationContext)
+//        val url = req.url
+//        val params = req.params
+//        val responseFunc = req.responseFunc
+//        val errorFunc = req.errorFunc
+//        val headersFlag = req.headersFlag
+//        //     -- Transforms params HashMap into Json Object
+//        val jsonParams = JSONObject(params)
+//        val jsonObjectRequest: JsonArrayRequest = object : JsonArrayRequest(Method.POST, url, jsonParams, Response.Listener { response ->
+//            responseFunc.apply(response)
+//        }, Response.ErrorListener { error ->
+//            val errorMsg = errorMsgHandler(error)
+//            errorFunc.apply(errorMsg)
+//        }) {
+//            @Throws(AuthFailureError::class)
+//            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+//                return if (headersFlag) {
+//                    val headers: MutableMap<String, String> = HashMap()
+//                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
+//                    headers
+//                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+//                } else {
+//                    emptyMap()
+//                }
+//            }
+//        }
+//        //  --> Equivalent of sending the request. Required to WORK...
+//        queue.add(jsonObjectRequest)
+//    }
+//
+//    //____________________________________________________________________
+//    fun requestGetJsonObj(url: String?, responseFunc: Function<JSONObject?, Void?>,
+//                          errorFunc: Function<String?, Void?>, headersFlag: Boolean) {
+//        val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(Method.GET, url, null, Response.Listener { response ->
+//            responseFunc.apply(response)
+//        }, Response.ErrorListener { error ->
+//            var errorMsg = "Unexpected Error!"
+//            if (error is TimeoutError || error is NoConnectionError) {
+//                errorMsg = "No connection or you timed out. Try again."
+//            } else if (error is AuthFailureError) {
+//                errorMsg = "You are not authorized."
+//            } else if (error is ServerError) {
+//                errorMsg = "does not exist."
+//            } else if (error is NetworkError) {
+//                errorMsg = "Network Error. Try again."
+//            } else if (error is ParseError) {
+//                errorMsg = "Parse Error. Try again."
+//            }
+//            errorFunc.apply(errorMsg)
+//        }) {
+//            @Throws(AuthFailureError::class)
+//            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+//                return if (headersFlag) {
+//                    val headers: MutableMap<String, String> = HashMap()
+//                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
+//                    headers
+//                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+//                } else {
+//                    emptyMap()
+//                }
+//            }
+//        }
+//        addToVolleyQueue(jsonObjectRequest)
+//    }
+//
+//    fun requestPostJsonObj(url: String?, params: HashMap<String?, Any?>?,
+//                           responseFunc: Function<JSONObject?, Void?>, errorFunc: Function<String?, Void?>, headersFlag: Boolean) { //     -- Transforms params HashMap into Json Object
+//        val jsonParams = JSONObject(params)
+//        val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(Method.POST, url, jsonParams, Response.Listener { response ->
+//            responseFunc.apply(response)
+//        }, Response.ErrorListener { error ->
+//            var errorMsg = "Unexpected Error!"
+//            if (error is TimeoutError || error is NoConnectionError) {
+//                errorMsg = "No connection or you timed out. Try again."
+//            } else if (error is AuthFailureError) {
+//                errorMsg = "You are not authorized."
+//            } else if (error is ServerError) {
+//                errorMsg = "does not exist."
+//            } else if (error is NetworkError) {
+//                errorMsg = "Network Error. Try again."
+//            } else if (error is ParseError) {
+//                errorMsg = "Parse Error. Try again."
+//            }
+//            errorFunc.apply(errorMsg)
+//        }) {
+//            @Throws(AuthFailureError::class)
+//            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+//                return if (headersFlag) {
+//                    val headers: MutableMap<String, String> = HashMap()
+//                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
+//                    headers
+//                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+//                } else {
+//                    emptyMap()
+//                }
+//            }
+//        }
+//        addToVolleyQueue(jsonObjectRequest)
+//    }
+//
+//    fun requestGetJsonArray(url: String?, responseFunc: Function<JSONArray?, Void?>,
+//                            errorFunc: Function<String?, Void?>, headersFlag: Boolean) {
+//        val jsonObjectRequest: JsonArrayRequest = object : JsonArrayRequest(Method.GET, url, Response.Listener { response ->
+//            responseFunc.apply(response)
+//        }, Response.ErrorListener { error ->
+//            var errorMsg = "Unexpected Error!"
+//            if (error is TimeoutError || error is NoConnectionError) {
+//                errorMsg = "No connection or you timed out. Try again."
+//            } else if (error is AuthFailureError) {
+//                errorMsg = "You are not authorized."
+//            } else if (error is ServerError) {
+//                errorMsg = "does not exist."
+//            } else if (error is NetworkError) {
+//                errorMsg = "Network Error. Try again."
+//            } else if (error is ParseError) {
+//                errorMsg = "Parse Error. Try again."
+//            }
+//            errorFunc.apply(errorMsg)
+//        }) {
+//            @Throws(AuthFailureError::class)
+//            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+//                return if (headersFlag) {
+//                    val headers: MutableMap<String, String> = HashMap()
+//                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
+//                    headers
+//                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+//                } else {
+//                    emptyMap()
+//                }
+//            }
+//        }
+//        addToVolleyQueue(jsonObjectRequest)
+//    }
+//
+//    fun requestPostJsonArray(url: String?, params: HashMap<String?, Any?>?,
+//                             responseFunc: Function<JSONArray?, Void?>, errorFunc: Function<String?, Void?>, headersFlag: Boolean) { //     -- Transforms params HashMap into Json Object
+//        val jsonParams = JSONObject(params)
+//        val jsonObjectRequest: JsonArrayRequest = object : JsonArrayRequest(Method.POST, url, jsonParams, Response.Listener { response ->
+//            responseFunc.apply(response)
+//        }, Response.ErrorListener { error ->
+//            var errorMsg = "Unexpected Error!"
+//            if (error is TimeoutError || error is NoConnectionError) {
+//                errorMsg = "No connection or you timed out. Try again."
+//            } else if (error is AuthFailureError) {
+//                errorMsg = "You are not authorized."
+//            } else if (error is ServerError) {
+//                errorMsg = "does not exist."
+//            } else if (error is NetworkError) {
+//                errorMsg = "Network Error. Try again."
+//            } else if (error is ParseError) {
+//                errorMsg = "Parse Error. Try again."
+//            }
+//            errorFunc.apply(errorMsg)
+//        }) {
+//            @Throws(AuthFailureError::class)
+//            override fun getHeaders(): Map<String, String> { //                  ----->  If true is given through headersFlag parameter the Post request will be sent with Headers
+//                return if (headersFlag) {
+//                    val headers: MutableMap<String, String> = HashMap()
+//                    headers["Authorization"] = "Token $userToken" //<-- Token in Abstract Class RestApi
+//                    headers
+//                    //                  ----->  If false is given through headersFlag parameter the Post request will not be sent with Headers
+//                } else {
+//                    emptyMap()
+//                }
+//            }
+//        }
+//        addToVolleyQueue(jsonObjectRequest)
+//    }
+//
 
 }

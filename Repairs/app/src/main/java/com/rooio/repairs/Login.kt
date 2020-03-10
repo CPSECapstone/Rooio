@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -13,6 +14,10 @@ import com.android.volley.Request
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
+import android.media.AudioManager
+
+
+
 
 // Activity that creates the login page of the application
 // User is able to login with a username or password
@@ -25,7 +30,6 @@ class Login : RestApi() {
     private lateinit var cancelLogin: Button
     private lateinit var errorMessage: TextView
     private lateinit var loadingPanel: RelativeLayout
-    private val url = "https://capstone.api.roopairs.com/v0/auth/login/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +59,7 @@ class Login : RestApi() {
 
     // Attempts to log in the user after clicking Connect Account
     private fun onConnectAccount() {
+        val url = "auth/login/"
         val params = HashMap<Any?, Any?>()
         loadingPanel.visibility = View.GONE
         connectAccount.setOnClickListener {
@@ -108,4 +113,5 @@ class Login : RestApi() {
             requestJson(Request.Method.POST, JsonType.OBJECT, request)
         } else errorMessage.setText(R.string.error_login)
     }
+
 }

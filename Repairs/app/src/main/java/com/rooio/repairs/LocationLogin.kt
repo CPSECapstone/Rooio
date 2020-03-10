@@ -21,7 +21,7 @@ class LocationLogin : RestApi(), OnItemClickListener {
     private lateinit var errorMessage: TextView
     private lateinit var locationBox: ConstraintLayout
     private lateinit var loadingPanel: RelativeLayout
-    private val url = "https://capstone.api.roopairs.com/v0/service-locations/"
+    private val url = "service-locations/"
 
     //Static lists that hold the address list and location ids, move to REST API?
     companion object {

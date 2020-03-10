@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import android.widget.AdapterView.OnItemClickListener
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import android.widget.AdapterView.OnItemClickListener
@@ -25,7 +26,7 @@ class ChangeLocationSettings  : NavigationBar(), OnItemClickListener  {
     private lateinit var loadingPanel: RelativeLayout
     private lateinit var backButton: ImageView
     private lateinit var viewGroup: ViewGroup
-    private val url = "https://capstone.api.roopairs.com/v0/service-locations/"
+    private val url = "service-locations/"
 
     //Static lists that hold the address list and location ids, move to REST API?
     companion object {
@@ -40,27 +41,10 @@ class ChangeLocationSettings  : NavigationBar(), OnItemClickListener  {
         initializeVariables()
         setNavigationBar()
         setActionBar()
-        createNavigationBar("settings")
-        loadLocations(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
+        createNavigationBar(NavigationType.SETTINGS)
+        loadLocations(JsonRequest(false, url, null, responseFunc, errorFunc, true))
         onAddAnother()
         onBack()
-    }
-
-    //Sets the navigation bar onto the page
-    private fun setNavigationBar() {
-        val navBarInflater = layoutInflater
-        val navBarView = navBarInflater.inflate(R.layout.activity_navigation_bar, null)
-        window.addContentView(navBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-    }
-
-    //Sets the action bar onto the page
-    private fun setActionBar() {
-        val actionBarInflater = layoutInflater
-        val actionBarView = actionBarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        supportActionBar!!.elevation = 0.0f
     }
 
 

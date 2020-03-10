@@ -22,7 +22,7 @@ class AddLocationSettings  : NavigationBar() {
     private lateinit var loadingPanel: RelativeLayout
     private lateinit var backButton: ImageView
     private lateinit var viewGroup: ViewGroup
-    private val url = "https://capstone.api.roopairs.com/v0/service-locations/"
+    private val url = "service-locations/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +31,7 @@ class AddLocationSettings  : NavigationBar() {
         initializeVariables()
         setNavigationBar()
         setActionBar()
-        createNavigationBar("settings")
+        createNavigationBar(NavigationType.SETTINGS)
         onAddLocation()
         onBack()
     }
@@ -45,23 +45,6 @@ class AddLocationSettings  : NavigationBar() {
         viewGroup = findViewById(R.id.background)
         //Navigation bar collapse/expand
         backButton = viewGroup.findViewById(R.id.backButton)
-    }
-
-    //Sets the navigation bar onto the page
-    private fun setNavigationBar() {
-        val navBarInflater = layoutInflater
-        val navBarView = navBarInflater.inflate(R.layout.activity_navigation_bar, null)
-        window.addContentView(navBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-    }
-
-    //Sets the action bar onto the page
-    private fun setActionBar() {
-        val actionBarInflater = layoutInflater
-        val actionBarView = actionBarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        supportActionBar!!.elevation = 0.0f
     }
 
     //Handles when a user adds a location

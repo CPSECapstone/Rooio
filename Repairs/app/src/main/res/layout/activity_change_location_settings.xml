@@ -119,6 +119,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
@@ -208,8 +209,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.50"
+            android:soundEffectsEnabled="false"
             app:srcCompat="@mipmap/chevron_left" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -50,6 +50,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.94"
+                android:soundEffectsEnabled="false"
                 app:srcCompat="@mipmap/chevron" />
 
             <ImageView
@@ -63,6 +64,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.13"
+                android:soundEffectsEnabled="false"
                 app:srcCompat="@mipmap/dashboard" />
 
             <ImageView
@@ -78,6 +80,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.13"
+                android:soundEffectsEnabled="false"
                 app:srcCompat="@mipmap/dashboard" />
 
             <ImageView
@@ -91,6 +94,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.19"
+                android:soundEffectsEnabled="false"
                 app:srcCompat="@mipmap/jobs" />
 
             <ImageView
@@ -106,6 +110,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.19"
+                android:soundEffectsEnabled="false"
                 app:srcCompat="@mipmap/jobs"
 
                 />
@@ -121,6 +126,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.256"
+                android:soundEffectsEnabled="false"
                 app:srcCompat="@mipmap/equipment" />
 
             <ImageView
@@ -136,6 +142,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.256"
+                android:soundEffectsEnabled="false"
                 app:srcCompat="@mipmap/equipment" />
 
             <ImageView
@@ -149,6 +156,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.87"
+                android:soundEffectsEnabled="false"
                 app:srcCompat="@mipmap/settings" />
 
             <ImageView
@@ -164,6 +172,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.87"
+                android:soundEffectsEnabled="false"
                 app:srcCompat="@mipmap/settings" />
 
             <TextView
@@ -177,6 +186,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.13" />
 
             <TextView
@@ -191,6 +201,7 @@
                 app:layout_constraintHorizontal_bias="0.36"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.19" />
 
             <TextView
@@ -205,6 +216,7 @@
                 app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.255" />
 
             <TextView
@@ -218,6 +230,7 @@
                 app:layout_constraintHorizontal_bias="0.52"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.87" />
 
 
@@ -233,6 +246,7 @@
                 app:layout_constraintHorizontal_bias="0.52"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.94" />
 
             <ImageView

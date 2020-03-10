@@ -7,4 +7,5 @@
     android:fontFamily="@font/nunito_sans"
     android:paddingStart="5dp"
     android:paddingEnd="0dp"
+    android:soundEffectsEnabled="false"
     android:textColor="#374245" />

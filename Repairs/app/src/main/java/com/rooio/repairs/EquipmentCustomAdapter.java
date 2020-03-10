@@ -77,16 +77,16 @@ class EquipmentCustomAdapter implements ListAdapter {
 
             // displaying locations
             TextView location = convertView.findViewById(R.id.location);
-            if(!locations.contains(data.location.toUpperCase())){
-                location.setText(data.location.toUpperCase());
-                locations.add(data.location.toUpperCase());
+            if(!locations.contains(data.getLocation().toUpperCase())){
+                location.setText(data.getLocation().toUpperCase());
+                locations.add(data.getLocation().toUpperCase());
             }
             else
                 location.setVisibility(GONE);
 
             // displaying equipment buttons
             Button equipment = convertView.findViewById(R.id.equipmentItem);
-            equipment.setText(data.name);
+            equipment.setText(data.getName());
 
             //adding button to list of existing buttons
             buttons.add(equipment);
@@ -122,7 +122,7 @@ class EquipmentCustomAdapter implements ListAdapter {
                 equipmentDetails(data, equipmentDetails);
 
                 //saving the equipmentID
-                equipmentID = data.id;
+                equipmentID = data.getId();
 
                 // displaying equipment analytics
                 equipmentAnalytics.setVisibility(View.VISIBLE);
@@ -134,54 +134,54 @@ class EquipmentCustomAdapter implements ListAdapter {
     // setting text fields with equipment information
     private void equipmentDetails(EquipmentData equipment, ConstraintLayout constraintLayout){
         TextView displayName = constraintLayout.findViewById(R.id.displayName);
-        displayName.setText(equipment.name);
+        displayName.setText(equipment.getName());
 
         TextView serialNumber = constraintLayout.findViewById(R.id.serialNumber);
-        if(equipment.serialNumber.isEmpty()) serialNumber.setText("--");
-        else serialNumber.setText(equipment.serialNumber);
+        if(equipment.getSerialNumber().isEmpty()) serialNumber.setText("--");
+        else serialNumber.setText(equipment.getSerialNumber());
 
         TextView lastServiceDate = constraintLayout.findViewById(R.id.lastServiceDate);
-        if(equipment.lastServiceDate.equals("null")) lastServiceDate.setText("--");
-        else lastServiceDate.setText(equipment.lastServiceDate);
+        if(equipment.getLastServiceDate().equals("null")) lastServiceDate.setText("--");
+        else lastServiceDate.setText(equipment.getLastServiceDate());
 
         TextView manufacturer = constraintLayout.findViewById(R.id.manufacturer);
-        if(equipment.manufacturer.isEmpty()) manufacturer.setText("--");
-        else manufacturer.setText(equipment.manufacturer);
+        if(equipment.getManufacturer().isEmpty()) manufacturer.setText("--");
+        else manufacturer.setText(equipment.getManufacturer());
 
         TextView location = constraintLayout.findViewById(R.id.location);
-        if(equipment.location.isEmpty()) location.setText("--");
-        else location.setText(equipment.location);
+        if(equipment.getLocation().isEmpty()) location.setText("--");
+        else location.setText(equipment.getLocation());
 
         TextView modelNum = constraintLayout.findViewById(R.id.modelNumber);
-        if(equipment.modelNumber.isEmpty()) modelNum.setText("--");
-        else modelNum.setText(equipment.modelNumber);
+        if(equipment.getModelNumber().isEmpty()) modelNum.setText("--");
+        else modelNum.setText(equipment.getModelNumber());
 
         TextView lastServiceBy = constraintLayout.findViewById(R.id.lastServiceBy);
-        if(equipment.lastServiceBy.isEmpty()) lastServiceBy.setText("--");
-        else lastServiceBy.setText(equipment.lastServiceBy);
+        if(equipment.getLastServiceBy().isEmpty()) lastServiceBy.setText("--");
+        else lastServiceBy.setText(equipment.getLastServiceBy());
 
         TextView equipmentType = constraintLayout.findViewById(R.id.equipmentType);
-        equipmentType.setText(equipment.type.toString());
+        equipmentType.setText(equipment.getType().toString());
     }
 
     private void editEquipmentDetails(EquipmentData equipment, ConstraintLayout constraintLayout) {
         TextInputEditText displayName = constraintLayout.findViewById(R.id.editDisplayName);
-        displayName.setText(equipment.name);
+        displayName.setText(equipment.getName());
 
         TextInputEditText serialNumber = constraintLayout.findViewById(R.id.editSerialNumber);
-        serialNumber.setText(equipment.serialNumber);
+        serialNumber.setText(equipment.getSerialNumber());
 
         TextInputEditText manufacturer = constraintLayout.findViewById(R.id.editManufacturer);
-        manufacturer.setText(equipment.manufacturer);
+        manufacturer.setText(equipment.getManufacturer());
 
         TextInputEditText location = constraintLayout.findViewById(R.id.editLocation);
-        location.setText(equipment.location);
+        location.setText(equipment.getLocation());
 
         TextInputEditText modelNum = constraintLayout.findViewById(R.id.editModelNumber);
-        modelNum.setText(equipment.modelNumber);
+        modelNum.setText(equipment.getModelNumber());
 
         Spinner equipmentType = constraintLayout.findViewById(R.id.editEquipmentType);
-        equipmentType.setSelection(equipment.type.getIntRepr() - 1);
+        equipmentType.setSelection(equipment.getType().getIntRepr() - 1);
     }
 
 

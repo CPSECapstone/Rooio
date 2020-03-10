@@ -1,19 +1,18 @@
 package com.rooio.repairs
 
 
-import android.media.Image
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.content.Intent
 import android.widget.Button
-import androidx.transition.TransitionManager
-import java.util.ArrayList
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
+
 import androidx.transition.AutoTransition
+import com.android.volley.Request
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import org.json.JSONArray
@@ -43,7 +42,6 @@ class Dashboard : NavigationBar() {
         @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
         @JvmStatic private var scheduledJobs = ArrayList<JSONObject>()
         @JvmStatic private var inProgressJobs = ArrayList<JSONObject>()
-        @JvmStatic private var archivedJobs = ArrayList<JSONObject>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,7 +81,7 @@ class Dashboard : NavigationBar() {
 
         loadJobs()
 
-        createNavigationBar("dashboard")
+        createNavigationBar(NavigationType.DASHBOARD)
         jobRequestsClicked()
     }
 
@@ -182,15 +180,15 @@ class Dashboard : NavigationBar() {
     }
 
     private fun loadJobs(){
-        val url = BaseUrl + "service-locations/$userLocationID/jobs/"
-        requestGetJsonArray(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+        val url = "service-locations/$userLocationID/jobs/"
+        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
+                null, responseFunc, errorFunc, true))
     }
 
     private fun clearLists(){
         pendingJobs.clear()
         scheduledJobs.clear()
         inProgressJobs.clear()
-        archivedJobs.clear()
     }
 
     private fun populateLists(responseObj: JSONArray){
@@ -202,8 +200,7 @@ class Dashboard : NavigationBar() {
                 0 -> pendingJobs.add(job)
                 2 -> scheduledJobs.add(job)
                 5 -> inProgressJobs.add(job)
-//                6 -> inProgressJobs.add(job)
-                3 -> archivedJobs.add(job)
+                6 -> inProgressJobs.add(job)
             }
         }
     }
