@@ -247,6 +247,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.89" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -269,6 +270,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.53" />
 
             <TextView
@@ -586,6 +588,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.525" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -606,6 +609,7 @@
             app:layout_constraintHorizontal_bias="0.275"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:soundEffectsEnabled="false"
             app:layout_constraintVertical_bias="0.86" />
 
         <Button
@@ -624,6 +628,7 @@
             app:layout_constraintHorizontal_bias="0.72"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:soundEffectsEnabled="false"
             app:layout_constraintVertical_bias="0.86" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -662,6 +667,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
@@ -691,6 +697,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.96" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -943,6 +950,7 @@
                 app:layout_constraintHorizontal_bias="0.47"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.935" />
 
             <TextView

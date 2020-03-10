@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.arch.core.util.Function
 import com.android.volley.*
@@ -21,6 +22,26 @@ abstract class RestApi : AppCompatActivity() {
         lateinit var userToken: String
         lateinit var userName: String
         lateinit var userLocationID: String
+    }
+
+    // Sets the navigation bar onto the page
+    fun setNavigationBar() {
+        //sets the navigation bar onto the page
+        val navInflater = layoutInflater
+        val tmpView = navInflater.inflate(R.layout.activity_navigation_bar, null)
+
+        window.addContentView(tmpView,
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+    }
+
+    // Sets the action bar onto the page
+    fun setActionBar() {
+        //sets the action bar onto the page
+        val actionbarInflater = layoutInflater
+        val actionbarView = actionbarInflater.inflate(R.layout.action_bar, null)
+        window.addContentView(actionbarView,
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+        supportActionBar!!.elevation = 0.0f
     }
 
     //Sends a JSONObject request to the API
