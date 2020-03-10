@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.arch.core.util.Function
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.arch.core.util.Function
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
@@ -51,7 +50,7 @@ class ChooseServiceProvider : RestApi() {
 
     //Populates a list from API call
     private fun populateList() {
-        val request = JsonRequest(false, "service-providers/", HashMap(), providerResponseFunc, providerErrorFunc, true)
+        val request = JsonRequest(false, "service-providers/", null, providerResponseFunc, providerErrorFunc, true)
         requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
 

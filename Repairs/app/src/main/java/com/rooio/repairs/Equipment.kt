@@ -258,7 +258,7 @@ class Equipment : NavigationBar() {
 
     // send JsonRequest Object
     private fun loadEquipmentElements() {
-        val request = JsonRequest(false, url, HashMap(), responseFuncLoad, errorFuncLoad, true)
+        val request = JsonRequest(false, url, null, responseFuncLoad, errorFuncLoad, true)
         requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
 
