@@ -6,13 +6,14 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.arch.core.util.Function
 import com.squareup.picasso.Picasso
 import org.json.JSONException
 import org.json.JSONObject
-import androidx.arch.core.util.Function
 import androidx.core.content.ContextCompat
 
 
@@ -72,8 +73,9 @@ class PreferredProviderDetails: NavigationBar() {
         val bundle: Bundle ?= intent.extras
         if (bundle!=null){
             val theId = bundle.getString("addedProvider")
+            
             //set url to an empty string, as a private val
-            url = "https://capstone.api.roopairs.com/v0/service-providers/" + theId.toString() + "/"
+            url = "service-providers/" + theId.toString() + "/"
             requestGetJsonObj(JsonRequest(false, url, null, providerResponseFunc, providerErrorFunc, true))
         }
     }
@@ -96,9 +98,8 @@ class PreferredProviderDetails: NavigationBar() {
     }
 
     private fun onRemoveClick() {
-        val params = java.util.HashMap<Any?, Any?>()
-        val request = JsonRequest(false, url, params, removeResponseFunc, removeErrorFunc, true)
         removeButton.setOnClickListener {
+            val request = JsonRequest(false, url, null, removeResponseFunc, removeErrorFunc, true)
             requestDeleteJsonObj(request)
         }
     }

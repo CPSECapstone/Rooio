@@ -23,7 +23,7 @@ class AddLocationSettings  : NavigationBar() {
     private lateinit var expandBackButton: ImageView
     private lateinit var collapseBackButton: ImageView
     private lateinit var viewGroup: ViewGroup
-    private val url = "https://capstone.api.roopairs.com/v0/service-locations/"
+    private val url = "service-locations/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

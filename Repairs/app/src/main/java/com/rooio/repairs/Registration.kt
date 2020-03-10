@@ -61,7 +61,7 @@ class Registration : RestApi() {
     // Sends required information to API and loads the next screen.
     // Error if information is invalid or incorrect
     private fun sendRegistrationInfo() {
-        val url = "https://capstone.api.roopairs.com/v0/auth/register/"
+        val url = "auth/register/"
         val params = HashMap<Any?, Any?>()
         params["first_name"] = firstName.text.toString()
         params["last_name"] = lastName.text.toString()

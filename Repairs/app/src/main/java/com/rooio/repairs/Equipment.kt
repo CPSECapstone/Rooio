@@ -20,7 +20,7 @@ import org.json.JSONException
 
 class Equipment : NavigationBar() {
 
-    val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/equipment/"
+    val url = "service-locations/$userLocationID/equipment/"
     val intentVar = "savedEquipment"
 
     private lateinit var messageText: TextView
@@ -259,7 +259,7 @@ class Equipment : NavigationBar() {
     // send JsonRequest Object
     private fun loadEquipmentElements() {
         val request = JsonRequest(false, url, HashMap(), responseFuncLoad, errorFuncLoad, true)
-        requestGetJsonArray(request)
+        requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
 
     @JvmField
