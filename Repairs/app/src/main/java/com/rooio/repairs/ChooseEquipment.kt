@@ -18,9 +18,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.android.volley.Request
+import org.json.JSONArray
 import org.json.JSONException
 import java.util.*
 import kotlin.collections.ArrayList
