@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import android.R.string.no
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import com.android.volley.Request
 import kotlinx.android.synthetic.main.activity_navigation_bar.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -100,7 +101,7 @@ class Dashboard : NavigationBar() {
 
     private fun loadJobs(){
         val url = BaseUrl + "service-locations/$userLocationID/jobs/"
-        requestGetJsonArray(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
     }
 
 
