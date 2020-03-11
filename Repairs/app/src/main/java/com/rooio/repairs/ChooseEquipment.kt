@@ -1,30 +1,18 @@
 package com.rooio.repairs
 
-import android.os.Bundle
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import android.view.LayoutInflater
-import android.content.Context
 import android.content.Intent
-import android.graphics.Canvas
-import android.graphics.Color
-import android.view.View
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View.GONE
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.arch.core.util.Function
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.TransitionManager
 import com.android.volley.Request
-import org.json.JSONException
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
+import org.json.JSONArray
 
 class ChooseEquipment : RestApi() {
 

@@ -14,7 +14,6 @@ import androidx.arch.core.util.Function
 import com.squareup.picasso.Picasso
 import org.json.JSONException
 import org.json.JSONObject
-import androidx.arch.core.util.Function
 import androidx.core.content.ContextCompat
 
 

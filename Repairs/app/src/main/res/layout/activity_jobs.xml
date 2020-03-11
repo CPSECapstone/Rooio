@@ -237,4 +237,17 @@
         android:soundEffectsEnabled="false"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/errorMessage"
+        android:layout_width="344dp"
+        android:layout_height="34dp"
+        android:layout_marginBottom="19dp"
+        android:textAlignment="textStart"
+        android:textColor="#CA2500"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/scheduledTitleConstraint"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="1191dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

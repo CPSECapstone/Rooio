@@ -2,79 +2,66 @@ package com.rooio.repairs
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ListView
+import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
 import com.android.volley.Request
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.*
 
 
 class Jobs : NavigationBar() {
-    private var pendingList: ListView? = null
-    private var scheduledList: ListView? = null
-    private var inProgressList: ListView? = null
-    private var completedButton: Button? = null
+    private lateinit var pendingList: ListView
+    private lateinit var scheduledList: ListView
+    private lateinit var inProgressList: ListView
+    private lateinit var completedButton: Button
+    private lateinit var errorMsg: TextView
+
+    private val statuses = ArrayList<String>()
+
+    private lateinit var pendingConstraint: ConstraintLayout
+    private lateinit var scheduledConstraint: ConstraintLayout
+    private lateinit var inProgressConstraint: ConstraintLayout
 
 
-    val statuses = arrayListOf<String>()
+    private var pendingJobs = ArrayList<JSONObject>()
+    private var scheduledJobs = ArrayList<JSONObject>()
+    private var inProgressJobs = ArrayList<JSONObject>()
 
-    private var pendingConstraint: ConstraintLayout? = null
-    private var scheduledConstraint: ConstraintLayout? = null
-    private var inProgressConstraint: ConstraintLayout? = null
-
-    companion object{
-        @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
-        @JvmStatic private var scheduledJobs = ArrayList<JSONObject>()
-        @JvmStatic private var inProgressJobs = ArrayList<JSONObject>()
-    }
+    private val url = "service-locations/$userLocationID/jobs/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        initVariables()
+        setNavigationBar()
+        setActionBar()
+        createNavigationBar(NavigationType.JOBS)
+        onClick()
+        loadJobs()
+    }
+
+    private fun initVariables(){
         setContentView(R.layout.activity_jobs)
 
         //sets the navigation bar onto the page
-        pendingList = findViewById<View>(R.id.pendingList) as ListView
-        scheduledList = findViewById<View>(R.id.scheduledList) as ListView
-        inProgressList = findViewById<View>(R.id.inProgressList) as ListView
+        pendingList = findViewById(R.id.pendingList)
+        scheduledList = findViewById(R.id.scheduledList)
+        inProgressList = findViewById(R.id.inProgressList)
         completedButton = findViewById(R.id.button)
-        pendingConstraint = findViewById<View>(R.id.pendingConstraint) as ConstraintLayout
-        scheduledConstraint = findViewById<View>(R.id.scheduledConstraint) as ConstraintLayout
-        inProgressConstraint = findViewById<View>(R.id.inProgressConstraint) as ConstraintLayout
-
-        val nav_inflater = layoutInflater
-        val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
-
-        window.addContentView(tmpView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-        //sets the action bar onto the page
-
-        val actionbar_inflater = layoutInflater
-        val poopView = actionbar_inflater.inflate(R.layout.action_bar, null)
-        window.addContentView(poopView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-
-        supportActionBar!!.elevation = 0.0f
-
-
-        createNavigationBar(NavigationType.JOBS)
-
-        onClick()
-        clearLists()
-        loadJobs()
-
+        pendingConstraint = findViewById(R.id.pendingConstraint)
+        scheduledConstraint = findViewById(R.id.scheduledConstraint)
+        inProgressConstraint = findViewById(R.id.inProgressConstraint)
+        errorMsg = findViewById(R.id.errorMessage)
     }
 
     private fun onClick() {
         completedButton!!.setOnClickListener { startActivity(Intent(this@Jobs, JobsArchived::class.java)) }
     }
-
 
     private fun loadJobs(){
         loadPendingJobs()
@@ -83,60 +70,50 @@ class Jobs : NavigationBar() {
     }
 
     private fun loadPendingJobs(){
-        val Pending = "?status=0"
-        val url = "service-locations/$userLocationID/jobs/$Pending"
-        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
+        val pending = "?status=0"
+        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url + pending,
                 null, responseFunc, errorFunc, true))
     }
 
     private fun loadScheduledJobs(){
-        val Scheduled = "?status=2"
-        val url = "service-locations/$userLocationID/jobs/$Scheduled"
-        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
+        val scheduled = "?status=2"
+        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url + scheduled,
                 null, responseFunc, errorFunc, true))
     }
 
     private fun loadInProgressJobs(){
-        val InProgress = "?status=5&status=6"
-        val url = "service-locations/$userLocationID/jobs/$InProgress"
-        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
+        val inProgress = "?status=5&status=6"
+        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url + inProgress,
                 null, responseFunc, errorFunc, true))
-    }
-
-
-    private fun clearLists(){
-        pendingJobs.clear()
-        scheduledJobs.clear()
-        inProgressJobs.clear()
     }
 
     private fun populateLists(responseObj: JSONArray){
         for (i in 0 until responseObj.length()) {
             val job = responseObj.getJSONObject(i)
 
-            if (job.getInt("status") == 0){
+            if (job.getInt("status") == StatusType.Pending.getInt()){
                 pendingJobs.add(job)
-                sizes("pending")
+                statusesSizing("pending")
             }
-            else if(job.getInt("status") == 2){
+            else if(job.getInt("status") == StatusType.Accepted.getInt()){
                 scheduledJobs.add(job)
-                sizes("scheduled")
+                statusesSizing("scheduled")
             }
-            else if(job.getInt("status") == 5 || job.getInt("status") == 6 ){
+            else if(job.getInt("status") == StatusType.Started.getInt() ||
+                    job.getInt("status") == StatusType.Paused.getInt() ){
                 inProgressJobs.add(job)
-                sizes("inProgress")
+                statusesSizing("inProgress")
             }
-
         }
 
-        val customAdapter = JobsCustomerAdapter(this, pendingJobs)
-        if (pendingJobs.size != 0) pendingList!!.adapter = customAdapter
+        val pendingJobsCustomerAdapter = JobsCustomerAdapter(this, pendingJobs)
+        if (pendingJobs.size != 0) pendingList!!.adapter = pendingJobsCustomerAdapter
 
-        val customAdapter1 = JobsCustomerAdapter(this, scheduledJobs)
-        if (scheduledJobs.size != 0) scheduledList!!.adapter = customAdapter1
+        val scheduledJobsCustomerAdapter = JobsCustomerAdapter(this, scheduledJobs)
+        if (scheduledJobs.size != 0) scheduledList!!.adapter = scheduledJobsCustomerAdapter
 
-        val customAdapter2 = JobsCustomerAdapter(this, inProgressJobs)
-        if (inProgressJobs.size != 0) inProgressList!!.adapter = customAdapter2
+        val inProvidersCustomAdapter = JobsCustomerAdapter(this, inProgressJobs)
+        if (inProgressJobs.size != 0) inProgressList!!.adapter = inProvidersCustomAdapter
 
     }
 
@@ -149,52 +126,47 @@ class Jobs : NavigationBar() {
     }
     @JvmField
     var errorFunc = Function<String, Void?> { string: String? ->
-
+        errorMsg.text = string
         null
     }
 
 
-    //Set the sizes for each individual block
-    private fun sizes(str: String) {
-        var value = 0
+    //Set the statusesSizing for each individual block
+    private fun statusesSizing(str: String) {
+        var value: Int
         if (str in statuses) {
             value = 200
         } else {
             statuses.add(str)
             value = 250
         }
-        set_size(str, value)
+        setStatusesSizing(str, value)
     }
 
-    //Set the sizes
-    private fun set_size(str: String, value: Int){
+    //Set the statusesSizing
+    private fun setStatusesSizing(str: String, value: Int){
 
         if (str == "pending"){
-            val params = pendingConstraint!!.layoutParams
-            params.height += value
-            pendingConstraint!!.layoutParams = params
-            val size = pendingList!!.layoutParams
-            size.height += value
-            pendingList!!.layoutParams = size
+            setLayoutParams(value, pendingConstraint, pendingList)
         }
         else if (str == "scheduled" ||str == "accepted"){
-            val params = scheduledConstraint!!.layoutParams
-            params.height += value
-            scheduledConstraint!!.layoutParams = params
-            val size = scheduledList!!.layoutParams
-            size.height += value
-            scheduledList!!.layoutParams = size
+            setLayoutParams(value, scheduledConstraint, scheduledList)
         }
         else{
-            val params = inProgressConstraint!!.layoutParams
-            params.height += value
-            inProgressConstraint!!.layoutParams = params
-            val size = inProgressList!!.layoutParams
-            size.height += value
-            inProgressList!!.layoutParams = size
+            setLayoutParams(value, inProgressConstraint, inProgressList)
         }
 
     }
+
+    private fun setLayoutParams(value: Int, constraintLayout: ConstraintLayout, listView: ListView){
+        val params = constraintLayout!!.layoutParams
+        params.height += value
+        constraintLayout!!.layoutParams = params
+        val size = listView!!.layoutParams
+        size.height += value
+        listView!!.layoutParams = size
+    }
+
 
     //Shifting the layout in response to navBar position
     override fun animateActivity(boolean: Boolean){
@@ -235,8 +207,6 @@ class Jobs : NavigationBar() {
 
         boxParams10.width = p3
 
-
-
         //calling the transitions
         scheduledTitle.layoutParams = boxParams1
         pendingTitle.layoutParams = boxParams2
@@ -245,7 +215,5 @@ class Jobs : NavigationBar() {
         scheduled.layoutParams = boxParams5
         inProgress.layoutParams = boxParams6
         sideMover.layoutParams = boxParams10
-
-
     }
 }
