@@ -1,13 +1,13 @@
 package com.rooio.repairs
 
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.arch.core.util.Function
-import androidx.transition.TransitionManager
 import com.android.volley.Request
 import com.google.android.libraries.places.api.net.PlacesClient
 import org.json.JSONArray
@@ -20,11 +20,10 @@ class AddLocationSettings  : NavigationBar() {
     private lateinit var addLocation: Button
     private lateinit var errorMessage: TextView
     private lateinit var loadingPanel: RelativeLayout
-    private lateinit var expandBackButton: ImageView
-    private lateinit var collapseBackButton: ImageView
+    private lateinit var backButton: ImageView
     private lateinit var viewGroup: ViewGroup
     private lateinit var autocomplete: AutoCompleteTextView
-    private val url = "https://capstone.api.roopairs.com/v0/service-locations/"
+    private val url = "service-locations/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +32,7 @@ class AddLocationSettings  : NavigationBar() {
         initializeVariables()
         setNavigationBar()
         setActionBar()
-        createNavigationBar("settings")
+        createNavigationBar(NavigationType.SETTINGS)
         onAddLocation()
         onBack()
     }
@@ -47,6 +46,8 @@ class AddLocationSettings  : NavigationBar() {
         //Navigation bar collapse/expand
         expandBackButton = viewGroup.findViewById(R.id.expandBackButton)
         collapseBackButton = viewGroup.findViewById(R.id.collapseBackButton)
+        backButton = viewGroup.findViewById(R.id.backButton)
+
 
         initializeAutoComplete()
     }
@@ -78,8 +79,8 @@ class AddLocationSettings  : NavigationBar() {
         loadingPanel.visibility = View.GONE
         addLocation.setOnClickListener {
             errorMessage.text = ""
-            val locationInput = autocomplete.text.toString()
-            val request = JsonRequest(false, url, HashMap(), checkResponseFunc, checkErrorFunc, true)
+            val locationInput = autocomplete.text.toString()   
+            val request = JsonRequest(false, url, null, checkResponseFunc, checkErrorFunc, true)
             checkLocationInfo(locationInput, request)
         }
     }
@@ -161,19 +162,15 @@ class AddLocationSettings  : NavigationBar() {
     //Animates the main page content when the navigation bar collapses/expands
     override fun animateActivity(boolean: Boolean)
     {
-        TransitionManager.beginDelayedTransition(viewGroup)
-        val v = if (boolean) View.VISIBLE else View.GONE
-        val op = if (boolean) View.GONE else View.VISIBLE
-        expandBackButton.visibility = op
-        collapseBackButton.visibility = v
+        val amount = if (boolean) -190f else 0f
+        val animation = ObjectAnimator.ofFloat(backButton, "translationX", amount)
+        if (boolean) animation.duration = 1300 else animation.duration = 300
+        animation.start()
     }
 
     //Sends the user to the Jobs page
     private fun onBack() {
-        expandBackButton.setOnClickListener{
-            startActivity(Intent(this@AddLocationSettings, ChangeLocationSettings::class.java))
-        }
-        collapseBackButton.setOnClickListener{
+        backButton.setOnClickListener{
             startActivity(Intent(this@AddLocationSettings, ChangeLocationSettings::class.java))
         }
     }

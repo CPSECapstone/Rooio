@@ -43,7 +43,7 @@
         android:id="@+id/scheduledConstraint"
         android:layout_width="455dp"
         android:layout_height="40dp"
-        android:layout_marginTop="165dp"
+        android:layout_marginTop="163dp"
         android:layout_marginEnd="110dp"
         android:background="@drawable/gray_button_border_bottom"
         app:layout_constraintEnd_toStartOf="@+id/inProgressConstraint"
@@ -66,7 +66,7 @@
         android:id="@+id/inProgressConstraint"
         android:layout_width="455dp"
         android:layout_height="40dp"
-        android:layout_marginTop="165dp"
+        android:layout_marginTop="163dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/gray_button_border_bottom"
         app:layout_constraintEnd_toStartOf="@+id/sideMover"
@@ -184,10 +184,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/pendingConstraint"
-        android:layout_width="454dp"
-        android:layout_height="40dp"
+        android:layout_width="451dp"
+        android:layout_height="41dp"
         android:layout_marginTop="160dp"
-        android:layout_marginEnd="108dp"
+        android:layout_marginEnd="110dp"
         android:background="@drawable/gray_button_border_bottom"
         app:layout_constraintEnd_toStartOf="@+id/scheduledConstraint"
         app:layout_constraintTop_toTopOf="parent">
@@ -225,15 +225,17 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="602dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="724dp"
         android:background="#00FFFFFF"
         android:fontFamily="@font/nunito_sans"
+        android:soundEffectsEnabled="false"
+
         android:text="@string/view_completed"
         android:textAllCaps="false"
         android:textColor="#6D7377"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/guideline5"
+        app:layout_constraintEnd_toStartOf="@+id/sideMover"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

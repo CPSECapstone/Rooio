@@ -20,7 +20,7 @@ class AddLocationLogin : RestApi(){
     private lateinit var errorMessage: TextView
     private lateinit var loadingPanel: RelativeLayout
     private lateinit var autocomplete: AutoCompleteTextView
-    private val url = "https://capstone.api.roopairs.com/v0/service-locations/"
+    private val url = "service-locations/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +59,7 @@ class AddLocationLogin : RestApi(){
         addLocation.setOnClickListener {
             errorMessage.text = ""
             val locationInput = autocomplete.text.toString()
-            val request = JsonRequest(false, url, HashMap(), checkResponseFunc, checkErrorFunc, true)
+            val request = JsonRequest(false, url, null, checkResponseFunc, checkErrorFunc, true)
             checkLocationInfo(locationInput, request)
         }
     }

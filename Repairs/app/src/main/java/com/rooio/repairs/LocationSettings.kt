@@ -1,9 +1,11 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.arch.core.util.Function
 import com.android.volley.Request
@@ -17,19 +19,24 @@ class LocationSettings  : NavigationBar() {
     private lateinit var changeLocation: Button
     private lateinit var spinner: Spinner
     private lateinit var loadingPanel: RelativeLayout
-    private val url = "https://capstone.api.roopairs.com/v0/service-locations/$userLocationID/"
+    private val url = "service-locations/$userLocationID/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_settings)
 
+        onResume()
         initializeVariables()
         setNavigationBar()
         setActionBar()
-        createNavigationBar("settings")
+        createNavigationBar(NavigationType.SETTINGS)
         onChangeLocation()
-        getCurrentLocation(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
         setSettingsSpinner()
+        onPause()
+        
+        getCurrentLocation(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+        
+
     }
 
     //Handles when the user clicks the change location button
@@ -45,7 +52,7 @@ class LocationSettings  : NavigationBar() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
                 if(selectedItem == "Preferred Providers") {
                     val spinner: Spinner = findViewById(R.id.settings_spinner)
@@ -69,22 +76,6 @@ class LocationSettings  : NavigationBar() {
         }
     }
 
-    //Sets the navigation bar onto the page
-    private fun setNavigationBar() {
-        val navBarInflater = layoutInflater
-        val navBarView = navBarInflater.inflate(R.layout.activity_navigation_bar, null)
-        window.addContentView(navBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-    }
-
-    //Sets the action bar onto the page
-    private fun setActionBar() {
-        val actionBarInflater = layoutInflater
-        val actionBarView = actionBarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        supportActionBar!!.elevation = 0.0f
-    }
 
     //Initializes UI variables
     private fun initializeVariables() {
@@ -119,5 +110,28 @@ class LocationSettings  : NavigationBar() {
 
     override fun animateActivity(boolean: Boolean)
     {
+    }
+
+    // gets rid of sound when the user clicks on the spinner
+    public override fun onResume() {
+    super.onResume()
+    val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
+    } else {
+        am.setStreamMute(AudioManager.STREAM_MUSIC, true);
+    }
+
+}
+
+    public override fun onPause() {
+        super.onPause()
+        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0);
+        }
+        else {
+            am.setStreamMute(AudioManager.STREAM_SYSTEM, false)
+        }
     }
 }
