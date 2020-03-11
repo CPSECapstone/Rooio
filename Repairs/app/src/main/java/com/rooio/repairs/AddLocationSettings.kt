@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.arch.core.util.Function
 import com.android.volley.Request
-import com.google.android.libraries.places.api.net.PlacesClient
 import org.json.JSONArray
 import org.json.JSONException
 import java.util.*
@@ -43,35 +42,13 @@ class AddLocationSettings  : NavigationBar() {
         errorMessage = findViewById(R.id.errorMessage)
         loadingPanel = findViewById(R.id.loadingPanel)
         viewGroup = findViewById(R.id.background)
-        //Navigation bar collapse/expand
-        expandBackButton = viewGroup.findViewById(R.id.expandBackButton)
-        collapseBackButton = viewGroup.findViewById(R.id.collapseBackButton)
         backButton = viewGroup.findViewById(R.id.backButton)
-
-
         initializeAutoComplete()
     }
 
     private fun initializeAutoComplete() {
         autocomplete = findViewById(R.id.autocomplete_setting)
         autocomplete.setAdapter(PlaceAutoCompleteAdapter(this, android.R.layout.simple_list_item_1))
-    }
-
-    //Sets the navigation bar onto the page
-    private fun setNavigationBar() {
-        val navBarInflater = layoutInflater
-        val navBarView = navBarInflater.inflate(R.layout.activity_navigation_bar, null)
-        window.addContentView(navBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-    }
-
-    //Sets the action bar onto the page
-    private fun setActionBar() {
-        val actionBarInflater = layoutInflater
-        val actionBarView = actionBarInflater.inflate(R.layout.action_bar, null)
-        window.addContentView(actionBarView,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        supportActionBar!!.elevation = 0.0f
     }
 
     //Handles when a user adds a location
