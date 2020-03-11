@@ -110,6 +110,7 @@
     <string name="empty_field">--</string>
     <string name="name">name</string>
     <string name="starting_cost_text"> \u0020starting cost</string>
+    <string name="analytics_under_construction">Analytics Under Construction...</string>
     <string-array name="industry_type">
         <item>Residential</item>
         <item>Commercial Business</item>
