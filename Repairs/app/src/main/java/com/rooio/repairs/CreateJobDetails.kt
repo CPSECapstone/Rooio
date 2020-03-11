@@ -12,12 +12,11 @@ import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONException
 import org.json.JSONObject
 import androidx.arch.core.util.Function
-import com.android.volley.NetworkResponse
 import com.android.volley.Request
 import kotlinx.android.synthetic.main.activity_create_job_details.*
 
 //Job details can be viewed when clicking on a job request found under the Jobs tab
-class CreateJobDetails: NavigationBar() {
+class CreateJobDetails: RestApi() {
 
     private lateinit var restuarantLocation: TextView
     private lateinit var serviceType: Spinner
@@ -43,8 +42,7 @@ class CreateJobDetails: NavigationBar() {
     private lateinit var serialText: TextView
     private lateinit var lastServiceByText: TextView
     private lateinit var lastServiceDateText: TextView
-    private lateinit var expandBackButton: ImageView
-    private lateinit var collapseBackButton: ImageView
+    private lateinit var backButton: ImageView
     private lateinit var dropDown: ImageView
     private lateinit var equipmentDivider: ImageView
     private lateinit var equipmentLayout: ConstraintLayout
@@ -59,12 +57,10 @@ class CreateJobDetails: NavigationBar() {
 
         initializeVariables()
         initializeAnimationVariables()
-        setNavigationBar()
         setActionBar()
-        createNavigationBar(NavigationType.JOBS)
-
         initializeUI()
         onSendRequest()
+        onBack()
         onDropDown()
     }
 
@@ -107,19 +103,7 @@ class CreateJobDetails: NavigationBar() {
         lastServiceDateText = transitionsContainer.findViewById(R.id.lastServiceDateText)
         equipmentDivider = transitionsContainer.findViewById(R.id.equipmentDivider)
         viewEquipment = transitionsContainer.findViewById(R.id.viewEquipment)
-
-        //Navigation bar collapse/expand
-        expandBackButton = viewGroup.findViewById(R.id.expandBackButton)
-        collapseBackButton = viewGroup.findViewById(R.id.collapseBackButton)
-    }
-
-    //Animates the main page content when the navigation bar collapses/expands
-    override fun animateActivity(boolean: Boolean){
-        TransitionManager.beginDelayedTransition(viewGroup)
-        val v = if (boolean) View.VISIBLE else View.GONE
-        val op = if (boolean) View.GONE else View.VISIBLE
-        expandBackButton.visibility = v
-        collapseBackButton.visibility = op
+        backButton = viewGroup.findViewById(R.id.backButton)
     }
 
     // initializing restaurant location text and equipment widget
@@ -201,30 +185,19 @@ class CreateJobDetails: NavigationBar() {
         val url = "service-locations/$userLocationID/jobs/"
         sendRequestButton.setOnClickListener {
             errorMsg.text = ""
-            Log.i("try", "equipment: " + intent.getStringExtra("equipment"))
-            params["equipment"] = intent.getStringExtra("equipment")
-
-            Log.i("try", "company: " + intent.getIntExtra("service_company", 0))
+            params["equipment"] = arrayOf(intent.getStringExtra("equipment"))
             params["service_company"] = intent.getIntExtra("service_company", 0)
-
-            Log.i("try", "category: " + intent.getIntExtra("service_category", 0))
             params["service_category"] = intent.getIntExtra("service_category", 0)
-
-            Log.i("try", "type: " + (serviceTypeSpinner.selectedItem as ServiceType).getIntRepr())
             params["service_type"] = (serviceTypeSpinner.selectedItem as ServiceType).getIntRepr()
-
-            Log.i("try", "details: " + whatHappened.text.toString())
             params["details"] = whatHappened.text.toString()
-
-            Log.i("try", "contact: " + contact.text.toString())
             params["point_of_contact_name"] = contact.text.toString()
-
-            Log.i("try", "phone: " + phoneNumber.text.toString())
             params["point_of_contact_phone"] = phoneNumber.text.toString()
+            params["requested_arrival_time"] = "2020-03-10T20:38:27.983Z"
 
-            Log.i("try", "time: " + month.selectedItem.toString() + date.selectedItem.toString() + time.selectedItem.toString())
-            params["requested_arrival_time"] = month.selectedItem.toString() + date.selectedItem.toString() + time.selectedItem.toString()
-
+            Log.i("try", "equipment: " + params["equipment"])
+            Log.i("try", "company: " + params["service_company"])
+            Log.i("try", "category: " + params["service_category"])
+            Log.i("try", "time: " + params["requested_arrival_time"])
             val request = JsonRequest(false, url, params, responseFuncSendRequest, errorFuncSendRequest, true)
             sendJobRequest(request)
         }
@@ -260,6 +233,17 @@ class CreateJobDetails: NavigationBar() {
         val requestedTime = request.params?.get("requested_arrival_time")
 
         return (serviceCompany != "") && (serviceCategory != "") && (serviceType != "") && (details != "") && (contactName != "") && (requestedTime != "")
+    }
+
+    // Goes back to the previous page
+    private fun onBack(){
+        backButton.setOnClickListener() {
+            val newIntent = Intent(this@CreateJobDetails, ChooseServiceProvider::class.java)
+            newIntent.putExtra("equipment", intent.getStringExtra("equipment"))
+            newIntent.putExtra("service_company", intent.getIntExtra("service_company", 0))
+            newIntent.putExtra("service_category", intent.getIntExtra("service_category", 0))
+            startActivity(newIntent)
+        }
     }
 
     //Initially closes the equipment dropdown and allows the user to collapse or expand
