@@ -118,6 +118,8 @@
     <string name="empty_field">--</string>
     <string name="name">name</string>
     <string name="starting_cost_text"> \u0020starting cost</string>
+    <string name="enter_date">Enter Date</string>
+    <string name="enter_time">Enter Time</string>
     <string-array name="industry_type">
         <item>Residential</item>
         <item>Commercial Business</item>

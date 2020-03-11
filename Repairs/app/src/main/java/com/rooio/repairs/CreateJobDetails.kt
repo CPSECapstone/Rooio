@@ -1,19 +1,25 @@
 package com.rooio.repairs
 
+import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
+import com.android.volley.Request
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.activity_create_job_details.*
 import org.json.JSONException
 import org.json.JSONObject
-import androidx.arch.core.util.Function
-import com.android.volley.Request
-import kotlinx.android.synthetic.main.activity_create_job_details.*
+import java.util.*
+import kotlin.collections.HashMap
+
 
 //Job details can be viewed when clicking on a job request found under the Jobs tab
 class CreateJobDetails: RestApi() {
@@ -21,9 +27,10 @@ class CreateJobDetails: RestApi() {
     private lateinit var restuarantLocation: TextView
     private lateinit var serviceType: Spinner
     private lateinit var whatHappened: TextInputEditText
-    private lateinit var month: Spinner
-    private lateinit var date: Spinner
-    private lateinit var time: Spinner
+    private lateinit var date: TextInputEditText
+    private lateinit var datePicker: DatePickerDialog
+    private lateinit var time: TextInputEditText
+    private lateinit var timePicker: TimePickerDialog
     private lateinit var contact: TextInputEditText
     private lateinit var phoneNumber: TextInputEditText
     private lateinit var sendRequestButton: Button
@@ -69,9 +76,8 @@ class CreateJobDetails: RestApi() {
         restuarantLocation = findViewById(R.id.restaurantLocation)
         serviceType = findViewById(R.id.serviceTypeSpinner)
         whatHappened = findViewById(R.id.whatHappenedInput)
-        month = findViewById(R.id.monthSpinner)
-        date = findViewById(R.id.dateSpinner)
-        time = findViewById(R.id.timeSpinner)
+        date = findViewById(R.id.dateInput)
+        time = findViewById(R.id.timeInput)
         contact = findViewById(R.id.contactInput)
         phoneNumber = findViewById(R.id.phoneNumberInput)
         errorMsg = findViewById(R.id.errorMessage)
@@ -81,6 +87,27 @@ class CreateJobDetails: RestApi() {
         scrollView = findViewById(R.id.jobDetailScrollView)
 
         serviceType.adapter = ArrayAdapter<ServiceType>(this, android.R.layout.simple_list_item_1, ServiceType.values())
+
+        // creating calendar popup for date input
+        date.setOnClickListener() {
+            val cal = Calendar.getInstance()
+            val day = cal.get(Calendar.DAY_OF_MONTH)
+            val month = cal.get(Calendar.MONTH)
+            val year = cal.get(Calendar.YEAR)
+
+            datePicker = DatePickerDialog(this@CreateJobDetails,
+                    OnDateSetListener { view, year, monthOfYear, dayOfMonth -> date.setText( (monthOfYear + 1).toString() + "/" + dayOfMonth.toString() + "/" + year) }, year, month, day)
+            datePicker.show()
+        }
+
+        time.setOnClickListener() {
+            val cal = Calendar.getInstance()
+            val hour = cal.get(Calendar.HOUR_OF_DAY)
+            val minutes = cal.get(Calendar.MINUTE)
+            timePicker = TimePickerDialog(this@CreateJobDetails,
+                    TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->  time.setText(hourOfDay.toString() + ":" + minute.toString())}, hour, minutes, false)
+            timePicker.show()
+        }
     }
 
     //Initializes variables that are used in loadElements and animated
