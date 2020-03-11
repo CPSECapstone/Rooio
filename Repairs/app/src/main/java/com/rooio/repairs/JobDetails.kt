@@ -16,12 +16,20 @@ import com.android.volley.Request
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.core.content.ContextCompat.getSystemService
+
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.graphics.drawable.DrawableCompat
+import kotlinx.android.synthetic.main.activity_job_details.*
 
 
 //Job details can be viewed when clicking on a job request found under the Jobs tab
 class JobDetails: NavigationBar() {
 
     private lateinit var jobId: String
+
 
     private lateinit var restaurantName: TextView
     private lateinit var restaurantLocation: TextView
@@ -182,6 +190,13 @@ class JobDetails: NavigationBar() {
         modelNumber.setText(equipmentObj.getString("model_number"))
         location.setText(equipmentObj.getString("location"))
         lastServiceBy.setText(equipmentObj.getString("last_service_by"))
+        if (equipmentObj.isNull("last_service_by") || (equipmentObj.getString("last_service_by") == "")){
+            lastServiceBy.setText("--")
+        }
+        else{
+            lastServiceBy.setText(equipmentObj.getString("last_service_by"))
+
+        }
         if (equipmentObj.isNull("last_service_date")){
             lastServiceDate.setText("--")
         }
@@ -189,13 +204,82 @@ class JobDetails: NavigationBar() {
             val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(equipmentObj.getString("last_service_date")))
             lastServiceDate.setText(date1!!.toString())
         }
+
+        val status_enum = response.getInt("status")
+        var status_value: String? = null
+
+        //Display Statuses for each swimlane
+        when (status_enum) {
+            //Declined Swimlane
+            1 -> {
+                status_value = "Declined"
+                DrawableCompat.setTint(
+                        DrawableCompat.wrap(activeLayout.getBackground()),
+                        ContextCompat.getColor(this, R.color.lightGray)
+                )
+            }
+            //Scheduled swimlane uses time as status
+            2 -> {
+                //Time Based Statuses
+                status_value = "Scheduled"
+
+                DrawableCompat.setTint(
+                        DrawableCompat.wrap(activeLayout.getBackground()),
+                        ContextCompat.getColor(this, R.color.Blue)
+                )
+            }
+            3 -> {
+                status_value = "Archived"
+
+                DrawableCompat.setTint(
+                        DrawableCompat.wrap(activeLayout.getBackground()),
+                        ContextCompat.getColor(this, R.color.lightGray)
+                )
+            }
+            //Cancelled Swimlane Status
+            4 -> {
+                status_value = "Cancelled"
+                DrawableCompat.setTint(
+                        DrawableCompat.wrap(activeLayout.getBackground()),
+                        ContextCompat.getColor(this, R.color.lightGray)
+                )
+            }
+            5 -> {
+                //In Progress Swimlane Status
+                status_value = "Started"
+
+                DrawableCompat.setTint(
+                        DrawableCompat.wrap(activeLayout.getBackground()),
+                        ContextCompat.getColor(this, R.color.colorPrimary)
+                )
+            }
+            //In Progress Swimlane Status
+            6 -> {
+                status_value = "Paused"
+
+                DrawableCompat.setTint(
+                        DrawableCompat.wrap(activeLayout.getBackground()),
+                        ContextCompat.getColor(this, R.color.Yellow)
+                )
+            }
+            //Pending Swimlane Status
+            0 -> {
+                status_value = "Awaiting Response"
+
+                DrawableCompat.setTint(
+                        DrawableCompat.wrap(activeLayout.getBackground()),
+                        ContextCompat.getColor(this, R.color.Purple)
+                )
+            }
+        }
+        restaurantLocation2.text = status_value
     }
 
 
     //Sends the user to the Jobs page
     private fun onBack() {
         backButton.setOnClickListener{
-            startActivity(Intent(this@JobDetails, Jobs::class.java))
+            super.onBackPressed()
         }
     }
 

@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.ListView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.transition.TransitionManager
 import com.android.volley.Request
 import kotlinx.android.synthetic.main.activity_jobs_archived.*
 import org.json.JSONArray
@@ -19,8 +20,15 @@ import java.util.*
 
 class JobsArchived  : NavigationBar() {
 
-        private lateinit var completedList: ListView
-        private lateinit var completedConstraint: ConstraintLayout
+
+        private lateinit var archivedList: ListView
+        private lateinit var cancelledList: ListView
+        private lateinit var declinedList: ListView
+
+        private var archivedConstraint: ConstraintLayout? = null
+        private var cancelledConstraint: ConstraintLayout? = null
+        private var declinedConstraint: ConstraintLayout? = null
+
 
         val statuses = arrayListOf<String>()
 
@@ -50,8 +58,13 @@ class JobsArchived  : NavigationBar() {
                 setContentView(R.layout.activity_jobs_archived)
                 completedButton = findViewById(R.id.button)
                 //sets the navigation bar onto the page
-                completedList = findViewById<View>(R.id.completedList) as ListView
-                completedConstraint = findViewById<View>(R.id.completedConstraint) as ConstraintLayout
+                archivedList = findViewById<View>(R.id.completedList) as ListView
+                archivedConstraint = findViewById<View>(R.id.completedConstraint) as ConstraintLayout
+                cancelledList = findViewById<View>(R.id.cancelledList) as ListView
+                cancelledConstraint = findViewById<View>(R.id.cancelledConstraint) as ConstraintLayout
+                declinedList = findViewById<View>(R.id.declinedList) as ListView
+                declinedConstraint = findViewById<View>(R.id.declinedConstraint) as ConstraintLayout
+
 
         }
 
@@ -90,8 +103,8 @@ class JobsArchived  : NavigationBar() {
                         val job = responseObj.getJSONObject(i)
 
                         if (job.getInt("status") == 3){
-                                completedJobs.add(job)
-                                sizes("completed")
+                                archivedJobs.add(job)
+                                sizes("archived")
                         }
                         else if(job.getInt("status") == 4){
                                 cancelledJobs.add(job)
@@ -104,20 +117,29 @@ class JobsArchived  : NavigationBar() {
 
                 }
                 //Put each job in a list. Append all lists together to sort
-                for (job in completedJobs){
-                        archivedJobs.add(job)
-                }
-                for (job in declinedJobs){
-                        archivedJobs.add(job)
-                }
-                for (job in cancelledJobs){
-                        archivedJobs.add(job)
-                }
+//                for (job in completedJobs){
+//                        archivedJobs.add(job)
+//                }
+//                for (job in declinedJobs){
+//                        archivedJobs.add(job)
+//                }
+//                for (job in cancelledJobs){
+//                        archivedJobs.add(job)
+//                }
 
+                sortJobsList(declinedJobs)
                 sortJobsList(archivedJobs)
+                sortJobsList(cancelledJobs)
 
                 val customAdapter = JobsCustomerAdapter(this, archivedJobs)
-                if (archivedJobs.size != 0) completedList.adapter = customAdapter
+                if (archivedJobs.size != 0) archivedList.adapter = customAdapter
+
+                val customAdapter1 = JobsCustomerAdapter(this, cancelledJobs)
+                if (cancelledJobs.size != 0) cancelledList.adapter = customAdapter1
+
+                val customAdapter2 = JobsCustomerAdapter(this, declinedJobs)
+                if (declinedJobs.size != 0) declinedList.adapter = customAdapter2
+
         }
 
         @JvmField
@@ -133,6 +155,8 @@ class JobsArchived  : NavigationBar() {
                 null
         }
 
+
+
         private fun sizes(str: String) {
                 var value = 0
                 if (str in statuses) {
@@ -141,19 +165,89 @@ class JobsArchived  : NavigationBar() {
                         statuses.add(str)
                         value = 260
                 }
-                set_size( value)
+                set_size(str, value)
         }
-        private fun set_size( value: Int){
 
-                val params = completedConstraint!!.layoutParams
-                params.height += value
-                completedConstraint!!.layoutParams = params
-                val size = completedList!!.layoutParams
-                size.height += value
-                completedList!!.layoutParams = size
+        //Set the sizes
+        private fun set_size(str: String, value: Int){
+
+                if (str == "archived"){
+                        val params = archivedConstraint!!.layoutParams
+                        params.height += value
+                        archivedConstraint!!.layoutParams = params
+                        val size = archivedList!!.layoutParams
+                        size.height += value
+                        archivedList!!.layoutParams = size
+                }
+                else if (str == "cancelled" ){
+                        val params = cancelledConstraint!!.layoutParams
+                        params.height += value
+                        cancelledConstraint!!.layoutParams = params
+                        val size = cancelledList!!.layoutParams
+                        size.height += value
+                        cancelledList!!.layoutParams = size
+                }
+                else{
+                        val params = declinedConstraint!!.layoutParams
+                        params.height += value
+                        declinedConstraint!!.layoutParams = params
+                        val size = declinedList!!.layoutParams
+                        size.height += value
+                        declinedList!!.layoutParams = size
+                }
+
+        }
+
+        //Shifting the layout in response to navBar position
+        override fun animateActivity(boolean: Boolean){
+                val viewGroup = findViewById<ViewGroup>(R.id.jobsConstraint)
+
+                //changing the width of the notableJobs and newJobRequest
+                TransitionManager.beginDelayedTransition(viewGroup)
+
+                val archived = viewGroup.findViewById<ViewGroup>(R.id.completedConstraint)
+                val cancelled = viewGroup.findViewById<ViewGroup>(R.id.cancelledConstraint)
+                val declined = viewGroup.findViewById<ViewGroup>(R.id.declinedConstraint)
+
+                val sideMover = viewGroup.findViewById<ViewGroup>(R.id.sideMover)
+
+                val archivedTitle = viewGroup.findViewById<ViewGroup>(R.id.completedTitleConstraint)
+                val cancelledTitle = viewGroup.findViewById<ViewGroup>(R.id.cancelledTitleConstraint)
+                val declinedTitle = viewGroup.findViewById<ViewGroup>(R.id.declinedTitleConstraint)
+
+                val boxParams1 = archivedTitle.layoutParams
+                val boxParams2 = cancelledTitle.layoutParams
+                val boxParams3 = declinedTitle.layoutParams
+
+                val boxParams4 = archived.layoutParams
+                val boxParams5 = cancelled.layoutParams
+                val boxParams6 = declined.layoutParams
+
+                val boxParams10 = sideMover.layoutParams
+
+                val p2 = if (boolean) 478 else 454
+                boxParams1.width = p2
+                boxParams2.width = p2
+                boxParams3.width = p2
+                boxParams4.width = p2
+                boxParams5.width = p2
+                boxParams6.width = p2
+
+                val p3 = if (boolean) 85 else 20
+
+                boxParams10.width = p3
 
 
-        }override fun animateActivity(boolean: Boolean){
+
+                //calling the transitions
+                archivedTitle.layoutParams = boxParams1
+                cancelledTitle.layoutParams = boxParams2
+                declinedTitle.layoutParams = boxParams3
+                archived.layoutParams = boxParams4
+                cancelled.layoutParams = boxParams5
+                declined.layoutParams = boxParams6
+                sideMover.layoutParams = boxParams10
+
 
         }
 }

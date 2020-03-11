@@ -45,6 +45,7 @@ class JobsCustomerAdapter implements ListAdapter {
         this.context = context;
     }
 
+
     @Override
     public boolean areAllItemsEnabled() {
         return false;
@@ -98,7 +99,6 @@ class JobsCustomerAdapter implements ListAdapter {
             ConstraintLayout color = convertView.findViewById(R.id.color);
             try {
                 Integer status_enum = data.getInt("status");
-
                 String status_value = null;
 
                 //Display Statuses for each swimlane
@@ -123,6 +123,7 @@ class JobsCustomerAdapter implements ListAdapter {
                         break;
                     case 3:
                         status_value = "Archived";
+
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.lightGray)
@@ -139,6 +140,7 @@ class JobsCustomerAdapter implements ListAdapter {
                     case 5:
                         //In Progress Swimlane Status
                         status_value = "Started";
+
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.colorPrimary)
@@ -147,15 +149,17 @@ class JobsCustomerAdapter implements ListAdapter {
                         //In Progress Swimlane Status
                     case 6:
                         status_value = "Paused";
+
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
-                                ContextCompat.getColor(context, R.color.colorPrimary)
+                                ContextCompat.getColor(context, R.color.Yellow)
                         );
 
                         break;
                         //Pending Swimlane Status
                     case 0:
                         status_value = "Awaiting Response";
+
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.Purple)
@@ -232,10 +236,11 @@ class JobsCustomerAdapter implements ListAdapter {
             //JobId Holds the JobId. ** Displays on UI as a string for testing purposes**
             jobsButton.setOnClickListener(v -> {
                 try {
-                    Integer jobId = data.getInt("id");
+                    String jobId = data.getString("id");
 
                     Intent intent = new Intent(context, JobDetails.class);
-                    intent.putExtra("id", jobId.toString());
+                    intent.putExtra("id", jobId);
+
                     context.startActivity(intent);
 
                 }

@@ -20,10 +20,12 @@ import android.R.array
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.R.string.no
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.android.volley.Request
 import kotlinx.android.synthetic.main.activity_navigation_bar.*
+import org.json.JSONException
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -42,11 +44,20 @@ class Dashboard : NavigationBar() {
     private lateinit var repairType: TextView
     private lateinit var clockImage: ImageView
     private lateinit var repairImage: ImageView
-
+    private lateinit var notableJob: Button
     private lateinit var lightingButton: Button
     private lateinit var plumbingButton: Button
     private lateinit var hvacButton: Button
     private lateinit var applianceButton: Button
+    private lateinit var jobsLayout: ConstraintLayout
+    private lateinit var color: ConstraintLayout
+    private lateinit var noJob: TextView
+    private lateinit var pendingButton: Button
+    private lateinit var scheduledButton: Button
+    private lateinit var inProgressButton: Button
+
+
+
 
 
     companion object{
@@ -67,10 +78,12 @@ class Dashboard : NavigationBar() {
         loadJobs()
         createNavigationBar(NavigationType.DASHBOARD)
         jobRequestsClicked()
+        jobNumberClicked()
     }
 
     private fun initialize(){
         //initialize variables
+        notableJob = findViewById(R.id.notableJob)
         repairType = findViewById<View>(R.id.repairType) as TextView
         name = findViewById<View>(R.id.name) as TextView
         time = findViewById<View>(R.id.timeImage) as TextView
@@ -85,6 +98,12 @@ class Dashboard : NavigationBar() {
         applianceButton = findViewById(R.id.applianceButton)
         clockImage = findViewById(R.id.clockImage)
         repairImage = findViewById(R.id.repairImage)
+        jobsLayout = findViewById(R.id.JobsLayout)
+        color = findViewById(R.id.color)
+        noJob = findViewById<View>(R.id.noJob) as TextView
+        inProgressButton = findViewById(R.id.inProgressButton)
+        scheduledButton = findViewById(R.id.scheduledButton)
+        pendingButton = findViewById(R.id.pendingButton)
     }
 
 
@@ -127,9 +146,25 @@ class Dashboard : NavigationBar() {
             intent.putExtra("equipmentType", 4)
             startActivity(intent);
         }
+    }
 
+    private fun jobNumberClicked(){
+        inProgressButton.setOnClickListener{
+            val intent = Intent(this@Dashboard, Jobs::class.java)
+            startActivity(intent);
+        }
+        scheduledButton.setOnClickListener{
+            val intent = Intent(this@Dashboard, Jobs::class.java)
+            startActivity(intent);
+        }
+        pendingButton.setOnClickListener{
+            val intent = Intent(this@Dashboard, Jobs::class.java)
+            startActivity(intent);
+        }
 
     }
+
+
 
 
     override fun animateActivity(boolean: Boolean){
@@ -162,7 +197,7 @@ class Dashboard : NavigationBar() {
         val boxParams7 = jobsLayout.layoutParams
 
 
-        val p2 = if (boolean) 1004 else 803
+        val p2 = if (boolean) 1004 else 806
         boxParams1.width = p2
         boxParams2.width = p2
         boxParams3.width = p2
@@ -170,7 +205,7 @@ class Dashboard : NavigationBar() {
         boxParams5.width = p2
         boxParams6.width = p2
 
-        val p3 = if (boolean) 980 else 803
+        val p3 = if (boolean) 948 else 750
 
         boxParams7.width = p3
 
@@ -232,9 +267,14 @@ class Dashboard : NavigationBar() {
             for (index in resultSort.indices){
                 if (0 == (timeConvert(resultSort[index].getString("status_time_value")))) {
                     if(index == (resultSort.size - 1) && (i == 0)){
+
+                        jobsLayout.setVisibility(View.INVISIBLE)
                         clockImage.setVisibility(View.GONE)
-                        name.text = "No Jobs to Display"
+                        noJob.setVisibility(View.VISIBLE)
+                        noJob.text = "No Jobs to Display"
                         repairImage.setVisibility(View.GONE)
+                        color.setVisibility(View.INVISIBLE)
+
                     }
                 }
                 else{
@@ -244,9 +284,12 @@ class Dashboard : NavigationBar() {
             }
         }
         else{
+            jobsLayout.setVisibility(View.INVISIBLE)
             clockImage.setVisibility(View.GONE)
-            name.text = "No Jobs to Display"
+            noJob.setVisibility(View.VISIBLE)
+            noJob.text = "No Jobs to Display"
             repairImage.setVisibility(View.GONE)
+            color.setVisibility(View.INVISIBLE)
 
         }
     }
@@ -319,10 +362,38 @@ class Dashboard : NavigationBar() {
 
         //load logo
         val imageVal = internal_client.getString("logo")
-        Picasso.with(this)
-                .load(imageVal)
-                .into(image)
+        if (imageVal.isNullOrBlank() || imageVal == "null"){
+            val viewGroup = findViewById<ViewGroup>(R.id.JobsLayout)
+            TransitionManager.beginDelayedTransition(viewGroup)
+            val sideMover = viewGroup.findViewById<ViewGroup>(R.id.jobMover)
+            val boxParams10 = sideMover.layoutParams
+            boxParams10.width = 160
+            sideMover.layoutParams = boxParams10
+            image.setVisibility(View.GONE)
+        }
+        else{
+            Picasso.with(this)
+                    .load(imageVal)
+                    .into(image)
+        }
 
+
+
+        notableJob.setOnClickListener(
+                { v ->
+                    try {
+                        val jobId = resultSort[index].getString("id")
+
+                        val intent = Intent(this, JobDetails::class.java)
+                        intent.putExtra("id", jobId.toString())
+
+                        this.startActivity(intent)
+
+                    } catch (e: JSONException) {
+                        Log.d("exception", e.toString())
+                    }
+
+                })
 
         //Change the color of the job
         when (colorStatus) {

@@ -37,20 +37,33 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/noJob"
+            android:layout_width="299dp"
+            android:layout_height="54dp"
+            android:fontFamily="@font/nunito_sans"
+            android:textSize="18sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.66"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/notableJobs_title" />
+
+        <TextView
             android:id="@+id/notableJobs_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:fontFamily="@font/nunito_semibold"
             android:text="@string/notableJobs"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/notableJobsDivider"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/JobsLayout"
-            android:layout_width="803dp"
+            android:layout_width="750dp"
             android:layout_height="170dp"
             android:background="@drawable/gray_button_border"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -89,34 +102,34 @@
                 android:id="@+id/repairType"
                 android:layout_width="201dp"
                 android:layout_height="28dp"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="328dp"
                 android:fontFamily="@font/nunito_bold"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/image"
+                app:layout_constraintEnd_toStartOf="@+id/jobMover"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/address"
                 android:layout_width="180dp"
                 android:layout_height="21dp"
-                android:layout_marginStart="25dp"
+                android:layout_marginEnd="350dp"
                 android:fontFamily="@font/nunito_sans"
                 android:textColor="@color/colorGray"
                 android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/image"
+                app:layout_constraintEnd_toStartOf="@+id/jobMover"
                 app:layout_constraintTop_toBottomOf="@+id/name" />
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="180dp"
                 android:layout_height="22dp"
-                android:layout_marginStart="25dp"
+                android:layout_marginEnd="350dp"
                 android:fontFamily="@font/nunito_sans"
                 android:textColor="@color/colorGray"
                 android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/image"
+                app:layout_constraintEnd_toStartOf="@+id/jobMover"
                 app:layout_constraintTop_toBottomOf="@+id/repairType" />
 
             <ImageView
@@ -136,7 +149,6 @@
                 android:layout_width="161dp"
                 android:layout_height="22dp"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="22dp"
                 android:layout_marginEnd="473dp"
                 android:layout_marginBottom="19dp"
                 android:fontFamily="@font/nunito_sans"
@@ -145,8 +157,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.09"
                 app:layout_constraintStart_toEndOf="@+id/clockImage"
-                app:layout_constraintTop_toBottomOf="@+id/image"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.95" />
 
             <ImageView
                 android:id="@+id/repairImage"
@@ -160,6 +172,32 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.857"
                 app:srcCompat="@drawable/repair" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/jobMover"
+                android:layout_width="70dp"
+                android:layout_height="105dp"
+                android:layout_marginTop="14dp"
+                android:background="#00BE2727"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/notableJob"
+                android:layout_width="716dp"
+                android:layout_height="145dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="149dp"
+                android:layout_marginBottom="15dp"
+                android:background="#00F8F8F8"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/jobMover"
+                app:layout_constraintStart_toEndOf="@+id/timeImage"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -179,12 +217,12 @@
             android:id="@+id/divider10"
             android:layout_width="1dp"
             android:layout_height="200dp"
-            android:layout_marginStart="604dp"
+            android:layout_marginStart="9dp"
             android:layout_marginTop="84dp"
-            android:layout_marginEnd="201dp"
+            android:layout_marginEnd="8dp"
             android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/applianceButton"
+            app:layout_constraintStart_toEndOf="@+id/hvacButton"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
@@ -213,24 +251,20 @@
             android:id="@+id/divider8"
             android:layout_width="1dp"
             android:layout_height="200dp"
-            android:layout_marginStart="200dp"
-            android:layout_marginTop="84dp"
-            android:layout_marginEnd="199dp"
+            android:layout_marginTop="92dp"
             android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toStartOf="@+id/divider9"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/plumbingButton"
+            app:layout_constraintStart_toEndOf="@+id/lightingButton"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/divider9"
             android:layout_width="1dp"
             android:layout_height="200dp"
-            android:layout_marginStart="400dp"
             android:layout_marginTop="84dp"
-            android:layout_marginEnd="203dp"
             android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toStartOf="@+id/divider10"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/hvacButton"
+            app:layout_constraintStart_toEndOf="@+id/plumbingButton"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -349,61 +383,63 @@
         <Button
             android:id="@+id/lightingButton"
             android:layout_width="167dp"
-            android:layout_height="170dp"
+            android:layout_height="188dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="11dp"
             android:layout_marginEnd="13dp"
             android:layout_marginBottom="13dp"
             android:background="#00FFFFFF"
+            android:soundEffectsEnabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider8"
             app:layout_constraintStart_toStartOf="parent"
-            android:soundEffectsEnabled="false"
             app:layout_constraintTop_toBottomOf="@+id/newJobDivider" />
 
         <Button
             android:id="@+id/plumbingButton"
-            android:layout_width="178dp"
-            android:layout_height="170dp"
+            android:layout_width="179dp"
+            android:layout_height="185dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="13dp"
             android:layout_marginEnd="13dp"
             android:layout_marginBottom="14dp"
             android:background="#00FFFFFF"
+            android:soundEffectsEnabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider9"
+            app:layout_constraintHorizontal_bias="0.222"
             app:layout_constraintStart_toEndOf="@+id/divider8"
-            android:soundEffectsEnabled="false"
-            app:layout_constraintTop_toBottomOf="@+id/newJobDivider" />
+            app:layout_constraintTop_toBottomOf="@+id/newJobDivider"
+            app:layout_constraintVertical_bias="0.6" />
 
         <Button
             android:id="@+id/hvacButton"
             android:layout_width="184dp"
-            android:layout_height="170dp"
+            android:layout_height="184dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="11dp"
             android:layout_marginEnd="9dp"
             android:layout_marginBottom="10dp"
             android:background="#00FFFFFF"
+            android:soundEffectsEnabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider10"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.52"
             app:layout_constraintStart_toEndOf="@+id/divider9"
             app:layout_constraintTop_toBottomOf="@+id/newJobDivider"
-            android:soundEffectsEnabled="false"
-            app:layout_constraintVertical_bias="0.42" />
+            app:layout_constraintVertical_bias="0.59" />
 
         <Button
             android:id="@+id/applianceButton"
-            android:layout_width="168dp"
-            android:layout_height="170dp"
+            android:layout_width="172dp"
+            android:layout_height="197dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="14dp"
             android:layout_marginEnd="21dp"
             android:background="#00FFFFFF"
+            android:soundEffectsEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divider10"
-            android:soundEffectsEnabled="false"
             app:layout_constraintTop_toBottomOf="@+id/newJobDivider" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
