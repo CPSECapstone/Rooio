@@ -40,13 +40,13 @@
                 app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.8" />
+                app:layout_constraintVertical_bias="0.83" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/equipmentLayout"
-                android:layout_width="520dp"
+                android:layout_width="620dp"
                 android:layout_height="395dp"
-                android:layout_marginTop="1150dp"
+                android:layout_marginTop="1370dp"
                 android:background="@drawable/green_button_border"
                 android:translationY="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -281,8 +281,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/jobDetailInfoLayout"
-                android:layout_width="521dp"
-                android:layout_height="964dp"
+                android:layout_width="620dp"
+                android:layout_height="1164dp"
                 android:layout_marginTop="150dp"
                 android:layout_marginBottom="495dp"
                 android:background="@drawable/shadow"
@@ -306,20 +306,20 @@
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.501"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.941" />
+                    app:layout_constraintVertical_bias="0.94" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/fieldsConstraint"
-                    android:layout_width="412dp"
-                    android:layout_height="684dp"
+                    android:layout_width="551dp"
+                    android:layout_height="964dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.507"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.53">
+                    app:layout_constraintVertical_bias="0.675">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/whatHappenedInput"
@@ -336,7 +336,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.28" />
+                        app:layout_constraintVertical_bias="0.199" />
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/phoneNumberInput"
@@ -354,7 +354,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.97" />
+                        app:layout_constraintVertical_bias="0.86" />
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/contactInput"
@@ -372,7 +372,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.758" />
+                        app:layout_constraintVertical_bias="0.697" />
 
                     <TextView
                         android:id="@+id/whatHappenedText"
@@ -388,7 +388,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.18" />
+                        app:layout_constraintVertical_bias="0.138" />
 
                     <TextView
                         android:id="@+id/serviceText"
@@ -413,16 +413,17 @@
                         android:background="@drawable/spinner_background"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.060000002" />
+                        app:layout_constraintVertical_bias="0.039" />
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <DatePicker
                         android:id="@+id/dateInput"
-                        android:layout_width="200dp"
-                        android:layout_height="55dp"
-                        android:background="@drawable/edittextbackground"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:calendarViewShown="false"
+                        android:datePickerMode="spinner"
                         android:fontFamily="@font/nunito"
                         android:gravity="center|start"
                         android:hint="@string/enter_date"
@@ -435,26 +436,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.555" />
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/timeInput"
-                        android:layout_width="200dp"
-                        android:layout_height="55dp"
-                        android:background="@drawable/edittextbackground"
-                        android:fontFamily="@font/nunito"
-                        android:gravity="center|start"
-                        android:hint="@string/enter_time"
-                        android:padding="10dp"
-                        android:textAlignment="viewStart"
-                        android:textColor="#6D7377"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.555" />
+                        app:layout_constraintVertical_bias="0.491" />
 
                     <TextView
                         android:id="@+id/whenText"
@@ -470,7 +452,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.47" />
+                        app:layout_constraintVertical_bias="0.354" />
 
                     <TextView
                         android:id="@+id/contactText"
@@ -486,7 +468,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.662" />
+                        app:layout_constraintVertical_bias="0.632" />
 
                     <TextView
                         android:id="@+id/phoneNumberText"
@@ -502,7 +484,27 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.862" />
+                        app:layout_constraintVertical_bias="0.788" />
+
+                    <TimePicker
+                        android:id="@+id/timeInput"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/blank_border"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="center|start"
+                        android:hint="@string/enter_time"
+                        android:padding="10dp"
+                        android:textAlignment="viewStart"
+                        android:textColor="#6D7377"
+                        android:textSize="18sp"
+                        android:timePickerMode="spinner"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/serviceText"
+                        app:layout_constraintVertical_bias="0.491" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -521,7 +523,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.050000012" />
+                    app:layout_constraintVertical_bias="0.028" />
 
                 <TextView
                     android:id="@+id/errorMessage"
@@ -535,7 +537,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.121" />
+                    app:layout_constraintVertical_bias="0.075" />
 
                 <ImageView
                     android:id="@+id/greenBar"
@@ -544,13 +546,13 @@
                     android:contentDescription="@string/green_bar"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.100000024"
+                    app:layout_constraintVertical_bias="0.068"
                     app:srcCompat="@color/colorAccent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

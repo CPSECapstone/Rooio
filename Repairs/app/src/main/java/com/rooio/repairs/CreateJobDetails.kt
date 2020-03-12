@@ -27,10 +27,8 @@ class CreateJobDetails: RestApi() {
     private lateinit var restuarantLocation: TextView
     private lateinit var serviceType: Spinner
     private lateinit var whatHappened: TextInputEditText
-    private lateinit var date: TextInputEditText
-    private lateinit var datePicker: DatePickerDialog
-    private lateinit var time: TextInputEditText
-    private lateinit var timePicker: TimePickerDialog
+    private lateinit var date: DatePicker
+    private lateinit var time: TimePicker
     private lateinit var contact: TextInputEditText
     private lateinit var phoneNumber: TextInputEditText
     private lateinit var sendRequestButton: Button
@@ -87,27 +85,6 @@ class CreateJobDetails: RestApi() {
         scrollView = findViewById(R.id.jobDetailScrollView)
 
         serviceType.adapter = ArrayAdapter<ServiceType>(this, android.R.layout.simple_list_item_1, ServiceType.values())
-
-        // creating calendar popup for date input
-        date.setOnClickListener() {
-            val cal = Calendar.getInstance()
-            val day = cal.get(Calendar.DAY_OF_MONTH)
-            val month = cal.get(Calendar.MONTH)
-            val year = cal.get(Calendar.YEAR)
-
-            datePicker = DatePickerDialog(this@CreateJobDetails,
-                    OnDateSetListener { view, year, monthOfYear, dayOfMonth -> date.setText( (monthOfYear + 1).toString() + "/" + dayOfMonth.toString() + "/" + year) }, year, month, day)
-            datePicker.show()
-        }
-
-        time.setOnClickListener() {
-            val cal = Calendar.getInstance()
-            val hour = cal.get(Calendar.HOUR_OF_DAY)
-            val minutes = cal.get(Calendar.MINUTE)
-            timePicker = TimePickerDialog(this@CreateJobDetails,
-                    TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->  time.setText(hourOfDay.toString() + ":" + minute.toString())}, hour, minutes, false)
-            timePicker.show()
-        }
     }
 
     //Initializes variables that are used in loadElements and animated
