@@ -17,11 +17,11 @@ import java.util.*
 class AddLocationSettings  : NavigationBar() {
 
     private lateinit var addLocation: Button
-    private lateinit var newLocation: EditText
     private lateinit var errorMessage: TextView
     private lateinit var loadingPanel: RelativeLayout
     private lateinit var backButton: ImageView
     private lateinit var viewGroup: ViewGroup
+    private lateinit var autocomplete: AutoCompleteTextView
     private val url = "service-locations/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,12 +39,16 @@ class AddLocationSettings  : NavigationBar() {
     //Initializes UI variables
     private fun initializeVariables() {
         addLocation = findViewById(R.id.addLocation)
-        newLocation = findViewById(R.id.newLocation)
         errorMessage = findViewById(R.id.errorMessage)
         loadingPanel = findViewById(R.id.loadingPanel)
         viewGroup = findViewById(R.id.background)
-        //Navigation bar collapse/expand
         backButton = viewGroup.findViewById(R.id.backButton)
+        initializeAutoComplete()
+    }
+
+    private fun initializeAutoComplete() {
+        autocomplete = findViewById(R.id.autocomplete_setting)
+        autocomplete.setAdapter(PlaceAutoCompleteAdapter(this, android.R.layout.simple_list_item_1))
     }
 
     //Handles when a user adds a location
@@ -52,7 +56,7 @@ class AddLocationSettings  : NavigationBar() {
         loadingPanel.visibility = View.GONE
         addLocation.setOnClickListener {
             errorMessage.text = ""
-            val locationInput = newLocation.text.toString()
+            val locationInput = autocomplete.text.toString()   
             val request = JsonRequest(false, url, null, checkResponseFunc, checkErrorFunc, true)
             checkLocationInfo(locationInput, request)
         }
@@ -79,7 +83,7 @@ class AddLocationSettings  : NavigationBar() {
     val checkResponseFunc = Function<Any, Void?> { response: Any ->
         try {
             val jsonArray = response as JSONArray
-            val locationInput = newLocation.text.toString()
+            val locationInput = autocomplete.text.toString()
             val params = HashMap<Any?, Any?>()
             params["physical_address"] = locationInput
             val request = JsonRequest(false, url, params, locationResponseFunc, locationErrorFunc, true)
