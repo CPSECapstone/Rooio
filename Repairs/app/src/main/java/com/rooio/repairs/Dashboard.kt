@@ -16,15 +16,10 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import org.json.JSONArray
 import org.json.JSONObject
-import android.R.array
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.R.string.no
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.android.volley.Request
-import kotlinx.android.synthetic.main.activity_navigation_bar.*
 import org.json.JSONException
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -81,14 +76,14 @@ class Dashboard : NavigationBar() {
         jobNumberClicked()
     }
 
+    //initialize variables
     private fun initialize(){
-        //initialize variables
         notableJob = findViewById(R.id.notableJob)
-        repairType = findViewById<View>(R.id.repairType) as TextView
-        name = findViewById<View>(R.id.name) as TextView
-        time = findViewById<View>(R.id.timeImage) as TextView
-        address = findViewById<View>(R.id.address) as TextView
-        image = findViewById<View>(R.id.image) as ImageView
+        repairType = findViewById(R.id.repairType)
+        name = findViewById(R.id.name)
+        time = findViewById(R.id.timeImage)
+        address = findViewById(R.id.address)
+        image = findViewById(R.id.image)
         pendingNum = findViewById(R.id.pendingNum)
         scheduledNum = findViewById(R.id.scheduledNum)
         inProgressNum = findViewById(R.id.inProgressNum)
@@ -100,16 +95,20 @@ class Dashboard : NavigationBar() {
         repairImage = findViewById(R.id.repairImage)
         jobsLayout = findViewById(R.id.JobsLayout)
         color = findViewById(R.id.color)
-        noJob = findViewById<View>(R.id.noJob) as TextView
+        noJob = findViewById(R.id.noJob)
         inProgressButton = findViewById(R.id.inProgressButton)
         scheduledButton = findViewById(R.id.scheduledButton)
         pendingButton = findViewById(R.id.pendingButton)
     }
 
+    //LoadJobs sends a Api Get Request to get all Jobs
+    private fun loadJobs(){
+        val url = "service-locations/$userLocationID/jobs/"
+        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
+                null, responseFunc, errorFunc, true))
+    }
 
-
-
-
+    //Function for Successfull API Response
     @JvmField
     var responseFunc = Function<Any, Void?> { jsonObj: Any ->
         val responseObj = jsonObj as JSONArray
@@ -119,35 +118,38 @@ class Dashboard : NavigationBar() {
         null
     }
 
+    //Function for error API Response
     @JvmField
     var errorFunc = Function<String, Void?> { string: String? ->
+        name_greeting.text =string
         null
     }
 
-    //OnClick for Appliances
+    //OnClick for New Job Requests to Choose Equipment Page
     private fun jobRequestsClicked(){
         hvacButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
-            intent.putExtra("equipmentType", 1)
+            intent.putExtra("equipmentType", EquipmentType.HVAC.getIntRepr())
             startActivity(intent);
         }
         plumbingButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
-            intent.putExtra("equipmentType", 2)
+            intent.putExtra("equipmentType", EquipmentType.PLUMBING.getIntRepr())
             startActivity(intent);
         }
         lightingButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
-            intent.putExtra("equipmentType", 3)
+            intent.putExtra("equipmentType", EquipmentType.LIGHTING_AND_ELECTRICAL.getIntRepr())
             startActivity(intent);
         }
         applianceButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
-            intent.putExtra("equipmentType", 4)
+            intent.putExtra("equipmentType", EquipmentType.GENERAL_APPLIANCE.getIntRepr())
             startActivity(intent);
         }
     }
 
+    //Onclick for Job Numbers to Jobs Page
     private fun jobNumberClicked(){
         inProgressButton.setOnClickListener{
             val intent = Intent(this@Dashboard, Jobs::class.java)
@@ -163,8 +165,6 @@ class Dashboard : NavigationBar() {
         }
 
     }
-
-
 
 
     override fun animateActivity(boolean: Boolean){
@@ -197,17 +197,17 @@ class Dashboard : NavigationBar() {
         val boxParams7 = jobsLayout.layoutParams
 
 
-        val p2 = if (boolean) 1004 else 806
-        boxParams1.width = p2
-        boxParams2.width = p2
-        boxParams3.width = p2
-        boxParams4.width = p2
-        boxParams5.width = p2
-        boxParams6.width = p2
+        val widgetWidth = if (boolean) 1004 else 806
+        boxParams1.width = widgetWidth
+        boxParams2.width = widgetWidth
+        boxParams3.width = widgetWidth
+        boxParams4.width = widgetWidth
+        boxParams5.width = widgetWidth
+        boxParams6.width = widgetWidth
 
-        val p3 = if (boolean) 948 else 750
+        val notableJobsWidth = if (boolean) 948 else 750
 
-        boxParams7.width = p3
+        boxParams7.width = notableJobsWidth
 
 
         //calling the transitions
@@ -215,11 +215,7 @@ class Dashboard : NavigationBar() {
         newJobRequest.layoutParams = boxParams2
     }
 
-    private fun loadJobs(){
-        val url = "service-locations/$userLocationID/jobs/"
-        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
-                null, responseFunc, errorFunc, true))
-    }
+
 
     private fun clearLists(){
         pendingJobs.clear()
@@ -232,11 +228,11 @@ class Dashboard : NavigationBar() {
         for (i in 0 until responseObj.length()) {
             val job = responseObj.getJSONObject(i)
             when(job.getInt("status")) {
-                0 -> pendingJobs.add(job)
-                2 -> scheduledJobs.add(job)
-                5 -> inProgressJobs.add(job)
-                6 -> inProgressJobs.add(job)
-                3 -> archivedJobs.add(job)
+                JobType.PENDING.getIntRepr() -> pendingJobs.add(job)
+                JobType.SCHEDULED.getIntRepr()-> scheduledJobs.add(job)
+                JobType.STARTED.getIntRepr() -> inProgressJobs.add(job)
+                JobType.PAUSED.getIntRepr() -> inProgressJobs.add(job)
+                JobType.COMPLETED.getIntRepr() -> archivedJobs.add(job)
 
             }
         }
@@ -244,9 +240,9 @@ class Dashboard : NavigationBar() {
     }
 
     private fun listCount(){
-        pendingNum!!.text = pendingJobs.size.toString()
-        scheduledNum!!.text = scheduledJobs.size.toString()
-        inProgressNum!!.text = inProgressJobs.size.toString()
+        pendingNum.text = pendingJobs.size.toString()
+        scheduledNum.text = scheduledJobs.size.toString()
+        inProgressNum.text = inProgressJobs.size.toString()
     }
 
     private fun notableJobsFill(){
