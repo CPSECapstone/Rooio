@@ -30,7 +30,7 @@ class ChooseServiceProvider : RestApi() {
     private lateinit var loadingPanel: ProgressBar
     private var providerDataList: ArrayList<ProviderData> = ArrayList()
     private lateinit var adapter: ChooseServiceProviderAdapter
-    private lateinit var equipmentId: String
+    lateinit var equipmentId: String
     private var equipmentType: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {

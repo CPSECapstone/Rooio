@@ -3,11 +3,15 @@ package com.rooio.repairs
 import android.app.Application
 import android.content.Intent
 import android.util.Log
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.android.volley.RequestQueue
+import org.json.JSONArray
+import org.json.JSONObject
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -41,18 +45,18 @@ class AddPreferredProvidersLoginActivityTest {
         val addButton = activity.findViewById<Button>(R.id.addProvider)
         addButton.performClick()
         val errorMsg = activity.findViewById<TextView>(R.id.addProviderErrorMessage)
-        assertEquals(errorMsg.text, activity.resources.getString(R.string.error_phone))
+        assertEquals(activity.resources.getString(R.string.error_phone), errorMsg.text.toString())
 
     }
 
     @Test
-    fun testAddTooLongPhoneNumber(){
+    fun testAddLongPhoneNumber(){
         val input = activity.findViewById<EditText>(R.id.newProvider)
         input.setText("123123123123123")
         val addButton = activity.findViewById<Button>(R.id.addProvider)
         addButton.performClick()
         val errorMsg = activity.findViewById<TextView>(R.id.addProviderErrorMessage)
-        assertEquals(errorMsg.text.toString(), activity.resources.getString(R.string.error_phone))
+        assertEquals(activity.resources.getString(R.string.error_phone), errorMsg.text.toString())
     }
 
     @Test
@@ -70,5 +74,50 @@ class AddPreferredProvidersLoginActivityTest {
         val expectedIntent = Intent(activity, PreferredProvidersLogin::class.java)
         val actual: Intent = Shadows.shadowOf(Application()).nextStartedActivity
         assertEquals(expectedIntent.component, actual.component)
+    }
+
+    @Test
+    fun testProviderResponseFunc() {
+        activity.providerResponseFunc.apply(JSONArray())
+        val expectedIntent = Intent(activity, PreferredProvidersLogin::class.java)
+        val actual: Intent = Shadows.shadowOf(Application()).nextStartedActivity
+        assertEquals(expectedIntent.component, actual.component)
+    }
+
+    @Test
+    fun testProviderErrorFunc() {
+        activity.providerErrorFunc.apply("Server error")
+        val error = activity.findViewById(R.id.addProviderErrorMessage) as TextView
+        assertEquals("Server error", error.text.toString())
+    }
+
+    @Test
+    fun testDoesNotExist() {
+        activity.providerErrorFunc.apply("Does not exist.")
+        val error = activity.findViewById(R.id.addProviderErrorMessage) as TextView
+        assertEquals(activity.resources.getString(R.string.error_provider), error.text.toString())
+    }
+
+    @Test
+    fun testCheckResponseFunc() {
+        val phone = activity.findViewById(R.id.newProvider) as EditText
+        phone.setText("8090949")
+        activity.checkResponseFunc.apply(JSONArray().put(JSONObject().put("phone", "123456")))
+    }
+
+    @Test
+    fun testAlreadyAdded() {
+        val phone = activity.findViewById(R.id.newProvider) as EditText
+        phone.setText("123456")
+        activity.checkResponseFunc.apply(JSONArray().put(JSONObject().put("phone", "123456")))
+        val error = activity.findViewById(R.id.addProviderErrorMessage) as TextView
+        assertEquals(activity.resources.getString(R.string.already_added_provider), error.text.toString())
+    }
+
+    @Test
+    fun testCheckErrorFunc() {
+        activity.checkErrorFunc.apply("Server error")
+        val error = activity.findViewById(R.id.addProviderErrorMessage) as TextView
+        assertEquals("Server error", error.text.toString())
     }
 }

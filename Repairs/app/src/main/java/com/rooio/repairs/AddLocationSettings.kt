@@ -84,16 +84,12 @@ class AddLocationSettings  : NavigationBar() {
     //Checks if the location is already in the system and tries to add it
     @JvmField
     val checkResponseFunc = Function<Any, Void?> { response: Any ->
-        try {
-            val jsonArray = response as JSONArray
-            val locationInput = autocomplete.text.toString()
-            val params = HashMap<Any?, Any?>()
-            params["physical_address"] = locationInput
-            val request = JsonRequest(false, url, params, locationResponseFunc, locationErrorFunc, true)
-            addLocation(checkAlreadyAdded(locationInput, jsonArray), request)
-        } catch (e: JSONException) {
-            errorMessage.setText(R.string.error_server)
-        }
+        val jsonArray = response as JSONArray
+        val locationInput = autocomplete.text.toString()
+        val params = HashMap<Any?, Any?>()
+        params["physical_address"] = locationInput
+        val request = JsonRequest(false, url, params, locationResponseFunc, locationErrorFunc, true)
+        addLocation(checkAlreadyAdded(locationInput, jsonArray), request)
         null
     }
 
@@ -125,11 +121,7 @@ class AddLocationSettings  : NavigationBar() {
     var locationResponseFunc = Function<Any, Void?> {
         loadingPanel.visibility = View.GONE
         addLocation.visibility = View.VISIBLE
-        try {
-            startActivity(Intent(this@AddLocationSettings, ChangeLocationSettings::class.java))
-        } catch (e: JSONException) {
-            errorMessage.setText(R.string.error_server)
-        }
+        startActivity(Intent(this@AddLocationSettings, ChangeLocationSettings::class.java))
         null
     }
 

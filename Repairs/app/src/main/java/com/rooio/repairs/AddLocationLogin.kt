@@ -127,11 +127,7 @@ class AddLocationLogin : RestApi(){
     var locationResponseFunc = Function<Any, Void?> {
         loadingPanel.visibility = View.GONE
         addLocation.visibility = View.VISIBLE
-        try {
-            startActivity(Intent(this@AddLocationLogin, LocationLogin::class.java))
-        } catch (e: JSONException) {
-            errorMessage.setText(R.string.error_server)
-        }
+        startActivity(Intent(this@AddLocationLogin, LocationLogin::class.java))
         null
     }
 
