@@ -3,10 +3,7 @@ package com.rooio.repairs
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
 import com.android.volley.Request
@@ -26,7 +23,7 @@ class Registration : RestApi() {
     private lateinit var registerButton: Button
     private lateinit var cancelButton: Button
     private lateinit var errorMessage: TextView
-    private lateinit var loadingPanel: RelativeLayout
+    private lateinit var loadingPanel: ProgressBar
     private var industryInt: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +71,7 @@ class Registration : RestApi() {
         internalClient["industry_type"] = industryInt
         params["internal_client"] = internalClient
         loadingPanel.visibility = View.VISIBLE
+        registerButton.visibility = View.GONE
 
         requestJson(Request.Method.POST, JsonType.OBJECT, JsonRequest(false, url, params,
                 responseFunc, errorFunc, false))
@@ -81,6 +79,7 @@ class Registration : RestApi() {
 
     val responseFunc = Function<Any, Void?> { response: Any ->
         loadingPanel.visibility = View.GONE
+        registerButton.visibility = View.VISIBLE
         try {
             val jsonObj = response as JSONObject
             storeToken(jsonObj)
@@ -93,6 +92,7 @@ class Registration : RestApi() {
 
     val errorFunc = Function<String, Void?> { error: String? ->
         loadingPanel.visibility = View.GONE
+        registerButton.visibility = View.VISIBLE
         if (error == "Does not exist.") errorMessage.setText(R.string.error_register)
         else errorMessage.text = error
         null
@@ -137,6 +137,7 @@ class Registration : RestApi() {
 
     private fun onRegister() {
         loadingPanel.visibility = View.GONE
+        registerButton.visibility = View.VISIBLE
         registerButton.setOnClickListener {
             errorMessage.text = ""
 
