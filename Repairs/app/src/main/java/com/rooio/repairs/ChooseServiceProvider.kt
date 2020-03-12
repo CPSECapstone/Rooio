@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.arch.core.util.Function
@@ -26,9 +27,10 @@ class ChooseServiceProvider : RestApi() {
     private lateinit var backButton: ImageView
     private lateinit var networkText: TextView
     private lateinit var errorMessage: TextView
+    private lateinit var loadingPanel: ProgressBar
     private var providerDataList: ArrayList<ProviderData> = ArrayList()
     private lateinit var adapter: ChooseServiceProviderAdapter
-    private lateinit var equipmentId: String
+    lateinit var equipmentId: String
     private var equipmentType: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +55,7 @@ class ChooseServiceProvider : RestApi() {
         networkText = findViewById(R.id.networkText)
         errorMessage = findViewById(R.id.errorMessage)
         backButton = findViewById(R.id.backButton)
+        loadingPanel = findViewById(R.id.loadingPanel)
     }
 
     //Click to go back to Dashboard
@@ -66,6 +69,7 @@ class ChooseServiceProvider : RestApi() {
 
     //Populates a list from API call
     private fun populateList() {
+        loadingPanel.visibility = View.VISIBLE
         val bundle: Bundle? = intent.extras
         if (bundle != null) {
             equipmentId = bundle.getString("equipment") as String
@@ -78,6 +82,7 @@ class ChooseServiceProvider : RestApi() {
     //Response from the API call after getting providers
     @JvmField
     var providerResponseFunc = Function<Any, Void?> { response: Any? ->
+        loadingPanel.visibility = View.GONE
         val jsonArray = response as JSONArray
         loadServiceProviders(jsonArray)
         null
@@ -86,6 +91,7 @@ class ChooseServiceProvider : RestApi() {
     //Response from the API call if there is an error
     @JvmField
     var providerErrorFunc = Function<String, Void?> { error: String? ->
+        loadingPanel.visibility = View.GONE
         errorMessage.text = error
         null
     }

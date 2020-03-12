@@ -1,22 +1,15 @@
 package com.rooio.repairs
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
 import com.android.volley.Request
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
-import android.media.AudioManager
-
-
+import android.widget.*
 
 
 // Activity that creates the login page of the application
@@ -29,7 +22,7 @@ class Login : RestApi() {
     private lateinit var connectAccount: Button
     private lateinit var cancelLogin: Button
     private lateinit var errorMessage: TextView
-    private lateinit var loadingPanel: RelativeLayout
+    private lateinit var loadingPanel: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +55,7 @@ class Login : RestApi() {
         val url = "auth/login/"
         val params = HashMap<Any?, Any?>()
         loadingPanel.visibility = View.GONE
+        connectAccount.visibility = View.VISIBLE
         connectAccount.setOnClickListener {
             params["username"] = usernameField.text.toString()
             params["password"] = passwordField.text.toString()
@@ -79,6 +73,7 @@ class Login : RestApi() {
     @JvmField
     var responseFunc = Function<Any, Void?> { response: Any ->
         loadingPanel.visibility = View.GONE
+        connectAccount.visibility = View.VISIBLE
         errorMessage.text = ""
         val jsonObj = response as JSONObject
         storeToken(jsonObj)
@@ -89,6 +84,7 @@ class Login : RestApi() {
     @JvmField
     var errorFunc = Function<String, Void?> { error -> String
         loadingPanel.visibility = View.GONE
+        connectAccount.visibility = View.VISIBLE
         if (error == "Does not exist.") errorMessage.setText(R.string.error_login)
         else errorMessage.text = error
         null
@@ -110,6 +106,7 @@ class Login : RestApi() {
         if (username != "" && password != "") {
             errorMessage.text = ""
             loadingPanel.visibility = View.VISIBLE
+            connectAccount.visibility = View.GONE
             requestJson(Request.Method.POST, JsonType.OBJECT, request)
         } else errorMessage.setText(R.string.error_login)
     }

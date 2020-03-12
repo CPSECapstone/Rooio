@@ -4,8 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.core.content.ContextCompat
@@ -20,6 +22,7 @@ class ChooseEquipment : RestApi() {
     private lateinit var list: RecyclerView
     private lateinit var search: EditText
     private lateinit var recyclerChooseAdapter: ChooseEquipmentAdapter
+    private lateinit var loadingPanel: ProgressBar
     //private var equipmentNameList = ArrayList<String>()
     private lateinit var textView: TextView
     private var equipmentObjectList: ArrayList<EquipmentData> = ArrayList()
@@ -53,6 +56,7 @@ class ChooseEquipment : RestApi() {
         list = findViewById(R.id.list)
         textView = findViewById(R.id.errorText)
         search = findViewById(R.id.search)
+        loadingPanel = findViewById(R.id.loadingPanel)
         //equipmentNameList = ArrayList()
     }
 
@@ -64,6 +68,7 @@ class ChooseEquipment : RestApi() {
     }
     // send JsonRequest Object
     private fun loadEquipmentElements() {
+        loadingPanel.visibility = View.VISIBLE
         val request = JsonRequest(false, url, null, responseFuncLoad, errorFuncLoad, true)
         requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
@@ -71,6 +76,7 @@ class ChooseEquipment : RestApi() {
     @JvmField
     // load equipments in the equipment list
     var responseFuncLoad = Function<Any, Void?> { jsonResponse: Any? ->
+        loadingPanel.visibility = View.GONE
         val jsonArray = jsonResponse as JSONArray
         loadEquipment(jsonArray)
         null
@@ -79,6 +85,7 @@ class ChooseEquipment : RestApi() {
     @JvmField
     // set error message
     var errorFuncLoad = Function<String, Void?> { string: String? ->
+        loadingPanel.visibility = View.GONE
         textView.text = string
         textView.setTextColor(ContextCompat.getColor(this,R.color.Red))
         null

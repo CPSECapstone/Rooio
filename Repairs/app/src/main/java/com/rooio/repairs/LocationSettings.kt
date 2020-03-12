@@ -18,7 +18,7 @@ class LocationSettings  : NavigationBar() {
     private lateinit var errorMessage: TextView
     private lateinit var changeLocation: Button
     private lateinit var spinner: Spinner
-    private lateinit var loadingPanel: RelativeLayout
+    private lateinit var loadingPanel: ProgressBar
     private val url = "service-locations/$userLocationID/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,6 +88,7 @@ class LocationSettings  : NavigationBar() {
 
     //Requests the current location from the API
     private fun getCurrentLocation(request: JsonRequest){
+        loadingPanel.visibility = View.VISIBLE
         requestJson(Request.Method.GET, JsonType.OBJECT, request)
     }
 
