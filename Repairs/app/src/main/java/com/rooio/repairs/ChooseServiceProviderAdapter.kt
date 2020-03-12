@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -44,9 +45,11 @@ RecyclerView.Adapter<ChooseServiceProviderAdapter.MyViewHolder>() {
 
         holder.itemView.setOnClickListener {
             val id = providerDataList[position].id
-            val intent = Intent(applicationContext, Dashboard::class.java)
-            intent.putExtra("provider", id)
+            val intent = Intent(applicationContext, CreateJobDetails::class.java)
+            intent.putExtra("company", id)
             intent.putExtra("equipment", equipmentId)
+            val activity = applicationContext as Activity
+            intent.putExtra("type", activity.intent.getIntExtra("type", 0))
             applicationContext.startActivity(intent)
         }
         setElement(holder.nameInfo, providerDataList[position].name)
