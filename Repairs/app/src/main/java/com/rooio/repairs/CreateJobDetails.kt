@@ -53,6 +53,7 @@ class CreateJobDetails: RestApi() {
     private lateinit var transitionsContainer: ViewGroup
     private lateinit var viewGroup: ViewGroup
     private lateinit var scrollView: ScrollView
+    private lateinit var loadingPanel: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,16 +107,20 @@ class CreateJobDetails: RestApi() {
         equipmentDivider = transitionsContainer.findViewById(R.id.equipmentDivider)
         viewEquipment = transitionsContainer.findViewById(R.id.viewEquipment)
         backButton = viewGroup.findViewById(R.id.backButton)
+        loadingPanel = findViewById(R.id.loadingPanel)
     }
 
     // initializing restaurant location text and equipment widget
     private fun initializeUI() {
+        loadingPanel.visibility = View.GONE
         requestLocation()
         requestEquipmentInfo()
     }
 
     // sending JSONRequest for the restaurant location
     private fun requestLocation() {
+
+
         val url = "service-locations/$userLocationID/"
         val request = JsonRequest(false, url, null, responseFuncLoad, errorFuncLoad, true)
         requestJson(Request.Method.GET, JsonType.OBJECT, request)
@@ -211,19 +216,26 @@ class CreateJobDetails: RestApi() {
 
     @JvmField
     val responseFuncSendRequest = Function<Any, Void?> {
+        loadingPanel.visibility = View.GONE
+        sendRequestButton.visibility = View.VISIBLE
         startActivity(Intent(this@CreateJobDetails, Dashboard::class.java))
         null
     }
 
     @JvmField
     val errorFuncSendRequest = Function<String, Void?> {
+        loadingPanel.visibility = View.GONE
+        sendRequestButton.visibility = View.VISIBLE
         errorMsg.text = it
         null
     }
 
     private fun sendJobRequest(request: JsonRequest) {
-        if(validJobRequest(request))
+        if(validJobRequest(request)) {
+            loadingPanel.visibility = View.VISIBLE
+            sendRequestButton.visibility = View.GONE
             requestJson(Request.Method.POST, JsonType.OBJECT, request)
+        }
         else {
             errorMsg.text = resources.getString(R.string.fill_out_fields)
             scrollView.fullScroll(ScrollView.FOCUS_UP)
