@@ -1,6 +1,5 @@
 package com.rooio.repairs
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -8,7 +7,6 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
@@ -87,6 +85,7 @@ class CreateJobDetails: RestApi() {
         contact = findViewById(R.id.contactInput)
         phoneNumber = findViewById(R.id.phoneNumberInput)
 
+        // changing UI to display contact name in the prompt
         contact.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             val phoneNumberText: TextView = findViewById(R.id.phoneNumberText)
             val name = contact.text
@@ -134,7 +133,6 @@ class CreateJobDetails: RestApi() {
     }
 
     // sets time picker to show 15 minute intervals
-    @SuppressLint("PrivateApi")
     private fun setTimePickerInterval(timePicker: TimePicker) {
         try {
             val classForid = Class.forName("com.android.internal.R\$id")
@@ -279,7 +277,7 @@ class CreateJobDetails: RestApi() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestDate.set(date.year, date.month, date.dayOfMonth, time.hour, time.minute*timePickerInterval)
         }
-        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
         return sdf.format(requestDate.time)
     }
 
