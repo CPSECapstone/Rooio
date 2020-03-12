@@ -17,7 +17,6 @@ import com.android.volley.Request
 import com.squareup.picasso.Picasso
 import org.json.JSONException
 import org.json.JSONObject
-import androidx.core.content.ContextCompat
 
 
 class PreferredProviderDetails: NavigationBar() {

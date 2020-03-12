@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import androidx.arch.core.util.Function
@@ -32,6 +31,8 @@ class Jobs : NavigationBar() {
     private var pendingJobs = ArrayList<JSONObject>()
     private var scheduledJobs = ArrayList<JSONObject>()
     private var inProgressJobs = ArrayList<JSONObject>()
+    private var startedJobs = ArrayList<JSONObject>()
+    private var pausedJobs = ArrayList<JSONObject>()
 
     private val url = "service-locations/$userLocationID/jobs/"
 
@@ -101,10 +102,13 @@ class Jobs : NavigationBar() {
                 scheduledJobs.add(job)
                 statusesSizing("scheduled")
             }
-            else if(job.getInt("status") == StatusType.Started.getInt() ||
-                    job.getInt("status") == StatusType.Paused.getInt() ){
-                inProgressJobs.add(job)
-                statusesSizing("inProgress")
+            else if(job.getInt("status") == StatusType.Started.getInt()){
+                startedJobs.add(job)
+                statusesSizing("started")
+            }
+            else if(job.getInt("status") == StatusType.Paused.getInt()){
+                pausedJobs.add(job)
+                statusesSizing("paused")
             }
         }
 
@@ -117,14 +121,13 @@ class Jobs : NavigationBar() {
         }
 
         val pendingJobsCustomerAdapter = JobsCustomerAdapter(this, pendingJobs)
-        if (pendingJobs.size != 0) pendingList!!.adapter = pendingJobsCustomerAdapter
+        if (pendingJobs.size != 0) pendingList.adapter = pendingJobsCustomerAdapter
 
         val scheduledJobsCustomerAdapter = JobsCustomerAdapter(this, scheduledJobs)
-        if (scheduledJobs.size != 0) scheduledList!!.adapter = scheduledJobsCustomerAdapter
+        if (scheduledJobs.size != 0) scheduledList.adapter = scheduledJobsCustomerAdapter
 
         val inProvidersCustomAdapter = JobsCustomerAdapter(this, inProgressJobs)
-        if (inProgressJobs.size != 0) inProgressList!!.adapter = inProvidersCustomAdapter
-           
+        if (inProgressJobs.size != 0) inProgressList.adapter = inProvidersCustomAdapter
     }
 
 
@@ -161,12 +164,13 @@ class Jobs : NavigationBar() {
             setLayoutParams(value, pendingConstraint, pendingList)
         }
         else if (str == "scheduled" ){
-            val params = scheduledConstraint!!.layoutParams
-            params.height += value
-            scheduledConstraint!!.layoutParams = params
-            val size = scheduledList!!.layoutParams
-            size.height += value
-            scheduledList!!.layoutParams = size
+            setLayoutParams(value, scheduledConstraint, scheduledList)
+//            val params = scheduledConstraint.layoutParams
+//            params.height += value
+//            scheduledConstraint.layoutParams = params
+//            val size = scheduledList.layoutParams
+//            size.height += value
+//            scheduledList.layoutParams = size
         }
         else{
             setLayoutParams(value, inProgressConstraint, inProgressList)
@@ -175,12 +179,12 @@ class Jobs : NavigationBar() {
     }
 
     private fun setLayoutParams(value: Int, constraintLayout: ConstraintLayout, listView: ListView){
-        val params = constraintLayout!!.layoutParams
+        val params = constraintLayout.layoutParams
         params.height += value
-        constraintLayout!!.layoutParams = params
-        val size = listView!!.layoutParams
+        constraintLayout.layoutParams = params
+        val size = listView.layoutParams
         size.height += value
-        listView!!.layoutParams = size
+        listView.layoutParams = size
     }
 
 
