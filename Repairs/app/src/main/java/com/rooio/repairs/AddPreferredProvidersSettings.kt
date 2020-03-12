@@ -19,7 +19,7 @@ class AddPreferredProvidersSettings  : NavigationBar() {
     private lateinit var addProvider: Button
     private lateinit var newProvider: EditText
     private lateinit var errorMessage: TextView
-    private lateinit var loadingPanel: RelativeLayout
+    private lateinit var loadingPanel: ProgressBar
     private lateinit var backButton: ImageView
     private lateinit var viewGroup: ViewGroup
     private val url: String = "service-providers/"
@@ -50,6 +50,7 @@ class AddPreferredProvidersSettings  : NavigationBar() {
     //Handles when a user adds a provider
     private fun onAddProvider() {
         loadingPanel.visibility = View.GONE
+        addProvider.visibility = View.VISIBLE
         addProvider.setOnClickListener {
             errorMessage.text = ""
             val phoneInput = newProvider.text.toString()
@@ -64,6 +65,7 @@ class AddPreferredProvidersSettings  : NavigationBar() {
             requestJson(Request.Method.POST, JsonType.ARRAY, request)
         } else {
             loadingPanel.visibility = View.GONE
+            addProvider.visibility = View.VISIBLE
             errorMessage.setText(R.string.already_added_provider)
         }
     }
@@ -72,6 +74,7 @@ class AddPreferredProvidersSettings  : NavigationBar() {
     @JvmField
     val providerResponseFunc = Function<Any, Void?> {
         loadingPanel.visibility = View.GONE
+        addProvider.visibility = View.VISIBLE
         startActivity(Intent(this@AddPreferredProvidersSettings, PreferredProvidersSettings::class.java))
         null
     }
@@ -80,6 +83,7 @@ class AddPreferredProvidersSettings  : NavigationBar() {
     @JvmField
     val providerErrorFunc = Function<String, Void?> { error -> String
         loadingPanel.visibility = View.GONE
+        addProvider.visibility = View.VISIBLE
         if (error == "Does not exist.") {
             errorMessage.setText(R.string.error_provider)
         }
@@ -92,6 +96,7 @@ class AddPreferredProvidersSettings  : NavigationBar() {
     private fun checkPhoneNumber(phoneInput: String, request: JsonRequest) {
         if (phoneInput.isNotEmpty() && (phoneInput.length == 10 || phoneInput.length == 9)) {
             loadingPanel.visibility = View.VISIBLE
+            addProvider.visibility = View.GONE
             requestJson(Request.Method.GET, JsonType.ARRAY, request)
         }
         else errorMessage.setText(R.string.error_phone)
@@ -101,6 +106,7 @@ class AddPreferredProvidersSettings  : NavigationBar() {
     @JvmField
     val checkErrorFunc = Function<String, Void?> { error: String? ->
         loadingPanel.visibility = View.GONE
+        addProvider.visibility = View.VISIBLE
         errorMessage.text = error
         null
     }

@@ -239,6 +239,7 @@
                 android:layout_height="55dp"
                 android:background="@drawable/green_button_border"
                 android:fontFamily="@font/nunito_sans"
+                android:soundEffectsEnabled="false"
                 android:text="@string/save"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimary"
@@ -247,8 +248,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.89" />
+
+            <ProgressBar
+                android:id="@+id/editLoadingPanel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.88" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -266,11 +277,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/spinner_background"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.53" />
 
             <TextView
@@ -584,11 +595,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/spinner_background"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.525" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -600,6 +611,7 @@
             android:layout_height="55dp"
             android:background="@drawable/green_button_border"
             android:fontFamily="@font/nunito_sans"
+            android:soundEffectsEnabled="false"
             android:text="@string/add"
             android:textAllCaps="false"
             android:textColor="@color/colorPrimary"
@@ -609,7 +621,6 @@
             app:layout_constraintHorizontal_bias="0.275"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:soundEffectsEnabled="false"
             app:layout_constraintVertical_bias="0.86" />
 
         <Button
@@ -619,6 +630,7 @@
             android:layout_height="55dp"
             android:background="@drawable/gray_button_border"
             android:fontFamily="@font/nunito_sans"
+            android:soundEffectsEnabled="false"
             android:text="@string/cancel"
             android:textAllCaps="false"
             android:textColor="#919191"
@@ -628,7 +640,6 @@
             app:layout_constraintHorizontal_bias="0.72"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:soundEffectsEnabled="false"
             app:layout_constraintVertical_bias="0.86" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -1060,5 +1071,29 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/addLoadingPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.61"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.43" />
+
+    <ProgressBar
+        android:id="@+id/equipmentLoadingPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.23"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32999998" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,6 @@ import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
 import com.android.volley.Request
-import com.google.android.libraries.places.api.net.PlacesClient
 import org.json.JSONArray
 import org.json.JSONException
 import java.util.*
@@ -18,7 +17,7 @@ class AddLocationLogin : RestApi(){
     private lateinit var addLocation: Button
     private lateinit var cancelButton: Button
     private lateinit var errorMessage: TextView
-    private lateinit var loadingPanel: RelativeLayout
+    private lateinit var loadingPanel: ProgressBar
     private lateinit var autocomplete: AutoCompleteTextView
     private val url = "service-locations/"
 
@@ -56,6 +55,7 @@ class AddLocationLogin : RestApi(){
     //Handles when a user adds a location
     private fun onAddLocation() {
         loadingPanel.visibility = View.GONE
+        addLocation.visibility = View.VISIBLE
         addLocation.setOnClickListener {
             errorMessage.text = ""
             val locationInput = autocomplete.text.toString()
@@ -68,6 +68,7 @@ class AddLocationLogin : RestApi(){
     private fun checkLocationInfo(inputAddress: String, request: JsonRequest) {
         if (inputAddress != "") {
             loadingPanel.visibility = View.VISIBLE
+            addLocation.visibility = View.GONE
             requestJson(Request.Method.GET, JsonType.ARRAY, request)
         } else errorMessage.setText(R.string.invalid_address)
     }
@@ -76,6 +77,7 @@ class AddLocationLogin : RestApi(){
     @JvmField
     val checkErrorFunc = Function<String, Void?> { error: String? ->
         loadingPanel.visibility = View.GONE
+        addLocation.visibility = View.VISIBLE
         errorMessage.text = error
         null
     }
@@ -83,16 +85,12 @@ class AddLocationLogin : RestApi(){
     //Checks if the location is already in the system and tries to add it
     @JvmField
     val checkResponseFunc = Function<Any, Void?> { response: Any ->
-        try {
-            val jsonArray = response as JSONArray
-            val locationInput = autocomplete.text.toString()
-            val params = HashMap<Any?, Any?>()
-            params["physical_address"] = locationInput
-            val request = JsonRequest(false, url, params, locationResponseFunc, locationErrorFunc, true)
-            addLocation(checkAlreadyAdded(locationInput, jsonArray), request)
-        } catch (e: JSONException) {
-            errorMessage.setText(R.string.error_server)
-        }
+        val jsonArray = response as JSONArray
+        val locationInput = autocomplete.text.toString()
+        val params = HashMap<Any?, Any?>()
+        params["physical_address"] = locationInput
+        val request = JsonRequest(false, url, params, locationResponseFunc, locationErrorFunc, true)
+        addLocation(checkAlreadyAdded(locationInput, jsonArray), request)
         null
     }
 
@@ -114,6 +112,7 @@ class AddLocationLogin : RestApi(){
             requestJson(Request.Method.POST, JsonType.OBJECT, request)
         } else {
             loadingPanel.visibility = View.GONE
+            addLocation.visibility = View.VISIBLE
             errorMessage.setText(R.string.already_added_location)
         }
     }
@@ -127,6 +126,7 @@ class AddLocationLogin : RestApi(){
     @JvmField
     var locationResponseFunc = Function<Any, Void?> {
         loadingPanel.visibility = View.GONE
+        addLocation.visibility = View.VISIBLE
         try {
             startActivity(Intent(this@AddLocationLogin, LocationLogin::class.java))
         } catch (e: JSONException) {
@@ -139,6 +139,7 @@ class AddLocationLogin : RestApi(){
     @JvmField
     var locationErrorFunc = Function<String, Void?> { error: String? ->
         loadingPanel.visibility = View.GONE
+        addLocation.visibility = View.VISIBLE
         errorMessage.text = error
         null
     }

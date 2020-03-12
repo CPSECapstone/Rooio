@@ -9,6 +9,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.core.content.ContextCompat
@@ -31,6 +32,7 @@ class PreferredProviderDetails: NavigationBar() {
     private lateinit var name: TextView
     private lateinit var price: TextView
     private lateinit var logo: ImageView
+    private lateinit var loadingPanel: ProgressBar
 
     private var url = ""
 
@@ -60,7 +62,7 @@ class PreferredProviderDetails: NavigationBar() {
         price = findViewById(R.id.price)
         backButton = findViewById(R.id.back_button_details)
         removeButton = findViewById(R.id.removeProvider)
-
+        loadingPanel = findViewById(R.id.loadingPanel)
     }
 
     private fun onBackClick() {
@@ -71,6 +73,7 @@ class PreferredProviderDetails: NavigationBar() {
     }
 
     private fun loadProvider(){
+        loadingPanel.visibility = View.VISIBLE
         val bundle: Bundle ?= intent.extras
         if (bundle!=null){
             val theId = bundle.getString("addedProvider")
@@ -84,12 +87,14 @@ class PreferredProviderDetails: NavigationBar() {
 
     @JvmField
     var providerErrorFunc = Function<String, Void?> {error -> String
+        loadingPanel.visibility = View.GONE
         message.text = error
         null
     }
 
     @JvmField
     val providerResponseFunc = Function<Any, Void?> { response : Any ->
+        loadingPanel.visibility = View.GONE
         val jsonObject = response as JSONObject
         try {
             loadElements(jsonObject)
