@@ -1,8 +1,5 @@
 package com.rooio.repairs
 
-import android.app.DatePickerDialog
-import android.app.DatePickerDialog.OnDateSetListener
-import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +14,7 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_create_job_details.*
 import org.json.JSONException
 import org.json.JSONObject
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -116,6 +114,31 @@ class CreateJobDetails: RestApi() {
         requestEquipmentInfo()
     }
 
+    // sending JSONRequest for the restaurant location
+    private fun requestLocation() {
+        val url = "service-locations/$userLocationID/"
+        val request = JsonRequest(false, url, null, responseFuncLoad, errorFuncLoad, true)
+        requestJson(Request.Method.GET, JsonType.OBJECT, request)
+    }
+
+    @JvmField
+    // set restaurant location text at top of screen
+    var responseFuncLoad = Function<Any, Void?>{ jsonResponse: Any? ->
+        try{
+            val jsonObject = jsonResponse as JSONObject
+            restuarantLocation.text = jsonObject.getString("physical_address_formatted")
+        } catch (e: JSONException){
+            errorMsg.text = e.toString()
+        }
+        null
+    }
+
+    @JvmField
+    var errorFuncLoad = Function<String, Void?> {
+        restuarantLocation.text = it
+        null
+    }
+
     private fun requestEquipmentInfo() {
         // get equipment information from whichever piece of equipment that the user chose earlier
         val equipmentID = intent.getStringExtra("equipment")
@@ -159,31 +182,6 @@ class CreateJobDetails: RestApi() {
             element.text = "--"
     }
 
-    // sending JSONRequest for the restaurant location
-    private fun requestLocation() {
-        val url = "service-locations/$userLocationID/"
-        val request = JsonRequest(false, url, null, responseFuncLoad, errorFuncLoad, true)
-        requestJson(Request.Method.GET, JsonType.OBJECT, request)
-    }
-
-    @JvmField
-    // set restaurant location text at top of screen
-    var responseFuncLoad = Function<Any, Void?>{ jsonResponse: Any? ->
-        try{
-            val jsonObject = jsonResponse as JSONObject
-            restuarantLocation.text = jsonObject.getString("physical_address_formatted")
-        } catch (e: JSONException){
-            errorMsg.text = e.toString()
-        }
-        null
-    }
-
-    @JvmField
-    var errorFuncLoad = Function<String, Void?> {
-        restuarantLocation.text = it
-        null
-    }
-
     private fun onSendRequest() {
         val params = HashMap<Any?, Any?>()
         val url = "service-locations/$userLocationID/jobs/"
@@ -196,15 +194,19 @@ class CreateJobDetails: RestApi() {
             params["details"] = whatHappened.text.toString()
             params["point_of_contact_name"] = contact.text.toString()
             params["point_of_contact_phone"] = phoneNumber.text.toString()
-            params["requested_arrival_time"] = "2020-03-10T20:38:27.983Z"
-
-            Log.i("try", "equipment: " + params["equipment"])
-            Log.i("try", "company: " + params["service_company"])
-            Log.i("try", "category: " + params["service_category"])
-            Log.i("try", "time: " + params["requested_arrival_time"])
+            params["requested_arrival_time"] = formatRequestDate()
             val request = JsonRequest(false, url, params, responseFuncSendRequest, errorFuncSendRequest, true)
             sendJobRequest(request)
         }
+    }
+
+    // formatting the request time into ISO 8601 format
+    private fun formatRequestDate() : String {
+        val timeZone = TimeZone.getDefault()
+        val requestDate = Calendar.getInstance(timeZone)
+        requestDate.set(date.year, date.month, date.dayOfMonth, time.hour, time.minute)
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
+        return sdf.format(requestDate.time)
     }
 
     @JvmField
