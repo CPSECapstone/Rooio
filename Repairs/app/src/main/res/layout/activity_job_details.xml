@@ -298,7 +298,7 @@
                     android:id="@+id/activeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:background="@drawable/job_detail_color"
+                    android:background="@drawable/job_details_page_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"

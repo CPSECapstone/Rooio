@@ -29,6 +29,7 @@ import kotlin.collections.ArrayList
 
 class Dashboard : NavigationBar() {
 
+    private lateinit var image_on: String
     private lateinit var scheduledNum: TextView
     private lateinit var inProgressNum: TextView
     private lateinit var pendingNum: TextView
@@ -316,8 +317,10 @@ class Dashboard : NavigationBar() {
             boxParams10.width = 160
             sideMover.layoutParams = boxParams10
             image.setVisibility(View.GONE)
+            image_on = "off"
         }
         else{
+            image_on = "on"
             Picasso.with(this)
                     .load(imageVal)
                     .into(image)
@@ -412,6 +415,14 @@ class Dashboard : NavigationBar() {
 
         boxParams7.width = notableJobsWidth
 
+        if(image_on == "off"){
+            val textWidth = if (boolean) 330 else 160
+
+            val sideMover = viewGroup.findViewById<ViewGroup>(R.id.jobMover)
+            val boxParams10 = sideMover.layoutParams
+            boxParams10.width = textWidth
+            sideMover.layoutParams = boxParams10
+        }
 
         //calling the transitions
         notableJobs.layoutParams = boxParams1

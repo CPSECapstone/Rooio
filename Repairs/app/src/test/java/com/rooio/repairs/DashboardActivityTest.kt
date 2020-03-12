@@ -39,7 +39,6 @@ class DashboardActivityTest {
     }
 
 
-
     @Test
     fun applianceButtonTest() {
         val button = activity.findViewById<View>(R.id.applianceButton) as Button
