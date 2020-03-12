@@ -50,6 +50,7 @@ class Registration : RestApi() {
         registerButton = findViewById(R.id.register)
         cancelButton = findViewById(R.id.cancelRegistration)
         firstName = findViewById(R.id.firstName)
+        firstName.requestFocus()
         lastName = findViewById(R.id.lastName)
         email = findViewById(R.id.email)
         password = findViewById(R.id.password)

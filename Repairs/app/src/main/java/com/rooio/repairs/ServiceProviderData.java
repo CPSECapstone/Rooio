@@ -10,5 +10,4 @@ class ServiceProviderData {
         this.image = image;
         this.id = id;
     }
-
 }
