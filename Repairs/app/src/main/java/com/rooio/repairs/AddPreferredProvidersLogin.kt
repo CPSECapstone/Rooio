@@ -3,10 +3,7 @@ package com.rooio.repairs
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
 import com.android.volley.Request
@@ -21,7 +18,7 @@ class AddPreferredProvidersLogin : RestApi() {
     private lateinit var cancelButton: Button
     private lateinit var newProvider: EditText
     private lateinit var errorMessage: TextView
-    private lateinit var loadingPanel: RelativeLayout
+    private lateinit var loadingPanel: ProgressBar
     private val url: String = "service-providers/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,6 +55,7 @@ class AddPreferredProvidersLogin : RestApi() {
     //Handles when a user adds a provider
     private fun onAddProvider() {
         loadingPanel.visibility = View.GONE
+        addProvider.visibility = View.VISIBLE
         addProvider.setOnClickListener {
             errorMessage.text = ""
             val phoneInput = newProvider.text.toString()
@@ -87,6 +85,7 @@ class AddPreferredProvidersLogin : RestApi() {
     @JvmField
     val checkErrorFunc = Function<String, Void?> { error: String? ->
         loadingPanel.visibility = View.GONE
+        addProvider.visibility = View.VISIBLE
         errorMessage.text = error
         null
     }
@@ -96,6 +95,7 @@ class AddPreferredProvidersLogin : RestApi() {
     private fun checkPhoneNumber(phoneInput: String, request: JsonRequest) {
         if (phoneInput.isNotEmpty() && (phoneInput.length == 10 || phoneInput.length == 9)) {
             loadingPanel.visibility = View.VISIBLE
+            addProvider.visibility = View.GONE
             requestJson(Request.Method.GET, JsonType.ARRAY, request)
         }
         else errorMessage.setText(R.string.error_phone)
@@ -107,6 +107,7 @@ class AddPreferredProvidersLogin : RestApi() {
             requestJson(Request.Method.POST, JsonType.ARRAY, request)
         } else {
             loadingPanel.visibility = View.GONE
+            addProvider.visibility = View.VISIBLE
             errorMessage.setText(R.string.already_added_provider)
         }
     }
@@ -115,6 +116,7 @@ class AddPreferredProvidersLogin : RestApi() {
     @JvmField
     val providerResponseFunc = Function<Any, Void?> {
         loadingPanel.visibility = View.GONE
+        addProvider.visibility = View.VISIBLE
         startActivity(Intent(this@AddPreferredProvidersLogin, PreferredProvidersLogin::class.java))
         null
     }
@@ -123,6 +125,7 @@ class AddPreferredProvidersLogin : RestApi() {
     @JvmField
     val providerErrorFunc = Function<String, Void?> { error -> String
         loadingPanel.visibility = View.GONE
+        addProvider.visibility = View.VISIBLE
         if (error == "Does not exist.") {
             errorMessage.setText(R.string.error_provider)
         }
