@@ -1,4 +1,5 @@
 <resources>
+    <string name="placesApiKey">AIzaSyDhRY5q6woF-h1LWCxkXkO5SYMI3PG1iXg</string>
     <string name="app_name">Repairs</string>
     <string name="connect_account">Connect Account</string>
     <string name="create_account">Create Account</string>
@@ -68,7 +69,10 @@
     <string name="allJobs">All Jobs</string>
     <string name="pending">Pending</string>
     <string name="scheduled">Scheduled</string>
-    <string name="completed">Completed</string>
+    <string name="declined">Declined</string>
+    <string name="archived">Archived</string>
+    <string name="cancelled">Cancelled</string>
+
 
     <string name="inProgress">In Progress</string>
     <string name="three">3</string>
@@ -78,9 +82,9 @@
     <string name="license_number"> License Number</string>
     <string name="company_phone"> Company Phone</string>
     <string name="company_email"> Company Email</string>
-    <string name="view_completed"><u>View Completed Jobs</u></string>
+    <string name="view_completed"><u>View Archived Jobs</u></string>
     <string name="view_current"><u>View Current Jobs</u></string>
-    <string name="search_service_provider">Search Service Provider</string>
+    <string name="search_service_provider">Search Service Provider..</string>
     <string name="service_provider_details"> Service Provider Details</string>
     <string name="overview"> Overview</string>
     <string name="starting_cost"> starting cost</string>
@@ -105,10 +109,22 @@
     <string name="skills_text">skills</string>
     <string name="contractor_license_number">contractor_license_number</string>
     <string name="save_equipment_error">Equipment details could not be saved at this time.</string>
+    <string name="describe_the_job">Describe the Job</string>
+    <string name="what_happened">What Happened?</string>
+    <string name="when_do_you_need_it_fixed">When do you need it fixed?</string>
+    <string name="who_should_they_ask_for">Who should they ask for?</string>
+    <string name="what_s_their_phone_number">What\'s their phone number? (optional)</string>
+    <string name="send_request">Send Request</string>
+    <string name="fill_out_fields">Please fill out all required fields.</string>
+
+
     <string name="phone">phone</string>
     <string name="empty_field">--</string>
     <string name="name">name</string>
     <string name="starting_cost_text"> \u0020starting cost</string>
+    <string name="enter_date">Enter Date</string>
+    <string name="enter_time">Enter Time</string>
+    <string name="analytics_under_construction">Analytics Under Construction...</string>
     <string-array name="industry_type">
         <item>Residential</item>
         <item>Commercial Business</item>
@@ -117,5 +133,56 @@
     <string-array name="settings_type">
         <item>Preferred Providers</item>
         <item>Service Location</item>
+    </string-array>
+    <string-array name="months">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+    <string-array name="days">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+    </string-array>
+    <string-array name="time">
+        <item>AM</item>
+        <item>PM</item>
     </string-array>
 </resources>

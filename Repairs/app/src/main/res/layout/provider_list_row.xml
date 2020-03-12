@@ -14,6 +14,7 @@
         android:layout_height="60dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/gray_phone_border"
+        android:padding="1.5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias=".02"

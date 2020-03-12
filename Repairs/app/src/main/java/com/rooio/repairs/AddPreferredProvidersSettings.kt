@@ -1,16 +1,17 @@
 package com.rooio.repairs
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.arch.core.util.Function
-import androidx.transition.TransitionManager
 import com.android.volley.Request
 import org.json.JSONArray
 import org.json.JSONException
 import java.util.*
+
 
 //Page where user can add a preferred provider from settings
 class AddPreferredProvidersSettings  : NavigationBar() {
@@ -18,9 +19,8 @@ class AddPreferredProvidersSettings  : NavigationBar() {
     private lateinit var addProvider: Button
     private lateinit var newProvider: EditText
     private lateinit var errorMessage: TextView
-    private lateinit var loadingPanel: RelativeLayout
-    private lateinit var expandBackButton: ImageView
-    private lateinit var collapseBackButton: ImageView
+    private lateinit var loadingPanel: ProgressBar
+    private lateinit var backButton: ImageView
     private lateinit var viewGroup: ViewGroup
     private val url: String = "service-providers/"
 
@@ -44,17 +44,17 @@ class AddPreferredProvidersSettings  : NavigationBar() {
         loadingPanel = findViewById(R.id.loadingPanel)
         viewGroup = findViewById(R.id.background)
         //Navigation bar collapse/expand
-        expandBackButton = viewGroup.findViewById(R.id.expandBackButton)
-        collapseBackButton = viewGroup.findViewById(R.id.collapseBackButton)
+        backButton = viewGroup.findViewById(R.id.backButton)
     }
 
     //Handles when a user adds a provider
     private fun onAddProvider() {
         loadingPanel.visibility = View.GONE
+        addProvider.visibility = View.VISIBLE
         addProvider.setOnClickListener {
             errorMessage.text = ""
             val phoneInput = newProvider.text.toString()
-            val request = JsonRequest(false, url, HashMap(), checkResponseFunc, checkErrorFunc, true)
+            val request = JsonRequest(false, url, null, checkResponseFunc, checkErrorFunc, true)
             checkPhoneNumber(phoneInput, request)
         }
     }
@@ -65,6 +65,7 @@ class AddPreferredProvidersSettings  : NavigationBar() {
             requestJson(Request.Method.POST, JsonType.ARRAY, request)
         } else {
             loadingPanel.visibility = View.GONE
+            addProvider.visibility = View.VISIBLE
             errorMessage.setText(R.string.already_added_provider)
         }
     }
@@ -73,6 +74,7 @@ class AddPreferredProvidersSettings  : NavigationBar() {
     @JvmField
     val providerResponseFunc = Function<Any, Void?> {
         loadingPanel.visibility = View.GONE
+        addProvider.visibility = View.VISIBLE
         startActivity(Intent(this@AddPreferredProvidersSettings, PreferredProvidersSettings::class.java))
         null
     }
@@ -81,6 +83,7 @@ class AddPreferredProvidersSettings  : NavigationBar() {
     @JvmField
     val providerErrorFunc = Function<String, Void?> { error -> String
         loadingPanel.visibility = View.GONE
+        addProvider.visibility = View.VISIBLE
         if (error == "Does not exist.") {
             errorMessage.setText(R.string.error_provider)
         }
@@ -93,6 +96,7 @@ class AddPreferredProvidersSettings  : NavigationBar() {
     private fun checkPhoneNumber(phoneInput: String, request: JsonRequest) {
         if (phoneInput.isNotEmpty() && (phoneInput.length == 10 || phoneInput.length == 9)) {
             loadingPanel.visibility = View.VISIBLE
+            addProvider.visibility = View.GONE
             requestJson(Request.Method.GET, JsonType.ARRAY, request)
         }
         else errorMessage.setText(R.string.error_phone)
@@ -102,6 +106,7 @@ class AddPreferredProvidersSettings  : NavigationBar() {
     @JvmField
     val checkErrorFunc = Function<String, Void?> { error: String? ->
         loadingPanel.visibility = View.GONE
+        addProvider.visibility = View.VISIBLE
         errorMessage.text = error
         null
     }
@@ -109,16 +114,12 @@ class AddPreferredProvidersSettings  : NavigationBar() {
     //Checks if the phone number is already in the system, and then adds it if it is not
     @JvmField
     val checkResponseFunc = Function<Any, Void?> { response: Any ->
-        try {
-            val jsonArray = response as JSONArray
-            val phoneInput = newProvider.text.toString()
-            val params = HashMap<Any?, Any?>()
-            params["phone"] = phoneInput
-            val request = JsonRequest(false, url, params, providerResponseFunc, providerErrorFunc, true)
-            addPreferredServiceProvider(checkAlreadyAdded(phoneInput, jsonArray), request)
-        } catch (e: JSONException) {
-            errorMessage.setText(R.string.error_server)
-        }
+        val jsonArray = response as JSONArray
+        val phoneInput = newProvider.text.toString()
+        val params = HashMap<Any?, Any?>()
+        params["phone"] = phoneInput
+        val request = JsonRequest(false, url, params, providerResponseFunc, providerErrorFunc, true)
+        addPreferredServiceProvider(checkAlreadyAdded(phoneInput, jsonArray), request)
         null
     }
 
@@ -137,19 +138,15 @@ class AddPreferredProvidersSettings  : NavigationBar() {
     //Animates the main page content when the navigation bar collapses/expands
     override fun animateActivity(boolean: Boolean)
     {
-        TransitionManager.beginDelayedTransition(viewGroup)
-        val v = if (boolean) View.VISIBLE else View.GONE
-        val op = if (boolean) View.GONE else View.VISIBLE
-        expandBackButton.visibility = op
-        collapseBackButton.visibility = v
+        val amount = if (boolean) -190f else 0f
+        val animation = ObjectAnimator.ofFloat(backButton, "translationX", amount)
+        if (boolean) animation.duration = 1300 else animation.duration = 300
+        animation.start()
     }
 
     //Sends the user to the Jobs page
     private fun onBack() {
-        expandBackButton.setOnClickListener{
-            startActivity(Intent(this@AddPreferredProvidersSettings, PreferredProvidersSettings::class.java))
-        }
-        collapseBackButton.setOnClickListener{
+        backButton.setOnClickListener{
             startActivity(Intent(this@AddPreferredProvidersSettings, PreferredProvidersSettings::class.java))
         }
     }

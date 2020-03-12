@@ -42,8 +42,8 @@ class EquipmentData {
     private fun createEnum(i: Int): EquipmentType {
         when (i) {
             1 -> return EquipmentType.HVAC
-            2 -> return EquipmentType.PLUMBING
-            3 -> return EquipmentType.LIGHTING_AND_ELECTRICAL
+            2 -> return EquipmentType.LIGHTING_AND_ELECTRICAL
+            3 -> return EquipmentType.PLUMBING
             4 -> return EquipmentType.GENERAL_APPLIANCE
             else -> throw IllegalArgumentException("\$i does not correspond to an equipment type")
         }

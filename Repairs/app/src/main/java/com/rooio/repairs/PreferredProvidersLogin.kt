@@ -3,10 +3,7 @@ package com.rooio.repairs
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.ListView
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +20,7 @@ class PreferredProvidersLogin : RestApi() {
     private lateinit var serviceProvidersListView: ListView
     private lateinit var errorMessage: TextView
     private lateinit var providerBox: ConstraintLayout
-    private lateinit var loadingPanel: RelativeLayout
+    private lateinit var loadingPanel: ProgressBar
     private val preferredProviders = ArrayList<ServiceProviderData>()
     private val url = "service-providers/"
 
@@ -33,7 +30,7 @@ class PreferredProvidersLogin : RestApi() {
 
         centerTitleBar()
         initializeVariables()
-        loadPreferredProviders(JsonRequest(false, url, HashMap(), responseFunc, errorFunc, true))
+        loadPreferredProviders(JsonRequest(false, url, null, responseFunc, errorFunc, true))
         onAddAnother()
         onContinue()
     }
@@ -57,6 +54,7 @@ class PreferredProvidersLogin : RestApi() {
 
     // Initially loads the current providers by making a call to the API
     fun loadPreferredProviders(request: JsonRequest) {
+        loadingPanel.visibility = View.VISIBLE
         requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
 

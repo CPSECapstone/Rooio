@@ -12,4 +12,8 @@ enum class ServiceType(private val value: Int) {
             MAINTENANCE -> "Maintenance"
         }
     }
+
+    fun getIntRepr(): Int{
+        return value;
+    }
 }

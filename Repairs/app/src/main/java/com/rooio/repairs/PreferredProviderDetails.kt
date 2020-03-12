@@ -1,16 +1,19 @@
 package com.rooio.repairs
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.arch.core.util.Function
+import androidx.core.content.ContextCompat
+import com.android.volley.Request
 import com.squareup.picasso.Picasso
 import org.json.JSONException
 import org.json.JSONObject
@@ -30,6 +33,7 @@ class PreferredProviderDetails: NavigationBar() {
     private lateinit var name: TextView
     private lateinit var price: TextView
     private lateinit var logo: ImageView
+    private lateinit var loadingPanel: ProgressBar
 
     private var url = ""
 
@@ -59,7 +63,7 @@ class PreferredProviderDetails: NavigationBar() {
         price = findViewById(R.id.price)
         backButton = findViewById(R.id.back_button_details)
         removeButton = findViewById(R.id.removeProvider)
-
+        loadingPanel = findViewById(R.id.loadingPanel)
     }
 
     private fun onBackClick() {
@@ -70,24 +74,28 @@ class PreferredProviderDetails: NavigationBar() {
     }
 
     private fun loadProvider(){
+        loadingPanel.visibility = View.VISIBLE
         val bundle: Bundle ?= intent.extras
         if (bundle!=null){
             val theId = bundle.getString("addedProvider")
             
             //set url to an empty string, as a private val
             url = "service-providers/" + theId.toString() + "/"
-            requestGetJsonObj(JsonRequest(false, url, null, providerResponseFunc, providerErrorFunc, true))
+            requestJson(Request.Method.GET, JsonType.OBJECT, JsonRequest(false, url, null,
+                    providerResponseFunc, providerErrorFunc, true))
         }
     }
 
     @JvmField
     var providerErrorFunc = Function<String, Void?> {error -> String
+        loadingPanel.visibility = View.GONE
         message.text = error
         null
     }
 
     @JvmField
     val providerResponseFunc = Function<Any, Void?> { response : Any ->
+        loadingPanel.visibility = View.GONE
         val jsonObject = response as JSONObject
         try {
             loadElements(jsonObject)
@@ -99,8 +107,8 @@ class PreferredProviderDetails: NavigationBar() {
 
     private fun onRemoveClick() {
         removeButton.setOnClickListener {
-            val request = JsonRequest(false, url, null, removeResponseFunc, removeErrorFunc, true)
-            requestDeleteJsonObj(request)
+            requestJson(Request.Method.DELETE, JsonType.OBJECT, JsonRequest(false, url, null,
+                    removeResponseFunc, removeErrorFunc, true))
         }
     }
 
@@ -175,6 +183,10 @@ class PreferredProviderDetails: NavigationBar() {
 
     override fun animateActivity(boolean: Boolean)
     {
+        val amount = if (boolean) -190f else 0f
+        val animation = ObjectAnimator.ofFloat(backButton, "translationX", amount)
+        if (boolean) animation.duration = 1300 else animation.duration = 300
+        animation.start()
     }
 
 }

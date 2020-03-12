@@ -65,7 +65,7 @@
             android:layout_width="250dp"
             android:layout_height="45dp"
             android:ems="10"
-            android:hint="Last name"
+            android:hint="Last Name"
             android:inputType="textPersonName"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -93,7 +93,7 @@
             android:layout_width="250dp"
             android:layout_height="45dp"
             android:ems="10"
-            android:hint="Email address"
+            android:hint="Email Address"
             android:inputType="textPersonName"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -107,7 +107,7 @@
             android:layout_width="250dp"
             android:layout_height="45dp"
             android:ems="10"
-            android:hint="Restaurant name"
+            android:hint="Restaurant Name"
             android:inputType="textPersonName"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -121,7 +121,7 @@
             android:layout_width="250dp"
             android:layout_height="45dp"
             android:ems="10"
-            android:hint="First name"
+            android:hint="First Name"
             android:inputType="textPersonName"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -177,7 +177,7 @@
             android:layout_width="250dp"
             android:layout_height="45dp"
             android:ems="10"
-            android:hint="Verify password"
+            android:hint="Confirm Password"
             android:inputType="textPassword"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -185,6 +185,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.704" />
+
+        <ProgressBar
+            android:id = "@id/loadingPanel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.29"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias=".99" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -216,16 +228,5 @@
         android:orientation="vertical"
         app:layout_constraintGuide_begin="1385dp" />
 
-    <RelativeLayout
-        android:id="@+id/loadingPanel"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true" />
-    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

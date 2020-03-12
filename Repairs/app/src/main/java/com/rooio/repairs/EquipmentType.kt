@@ -1,7 +1,5 @@
 package com.rooio.repairs
 
-import java.lang.IllegalArgumentException
-
 enum class EquipmentType (private val value: String) {
     HVAC("HVAC"),
     PLUMBING("Plumbing"),
@@ -12,11 +10,12 @@ enum class EquipmentType (private val value: String) {
         return value
     }
 
-    fun getIntRepr(): Int {
+    fun
+            getIntRepr(): Int {
         return when (this) {
             HVAC -> 1
-            PLUMBING -> 2
-            LIGHTING_AND_ELECTRICAL -> 3
+            LIGHTING_AND_ELECTRICAL -> 2
+            PLUMBING -> 3
             GENERAL_APPLIANCE -> 4
         }
     }

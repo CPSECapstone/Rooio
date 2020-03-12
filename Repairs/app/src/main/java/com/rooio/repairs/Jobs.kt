@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import androidx.arch.core.util.Function
@@ -59,8 +60,9 @@ class Jobs : NavigationBar() {
         errorMsg = findViewById(R.id.errorMessage)
     }
 
+    //Transition to completed items
     private fun onClick() {
-        completedButton!!.setOnClickListener { startActivity(Intent(this@Jobs, JobsArchived::class.java)) }
+        completedButton.setOnClickListener { startActivity(Intent(this@Jobs, JobsArchived::class.java)) }
     }
 
     private fun loadJobs(){
@@ -106,6 +108,14 @@ class Jobs : NavigationBar() {
             }
         }
 
+        for(i in 0 until startedJobs.size){
+            inProgressJobs.add(startedJobs[i])
+        }
+
+        for(i in 0 until pausedJobs.size){
+            inProgressJobs.add(pausedJobs[i])
+        }
+
         val pendingJobsCustomerAdapter = JobsCustomerAdapter(this, pendingJobs)
         if (pendingJobs.size != 0) pendingList!!.adapter = pendingJobsCustomerAdapter
 
@@ -114,8 +124,9 @@ class Jobs : NavigationBar() {
 
         val inProvidersCustomAdapter = JobsCustomerAdapter(this, inProgressJobs)
         if (inProgressJobs.size != 0) inProgressList!!.adapter = inProvidersCustomAdapter
-
+           
     }
+
 
     @JvmField
     var responseFunc = Function<Any, Void?> { jsonObj: Any ->
@@ -138,7 +149,7 @@ class Jobs : NavigationBar() {
             value = 200
         } else {
             statuses.add(str)
-            value = 250
+            value = 260
         }
         setStatusesSizing(str, value)
     }
@@ -149,8 +160,13 @@ class Jobs : NavigationBar() {
         if (str == "pending"){
             setLayoutParams(value, pendingConstraint, pendingList)
         }
-        else if (str == "scheduled" ||str == "accepted"){
-            setLayoutParams(value, scheduledConstraint, scheduledList)
+        else if (str == "scheduled" ){
+            val params = scheduledConstraint!!.layoutParams
+            params.height += value
+            scheduledConstraint!!.layoutParams = params
+            val size = scheduledList!!.layoutParams
+            size.height += value
+            scheduledList!!.layoutParams = size
         }
         else{
             setLayoutParams(value, inProgressConstraint, inProgressList)
@@ -195,7 +211,7 @@ class Jobs : NavigationBar() {
 
         val boxParams10 = sideMover.layoutParams
 
-        val p2 = if (boolean) 480 else 454
+        val p2 = if (boolean) 478 else 454
         boxParams1.width = p2
         boxParams2.width = p2
         boxParams3.width = p2
@@ -216,4 +232,5 @@ class Jobs : NavigationBar() {
         inProgress.layoutParams = boxParams6
         sideMover.layoutParams = boxParams10
     }
+
 }

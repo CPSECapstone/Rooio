@@ -20,7 +20,7 @@ class PreferredProvidersSettings  : NavigationBar() {
     private lateinit var serviceProvidersListView: ListView
     private lateinit var errorMessage: TextView
     private lateinit var providerBox: ConstraintLayout
-    private lateinit var loadingPanel: RelativeLayout
+    private lateinit var loadingPanel: ProgressBar
     private lateinit var spinner: Spinner
     private val preferredProviders = ArrayList<ServiceProviderData>()
     private val url = "service-providers/"
@@ -66,6 +66,7 @@ class PreferredProvidersSettings  : NavigationBar() {
 
     // Initially loads the current providers by making a call to the API
     private fun loadPreferredProviders(request: JsonRequest) {
+        loadingPanel.visibility = View.VISIBLE
         requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
 
