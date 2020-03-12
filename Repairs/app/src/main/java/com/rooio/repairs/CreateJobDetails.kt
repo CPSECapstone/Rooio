@@ -1,8 +1,9 @@
 package com.rooio.repairs
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -14,6 +15,7 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_create_job_details.*
 import org.json.JSONException
 import org.json.JSONObject
+import java.lang.reflect.Field
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -21,6 +23,10 @@ import kotlin.collections.HashMap
 
 //Job details can be viewed when clicking on a job request found under the Jobs tab
 class CreateJobDetails: RestApi() {
+
+    private val timePickerInterval = 15
+    private lateinit var minutePicker: NumberPicker
+    private lateinit var displayedValues: ArrayList<String>
 
     private lateinit var restuarantLocation: TextView
     private lateinit var serviceType: Spinner
@@ -82,8 +88,31 @@ class CreateJobDetails: RestApi() {
         transitionsContainer = findViewById(R.id.jobDetailLayout)
         viewGroup = findViewById(R.id.jobDetailTitleLayout)
         scrollView = findViewById(R.id.jobDetailScrollView)
-
         serviceType.adapter = ArrayAdapter<ServiceType>(this, android.R.layout.simple_list_item_1, ServiceType.values())
+
+        setTimePickerInterval(time)
+    }
+
+    // sets time picker to show 15 minute intervals
+    @SuppressLint("PrivateApi")
+    private fun setTimePickerInterval(timePicker: TimePicker) {
+        try {
+            val classForid = Class.forName("com.android.internal.R\$id")
+            val field: Field = classForid.getField("minute")
+            minutePicker = timePicker.findViewById(field.getInt(null)) as NumberPicker
+            minutePicker.minValue = 0
+            minutePicker.maxValue = 3
+            displayedValues = ArrayList()
+            var i = 0
+            while (i < 60) {
+                displayedValues.add(String.format("%02d", i))
+                i += timePickerInterval
+            }
+            minutePicker.displayedValues = displayedValues.toArray(arrayOfNulls<String>(0))
+            minutePicker.wrapSelectorWheel = true
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     //Initializes variables that are used in loadElements and animated
@@ -209,7 +238,9 @@ class CreateJobDetails: RestApi() {
     private fun formatRequestDate() : String {
         val timeZone = TimeZone.getDefault()
         val requestDate = Calendar.getInstance(timeZone)
-        requestDate.set(date.year, date.month, date.dayOfMonth, time.hour, time.minute)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestDate.set(date.year, date.month, date.dayOfMonth, time.hour, time.minute)
+        }
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
         return sdf.format(requestDate.time)
     }
@@ -255,7 +286,7 @@ class CreateJobDetails: RestApi() {
 
     // Goes back to the previous page
     private fun onBack(){
-        backButton.setOnClickListener() {
+        backButton.setOnClickListener {
             val newIntent = Intent(this@CreateJobDetails, ChooseServiceProvider::class.java)
             newIntent.putExtra("equipment", intent.getStringExtra("equipment"))
             newIntent.putExtra("service_company", intent.getIntExtra("service_company", 0))
