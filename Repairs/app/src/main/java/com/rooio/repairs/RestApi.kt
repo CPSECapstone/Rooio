@@ -9,6 +9,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 
+
 //The overarching class that any Activity inherits from so that they can use REST API functionality
 //and access information such as the user token, location, or first name
 abstract class RestApi : AppCompatActivity() {

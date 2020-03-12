@@ -100,12 +100,12 @@ class Dashboard : NavigationBar() {
             intent.putExtra("equipmentType", 1)
             startActivity(intent);
         }
-        plumbingButton.setOnClickListener{
+        lightingButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
             intent.putExtra("equipmentType", 2)
             startActivity(intent);
         }
-        lightingButton.setOnClickListener{
+        plumbingButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
             intent.putExtra("equipmentType", 3)
             startActivity(intent);

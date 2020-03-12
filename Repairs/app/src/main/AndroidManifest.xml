@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".Dashboard">
+        <activity android:name=".Dashboard"
+            android:windowSoftInputMode="stateHidden|adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,9 +37,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".JobsArchived">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".ChooseEquipment"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="stateHidden|adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,7 +52,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ChooseServiceProvider"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="stateHidden|adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -54,7 +60,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Jobs"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="stateHidden|adjustNothing">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,7 +69,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Equipment"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="stateHidden|adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -72,7 +78,7 @@
         </activity>
         <activity
             android:name=".AddLocationSettings"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="stateHidden|adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -96,7 +102,7 @@
         </activity>
 
        <activity android:name=".Registration"
-            android:windowSoftInputMode="adjustNothing">
+           android:windowSoftInputMode="stateHidden|adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -113,7 +119,7 @@
         </activity>
         
         <activity android:name=".Login"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="stateHidden|adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -135,7 +141,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddLocationLogin"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="stateHidden|adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -151,7 +157,7 @@
         </activity>
         <activity
             android:name=".AddPreferredProvidersSettings"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="stateHidden|adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -159,7 +165,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddPreferredProvidersLogin"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="stateHidden|adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -167,7 +173,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".CreateJobDetails"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="stateHidden|adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
