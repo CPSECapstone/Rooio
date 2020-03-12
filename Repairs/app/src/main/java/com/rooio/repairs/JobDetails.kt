@@ -164,7 +164,7 @@ class JobDetails: NavigationBar() {
         val category = equipmentObj.getString("service_category")
         var repairCategory = ""
         when (category) {
-            "0" ->
+            "4" ->
                 repairCategory = "General Appliance"
             "1" ->
                 repairCategory = "HVAC"

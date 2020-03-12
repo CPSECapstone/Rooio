@@ -277,7 +277,7 @@ class Dashboard : NavigationBar() {
 
         //repair type
         when (category) {
-            "0" ->
+            "4" ->
                 //                            repairType.setText("General Appliance");
                 //categories.add("General Appliance");
                 repairType.text = "General Appliance"

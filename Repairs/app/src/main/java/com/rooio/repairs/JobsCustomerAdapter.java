@@ -174,7 +174,7 @@ class JobsCustomerAdapter implements ListAdapter {
                 String category = equipmentObj.getString("service_category");
 
                     switch(category) {
-                        case "0":
+                        case "4":
 //                            repairType.setText("General Appliance");
                             //categories.add("General Appliance");
                             repairType.setText("General Appliance");
