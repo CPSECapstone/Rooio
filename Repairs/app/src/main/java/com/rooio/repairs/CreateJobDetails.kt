@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
@@ -37,6 +39,7 @@ class CreateJobDetails: RestApi() {
     private lateinit var phoneNumber: TextInputEditText
     private lateinit var sendRequestButton: Button
     private lateinit var errorMsg: TextView
+    private lateinit var errorMsgTime: TextView
 
     private lateinit var equipmentName: TextView
     private lateinit var manufacturer: TextView
@@ -83,14 +86,51 @@ class CreateJobDetails: RestApi() {
         time = findViewById(R.id.timeInput)
         contact = findViewById(R.id.contactInput)
         phoneNumber = findViewById(R.id.phoneNumberInput)
+
+        contact.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+            val phoneNumberText: TextView = findViewById(R.id.phoneNumberText)
+            val name = contact.text
+            if(!hasFocus && !name!!.isBlank()){
+                phoneNumberText.text = "What's $name's phone number?"
+            }
+        }
+
         errorMsg = findViewById(R.id.errorMessage)
+        errorMsgTime = findViewById(R.id.errorMessageTime)
         sendRequestButton = findViewById(R.id.sendRequestButton)
         transitionsContainer = findViewById(R.id.jobDetailLayout)
         viewGroup = findViewById(R.id.jobDetailTitleLayout)
         scrollView = findViewById(R.id.jobDetailScrollView)
-        serviceType.adapter = ArrayAdapter<ServiceType>(this, android.R.layout.simple_list_item_1, ServiceType.values())
+        serviceType.adapter =
+                ArrayAdapter<ServiceType>(this, R.layout.spinner_item, ServiceType.values()).also { adapter ->
+                    // Specify the layout to use when the list of choices appears
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
+                }
+
+        // initializing date picker
+        date.minDate = Calendar.getInstance().timeInMillis
+        date.setOnClickListener {
+            Log.i("try", "here")
+            errorMsgTime.visibility = View.GONE
+            val datetimeInput = Calendar.getInstance()
+            val curCalendar = Calendar.getInstance()
+
+            datetimeInput.set(Calendar.HOUR_OF_DAY, time.hour)
+            datetimeInput.set(Calendar.MINUTE, time.minute * timePickerInterval)
+            datetimeInput.set(Calendar.MONTH, date.month)
+            datetimeInput.set(Calendar.DAY_OF_MONTH, date.dayOfMonth)
+
+            if(datetimeInput.timeInMillis < curCalendar.timeInMillis){
+                errorMsgTime.visibility = View.VISIBLE
+            }
+        }
+
+        // initializing time picker
         setTimePickerInterval(time)
+
+        // resetting error message
+        time.setOnTimeChangedListener { view, hourOfDay, minute ->  errorMsgTime.visibility = View.GONE }
     }
 
     // sets time picker to show 15 minute intervals
@@ -148,8 +188,6 @@ class CreateJobDetails: RestApi() {
 
     // sending JSONRequest for the restaurant location
     private fun requestLocation() {
-
-
         val url = "service-locations/$userLocationID/"
         val request = JsonRequest(false, url, null, responseFuncLoad, errorFuncLoad, true)
         requestJson(Request.Method.GET, JsonType.OBJECT, request)
@@ -239,7 +277,7 @@ class CreateJobDetails: RestApi() {
         val timeZone = TimeZone.getDefault()
         val requestDate = Calendar.getInstance(timeZone)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestDate.set(date.year, date.month, date.dayOfMonth, time.hour, time.minute)
+            requestDate.set(date.year, date.month, date.dayOfMonth, time.hour, time.minute*timePickerInterval)
         }
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
         return sdf.format(requestDate.time)
@@ -281,7 +319,26 @@ class CreateJobDetails: RestApi() {
         val contactName = request.params?.get("point_of_contact_name")
         val requestedTime = request.params?.get("requested_arrival_time")
 
-        return (serviceCompany != "") && (serviceCategory != "") && (serviceType != "") && (details != "") && (contactName != "") && (requestedTime != "")
+        return (serviceCompany != "") && (serviceCategory != "") && (serviceType != "") && (details != "") && (contactName != "") && (requestedTime != "") && validDateTime()
+    }
+
+    // making sure valid time is selected
+    private fun validDateTime(): Boolean{
+        errorMsgTime.visibility = View.GONE
+        val datetimeInput = Calendar.getInstance()
+        val curCalendar = Calendar.getInstance()
+
+        datetimeInput.set(Calendar.HOUR_OF_DAY, time.hour)
+        datetimeInput.set(Calendar.MINUTE, time.minute * timePickerInterval)
+        datetimeInput.set(Calendar.MONTH, date.month)
+        datetimeInput.set(Calendar.DAY_OF_MONTH, date.dayOfMonth)
+
+        if(datetimeInput.timeInMillis < curCalendar.timeInMillis){
+            errorMsgTime.visibility = View.VISIBLE
+            return false
+        }
+
+        return true
     }
 
     // Goes back to the previous page
@@ -289,8 +346,8 @@ class CreateJobDetails: RestApi() {
         backButton.setOnClickListener {
             val newIntent = Intent(this@CreateJobDetails, ChooseServiceProvider::class.java)
             newIntent.putExtra("equipment", intent.getStringExtra("equipment"))
-            newIntent.putExtra("service_company", intent.getIntExtra("service_company", 0))
-            newIntent.putExtra("service_category", intent.getIntExtra("service_category", 0))
+            newIntent.putExtra("company", intent.getIntExtra("company", 0))
+            newIntent.putExtra("type", intent.getIntExtra("type", 0))
             startActivity(newIntent)
         }
     }

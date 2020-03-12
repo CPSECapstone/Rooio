@@ -517,6 +517,23 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.98" />
 
+                    <TextView
+                        android:id="@+id/errorMessageTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:fontFamily="@font/nunito_sans"
+                        android:text="Please pick a valid time."
+                        android:textAlignment="textStart"
+                        android:textColor="#CA2500"
+                        android:textSize="14sp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.386" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
@@ -543,7 +560,7 @@
                     android:fontFamily="@font/nunito_sans"
                     android:textAlignment="center"
                     android:textColor="#CA2500"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
