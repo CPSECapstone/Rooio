@@ -68,12 +68,8 @@ class ChangeLocationSettings  : NavigationBar(), OnItemClickListener  {
     //Fills the list view with locations that the API sends back
     var responseFunc = Function<Any, Void?> { response: Any ->
         loadingPanel.visibility = View.GONE
-        try {
-            val jsonArray = response as JSONArray
-            addElements(jsonArray)
-        } catch (e: JSONException) {
-            errorMessage.setText(R.string.error_server)
-        }
+        val jsonArray = response as JSONArray
+        addElements(jsonArray)
         null
     }
 

@@ -114,16 +114,12 @@ class AddPreferredProvidersSettings  : NavigationBar() {
     //Checks if the phone number is already in the system, and then adds it if it is not
     @JvmField
     val checkResponseFunc = Function<Any, Void?> { response: Any ->
-        try {
-            val jsonArray = response as JSONArray
-            val phoneInput = newProvider.text.toString()
-            val params = HashMap<Any?, Any?>()
-            params["phone"] = phoneInput
-            val request = JsonRequest(false, url, params, providerResponseFunc, providerErrorFunc, true)
-            addPreferredServiceProvider(checkAlreadyAdded(phoneInput, jsonArray), request)
-        } catch (e: JSONException) {
-            errorMessage.setText(R.string.error_server)
-        }
+        val jsonArray = response as JSONArray
+        val phoneInput = newProvider.text.toString()
+        val params = HashMap<Any?, Any?>()
+        params["phone"] = phoneInput
+        val request = JsonRequest(false, url, params, providerResponseFunc, providerErrorFunc, true)
+        addPreferredServiceProvider(checkAlreadyAdded(phoneInput, jsonArray), request)
         null
     }
 
