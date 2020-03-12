@@ -51,10 +51,6 @@ class Dashboard : NavigationBar() {
     private lateinit var scheduledButton: Button
     private lateinit var inProgressButton: Button
 
-
-
-
-
     companion object{
         @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
         @JvmStatic private var scheduledJobs = ArrayList<JSONObject>()
@@ -167,62 +163,15 @@ class Dashboard : NavigationBar() {
     }
 
 
-    override fun animateActivity(boolean: Boolean){
-        val viewGroup = findViewById<ViewGroup>(R.id.dashboardConstraint)
 
-        //changing the width of the notableJobs and newJobRequest
-        val notableJobs = viewGroup.findViewById<ViewGroup>(R.id.notableJobs)
-        val newJobRequest = viewGroup.findViewById<ViewGroup>(R.id.newJobRequest)
-        val allJobs = viewGroup.findViewById<ViewGroup>(R.id.allJobs)
-
-        val notableJobsDivider = viewGroup.findViewById<View>(R.id.notableJobsDivider)
-        val newJobDivider = viewGroup.findViewById<View>(R.id.newJobDivider)
-        val allJobsDivider = viewGroup.findViewById<View>(R.id.allJobsDivider)
-        val jobsLayout = viewGroup.findViewById<ConstraintLayout>(R.id.JobsLayout)
-
-
-        if (boolean) {
-            val autoTransition = AutoTransition()
-            autoTransition.duration = 900
-            TransitionManager.beginDelayedTransition(viewGroup, autoTransition)
-        } else {
-            TransitionManager.beginDelayedTransition(viewGroup)
-        }
-        val boxParams1 = notableJobs.layoutParams
-        val boxParams2 = newJobRequest.layoutParams
-        val boxParams3 = allJobs.layoutParams
-        val boxParams4 = notableJobsDivider.layoutParams
-        val boxParams5 = newJobDivider.layoutParams
-        val boxParams6 = allJobsDivider.layoutParams
-        val boxParams7 = jobsLayout.layoutParams
-
-
-        val widgetWidth = if (boolean) 1004 else 806
-        boxParams1.width = widgetWidth
-        boxParams2.width = widgetWidth
-        boxParams3.width = widgetWidth
-        boxParams4.width = widgetWidth
-        boxParams5.width = widgetWidth
-        boxParams6.width = widgetWidth
-
-        val notableJobsWidth = if (boolean) 948 else 750
-
-        boxParams7.width = notableJobsWidth
-
-
-        //calling the transitions
-        notableJobs.layoutParams = boxParams1
-        newJobRequest.layoutParams = boxParams2
-    }
-
-
-
+    //Clear all lists before populating
     private fun clearLists(){
         pendingJobs.clear()
         scheduledJobs.clear()
         inProgressJobs.clear()
     }
 
+    //populate lists from API JSONArray with jobs
     private fun populateLists(responseObj: JSONArray){
         clearLists()
         for (i in 0 until responseObj.length()) {
@@ -239,12 +188,14 @@ class Dashboard : NavigationBar() {
         notableJobsFill()
     }
 
+    //find number of each job swimlane to display on dashboard
     private fun listCount(){
         pendingNum.text = pendingJobs.size.toString()
         scheduledNum.text = scheduledJobs.size.toString()
         inProgressNum.text = inProgressJobs.size.toString()
     }
 
+    //Filter notable jobs by #1 Pending Jobs, #2 inProgress Jobs, #3 scheduled jobs
     private fun notableJobsFill(){
         if (pendingJobs.size != 0) {
             // Sort PendingJobs and fill in
@@ -290,10 +241,9 @@ class Dashboard : NavigationBar() {
         }
     }
 
-
+    //convert to proper format "yyyy-MM-dd HH:mm:ss"
     @Throws(ParseException::class)
     fun timeConvert(dateStr: String): Int {
-        //convert to proper format "yyyy-MM-dd HH:mm:ss"
         val eta = convertToNewFormat(dateStr)
         //GET NOW DATE + TIME
         val now = now()
@@ -314,8 +264,8 @@ class Dashboard : NavigationBar() {
         return df.format(c.time)
     }
 
+    //Load the Notable Jobs with the JsonObject info
     private fun loadNotable(index: Int, colorStatus: Int ){
-
         val locationObj = resultSort[index].getJSONObject("service_location")
         val internal_client = locationObj.getJSONObject("internal_client")
 
@@ -374,7 +324,7 @@ class Dashboard : NavigationBar() {
         }
 
 
-
+        //Navigate to JobDetails after a click of the job
         notableJob.setOnClickListener(
                 { v ->
                     try {
@@ -419,6 +369,55 @@ class Dashboard : NavigationBar() {
 
     }
 
+    //Animate dashboard for navigation bar expand
+    override fun animateActivity(boolean: Boolean){
+        val viewGroup = findViewById<ViewGroup>(R.id.dashboardConstraint)
+
+        //changing the width of the notableJobs and newJobRequest
+        val notableJobs = viewGroup.findViewById<ViewGroup>(R.id.notableJobs)
+        val newJobRequest = viewGroup.findViewById<ViewGroup>(R.id.newJobRequest)
+        val allJobs = viewGroup.findViewById<ViewGroup>(R.id.allJobs)
+
+        val notableJobsDivider = viewGroup.findViewById<View>(R.id.notableJobsDivider)
+        val newJobDivider = viewGroup.findViewById<View>(R.id.newJobDivider)
+        val allJobsDivider = viewGroup.findViewById<View>(R.id.allJobsDivider)
+        val jobsLayout = viewGroup.findViewById<ConstraintLayout>(R.id.JobsLayout)
+
+
+        if (boolean) {
+            val autoTransition = AutoTransition()
+            autoTransition.duration = 900
+            TransitionManager.beginDelayedTransition(viewGroup, autoTransition)
+        } else {
+            TransitionManager.beginDelayedTransition(viewGroup)
+        }
+        val boxParams1 = notableJobs.layoutParams
+        val boxParams2 = newJobRequest.layoutParams
+        val boxParams3 = allJobs.layoutParams
+        val boxParams4 = notableJobsDivider.layoutParams
+        val boxParams5 = newJobDivider.layoutParams
+        val boxParams6 = allJobsDivider.layoutParams
+        val boxParams7 = jobsLayout.layoutParams
+
+
+        val widgetWidth = if (boolean) 1004 else 806
+        boxParams1.width = widgetWidth
+        boxParams2.width = widgetWidth
+        boxParams3.width = widgetWidth
+        boxParams4.width = widgetWidth
+        boxParams5.width = widgetWidth
+        boxParams6.width = widgetWidth
+
+        val notableJobsWidth = if (boolean) 948 else 750
+
+        boxParams7.width = notableJobsWidth
+
+
+        //calling the transitions
+        notableJobs.layoutParams = boxParams1
+        newJobRequest.layoutParams = boxParams2
+    }
+    //Convert to new format
     @Throws(ParseException::class)
     fun convertToNewFormat(dateStr: String): String {
         val utc = TimeZone.getTimeZone("UTC")
