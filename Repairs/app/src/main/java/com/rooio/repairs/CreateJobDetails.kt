@@ -188,8 +188,8 @@ class CreateJobDetails: RestApi() {
         sendRequestButton.setOnClickListener {
             errorMsg.text = ""
             params["equipment"] = arrayOf(intent.getStringExtra("equipment"))
-            params["service_company"] = intent.getIntExtra("service_company", 0)
-            params["service_category"] = intent.getIntExtra("service_category", 0)
+            params["service_company"] = intent.getIntExtra("company", 0)
+            params["service_category"] = intent.getIntExtra("type", 0)
             params["service_type"] = (serviceTypeSpinner.selectedItem as ServiceType).getIntRepr()
             params["details"] = whatHappened.text.toString()
             params["point_of_contact_name"] = contact.text.toString()

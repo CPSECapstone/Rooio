@@ -46,10 +46,10 @@ RecyclerView.Adapter<ChooseServiceProviderAdapter.MyViewHolder>() {
         holder.itemView.setOnClickListener {
             val id = providerDataList[position].id
             val intent = Intent(applicationContext, CreateJobDetails::class.java)
-            intent.putExtra("service_company", id)
+            intent.putExtra("company", id)
             intent.putExtra("equipment", equipmentId)
             val activity = applicationContext as Activity
-            intent.putExtra("service_category", activity.intent.getIntExtra("service_type", 0))
+            intent.putExtra("type", activity.intent.getIntExtra("type", 0))
             applicationContext.startActivity(intent)
         }
         setElement(holder.nameInfo, providerDataList[position].name)
