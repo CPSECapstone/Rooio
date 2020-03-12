@@ -165,12 +165,6 @@ class Jobs : NavigationBar() {
         }
         else if (str == "scheduled" ){
             setLayoutParams(value, scheduledConstraint, scheduledList)
-//            val params = scheduledConstraint.layoutParams
-//            params.height += value
-//            scheduledConstraint.layoutParams = params
-//            val size = scheduledList.layoutParams
-//            size.height += value
-//            scheduledList.layoutParams = size
         }
         else{
             setLayoutParams(value, inProgressConstraint, inProgressList)
