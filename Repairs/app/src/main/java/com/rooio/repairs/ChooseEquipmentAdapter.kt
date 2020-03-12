@@ -68,8 +68,10 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
 
         holder.select.setOnClickListener{
             val id = equipmentDataList[position].id
+            val type = equipmentDataList[position].type
             val intent = Intent(applicationContext, ChooseServiceProvider::class.java)
             intent.putExtra("equipment", id)
+            intent.putExtra("type", type.getIntRepr())
             applicationContext.startActivity(intent)
         }
 

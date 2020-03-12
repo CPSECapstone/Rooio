@@ -1,11 +1,13 @@
 package com.rooio.repairs
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.arch.core.util.Function
@@ -21,10 +23,13 @@ class ChooseServiceProvider : RestApi() {
     private lateinit var searchBar : AppCompatEditText
     private lateinit var preferredButton: Button
     private lateinit var networkButton: Button
+    private lateinit var backButton: ImageView
     private lateinit var networkText: TextView
     private lateinit var errorMessage: TextView
     private var providerDataList: ArrayList<ProviderData> = ArrayList()
     private lateinit var adapter: ChooseServiceProviderAdapter
+    private lateinit var equipmentId: String
+    private var equipmentType: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +41,7 @@ class ChooseServiceProvider : RestApi() {
         setFilter()
         onPreferred()
         onNetwork()
+        onBackClick()
     }
 
     //Initializes UI variables
@@ -46,11 +52,26 @@ class ChooseServiceProvider : RestApi() {
         networkButton = findViewById(R.id.networkButton)
         networkText = findViewById(R.id.networkText)
         errorMessage = findViewById(R.id.errorMessage)
+        backButton = findViewById(R.id.backButton)
+    }
+
+    //Click to go back to Dashboard
+    private fun onBackClick() {
+        backButton.setOnClickListener{
+            val intent = Intent(this@ChooseServiceProvider, ChooseEquipment::class.java)
+            intent.putExtra("equipmentType", equipmentType)
+            startActivity(intent)
+        }
     }
 
     //Populates a list from API call
     private fun populateList() {
-        val request = JsonRequest(false, "service-providers/", null, providerResponseFunc, providerErrorFunc, true)
+        val bundle: Bundle? = intent.extras
+        if (bundle != null) {
+            equipmentId = bundle.getString("equipment") as String
+            equipmentType = bundle.getInt("type")
+        }
+        val request = JsonRequest(false, "service-providers/?servicable_equipment_type_id=$equipmentType", null, providerResponseFunc, providerErrorFunc, true)
         requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
 
@@ -105,11 +126,6 @@ class ChooseServiceProvider : RestApi() {
 
     //Sets the list adapter to a custom one that handles providers
     private fun changeAdapter() {
-        val bundle: Bundle? = intent.extras
-        var equipmentId = ""
-        if (bundle != null) {
-            equipmentId = bundle.getString("equipment") as String
-        }
         adapter = ChooseServiceProviderAdapter(this, providerDataList, equipmentId)
         val layoutManager = LinearLayoutManager(this)
         serviceProviderList.layoutManager = layoutManager
