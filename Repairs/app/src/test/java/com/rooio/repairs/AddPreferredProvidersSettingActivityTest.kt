@@ -36,7 +36,7 @@ class AddPreferredProvidersSettingActivityTest {
     @Test
     fun testAddEmptyPhoneNumber(){
         val input = activity.findViewById<EditText>(R.id.newProvider)
-        input.setText("")
+        input.setText("123123123123123")
         val addButton = activity.findViewById<Button>(R.id.addProvider)
         addButton.performClick()
         val errorMsg = activity.findViewById<TextView>(R.id.errorMessage)

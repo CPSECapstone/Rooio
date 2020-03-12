@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ListView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -16,11 +17,11 @@ import java.util.*
 
 
 class Jobs : NavigationBar() {
-    private var pendingList: ListView? = null
-    private var scheduledList: ListView? = null
-    private var inProgressList: ListView? = null
-    private var completedButton: Button? = null
 
+    private lateinit var pendingList: ListView
+    private lateinit var scheduledList: ListView
+    private lateinit var inProgressList: ListView
+    private lateinit var completedButton: Button
 
     val statuses = arrayListOf<String>()
 
@@ -32,6 +33,8 @@ class Jobs : NavigationBar() {
         @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
         @JvmStatic private var scheduledJobs = ArrayList<JSONObject>()
         @JvmStatic private var inProgressJobs = ArrayList<JSONObject>()
+        @JvmStatic private var startedJobs = ArrayList<JSONObject>()
+        @JvmStatic private var pausedJobs = ArrayList<JSONObject>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +56,7 @@ class Jobs : NavigationBar() {
 
 
 
+
         createNavigationBar(NavigationType.JOBS)
 
         onClick()
@@ -61,9 +65,11 @@ class Jobs : NavigationBar() {
 
     }
 
+    //Transition to completed items
     private fun onClick() {
-        completedButton!!.setOnClickListener { startActivity(Intent(this@Jobs, JobsArchived::class.java)) }
+        completedButton.setOnClickListener { startActivity(Intent(this@Jobs, JobsArchived::class.java)) }
     }
+
 
 
     private fun loadJobs(){
@@ -98,6 +104,9 @@ class Jobs : NavigationBar() {
         pendingJobs.clear()
         scheduledJobs.clear()
         inProgressJobs.clear()
+        startedJobs.clear()
+        pausedJobs.clear()
+
     }
 
     private fun populateLists(responseObj: JSONArray){
@@ -112,21 +121,33 @@ class Jobs : NavigationBar() {
                 scheduledJobs.add(job)
                 sizes("scheduled")
             }
-            else if(job.getInt("status") == 5 || job.getInt("status") == 6 ){
-                inProgressJobs.add(job)
-                sizes("inProgress")
+            else if(job.getInt("status") == 5){
+                startedJobs.add(job)
+                sizes("started")
             }
+            else if(job.getInt("status") == 6){
+                pausedJobs.add(job)
+                sizes("paused")
+            }
+
 
         }
 
+        for(i in 0 until startedJobs.size){
+            inProgressJobs.add(startedJobs[i])
+        }
+        for(i in 0 until pausedJobs.size){
+            inProgressJobs.add(pausedJobs[i])
+        }
+
         val customAdapter = JobsCustomerAdapter(this, pendingJobs)
-        if (pendingJobs.size != 0) pendingList!!.adapter = customAdapter
+        if (pendingJobs.size != 0) pendingList.adapter = customAdapter
 
         val customAdapter1 = JobsCustomerAdapter(this, scheduledJobs)
-        if (scheduledJobs.size != 0) scheduledList!!.adapter = customAdapter1
+        if (scheduledJobs.size != 0) scheduledList.adapter = customAdapter1
 
         val customAdapter2 = JobsCustomerAdapter(this, inProgressJobs)
-        if (inProgressJobs.size != 0) inProgressList!!.adapter = customAdapter2
+        if (inProgressJobs.size != 0) inProgressList.adapter = customAdapter2
 
     }
 
@@ -143,7 +164,6 @@ class Jobs : NavigationBar() {
         null
     }
 
-
     //Set the sizes for each individual block
     private fun sizes(str: String) {
         var value = 0
@@ -151,7 +171,7 @@ class Jobs : NavigationBar() {
             value = 200
         } else {
             statuses.add(str)
-            value = 250
+            value = 260
         }
         set_size(str, value)
     }
@@ -167,7 +187,7 @@ class Jobs : NavigationBar() {
             size.height += value
             pendingList!!.layoutParams = size
         }
-        else if (str == "scheduled" ||str == "accepted"){
+        else if (str == "scheduled" ){
             val params = scheduledConstraint!!.layoutParams
             params.height += value
             scheduledConstraint!!.layoutParams = params
@@ -239,12 +259,4 @@ class Jobs : NavigationBar() {
 
     }
 
-//    private fun setNavigationBar() {
-//        //sets the navigation bar onto the page
-//        val nav_inflater = layoutInflater
-//        val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
-//
-//        window.addContentView(tmpView,
-//                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-//    }
 }

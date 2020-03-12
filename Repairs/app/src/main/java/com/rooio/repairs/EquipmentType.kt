@@ -12,7 +12,8 @@ enum class EquipmentType (private val value: String) {
         return value
     }
 
-    fun getIntRepr(): Int {
+    fun
+            getIntRepr(): Int {
         return when (this) {
             HVAC -> 1
             PLUMBING -> 2

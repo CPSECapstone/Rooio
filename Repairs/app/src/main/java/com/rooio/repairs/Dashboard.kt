@@ -6,24 +6,28 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.transition.TransitionManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
-
 import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
-import com.android.volley.Request
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import org.json.JSONArray
 import org.json.JSONObject
+import android.util.Log
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
+import com.android.volley.Request
+import org.json.JSONException
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
-private val have  = ArrayList<ServiceProviderData>()
 class Dashboard : NavigationBar() {
-
 
     private lateinit var scheduledNum: TextView
     private lateinit var inProgressNum: TextView
@@ -33,86 +37,130 @@ class Dashboard : NavigationBar() {
     private lateinit var time: TextView
     private lateinit var name: TextView
     private lateinit var repairType: TextView
-
+    private lateinit var clockImage: ImageView
+    private lateinit var repairImage: ImageView
+    private lateinit var notableJob: Button
     private lateinit var lightingButton: Button
     private lateinit var plumbingButton: Button
     private lateinit var hvacButton: Button
     private lateinit var applianceButton: Button
+    private lateinit var jobsLayout: ConstraintLayout
+    private lateinit var color: ConstraintLayout
+    private lateinit var noJob: TextView
+    private lateinit var pendingButton: Button
+    private lateinit var scheduledButton: Button
+    private lateinit var inProgressButton: Button
+
+
+
+
 
     companion object{
         @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
         @JvmStatic private var scheduledJobs = ArrayList<JSONObject>()
         @JvmStatic private var inProgressJobs = ArrayList<JSONObject>()
+        @JvmStatic private var archivedJobs = ArrayList<JSONObject>()
+        @JvmStatic private var resultSort = ArrayList<JSONObject>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        repairType = findViewById<View>(R.id.repairType) as TextView
-        name = findViewById<View>(R.id.name) as TextView
-        time = findViewById<View>(R.id.timeImage) as TextView
-        address = findViewById<View>(R.id.address) as TextView
-        image = findViewById<View>(R.id.image) as ImageView
+        initialize()
+        setNavigationBar()
+        setActionBar()
+        loadJobs()
+        createNavigationBar(NavigationType.DASHBOARD)
+        jobRequestsClicked()
+        jobNumberClicked()
+    }
+
+    //initialize variables
+    private fun initialize(){
+        notableJob = findViewById(R.id.notableJob)
+        repairType = findViewById(R.id.repairType)
+        name = findViewById(R.id.name)
+        time = findViewById(R.id.timeImage)
+        address = findViewById(R.id.address)
+        image = findViewById(R.id.image)
         pendingNum = findViewById(R.id.pendingNum)
         scheduledNum = findViewById(R.id.scheduledNum)
         inProgressNum = findViewById(R.id.inProgressNum)
-
         lightingButton = findViewById(R.id.lightingButton)
         plumbingButton = findViewById(R.id.plumbingButton)
         hvacButton = findViewById(R.id.hvacButton)
         applianceButton = findViewById(R.id.applianceButton)
-
-        setNavigationBar()
-        setActionBar()
-        populate_test()
-
-        loadJobs()
-
-        createNavigationBar(NavigationType.DASHBOARD)
-        jobRequestsClicked()
+        clockImage = findViewById(R.id.clockImage)
+        repairImage = findViewById(R.id.repairImage)
+        jobsLayout = findViewById(R.id.JobsLayout)
+        color = findViewById(R.id.color)
+        noJob = findViewById(R.id.noJob)
+        inProgressButton = findViewById(R.id.inProgressButton)
+        scheduledButton = findViewById(R.id.scheduledButton)
+        pendingButton = findViewById(R.id.pendingButton)
     }
 
-    fun populate_test(){
-
-        val nameVal = "Luna Red"
-        val imageVal = "http://www.lunaredslo.com/images/luna_red_logo.png"
-        val repairTypeVal = "Hot Equipment Repair"
-        val addressVal = "1023 Chorro St. San Luis Obispo"
-        val timeVal = "Oct 4, '19 6:30pm PDT"
-
-        repairType!!.text = repairTypeVal
-        name!!.text = nameVal
-        address!!.text = addressVal
-        time!!.text = timeVal
-        name_greeting!!.text = "Hi, " + userName + "!"
-
-        Picasso.with(this)
-                .load(imageVal)
-                .into(image)
-
+    //LoadJobs sends a Api Get Request to get all Jobs
+    private fun loadJobs(){
+        val url = "service-locations/$userLocationID/jobs/"
+        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
+                null, responseFunc, errorFunc, true))
     }
 
+    //Function for Successfull API Response
+    @JvmField
+    var responseFunc = Function<Any, Void?> { jsonObj: Any ->
+        val responseObj = jsonObj as JSONArray
+        populateLists(responseObj)
+        listCount()
+
+        null
+    }
+
+    //Function for error API Response
+    @JvmField
+    var errorFunc = Function<String, Void?> { string: String? ->
+        name_greeting.text =string
+        null
+    }
+
+    //OnClick for New Job Requests to Choose Equipment Page
     private fun jobRequestsClicked(){
-
         hvacButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
-            intent.putExtra("equipmentType", 1)
+            intent.putExtra("equipmentType", EquipmentType.HVAC.getIntRepr())
             startActivity(intent);
         }
         plumbingButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
-            intent.putExtra("equipmentType", 2)
+            intent.putExtra("equipmentType", EquipmentType.PLUMBING.getIntRepr())
             startActivity(intent);
         }
         lightingButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
-            intent.putExtra("equipmentType", 3)
+            intent.putExtra("equipmentType", EquipmentType.LIGHTING_AND_ELECTRICAL.getIntRepr())
             startActivity(intent);
         }
         applianceButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
-            intent.putExtra("equipmentType", 4)
+            intent.putExtra("equipmentType", EquipmentType.GENERAL_APPLIANCE.getIntRepr())
+            startActivity(intent);
+        }
+    }
+
+    //Onclick for Job Numbers to Jobs Page
+    private fun jobNumberClicked(){
+        inProgressButton.setOnClickListener{
+            val intent = Intent(this@Dashboard, Jobs::class.java)
+            startActivity(intent);
+        }
+        scheduledButton.setOnClickListener{
+            val intent = Intent(this@Dashboard, Jobs::class.java)
+            startActivity(intent);
+        }
+        pendingButton.setOnClickListener{
+            val intent = Intent(this@Dashboard, Jobs::class.java)
             startActivity(intent);
         }
 
@@ -149,17 +197,17 @@ class Dashboard : NavigationBar() {
         val boxParams7 = jobsLayout.layoutParams
 
 
-        val p2 = if (boolean) 1004 else 803
-        boxParams1.width = p2
-        boxParams2.width = p2
-        boxParams3.width = p2
-        boxParams4.width = p2
-        boxParams5.width = p2
-        boxParams6.width = p2
+        val widgetWidth = if (boolean) 1004 else 806
+        boxParams1.width = widgetWidth
+        boxParams2.width = widgetWidth
+        boxParams3.width = widgetWidth
+        boxParams4.width = widgetWidth
+        boxParams5.width = widgetWidth
+        boxParams6.width = widgetWidth
 
-        val p3 = if (boolean) 980 else 803
+        val notableJobsWidth = if (boolean) 948 else 750
 
-        boxParams7.width = p3
+        boxParams7.width = notableJobsWidth
 
 
         //calling the transitions
@@ -167,11 +215,7 @@ class Dashboard : NavigationBar() {
         newJobRequest.layoutParams = boxParams2
     }
 
-    private fun loadJobs(){
-        val url = "service-locations/$userLocationID/jobs/"
-        requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
-                null, responseFunc, errorFunc, true))
-    }
+
 
     private fun clearLists(){
         pendingJobs.clear()
@@ -183,44 +227,217 @@ class Dashboard : NavigationBar() {
         clearLists()
         for (i in 0 until responseObj.length()) {
             val job = responseObj.getJSONObject(i)
-
             when(job.getInt("status")) {
-                0 -> pendingJobs.add(job)
-                2 -> scheduledJobs.add(job)
-                5 -> inProgressJobs.add(job)
-                6 -> inProgressJobs.add(job)
+                JobType.PENDING.getIntRepr() -> pendingJobs.add(job)
+                JobType.SCHEDULED.getIntRepr()-> scheduledJobs.add(job)
+                JobType.STARTED.getIntRepr() -> inProgressJobs.add(job)
+                JobType.PAUSED.getIntRepr() -> inProgressJobs.add(job)
+                JobType.COMPLETED.getIntRepr() -> archivedJobs.add(job)
+
             }
         }
+        notableJobsFill()
     }
 
     private fun listCount(){
-//        pendingNum!!.text = "9";
-        pendingNum!!.text = pendingJobs.size.toString()
-        scheduledNum!!.text = scheduledJobs.size.toString()
-        inProgressNum!!.text = inProgressJobs.size.toString()
+        pendingNum.text = pendingJobs.size.toString()
+        scheduledNum.text = scheduledJobs.size.toString()
+        inProgressNum.text = inProgressJobs.size.toString()
     }
 
-    @JvmField
-    var responseFunc = Function<Any, Void?> { jsonObj: Any ->
-        val responseObj = jsonObj as JSONArray
-        populateLists(responseObj)
-        listCount()
+    private fun notableJobsFill(){
+        if (pendingJobs.size != 0) {
+            // Sort PendingJobs and fill in
+            resultSort = sortJobsList(pendingJobs)
+            loadNotable(0, 3)
+        }
+        else if (inProgressJobs.size != 0){
+            //Sort inProgressJobs and fill in
+            resultSort = sortJobsList(inProgressJobs)
+            loadNotable(0, 2)
+        }
+        else if (scheduledJobs.size != 0){
+            //Check if there is a scheduled job today
+            var i = 0
+            resultSort = sortJobsList(scheduledJobs)
+            for (index in resultSort.indices){
+                if (0 == (timeConvert(resultSort[index].getString("status_time_value")))) {
+                    if(index == (resultSort.size - 1) && (i == 0)){
 
-        null
+                        jobsLayout.setVisibility(View.INVISIBLE)
+                        clockImage.setVisibility(View.GONE)
+                        noJob.setVisibility(View.VISIBLE)
+                        noJob.text = "No Jobs to Display"
+                        repairImage.setVisibility(View.GONE)
+                        color.setVisibility(View.INVISIBLE)
+
+                    }
+                }
+                else{
+                    i = 1
+                    loadNotable(index, 1)
+                }
+            }
+        }
+        else{
+            jobsLayout.setVisibility(View.INVISIBLE)
+            clockImage.setVisibility(View.GONE)
+            noJob.setVisibility(View.VISIBLE)
+            noJob.text = "No Jobs to Display"
+            repairImage.setVisibility(View.GONE)
+            color.setVisibility(View.INVISIBLE)
+
+        }
     }
-    @JvmField
-    var errorFunc = Function<String, Void?> { string: String? ->
 
-        null
+
+    @Throws(ParseException::class)
+    fun timeConvert(dateStr: String): Int {
+        //convert to proper format "yyyy-MM-dd HH:mm:ss"
+        val eta = convertToNewFormat(dateStr)
+        //GET NOW DATE + TIME
+        val now = now()
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+        //If past due then return 0
+        if (sdf.parse(eta)!!.before(sdf.parse(now))) {
+           return 0
+        } else {
+            return 1
+        }
     }
 
-//    private fun setNavigationBar() {
-//        //sets the navigation bar onto the page
-//        val nav_inflater = layoutInflater
-//        val tmpView = nav_inflater.inflate(R.layout.activity_navigation_bar, null)
-//
-//        window.addContentView(tmpView,
-//                ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-//    }
+    private fun now(): String {
+        val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val now = Date()
+        val c = Calendar.getInstance()
+        return df.format(c.time)
+    }
+
+    private fun loadNotable(index: Int, colorStatus: Int ){
+
+        val locationObj = resultSort[index].getJSONObject("service_location")
+        val internal_client = locationObj.getJSONObject("internal_client")
+
+        val equipmentObjList = resultSort[index].getJSONArray("equipment")
+
+        val equipmentObj = equipmentObjList.getJSONObject(0)
+        val category = equipmentObj.getString("service_category")
+
+        //repair type
+        when (category) {
+            "0" ->
+                //                            repairType.setText("General Appliance");
+                //categories.add("General Appliance");
+                repairType.text = "General Appliance"
+            "1" ->
+                //                            repairType.setText("HVAC");
+                repairType.text = "HVAC"
+            "2" ->
+                //                            repairType.setText("Lighting and Electrical");
+                repairType.text = "Lighting and Electrical"
+            "3" ->
+                //                            repairType.setText("Plumbing");
+                repairType.text = "Plumbing"
+        }
+
+        //set the date/time
+        if (!resultSort[index].isNull("status_time_value")) {
+            val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(resultSort[index].getString("status_time_value")))
+            timeImage.text = date1!!.toString()
+
+        }
+        //address
+        address.text = locationObj.getString("physical_address")
+
+        //name
+        name.setText(internal_client.getString("name"))
+
+        //greeting
+        name_greeting!!.text = ("Hi, " + userName + "!")
+
+        //load logo
+        val imageVal = internal_client.getString("logo")
+        if (imageVal.isNullOrBlank() || imageVal == "null"){
+            val viewGroup = findViewById<ViewGroup>(R.id.JobsLayout)
+            TransitionManager.beginDelayedTransition(viewGroup)
+            val sideMover = viewGroup.findViewById<ViewGroup>(R.id.jobMover)
+            val boxParams10 = sideMover.layoutParams
+            boxParams10.width = 160
+            sideMover.layoutParams = boxParams10
+            image.setVisibility(View.GONE)
+        }
+        else{
+            Picasso.with(this)
+                    .load(imageVal)
+                    .into(image)
+        }
+
+
+
+        notableJob.setOnClickListener(
+                { v ->
+                    try {
+                        val jobId = resultSort[index].getString("id")
+
+                        val intent = Intent(this, JobDetails::class.java)
+                        intent.putExtra("id", jobId.toString())
+
+                        this.startActivity(intent)
+
+                    } catch (e: JSONException) {
+                        Log.d("exception", e.toString())
+                    }
+
+                })
+
+        //Change the color of the job
+        when (colorStatus) {
+            //Scheduled
+            1 -> {
+                //Time Based Statuses
+                DrawableCompat.setTint(
+                        DrawableCompat.wrap(color.background),
+                        ContextCompat.getColor(this, R.color.Blue))
+
+            }
+            //In Progress Swimlane Status
+            2 -> {
+                DrawableCompat.setTint(
+                        DrawableCompat.wrap(color.background),
+                        ContextCompat.getColor(this, R.color.colorPrimary)
+                )
+            }
+            //Pending Swimlane Status
+            3 -> {
+                DrawableCompat.setTint(
+                        DrawableCompat.wrap(color.background),
+                        ContextCompat.getColor(this, R.color.Purple)
+                )
+            }
+        }
+
+    }
+
+    @Throws(ParseException::class)
+    fun convertToNewFormat(dateStr: String): String {
+        val utc = TimeZone.getTimeZone("UTC")
+        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        sourceFormat.timeZone = utc
+        val convertedDate = sourceFormat.parse(dateStr)
+        return destFormat.format(convertedDate!!)
+    }
+
+     fun sortJobsList(list: ArrayList<JSONObject>):ArrayList<JSONObject> {
+
+        Collections.sort(list, JSONComparator())
+
+        return list;
+    }
+
+
+
+
 
 }
