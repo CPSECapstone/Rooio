@@ -20,7 +20,7 @@ class LocationLogin : RestApi(), OnItemClickListener {
     private lateinit var locationListView: ListView
     private lateinit var errorMessage: TextView
     private lateinit var locationBox: ConstraintLayout
-    private lateinit var loadingPanel: RelativeLayout
+    private lateinit var loadingPanel: ProgressBar
     private val url = "service-locations/"
 
     //Static lists that hold the address list and location ids, move to REST API?
@@ -58,6 +58,7 @@ class LocationLogin : RestApi(), OnItemClickListener {
 
     //Calls the API initially to load the locations into the page
     private fun loadLocations(request: JsonRequest) {
+        loadingPanel.visibility = View.VISIBLE
         requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
 

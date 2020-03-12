@@ -48,6 +48,9 @@ class Equipment : NavigationBar() {
     private lateinit var editModelNumber: TextInputEditText
     private lateinit var editEquipmentType: Spinner
     private lateinit var editDisplayNameError: TextView
+    private lateinit var equipmentLoadingPanel: ProgressBar
+    private lateinit var addLoadingPanel: ProgressBar
+    private lateinit var editLoadingPanel: ProgressBar
 
 
     private val equipmentList = ArrayList<EquipmentData>()
@@ -63,7 +66,7 @@ class Equipment : NavigationBar() {
         setNavigationBar()
         setActionBar()
         createNavigationBar(NavigationType.EQUIPMENT)
-        loadAfterEquipmentSave();
+        loadAfterEquipmentSave()
         onAddEquipmentClick()
         onAddClick()
         onEditClick()
@@ -117,6 +120,10 @@ class Equipment : NavigationBar() {
         // setting up spinners (drop down)
         equipmentType.adapter = ArrayAdapter<EquipmentType>(this, android.R.layout.simple_list_item_1, EquipmentType.values())
         editEquipmentType.adapter = ArrayAdapter<EquipmentType>(this, android.R.layout.simple_list_item_1, EquipmentType.values())
+
+        equipmentLoadingPanel = findViewById(R.id.equipmentLoadingPanel)
+        addLoadingPanel = findViewById(R.id.addLoadingPanel)
+        editLoadingPanel = findViewById(R.id.editLoadingPanel)
     }
 
 
@@ -142,6 +149,8 @@ class Equipment : NavigationBar() {
     private fun onAddClick() {
         val params = HashMap<Any?, Any?>()
         addButton.setOnClickListener {
+
+            addButton.visibility = View.GONE
             params["display_name"] = displayName.text.toString()
             params["serial_number"] = serialNumber.text.toString()
             params["manufacturer"] = manufacturer.text.toString()
@@ -157,6 +166,8 @@ class Equipment : NavigationBar() {
     @JvmField
     // reloading the Equipment page
     var responseFuncAdd = Function<Any, Void?> {
+        addLoadingPanel.visibility = View.GONE
+        addButton.visibility = View.VISIBLE
         startActivity(Intent(this@Equipment, Equipment::class.java))
         null
     }
@@ -164,6 +175,8 @@ class Equipment : NavigationBar() {
     @JvmField
     // add equipment UI disappears and shows error message
     var errorFuncAdd = Function<String, Void?> {
+        addLoadingPanel.visibility = View.GONE
+        addButton.visibility = View.VISIBLE
         addEquipmentConstraint.visibility = View.GONE
         messageText.visibility = View.VISIBLE
         messageText.text = it.toString()
@@ -175,8 +188,10 @@ class Equipment : NavigationBar() {
     private fun sendAddEquipmentInfo(request: JsonRequest) {
         val displayName = request.params?.get("display_name").toString()
 
-        if(displayName.isNotEmpty())
+        if(displayName.isNotEmpty()) {
+            addLoadingPanel.visibility = View.VISIBLE
             requestJson(Request.Method.POST, JsonType.OBJECT, request)
+        }
         else
             displayNameError.text = resources.getText(R.string.required)
         }
@@ -192,6 +207,7 @@ class Equipment : NavigationBar() {
     private fun onSaveClick() {
         val params = HashMap<Any?, Any?>()
         saveButton.setOnClickListener {
+
             params["display_name"] = editDisplayName.text.toString()
             params["serial_number"] = editSerialNumber.text.toString()
             params["manufacturer"] = editManufacturer.text.toString()
@@ -208,6 +224,7 @@ class Equipment : NavigationBar() {
 
     @JvmField
     var responseFuncSave = Function<Any, Void?> {
+        editLoadingPanel.visibility = View.GONE
         editEquipmentConstraint.visibility = View.GONE
         equipmentDetailsConstraint.visibility = View.VISIBLE
         null
@@ -215,6 +232,7 @@ class Equipment : NavigationBar() {
 
     @JvmField
     var errorFuncSave = Function<String, Void?> {
+        editLoadingPanel.visibility = View.GONE
         editEquipmentConstraint.visibility = View.GONE
         messageText.text = resources.getText(R.string.save_equipment_error)
         messageText.setTextColor(ContextCompat.getColor(this,R.color.Red))
@@ -225,6 +243,7 @@ class Equipment : NavigationBar() {
         val displayName = request.params?.get("display_name").toString()
 
         if(displayName.isNotEmpty()) {
+            editLoadingPanel.visibility = View.VISIBLE
             requestJson(Request.Method.PUT, JsonType.OBJECT, request)
             val intent = Intent( this, Equipment::class.java)
             intent.putExtra(intentVar, displayName)
@@ -258,6 +277,9 @@ class Equipment : NavigationBar() {
 
     // send JsonRequest Object
     private fun loadEquipmentElements() {
+        equipmentLoadingPanel.visibility = View.VISIBLE
+        addLoadingPanel.visibility = View.GONE
+        editLoadingPanel.visibility = View.GONE
         val request = JsonRequest(false, url, null, responseFuncLoad, errorFuncLoad, true)
         requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
@@ -265,6 +287,7 @@ class Equipment : NavigationBar() {
     @JvmField
     // load equipments in the equipment list
     var responseFuncLoad = Function<Any, Void?> { jsonResponse: Any? ->
+        equipmentLoadingPanel.visibility = View.GONE
         try {
             val jsonArray = jsonResponse as JSONArray
             loadEquipment(jsonArray)
@@ -277,6 +300,7 @@ class Equipment : NavigationBar() {
     @JvmField
     // set error message
     var errorFuncLoad = Function<String, Void?> { string: String? ->
+        equipmentLoadingPanel.visibility = View.GONE
         messageText.text = string
         messageText.setTextColor(ContextCompat.getColor(this,R.color.Red))
         null

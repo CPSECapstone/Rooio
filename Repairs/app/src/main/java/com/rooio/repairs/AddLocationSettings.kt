@@ -18,7 +18,7 @@ class AddLocationSettings  : NavigationBar() {
 
     private lateinit var addLocation: Button
     private lateinit var errorMessage: TextView
-    private lateinit var loadingPanel: RelativeLayout
+    private lateinit var loadingPanel: ProgressBar
     private lateinit var backButton: ImageView
     private lateinit var viewGroup: ViewGroup
     private lateinit var autocomplete: AutoCompleteTextView
@@ -54,6 +54,7 @@ class AddLocationSettings  : NavigationBar() {
     //Handles when a user adds a location
     private fun onAddLocation() {
         loadingPanel.visibility = View.GONE
+        addLocation.visibility = View.VISIBLE
         addLocation.setOnClickListener {
             errorMessage.text = ""
             val locationInput = autocomplete.text.toString()   
@@ -66,6 +67,7 @@ class AddLocationSettings  : NavigationBar() {
     private fun checkLocationInfo(inputAddress: String, request: JsonRequest) {
         if (inputAddress != "") {
             loadingPanel.visibility = View.VISIBLE
+            addLocation.visibility = View.GONE
             requestJson(Request.Method.GET, JsonType.ARRAY, request)
         } else errorMessage.setText(R.string.invalid_address)
     }
@@ -74,6 +76,7 @@ class AddLocationSettings  : NavigationBar() {
     @JvmField
     val checkErrorFunc = Function<String, Void?> { error: String? ->
         loadingPanel.visibility = View.GONE
+        addLocation.visibility = View.VISIBLE
         errorMessage.text = error
         null
     }
@@ -81,16 +84,12 @@ class AddLocationSettings  : NavigationBar() {
     //Checks if the location is already in the system and tries to add it
     @JvmField
     val checkResponseFunc = Function<Any, Void?> { response: Any ->
-        try {
-            val jsonArray = response as JSONArray
-            val locationInput = autocomplete.text.toString()
-            val params = HashMap<Any?, Any?>()
-            params["physical_address"] = locationInput
-            val request = JsonRequest(false, url, params, locationResponseFunc, locationErrorFunc, true)
-            addLocation(checkAlreadyAdded(locationInput, jsonArray), request)
-        } catch (e: JSONException) {
-            errorMessage.setText(R.string.error_server)
-        }
+        val jsonArray = response as JSONArray
+        val locationInput = autocomplete.text.toString()
+        val params = HashMap<Any?, Any?>()
+        params["physical_address"] = locationInput
+        val request = JsonRequest(false, url, params, locationResponseFunc, locationErrorFunc, true)
+        addLocation(checkAlreadyAdded(locationInput, jsonArray), request)
         null
     }
 
@@ -112,6 +111,7 @@ class AddLocationSettings  : NavigationBar() {
             requestJson(Request.Method.POST, JsonType.OBJECT, request)
         } else {
             loadingPanel.visibility = View.GONE
+            addLocation.visibility = View.VISIBLE
             errorMessage.setText(R.string.already_added_location)
         }
     }
@@ -120,11 +120,8 @@ class AddLocationSettings  : NavigationBar() {
     @JvmField
     var locationResponseFunc = Function<Any, Void?> {
         loadingPanel.visibility = View.GONE
-        try {
-            startActivity(Intent(this@AddLocationSettings, ChangeLocationSettings::class.java))
-        } catch (e: JSONException) {
-            errorMessage.setText(R.string.error_server)
-        }
+        addLocation.visibility = View.VISIBLE
+        startActivity(Intent(this@AddLocationSettings, ChangeLocationSettings::class.java))
         null
     }
 
@@ -132,6 +129,7 @@ class AddLocationSettings  : NavigationBar() {
     @JvmField
     var locationErrorFunc = Function<String, Void?> { error: String? ->
         loadingPanel.visibility = View.GONE
+        addLocation.visibility = View.VISIBLE
         errorMessage.text = error
         null
     }
