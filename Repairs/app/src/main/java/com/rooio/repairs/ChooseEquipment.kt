@@ -4,11 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.arch.core.util.Function
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -97,22 +95,15 @@ class ChooseEquipment : RestApi() {
         loadEquipmentType(equipmentType)
         for (i in 0 until response.length()) {
             val equipment = EquipmentData(response.getJSONObject(i))
-            equipmentObjectList.add(equipment)
-        }
-        equipmentObjectList.sortWith(compareBy {it.location})
-        //adding the different equipment types to the equipmentObjectList
-        var equipmentDataList: ArrayList<EquipmentData> = ArrayList()
-        for (i in 0 until equipmentObjectList.size)
-        {
-            //savedEquipmentList.add(equipmentObjectList[i].name)
-            if (equipmentObjectList[i].type.getIntRepr() == equipmentType) {
-                equipmentDataList.add(equipmentObjectList[i])
+            if (equipment.type.getIntRepr() == equipmentType){
+                equipmentObjectList.add(equipment)
             }
         }
+        equipmentObjectList.sortWith(compareBy {it.location})
 
         val layoutManager = LinearLayoutManager(this)
         list.layoutManager = layoutManager
-        recyclerChooseAdapter = ChooseEquipmentAdapter(this@ChooseEquipment, equipmentDataList)
+        recyclerChooseAdapter = ChooseEquipmentAdapter(this@ChooseEquipment, equipmentObjectList)
         list.adapter = recyclerChooseAdapter
 
     }
