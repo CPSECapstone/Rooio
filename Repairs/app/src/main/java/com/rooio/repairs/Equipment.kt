@@ -51,6 +51,7 @@ class Equipment : NavigationBar() {
     private lateinit var equipmentLoadingPanel: ProgressBar
     private lateinit var addLoadingPanel: ProgressBar
     private lateinit var editLoadingPanel: ProgressBar
+    private var savedStreamMuted = true
 
 
     private val equipmentList = ArrayList<EquipmentData>()
@@ -339,22 +340,29 @@ class Equipment : NavigationBar() {
     public override fun onResume() {
         super.onResume()
         val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
-        } else {
-            am.setStreamMute(AudioManager.STREAM_MUSIC, true);
-        }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!am.isStreamMute(AudioManager.STREAM_SYSTEM)) {
+                savedStreamMuted = true
+                am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_MUTE, 0);
+            }
+        } else {
+            am.setStreamMute(AudioManager.STREAM_SYSTEM, true);
+        }
     }
 
     public override fun onPause() {
         super.onPause()
         val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0);
+            if (savedStreamMuted) {
+                am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_UNMUTE, 0);
+                savedStreamMuted = false;
+            }
+        } else {
+            am.setStreamMute(AudioManager.STREAM_SYSTEM, false);
         }
-        else {
-            am.setStreamMute(AudioManager.STREAM_SYSTEM, false)
-        }
+
     }
 }

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.*
 import androidx.arch.core.util.Function
@@ -22,6 +23,7 @@ class PreferredProvidersSettings  : NavigationBar() {
     private lateinit var providerBox: ConstraintLayout
     private lateinit var loadingPanel: ProgressBar
     private lateinit var spinner: Spinner
+    private var savedStreamMuted = true
     private val preferredProviders = ArrayList<ServiceProviderData>()
     private val url = "service-providers/"
 
@@ -166,26 +168,33 @@ class PreferredProvidersSettings  : NavigationBar() {
     }
 
 // gets rid of sound when the user clicks on the spinner
+
     public override fun onResume() {
         super.onResume()
         val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
-        } else {
-            am.setStreamMute(AudioManager.STREAM_MUSIC, true);
-        }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!am.isStreamMute(AudioManager.STREAM_SYSTEM)) {
+                savedStreamMuted = true
+                am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_MUTE, 0);
+            }
+        } else {
+            am.setStreamMute(AudioManager.STREAM_SYSTEM, true);
+        }
     }
 
     public override fun onPause() {
         super.onPause()
         val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0);
-        }
-        else {
-            am.setStreamMute(AudioManager.STREAM_SYSTEM, false)
-        }
-    }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (savedStreamMuted) {
+                am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_UNMUTE, 0);
+                savedStreamMuted = false;
+            }
+        } else {
+            am.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+        }
+
+    }
 }
