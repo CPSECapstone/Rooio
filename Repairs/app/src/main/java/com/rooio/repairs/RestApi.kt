@@ -163,8 +163,6 @@ abstract class RestApi : AppCompatActivity() {
                 savedStreamMuted = true
                 am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_MUTE, 0);
             }
-        } else {
-            am.setStreamMute(AudioManager.STREAM_SYSTEM, true);
         }
     }
 
@@ -177,10 +175,7 @@ abstract class RestApi : AppCompatActivity() {
                 am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_UNMUTE, 0);
                 savedStreamMuted = false;
             }
-        } else {
-            am.setStreamMute(AudioManager.STREAM_SYSTEM, false);
         }
-
     }
 
 //// _________________________________________________________________________________________________
