@@ -1,6 +1,9 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.ActionBar
@@ -27,10 +30,15 @@ class Login : RestApi() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        // gets rid of sound when the user clicks on the spinner when editing the equipment type
+        onResume()
+
         centerTitleBar()
         initializeVariables()
         onConnectAccount()
         onCancel()
+        onPause()
     }
 
     //Centers "Repairs" title
@@ -110,5 +118,6 @@ class Login : RestApi() {
             requestJson(Request.Method.POST, JsonType.OBJECT, request)
         } else errorMessage.setText(R.string.error_login)
     }
+
 
 }

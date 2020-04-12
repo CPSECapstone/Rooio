@@ -128,4 +128,8 @@ RecyclerView.Adapter<ChooseServiceProviderAdapter.MyViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun checkList(): Int {
+        return providerDataList.size
+    }
+
 }

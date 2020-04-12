@@ -192,6 +192,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
+                    android:soundEffectsEnabled="false"
                     app:srcCompat="@drawable/details" />
 
                 <TextView
@@ -220,6 +221,7 @@
                     app:layout_constraintHorizontal_bias="0.12"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintVertical_bias="0.63" />
 
                 <TextView
@@ -234,6 +236,7 @@
                     app:layout_constraintHorizontal_bias="0.12"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintVertical_bias="0.89" />
 
                 <TextView
@@ -248,6 +251,7 @@
                     app:layout_constraintHorizontal_bias="0.895"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintVertical_bias="0.37" />
 
                 <TextView
@@ -262,6 +266,7 @@
                     app:layout_constraintHorizontal_bias="0.895"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintVertical_bias=".63" />
 
                 <TextView
@@ -276,6 +281,7 @@
                     app:layout_constraintHorizontal_bias="0.895"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintVertical_bias="0.89" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -308,6 +314,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintVertical_bias="0.93" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -336,6 +343,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:soundEffectsEnabled="false"
                         app:layout_constraintVertical_bias="0.199" />
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -354,6 +362,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:soundEffectsEnabled="false"
                         app:layout_constraintVertical_bias="0.86" />
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -372,6 +381,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:soundEffectsEnabled="false"
                         app:layout_constraintVertical_bias="0.697" />
 
                     <TextView
@@ -616,6 +626,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.50"
+            android:soundEffectsEnabled="false"
             app:srcCompat="@mipmap/chevron_left" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

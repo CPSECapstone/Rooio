@@ -23,7 +23,6 @@ class PreferredProvidersSettings  : NavigationBar() {
     private lateinit var providerBox: ConstraintLayout
     private lateinit var loadingPanel: ProgressBar
     private lateinit var spinner: Spinner
-    private var savedStreamMuted = true
     private val preferredProviders = ArrayList<ServiceProviderData>()
     private val url = "service-providers/"
 
@@ -31,7 +30,9 @@ class PreferredProvidersSettings  : NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preferred_providers_settings)
 
+        // gets rid of sound when the user clicks on the spinner when editing the equipment type
         onResume()
+
         initializeVariables()
         setNavigationBar()
         setActionBar()
@@ -169,32 +170,4 @@ class PreferredProvidersSettings  : NavigationBar() {
 
 // gets rid of sound when the user clicks on the spinner
 
-    public override fun onResume() {
-        super.onResume()
-        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!am.isStreamMute(AudioManager.STREAM_SYSTEM)) {
-                savedStreamMuted = true
-                am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_MUTE, 0);
-            }
-        } else {
-            am.setStreamMute(AudioManager.STREAM_SYSTEM, true);
-        }
-    }
-
-    public override fun onPause() {
-        super.onPause()
-        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (savedStreamMuted) {
-                am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_UNMUTE, 0);
-                savedStreamMuted = false;
-            }
-        } else {
-            am.setStreamMute(AudioManager.STREAM_SYSTEM, false);
-        }
-
-    }
 }
