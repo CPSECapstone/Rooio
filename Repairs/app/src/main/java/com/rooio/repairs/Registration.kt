@@ -118,7 +118,7 @@ class Registration : RestApi() {
     }
 
     // validates email
-    private fun isValidEmail(email: String?): Boolean {
+    private fun isValidEmail(email: String): Boolean {
         val emailPattern = Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\." +
                 "[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" +

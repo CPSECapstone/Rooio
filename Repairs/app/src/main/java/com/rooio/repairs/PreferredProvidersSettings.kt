@@ -93,7 +93,7 @@ class PreferredProvidersSettings  : NavigationBar() {
 
     //Individually loads each provider into the custom list view and extends the layout based on number
     @Throws(JSONException::class)
-    fun loadElements(response: JSONArray) {
+    private fun loadElements(response: JSONArray) {
         preferredProviders.clear()
         for (i in 0 until response.length()) {
             val restaurant = response.getJSONObject(i)

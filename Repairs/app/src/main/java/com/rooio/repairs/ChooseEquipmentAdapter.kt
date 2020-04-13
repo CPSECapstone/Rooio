@@ -32,7 +32,6 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
     }
 
     private fun configureElements(holder: ViewHolder, position: Int){
-        holder.equipmentView.setOnClickListener{null}
         holder.equipmentName.setTextColor(Color.parseColor("#333232"))
         holder.equipmentLayout.setBackgroundResource(R.drawable.gray_button_border)
         holder.grayDropDown.visibility = View.VISIBLE
@@ -87,8 +86,8 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
             var p = if (holder.visible) 500 else 90
             params.height = p
             if (holder.locationSpace) {
-                val params = holder.equipmentLocationLayout.layoutParams
-                val p = if (holder.visible) 500 else 90
+                params = holder.equipmentLocationLayout.layoutParams
+                p = if (holder.visible) 500 else 90
                 params.height = p
             } else {
                 params = holder.equipmentLocationLayout.layoutParams

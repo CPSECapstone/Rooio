@@ -16,11 +16,7 @@ import com.android.volley.Request
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import androidx.core.content.ContextCompat.getSystemService
-
-import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.graphics.drawable.DrawableCompat
 import kotlinx.android.synthetic.main.activity_job_details.*
 

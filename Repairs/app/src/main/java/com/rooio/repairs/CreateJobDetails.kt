@@ -86,7 +86,7 @@ class CreateJobDetails: RestApi() {
         phoneNumber = findViewById(R.id.phoneNumberInput)
 
         // changing UI to display contact name in the prompt
-        contact.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+        contact.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             val phoneNumberText: TextView = findViewById(R.id.phoneNumberText)
             val name = contact.text
             if(!hasFocus && !name!!.isBlank()){
@@ -115,8 +115,8 @@ class CreateJobDetails: RestApi() {
             val datetimeInput = Calendar.getInstance()
             val curCalendar = Calendar.getInstance()
 
-            datetimeInput.set(Calendar.HOUR_OF_DAY, time.hour)
-            datetimeInput.set(Calendar.MINUTE, time.minute * timePickerInterval)
+            //datetimeInput.set(Calendar.HOUR_OF_DAY, time.hour)
+            //datetimeInput.set(Calendar.MINUTE, time.minute * timePickerInterval)
             datetimeInput.set(Calendar.MONTH, date.month)
             datetimeInput.set(Calendar.DAY_OF_MONTH, date.dayOfMonth)
 
@@ -129,7 +129,7 @@ class CreateJobDetails: RestApi() {
         setTimePickerInterval(time)
 
         // resetting error message
-        time.setOnTimeChangedListener { view, hourOfDay, minute ->  errorMsgTime.visibility = View.GONE }
+        time.setOnTimeChangedListener { _, _, _ ->  errorMsgTime.visibility = View.GONE }
     }
 
     // sets time picker to show 15 minute intervals
@@ -326,8 +326,8 @@ class CreateJobDetails: RestApi() {
         val datetimeInput = Calendar.getInstance()
         val curCalendar = Calendar.getInstance()
 
-        datetimeInput.set(Calendar.HOUR_OF_DAY, time.hour)
-        datetimeInput.set(Calendar.MINUTE, time.minute * timePickerInterval)
+        //datetimeInput.set(Calendar.HOUR_OF_DAY, time.hour)
+        //datetimeInput.set(Calendar.MINUTE, time.minute * timePickerInterval)
         datetimeInput.set(Calendar.MONTH, date.month)
         datetimeInput.set(Calendar.DAY_OF_MONTH, date.dayOfMonth)
 

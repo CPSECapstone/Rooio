@@ -1,11 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'jacoco'
-
-
-
-
 
 android {
     compileSdkVersion 29
@@ -27,7 +22,6 @@ android {
 
         }
         debug {
-            testCoverageEnabled = true
         }
     }
 
@@ -43,59 +37,6 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
-
-}
-
-
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    def fileFilter = ['**/R.class',
-                      '**/R$*.class',
-                      '**/BuildConfig.*',
-                      '**/Manifest*.*',
-                      '**/*Test*.*',
-                      'android/**/*.*',
-                      '**/data/models/*']
-    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
-    def mainSrc = "${project.projectDir}/src/main/java/"
-
-    sourceDirectories.from = mainSrc
-    classDirectories.from = debugTree
-
-    executionData.from = fileTree(dir: "$buildDir", includes: [
-            "jacoco/testDebugUnitTest.exec",
-            "outputs/code_coverage/debugAndroidTest/connected/*coverage.ec"
-    ])
-
-}
-
-task unitTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    def fileFilter = ['**/R.class',
-                      '**/R$*.class',
-                      '**/BuildConfig.*',
-                      '**/Manifest*.*',
-                      '**/*Test*.*',
-                      'android/**/*.*',
-                      '**/data/models/*']
-    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
-    def mainSrc = "${project.projectDir}/src/main/java/"
-
-    sourceDirectories.from = mainSrc
-    classDirectories.from = debugTree
-
-    executionData.from = fileTree(dir: "$buildDir", includes: [
-            "jacoco/testDebugUnitTest.exec",
-            "outputs/code_coverage/debugAndroidTest/connected/*coverage.ec"
-    ])
 
 }
 
@@ -131,7 +72,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
 
     // Google Places SDK for Android
-    // requires minSDKversion of app to be at least 16
+    // requires minSDK version of app to be at least 16
     implementation 'com.google.android.libraries.places:places:2.2.0'
 
     //Potential UI dependency/deletion

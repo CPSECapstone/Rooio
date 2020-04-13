@@ -53,7 +53,7 @@ class PreferredProvidersLogin : RestApi() {
     }
 
     // Initially loads the current providers by making a call to the API
-    fun loadPreferredProviders(request: JsonRequest) {
+    private fun loadPreferredProviders(request: JsonRequest) {
         loadingPanel.visibility = View.VISIBLE
         requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
