@@ -4,11 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.arch.core.util.Function
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -88,27 +86,16 @@ class ChooseEquipment : RestApi() {
         loadEquipmentType(equipmentType)
         for (i in 0 until response.length()) {
             val equipment = EquipmentData(response.getJSONObject(i))
-            equipmentObjectList.add(equipment)
-        }
-        equipmentObjectList.sortWith(compareBy {it.location})
-        //adding the different equipment types to the equipmentObjectList
-        val equipmentDataList: ArrayList<EquipmentData> = ArrayList()
-//        if (equipmentObjectList.size == 0)
-//        {
-//            //make the no equipment message visible
-//            noEquipmentMessage.visibility = View.VISIBLE
-//        }
-        for (i in 0 until equipmentObjectList.size) {
-            //savedEquipmentList.add(equipmentObjectList[i].name)
-            if (equipmentObjectList[i].type.getIntRepr() == equipmentType) {
-                    equipmentDataList.add(equipmentObjectList[i])
+            if (equipment.type.getIntRepr() == equipmentType){
+                equipmentObjectList.add(equipment)
             }
         }
+        equipmentObjectList.sortWith(compareBy {it.location})
 
 
         val layoutManager = LinearLayoutManager(this)
         list.layoutManager = layoutManager
-        recyclerChooseAdapter = ChooseEquipmentAdapter(this@ChooseEquipment, equipmentDataList)
+        recyclerChooseAdapter = ChooseEquipmentAdapter(this@ChooseEquipment, equipmentObjectList)
         list.adapter = recyclerChooseAdapter
         if (recyclerChooseAdapter.checkList() == 0)
         {
@@ -133,8 +120,8 @@ class ChooseEquipment : RestApi() {
     private fun loadEquipmentType(equipmentType: Int){
         when (equipmentType) {
             1 -> equipmentObjectList.add(EquipmentData ("General HVAC (No Appliance)", EquipmentType.HVAC))
-            3 -> equipmentObjectList.add(EquipmentData("General Plumbing (No Appliance)", EquipmentType.PLUMBING))
             2 -> equipmentObjectList.add(EquipmentData("General Lighting (No Appliance)", EquipmentType.LIGHTING_AND_ELECTRICAL))
+            3 -> equipmentObjectList.add(EquipmentData("General Plumbing (No Appliance)", EquipmentType.PLUMBING))
             else -> return
         }
     }
