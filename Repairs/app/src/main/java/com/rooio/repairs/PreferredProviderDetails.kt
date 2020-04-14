@@ -140,7 +140,7 @@ class PreferredProviderDetails: NavigationBar() {
                 .load(image)
                 .into(logo)
         else{
-            logo.setBackgroundResource(R.drawable.blank_border)
+           logo.visibility = View.GONE
         }
 
         setElementTexts(overview, response, getString(R.string.overview_text))
@@ -151,7 +151,6 @@ class PreferredProviderDetails: NavigationBar() {
         setElementTexts(name, response, getString(R.string.name))
 
         setPriceElement(price, response, "starting_hourly_rate")
-
     }
 
     private fun setElementTexts(element: TextView, response: JSONObject, elementName: String){
