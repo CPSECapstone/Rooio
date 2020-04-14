@@ -212,9 +212,16 @@ class CreateJobDetails: RestApi() {
     private fun requestEquipmentInfo() {
         // get equipment information from whichever piece of equipment that the user chose earlier
         val equipmentID = intent.getStringExtra("equipment")
-        val url = "service-locations/$userLocationID/equipment/$equipmentID/"
-        val request = JsonRequest(false, url, null, responseFuncEquipment, errorFuncEquipment, true)
-        requestJson(Request.Method.GET, JsonType.OBJECT, request)
+        // if "general [type] (no appliance)" is chosen
+        if (equipmentID == "null"){
+            equipmentLayout.visibility = View.GONE
+            viewEquipment.visibility = View.GONE
+        }
+        else {
+            val url = "service-locations/$userLocationID/equipment/$equipmentID/"
+            val request = JsonRequest(false, url, null, responseFuncEquipment, errorFuncEquipment, true)
+            requestJson(Request.Method.GET, JsonType.OBJECT, request)
+        }
     }
 
     @JvmField
@@ -257,7 +264,10 @@ class CreateJobDetails: RestApi() {
         val url = "service-locations/$userLocationID/jobs/"
         sendRequestButton.setOnClickListener {
             errorMsg.text = ""
-            params["equipment"] = arrayOf(intent.getStringExtra("equipment"))
+            if(intent.getStringExtra("equipment") == "null")
+                params["equipment"] = ArrayList<String>()
+            else
+                params["equipment"] = arrayOf(intent.getStringExtra("equipment"))
             params["service_company"] = intent.getIntExtra("company", 0)
             params["service_category"] = intent.getIntExtra("type", 0)
             params["service_type"] = (serviceTypeSpinner.selectedItem as ServiceType).getIntRepr()

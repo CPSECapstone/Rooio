@@ -67,6 +67,7 @@
                     android:layout_marginBottom="60dp"
                     android:fontFamily="@font/nunito_sans"
                     android:text="@string/add_another_service_location"
+                    android:soundEffectsEnabled="false"
                     android:textColor="#6D7377"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"

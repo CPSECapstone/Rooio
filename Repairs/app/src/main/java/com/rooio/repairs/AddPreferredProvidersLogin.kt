@@ -25,10 +25,14 @@ class AddPreferredProvidersLogin : RestApi() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_preferred_providers_login)
 
+        // gets rid of sound when the user clicks on the spinner when editing the equipment type
+        onResume()
+
         centerTitleBar()
         initializeVariables()
         onAddProvider()
         onCancel()
+        onPause()
     }
 
     //Initializes UI variables

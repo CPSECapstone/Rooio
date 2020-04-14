@@ -122,8 +122,10 @@
     <string name="what_s_their_phone_number">What\'s their phone number? (optional)</string>
     <string name="send_request">Send Request</string>
     <string name="fill_out_fields">Please fill out all required fields.</string>
-
-
+    <string name="search_hvac">Search HVAC...</string>
+    <string name="search_plumbing">Search Plumbing...</string>
+    <string name="search_general_appliance">Search General Appliance...</string>
+    <string name="search_lighting">Search Lighting...</string>
     <string name="phone">phone</string>
     <string name="empty_field">--</string>
     <string name="name">name</string>

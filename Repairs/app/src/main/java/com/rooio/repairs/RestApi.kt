@@ -1,5 +1,8 @@
 package com.rooio.repairs
 
+import android.content.Context
+import android.media.AudioManager
+import android.os.Build
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.*
@@ -22,6 +25,7 @@ abstract class RestApi : AppCompatActivity() {
         lateinit var userToken: String
         lateinit var userName: String
         lateinit var userLocationID: String
+        private var savedStreamMuted = true
     }
 
 
@@ -149,6 +153,29 @@ abstract class RestApi : AppCompatActivity() {
         window.addContentView(actionbarView,
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
         supportActionBar!!.elevation = 0.0f
+    }
+    public override fun onResume() {
+        super.onResume()
+        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!am.isStreamMute(AudioManager.STREAM_SYSTEM)) {
+                savedStreamMuted = true
+                am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_MUTE, 0);
+            }
+        }
+    }
+
+    public override fun onPause() {
+        super.onPause()
+        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (savedStreamMuted) {
+                am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_UNMUTE, 0);
+                savedStreamMuted = false;
+            }
+        }
     }
 
 //// _________________________________________________________________________________________________

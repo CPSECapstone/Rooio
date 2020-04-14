@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#ECF0F1"
     tools:context=".Login">
 
@@ -12,7 +12,7 @@
         android:id="@+id/jobDetailScrollView"
         style="@android:style/Widget.ScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,12 +30,13 @@
                 android:id="@+id/viewEquipment"
                 android:layout_width="400dp"
                 android:layout_height="36dp"
+                android:layout_marginTop="175dp"
                 android:fontFamily="@font/nunito_sans"
                 android:text="@string/click_view_equipment"
                 android:textAlignment="center"
                 android:textColor="#6D7377"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +55,554 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0">
+
+                <TextView
+                    android:id="@+id/manufacturerText"
+                    android:layout_width="150dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/manufacturer"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.27" />
+
+                <TextView
+                    android:id="@+id/modelText"
+                    android:layout_width="150dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/model_number"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.75"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.27" />
+
+                <TextView
+                    android:id="@+id/serialText"
+                    android:layout_width="150dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/serial_number"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.75"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias=".52" />
+
+                <TextView
+                    android:id="@+id/lastServiceDateText"
+                    android:layout_width="175dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/last_service_date"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.805"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.77" />
+
+                <TextView
+                    android:id="@+id/locationText"
+                    android:layout_width="150dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/location"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias=".52" />
+
+                <TextView
+                    android:id="@+id/lastServiceByText"
+                    android:layout_width="150dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/last_service_by"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.77" />
+
+                <ImageView
+                    android:id="@+id/equipmentDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:contentDescription="@string/divider"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.2"
+                    app:srcCompat="@color/colorGray" />
+
+                <TextView
+                    android:id="@+id/equipmentName"
+                    android:layout_width="400dp"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="25dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="27sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.13"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <ImageView
+                    android:id="@+id/dropDown"
+                    android:layout_width="18dp"
+                    android:layout_height="9dp"
+                    android:layout_marginTop="40dp"
+                    android:contentDescription="@string/drop_down_arrow"
+                    android:scaleX="1.25"
+                    android:scaleY="1.25"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.95"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    android:soundEffectsEnabled="false"
+                    app:srcCompat="@drawable/details" />
+
+                <TextView
+                    android:id="@+id/manufacturerInfo"
+                    android:layout_width="210dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.12"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.37" />
+
+                <TextView
+                    android:id="@+id/locationInfo"
+                    android:layout_width="210dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.12"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
+                    app:layout_constraintVertical_bias="0.63" />
+
+                <TextView
+                    android:id="@+id/lastServiceByInfo"
+                    android:layout_width="210dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.12"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
+                    app:layout_constraintVertical_bias="0.89" />
+
+                <TextView
+                    android:id="@+id/modelInfo"
+                    android:layout_width="210dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.895"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
+                    app:layout_constraintVertical_bias="0.37" />
+
+                <TextView
+                    android:id="@+id/serialInfo"
+                    android:layout_width="210dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.895"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
+                    app:layout_constraintVertical_bias=".63" />
+
+                <TextView
+                    android:id="@+id/lastServiceDateInfo"
+                    android:layout_width="210dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.895"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
+                    app:layout_constraintVertical_bias="0.89" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/jobDetailInfoLayout"
+                android:layout_width="620dp"
+                android:layout_height="1164dp"
+                android:layout_marginTop="150dp"
+                android:layout_marginBottom="495dp"
+                android:background="@drawable/shadow"
+                android:paddingBottom="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.73">
+
+                <Button
+                    android:id="@+id/sendRequestButton"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="240dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/green_button_border"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text="@string/send_request"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
+                    app:layout_constraintVertical_bias="0.93" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/fieldsConstraint"
+                    android:layout_width="551dp"
+                    android:layout_height="964dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.507"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.675">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/whatHappenedInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="121dp"
+                        android:background="@drawable/edittextbackground"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="top|left"
+                        android:padding="10dp"
+                        android:textColor="#6D7377"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:soundEffectsEnabled="false"
+                        app:layout_constraintVertical_bias="0.199" />
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/phoneNumberInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:background="@drawable/edittextbackground"
+                        android:fontFamily="@font/nunito"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:textAlignment="textStart"
+                        android:textColor="#6D7377"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:soundEffectsEnabled="false"
+                        app:layout_constraintVertical_bias="0.86" />
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/contactInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:background="@drawable/edittextbackground"
+                        android:fontFamily="@font/nunito"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:textAlignment="textStart"
+                        android:textColor="#6D7377"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:soundEffectsEnabled="false"
+                        app:layout_constraintVertical_bias="0.697" />
+
+                    <TextView
+                        android:id="@+id/whatHappenedText"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:fontFamily="@font/nunito"
+                        android:text="@string/what_happened"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.138" />
+
+                    <TextView
+                        android:id="@+id/serviceText"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:fontFamily="@font/nunito"
+                        android:text="@string/service_type"
+                        android:textAlignment="textStart"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <Spinner
+                        android:id="@+id/serviceTypeSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:background="@drawable/spinner_background"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.039" />
+
+                    <DatePicker
+                        android:id="@+id/dateInput"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:calendarViewShown="false"
+                        android:datePickerMode="spinner"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="center|start"
+                        android:hint="@string/enter_date"
+                        android:padding="10dp"
+                        android:textAlignment="viewStart"
+                        android:textColor="#6D7377"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.491" />
+
+                    <TextView
+                        android:id="@+id/whenText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito"
+                        android:text="@string/when_do_you_need_it_fixed"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.354" />
+
+                    <TextView
+                        android:id="@+id/contactText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito"
+                        android:text="@string/who_should_they_ask_for"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.632" />
+
+                    <TextView
+                        android:id="@+id/phoneNumberText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito"
+                        android:text="@string/what_s_their_phone_number"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.788" />
+
+                    <TimePicker
+                        android:id="@+id/timeInput"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/blank_border"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="center|start"
+                        android:hint="@string/enter_time"
+                        android:padding="10dp"
+                        android:textAlignment="viewStart"
+                        android:textColor="#6D7377"
+                        android:textSize="18sp"
+                        android:timePickerMode="spinner"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/serviceText"
+                        app:layout_constraintVertical_bias="0.491" />
+
+                    <ProgressBar
+                        android:id="@+id/loadingPanel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.98" />
+
+                    <TextView
+                        android:id="@+id/errorMessageTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:fontFamily="@font/nunito_sans"
+                        android:text="Please pick a valid time."
+                        android:textAlignment="textStart"
+                        android:textColor="#CA2500"
+                        android:textSize="14sp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.386" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/restaurantLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="#6D7377"
+                    android:textSize="21sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.028" />
+
+                <TextView
+                    android:id="@+id/errorMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:textAlignment="center"
+                    android:textColor="#CA2500"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.075" />
+
+                <ImageView
+                    android:id="@+id/greenBar"
+                    android:layout_width="75dp"
+                    android:layout_height="3dp"
+                    android:contentDescription="@string/green_bar"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.068"
+                    app:srcCompat="@color/colorAccent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/equipmentLayout"
+                android:layout_width="620dp"
+                android:layout_height="395dp"
+                android:layout_marginTop="1370dp"
+                android:background="@drawable/green_button_border"
+                android:translationY="0dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/manufacturerText"
@@ -279,308 +828,6 @@
                     app:layout_constraintVertical_bias="0.89" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/jobDetailInfoLayout"
-                android:layout_width="620dp"
-                android:layout_height="1164dp"
-                android:layout_marginTop="150dp"
-                android:layout_marginBottom="495dp"
-                android:background="@drawable/shadow"
-                android:paddingBottom="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.73">
-
-                <Button
-                    android:id="@+id/sendRequestButton"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="240dp"
-                    android:layout_height="55dp"
-                    android:background="@drawable/green_button_border"
-                    android:fontFamily="@font/nunito_sans"
-                    android:text="@string/send_request"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="24sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.93" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/fieldsConstraint"
-                    android:layout_width="551dp"
-                    android:layout_height="964dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.507"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.675">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/whatHappenedInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="121dp"
-                        android:background="@drawable/edittextbackground"
-                        android:fontFamily="@font/nunito"
-                        android:gravity="top|left"
-                        android:padding="10dp"
-                        android:textColor="#6D7377"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.199" />
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/phoneNumberInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:background="@drawable/edittextbackground"
-                        android:fontFamily="@font/nunito"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textAlignment="textStart"
-                        android:textColor="#6D7377"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.86" />
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/contactInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:background="@drawable/edittextbackground"
-                        android:fontFamily="@font/nunito"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textAlignment="textStart"
-                        android:textColor="#6D7377"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.697" />
-
-                    <TextView
-                        android:id="@+id/whatHappenedText"
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:fontFamily="@font/nunito"
-                        android:text="@string/what_happened"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.138" />
-
-                    <TextView
-                        android:id="@+id/serviceText"
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:fontFamily="@font/nunito"
-                        android:text="@string/service_type"
-                        android:textAlignment="textStart"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0" />
-
-                    <Spinner
-                        android:id="@+id/serviceTypeSpinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:background="@drawable/spinner_background"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.039" />
-
-                    <DatePicker
-                        android:id="@+id/dateInput"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:calendarViewShown="false"
-                        android:datePickerMode="spinner"
-                        android:fontFamily="@font/nunito"
-                        android:gravity="center|start"
-                        android:hint="@string/enter_date"
-                        android:padding="10dp"
-                        android:textAlignment="viewStart"
-                        android:textColor="#6D7377"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.491" />
-
-                    <TextView
-                        android:id="@+id/whenText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito"
-                        android:text="@string/when_do_you_need_it_fixed"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.354" />
-
-                    <TextView
-                        android:id="@+id/contactText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito"
-                        android:text="@string/who_should_they_ask_for"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.632" />
-
-                    <TextView
-                        android:id="@+id/phoneNumberText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito"
-                        android:text="@string/what_s_their_phone_number"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.788" />
-
-                    <TimePicker
-                        android:id="@+id/timeInput"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/blank_border"
-                        android:fontFamily="@font/nunito"
-                        android:gravity="center|start"
-                        android:hint="@string/enter_time"
-                        android:padding="10dp"
-                        android:textAlignment="viewStart"
-                        android:textColor="#6D7377"
-                        android:textSize="18sp"
-                        android:timePickerMode="spinner"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/serviceText"
-                        app:layout_constraintVertical_bias="0.491" />
-
-                    <ProgressBar
-                        android:id="@+id/loadingPanel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:indeterminate="true"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.98" />
-
-                    <TextView
-                        android:id="@+id/errorMessageTime"
-                        android:layout_width="match_parent"
-                        android:layout_height="36dp"
-                        android:fontFamily="@font/nunito_sans"
-                        android:text="Please pick a valid time."
-                        android:textAlignment="textStart"
-                        android:textColor="#CA2500"
-                        android:textSize="14sp"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.386" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:id="@+id/restaurantLocation"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:fontFamily="@font/nunito_sans"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:text=""
-                    android:textAlignment="center"
-                    android:textColor="#6D7377"
-                    android:textSize="21sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.028" />
-
-                <TextView
-                    android:id="@+id/errorMessage"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:fontFamily="@font/nunito_sans"
-                    android:textAlignment="center"
-                    android:textColor="#CA2500"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.075" />
-
-                <ImageView
-                    android:id="@+id/greenBar"
-                    android:layout_width="75dp"
-                    android:layout_height="3dp"
-                    android:contentDescription="@string/green_bar"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.068"
-                    app:srcCompat="@color/colorAccent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -616,6 +863,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.50"
+            android:soundEffectsEnabled="false"
             app:srcCompat="@mipmap/chevron_left" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

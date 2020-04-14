@@ -95,6 +95,7 @@
             android:background="@drawable/green_button_border"
             android:fontFamily="@font/nunito_sans"
             android:text="@string/add_location"
+            android:soundEffectsEnabled="false"
             android:textAllCaps="false"
             android:textColor="#06C47B"
             android:textColorHighlight="#00F8F6F6"
