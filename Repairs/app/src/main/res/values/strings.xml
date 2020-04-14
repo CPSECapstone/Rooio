@@ -61,6 +61,9 @@
     <string name="add_another_service_provider">+ Add Another Service Provider</string>
     <string name="newJobRequest">New Job Request</string>
     <string name="lighting">Lighting</string>
+    <string name="generalAppliance">General Appliance</string>
+    <string name="lightingAndElectrical">Lighting and Electrical</string>
+
     <string name="andElectrical">and Electrical</string>
     <string name="plumbing">Plumbing</string>
     <string name="hvac">HVAC</string>
@@ -72,6 +75,9 @@
     <string name="declined">Declined</string>
     <string name="archived">Archived</string>
     <string name="cancelled">Cancelled</string>
+
+    <string name="noJobstoDisplay">No Jobs to Display</string>
+    <string name="timeFormat">yyyy-MM-dd HH:mm:ss</string>
 
 
     <string name="inProgress">In Progress</string>
