@@ -111,8 +111,8 @@ class ChooseEquipment : RestApi() {
     private fun loadEquipmentType(equipmentType: Int){
         when (equipmentType) {
             1 -> equipmentObjectList.add(EquipmentData ("General HVAC (No Appliance)", EquipmentType.HVAC))
-            2 -> equipmentObjectList.add(EquipmentData("General Plumbing (No Appliance)", EquipmentType.PLUMBING))
-            3 -> equipmentObjectList.add(EquipmentData("General Lighting (No Appliance)", EquipmentType.LIGHTING_AND_ELECTRICAL))
+            2 -> equipmentObjectList.add(EquipmentData("General Lighting (No Appliance)", EquipmentType.LIGHTING_AND_ELECTRICAL))
+            3 -> equipmentObjectList.add(EquipmentData("General Plumbing (No Appliance)", EquipmentType.PLUMBING))
             else -> return
         }
     }
