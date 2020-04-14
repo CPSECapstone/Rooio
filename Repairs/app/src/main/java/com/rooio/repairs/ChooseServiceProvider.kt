@@ -1,7 +1,10 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -32,10 +35,14 @@ class ChooseServiceProvider : RestApi() {
     private lateinit var adapter: ChooseServiceProviderAdapter
     lateinit var equipmentId: String
     private var equipmentType: Int = 0
+    private lateinit var noProviderMessage: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_service_provider)
+
+        // gets rid of sound when the user clicks on the spinner when editing the equipment type
+        onResume()
 
         initializeVariables()
         setActionBar()
@@ -44,6 +51,7 @@ class ChooseServiceProvider : RestApi() {
         onPreferred()
         onNetwork()
         onBackClick()
+        onPause()
     }
 
     //Initializes UI variables
@@ -56,6 +64,7 @@ class ChooseServiceProvider : RestApi() {
         errorMessage = findViewById(R.id.errorMessage)
         backButton = findViewById(R.id.backButton)
         loadingPanel = findViewById(R.id.loadingPanel)
+        noProviderMessage = findViewById(R.id.noProvider)
     }
 
     //Click to go back to Dashboard
@@ -136,6 +145,14 @@ class ChooseServiceProvider : RestApi() {
         val layoutManager = LinearLayoutManager(this)
         serviceProviderList.layoutManager = layoutManager
         serviceProviderList.adapter = adapter
+        if (adapter.checkList() == 0)
+        {
+            //make the no equipment message visible
+            noProviderMessage.visibility = View.VISIBLE
+        }
+        else {
+            noProviderMessage.visibility = View.INVISIBLE
+        }
     }
 
     //Sets the filter on the list
@@ -144,8 +161,19 @@ class ChooseServiceProvider : RestApi() {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 adapter.filter(charSequence.toString())
+                if (adapter.checkList() == 0)
+                {
+                    //make the no equipment message visible
+                    noProviderMessage.visibility = View.VISIBLE
+                }
+                else {
+                    noProviderMessage.visibility = View.INVISIBLE
+                }
             }
+
             override fun afterTextChanged(editable: Editable) {}
         })
+
     }
+
 }

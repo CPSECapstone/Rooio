@@ -53,6 +53,7 @@ class Equipment : NavigationBar() {
     private lateinit var editLoadingPanel: ProgressBar
 
 
+
     private val equipmentList = ArrayList<EquipmentData>()
     private var customAdapter = EquipmentCustomAdapter(this, equipmentList)
 
@@ -61,7 +62,9 @@ class Equipment : NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_equipment)
 
+        //gets rid of sound when the user clicks on the spinner when editing the equipment type
         onResume()
+
         initializeVariable()
         setNavigationBar()
         setActionBar()
@@ -335,26 +338,4 @@ class Equipment : NavigationBar() {
         equipment.layoutParams = params
     }
 
-    // gets rid of sound when the user clicks on the spinner when editing the equipment type
-    public override fun onResume() {
-        super.onResume()
-        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
-        } else {
-            am.setStreamMute(AudioManager.STREAM_MUSIC, true);
-        }
-
-    }
-
-    public override fun onPause() {
-        super.onPause()
-        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0);
-        }
-        else {
-            am.setStreamMute(AudioManager.STREAM_SYSTEM, false)
-        }
-    }
 }

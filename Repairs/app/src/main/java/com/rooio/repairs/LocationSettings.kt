@@ -19,6 +19,7 @@ class LocationSettings  : NavigationBar() {
     private lateinit var changeLocation: Button
     private lateinit var spinner: Spinner
     private lateinit var loadingPanel: ProgressBar
+    private var savedStreamMuted = true
     private val url = "service-locations/$userLocationID/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,24 +116,32 @@ class LocationSettings  : NavigationBar() {
 
     // gets rid of sound when the user clicks on the spinner
     public override fun onResume() {
-    super.onResume()
-    val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
-    } else {
-        am.setStreamMute(AudioManager.STREAM_MUSIC, true);
-    }
+        super.onResume()
+        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
-}
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!am.isStreamMute(AudioManager.STREAM_SYSTEM)) {
+                savedStreamMuted = true
+                am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_MUTE, 0);
+            }
+        } else {
+            am.setStreamMute(AudioManager.STREAM_SYSTEM, true);
+        }
+    }
 
     public override fun onPause() {
         super.onPause()
         val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0);
+            if (savedStreamMuted) {
+                am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_UNMUTE, 0);
+                savedStreamMuted = false;
+            }
+        } else {
+            am.setStreamMute(AudioManager.STREAM_SYSTEM, false);
         }
-        else {
-            am.setStreamMute(AudioManager.STREAM_SYSTEM, false)
-        }
+
     }
+
 }
