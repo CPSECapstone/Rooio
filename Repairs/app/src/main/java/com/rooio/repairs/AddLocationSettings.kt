@@ -28,12 +28,16 @@ class AddLocationSettings  : NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_location_settings)
 
+        // gets rid of sound when the user clicks on the spinner when editing the equipment type
+        onResume()
+
         initializeVariables()
         setNavigationBar()
         setActionBar()
         createNavigationBar(NavigationType.SETTINGS)
         onAddLocation()
         onBack()
+        onPause()
     }
 
     //Initializes UI variables

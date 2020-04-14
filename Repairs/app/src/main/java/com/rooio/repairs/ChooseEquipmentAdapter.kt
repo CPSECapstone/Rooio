@@ -21,6 +21,7 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
     private val locations: ArrayList<String> = ArrayList()
     private val applicationContext = context
 
+
     init {
         this.equipmentData.addAll(equipmentDataList)
     }
@@ -211,6 +212,11 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
             }
         }
         notifyDataSetChanged()
+    }
+
+    //returns the size of the list after a search
+    fun checkList(): Int {
+        return equipmentDataList.size
     }
 }
 

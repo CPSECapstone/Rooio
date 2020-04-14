@@ -28,12 +28,15 @@ class AddPreferredProvidersSettings  : NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_preferred_providers_setting)
 
+        // gets rid of sound when the user clicks on the spinner when editing the equipment type
+        onResume()
         initializeVariables()
         setNavigationBar()
         setActionBar()
         createNavigationBar(NavigationType.SETTINGS)
         onAddProvider()
         onBack()
+        onPause()
     }
 
     //Initializes UI variables
