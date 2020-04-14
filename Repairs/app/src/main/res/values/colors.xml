@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="background">#ECF0F1</color>
     <color name="colorPrimary">#00CA8F</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#00CA8F</color>
-    <color name="colorGray">#BEBDBD</color>
-    <color name="darkGray">#4D4E4F</color>
-    <color name="lightGray">#A6A9AC</color>
-    <color name="GrayText">#6D6B6B</color>
+    <color name="colorGray">#ECF0F1</color>
+    <color name="darkGray">#6D7377</color>
+    <color name="lightGray">#BEC3C7</color>
     <color name="Red">#CA2500</color>
     <color name="Yellow">#F6E15C</color>
     <color name="Blue">#96B8F8</color>
     <color name="Purple">#9A50BA</color>
     <color name="grayedOut">#336B6B6B</color>
     <color name="inputFieldOutline">#ededed</color>
-    <color name="rooioLightGray">#ECF0F1</color>
-
+    <color name="errorMessage">#CA2500</color>
 </resources>

@@ -40,7 +40,7 @@
         android:fontFamily="@font/nunito_sans"
         android:gravity="center"
         android:textAlignment="textStart"
-        android:textColor="#6D7377"
+        android:textColor="@color/darkGray"
         android:textSize="24sp" />
 
 </LinearLayout>

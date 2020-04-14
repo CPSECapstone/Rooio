@@ -98,7 +98,7 @@ class EquipmentCustomAdapter implements ListAdapter {
                 editEquipmentDetails.setVisibility(GONE);
 
                 Button addEquipmentButton = ((Activity)context).findViewById(R.id.addEquipmentButton);
-                addEquipmentButton.setTextColor(context.getResources().getColor(R.color.GrayText));
+                addEquipmentButton.setTextColor(context.getResources().getColor(R.color.darkGray));
                 addEquipmentButton.setBackgroundResource(R.drawable.gray_button_border);
 
                 // changing all other buttons back to gray

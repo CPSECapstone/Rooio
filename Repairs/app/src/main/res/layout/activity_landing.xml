@@ -27,9 +27,10 @@
             android:layout_height="55dp"
             android:background="@drawable/green_button_border"
             android:fontFamily="@font/nunito_sans"
+            android:soundEffectsEnabled="false"
             android:text="@string/connect_account"
             android:textAllCaps="false"
-            android:textColor="#00CA8F"
+            android:textColor="@color/colorAccent"
             android:textColorHighlight="#00F8F6F6"
             android:textColorHint="#00FCFBFB"
             android:textColorLink="#00FDFCFC"
@@ -39,7 +40,6 @@
             app:layout_constraintHorizontal_bias="0.25"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:soundEffectsEnabled="false"
             app:layout_constraintVertical_bias="0.8" />
 
         <ImageView
@@ -60,6 +60,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
             android:text="@string/title_activity_landing"
+            android:textColor="@color/darkGray"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -74,9 +75,10 @@
             android:layout_height="55dp"
             android:background="@drawable/gray_button_border"
             android:fontFamily="@font/nunito_sans"
+            android:soundEffectsEnabled="false"
             android:text="@string/create_account"
             android:textAllCaps="false"
-            android:textColor="#919191"
+            android:textColor="@color/darkGray"
             android:textColorHighlight="#00F8F6F6"
             android:textColorHint="#00FCFBFB"
             android:textColorLink="#00FDFCFC"
@@ -86,7 +88,6 @@
             app:layout_constraintHorizontal_bias="0.75"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:soundEffectsEnabled="false"
             app:layout_constraintVertical_bias="0.8" />
 
         <TextView
@@ -96,6 +97,7 @@
             android:fontFamily="@font/nunito_sans"
             android:text="@string/landing_message"
             android:textAlignment="center"
+            android:textColor="@color/darkGray"
             android:textSize="21sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
