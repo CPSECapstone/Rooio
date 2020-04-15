@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
@@ -71,9 +72,12 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
 
-    // Google Places SDK for Android
-    // requires minSDK version of app to be at least 16
+    // Google SDKs for Android
+    // requires minSDK version of app to be at least 16 for Google Places
     implementation 'com.google.android.libraries.places:places:2.2.0'
+
+    // Add the Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics:17.3.0'
 
     //Potential UI dependency/deletion
     implementation "com.android.support:recyclerview-v7:29.0.0"

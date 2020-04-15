@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "840827999008",
+    "firebase_url": "https://rooio-e7cf4.firebaseio.com",
+    "project_id": "rooio-e7cf4",
+    "storage_bucket": "rooio-e7cf4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840827999008:android:877f8f395946db537a3d45",
+        "android_client_info": {
+          "package_name": "com.rooio.repairs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "840827999008-3h00g8gj2svkpg3a3d0vm0ij3sdh7mv3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7S2ES2kZvDPOk7glUchGPOizZg0GWb2I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "840827999008-3h00g8gj2svkpg3a3d0vm0ij3sdh7mv3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

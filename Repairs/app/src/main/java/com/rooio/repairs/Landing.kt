@@ -5,19 +5,28 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.analytics.FirebaseAnalytics
 
 //First page that will show up if a user token is not stored
 class Landing : AppCompatActivity() {
+
     private lateinit var createAccount: Button
     private lateinit var connectAccount: Button
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
-
+        setupAnalytics()
         centerTitleBar()
         initializeVariables()
         onCreateAccount()
         onConnectAccount()
+    }
+
+    private fun setupAnalytics() {
+        // Obtain the FirebaseAnalytics instance.
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
     }
 
     //Centers "Repairs" title

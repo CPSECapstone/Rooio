@@ -115,8 +115,9 @@ class CreateJobDetails: RestApi() {
             val datetimeInput = Calendar.getInstance()
             val curCalendar = Calendar.getInstance()
 
-            datetimeInput.set(Calendar.HOUR_OF_DAY, time.hour)
-            datetimeInput.set(Calendar.MINUTE, time.minute * timePickerInterval)
+            //Current hour and current minute are used as time.hour and time.minute are API level 23
+            datetimeInput.set(Calendar.HOUR_OF_DAY, time.currentHour)
+            datetimeInput.set(Calendar.MINUTE, time.currentMinute * timePickerInterval)
             datetimeInput.set(Calendar.MONTH, date.month)
             datetimeInput.set(Calendar.DAY_OF_MONTH, date.dayOfMonth)
 
@@ -326,8 +327,8 @@ class CreateJobDetails: RestApi() {
         val datetimeInput = Calendar.getInstance()
         val curCalendar = Calendar.getInstance()
 
-        datetimeInput.set(Calendar.HOUR_OF_DAY, time.hour)
-        datetimeInput.set(Calendar.MINUTE, time.minute * timePickerInterval)
+        datetimeInput.set(Calendar.HOUR_OF_DAY, time.currentHour)
+        datetimeInput.set(Calendar.MINUTE, time.currentMinute * timePickerInterval)
         datetimeInput.set(Calendar.MONTH, date.month)
         datetimeInput.set(Calendar.DAY_OF_MONTH, date.dayOfMonth)
 

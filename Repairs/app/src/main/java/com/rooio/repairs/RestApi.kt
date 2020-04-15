@@ -47,7 +47,7 @@ abstract class RestApi : AppCompatActivity() {
         val responseFunc = request.responseFunc
         val errorFunc = request.errorFunc
         val headersFlag = request.headersFlag
-        val params = request.params as MutableMap<Any?, Any?>
+        val params = request.params
 
         val  jsonParams : JSONObject? = if (!request.params.isNullOrEmpty()) {
             JSONObject(params)
@@ -76,7 +76,7 @@ abstract class RestApi : AppCompatActivity() {
         val responseFunc = request.responseFunc
         val errorFunc = request.errorFunc
         val headersFlag = request.headersFlag
-        val params = request.params as MutableMap<Any?, Any?>
+        val params = request.params
 
         val  jsonParams : JSONObject? = if (!request.params.isNullOrEmpty()) {
             JSONObject(params)
