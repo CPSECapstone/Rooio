@@ -15,8 +15,7 @@
         android:background="@drawable/shadow"
         app:layout_constraintBottom_toTopOf="@+id/lowerGuideline"
         app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
-        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-        app:layout_constraintTop_toTopOf="@+id/upperGuideline">
+        app:layout_constraintStart_toStartOf="@+id/leftGuideline">
 
         <AutoCompleteTextView
             android:id="@+id/autocomplete_login"
