@@ -1,7 +1,7 @@
 package com.rooio.repairs
 
 import android.animation.ObjectAnimator
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -25,8 +25,6 @@ import kotlinx.android.synthetic.main.activity_job_details.*
 class JobDetails: NavigationBar() {
 
     private lateinit var jobId: String
-
-
     private lateinit var restaurantName: TextView
     private lateinit var restaurantLocation: TextView
     private lateinit var serviceType: TextView
@@ -45,6 +43,7 @@ class JobDetails: NavigationBar() {
     private lateinit var serialText: TextView
     private lateinit var lastServiceByText: TextView
     private lateinit var lastServiceDateText: TextView
+    private lateinit var error: TextView
     private lateinit var pointOfContact: TextView
     private lateinit var details: TextView
     private lateinit var backButton: ImageView
@@ -71,11 +70,13 @@ class JobDetails: NavigationBar() {
         loadJobs()
     }
 
+    //Get the JobId from the previous page
     private fun getJobId(){
         val incomingIntent = intent
-        jobId = (incomingIntent.getStringExtra("id")).toString()
+        jobId = (incomingIntent?.getStringExtra("id")).toString()
     }
 
+    //Request JobDetails from API
     @JvmField
     val responseFunc = Function<Any, Void?> { response : Any ->
         val jsonObject1 = response as JSONObject
@@ -91,7 +92,9 @@ class JobDetails: NavigationBar() {
 
     @JvmField
     var errorFunc = Function<String, Void?> {  string: String? ->
+        error.text = string
         null
+
     }
     private fun loadJobs(){
         val url =  "service-locations/$userLocationID/jobs/$jobId/"
@@ -111,6 +114,7 @@ class JobDetails: NavigationBar() {
         details = findViewById(R.id.detailsInfo)
         transitionsContainer = findViewById(R.id.jobDetailLayout)
         viewGroup = findViewById(R.id.jobDetailTitleLayout)
+        error = findViewById(R.id.errorMessage)
     }
 
     //Initializes variables that are used in loadElements and animated
@@ -147,6 +151,7 @@ class JobDetails: NavigationBar() {
     }
 
     //Sets the text views in the user interface, with "--" if null
+    @SuppressLint("SimpleDateFormat")
     private fun loadElements(response: JSONObject) {
 
         val locationObj = response.getJSONObject("service_location")
@@ -169,46 +174,46 @@ class JobDetails: NavigationBar() {
             "3" ->
                 repairCategory = "Plumbing"
         }
-        serviceType.setText(repairCategory)
+        serviceType.text = repairCategory
 
-        restaurantLocation.setText(locationObj.getString("physical_address"))
-        restaurantName.setText(internal_client.getString("name"))
-        availableTechnicians.setText(serviceObj.getString("name"))
+        restaurantLocation.text = locationObj.getString("physical_address")
+        restaurantName.text = internal_client.getString("name")
+        availableTechnicians.text = serviceObj.getString("name")
         if(!response.isNull("status_time_value")){
             val date2 = (SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(convertToNewFormat(response.getString("status_time_value")))
-            startedOn.setText(date2!!.toString())
+            startedOn.text = (date2!!.toString())
         }
-        pointOfContact.setText(response.getString("point_of_contact_name"))
-        details.setText(response.getString("details"))
-        equipmentName.setText(equipmentObj.getString("display_name"))
-        manufacturer.setText(equipmentObj.getString("manufacturer"))
-        serialNumber.setText(equipmentObj.getString("serial_number"))
-        modelNumber.setText(equipmentObj.getString("model_number"))
-        location.setText(equipmentObj.getString("location"))
-        lastServiceBy.setText(equipmentObj.getString("last_service_by"))
+        pointOfContact.text = (response.getString("point_of_contact_name"))
+        details.text = (response.getString("details"))
+        equipmentName.text = (equipmentObj.getString("display_name"))
+        manufacturer.text = (equipmentObj.getString("manufacturer"))
+        serialNumber.text = (equipmentObj.getString("serial_number"))
+        modelNumber.text = (equipmentObj.getString("model_number"))
+        location.text = (equipmentObj.getString("location"))
+        lastServiceBy.text = (equipmentObj.getString("last_service_by"))
         if (equipmentObj.isNull("last_service_by") || (equipmentObj.getString("last_service_by") == "")){
-            lastServiceBy.setText("--")
+            lastServiceBy.text = ("--")
         }
         else{
-            lastServiceBy.setText(equipmentObj.getString("last_service_by"))
+            lastServiceBy.text = (equipmentObj.getString("last_service_by"))
 
         }
         if (equipmentObj.isNull("last_service_date")){
-            lastServiceDate.setText("--")
+            lastServiceDate.text = ("--")
         }
         else{
             val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(equipmentObj.getString("last_service_date")))
-            lastServiceDate.setText(date1!!.toString())
+            lastServiceDate.text = (date1!!.toString())
         }
 
-        val status_enum = response.getInt("status")
-        var status_value: String? = null
+        val statusEnum = response.getInt("status")
+        var statusValue: String? = null
 
         //Display Statuses for each swimlane
-        when (status_enum) {
+        when (statusEnum) {
             //Declined Swimlane
             1 -> {
-                status_value = "Declined"
+                statusValue = "Declined"
                 DrawableCompat.setTint(
                         DrawableCompat.wrap(activeLayout.getBackground()),
                         ContextCompat.getColor(this, R.color.lightGray)
@@ -217,16 +222,51 @@ class JobDetails: NavigationBar() {
             //Scheduled swimlane uses time as status
             2 -> {
                 //Time Based Statuses
-                status_value = "Scheduled"
+                statusValue = "Scheduled"
+            }
+            3 -> {
+                statusValue = "Archived"
+            }
+            //Cancelled Swimlane Status
+            4 -> {
+                statusValue = "Cancelled"
+            }
+            5 -> {
+                //In Progress Swimlane Status
+                statusValue = "Started"
+            }
+            //In Progress Swimlane Status
+            6 -> {
+                statusValue = "Paused"
+            }
+            //Pending Swimlane Status
+            0 -> {
+                statusValue = "Awaiting Response"
 
+            }
+        }
+        changeHeaderColor(statusEnum)
+        restaurantLocation2.text = statusValue
+    }
+
+    //Change the HeaderColor
+    private fun changeHeaderColor(statusEnum: Int){
+        when (statusEnum) {
+            //Declined Swimlane
+            1 -> {
+                DrawableCompat.setTint(
+                        DrawableCompat.wrap(activeLayout.getBackground()),
+                        ContextCompat.getColor(this, R.color.lightGray)
+                )
+            }
+            //Scheduled swimlane uses time as status
+            2 -> {
                 DrawableCompat.setTint(
                         DrawableCompat.wrap(activeLayout.getBackground()),
                         ContextCompat.getColor(this, R.color.Blue)
                 )
             }
             3 -> {
-                status_value = "Archived"
-
                 DrawableCompat.setTint(
                         DrawableCompat.wrap(activeLayout.getBackground()),
                         ContextCompat.getColor(this, R.color.lightGray)
@@ -234,7 +274,6 @@ class JobDetails: NavigationBar() {
             }
             //Cancelled Swimlane Status
             4 -> {
-                status_value = "Cancelled"
                 DrawableCompat.setTint(
                         DrawableCompat.wrap(activeLayout.getBackground()),
                         ContextCompat.getColor(this, R.color.lightGray)
@@ -242,8 +281,6 @@ class JobDetails: NavigationBar() {
             }
             5 -> {
                 //In Progress Swimlane Status
-                status_value = "Started"
-
                 DrawableCompat.setTint(
                         DrawableCompat.wrap(activeLayout.getBackground()),
                         ContextCompat.getColor(this, R.color.colorPrimary)
@@ -251,8 +288,6 @@ class JobDetails: NavigationBar() {
             }
             //In Progress Swimlane Status
             6 -> {
-                status_value = "Paused"
-
                 DrawableCompat.setTint(
                         DrawableCompat.wrap(activeLayout.getBackground()),
                         ContextCompat.getColor(this, R.color.Yellow)
@@ -260,17 +295,13 @@ class JobDetails: NavigationBar() {
             }
             //Pending Swimlane Status
             0 -> {
-                status_value = "Awaiting Response"
-
                 DrawableCompat.setTint(
                         DrawableCompat.wrap(activeLayout.getBackground()),
                         ContextCompat.getColor(this, R.color.Purple)
                 )
             }
         }
-        restaurantLocation2.text = status_value
     }
-
 
     //Sends the user to the Jobs page
     private fun onBack() {
@@ -300,6 +331,8 @@ class JobDetails: NavigationBar() {
         }
     }
 
+    //Sets the time format
+    @SuppressLint("SimpleDateFormat")
     @Throws(ParseException::class)
     fun convertToNewFormat(dateStr: String): String {
         val utc = TimeZone.getTimeZone("UTC")

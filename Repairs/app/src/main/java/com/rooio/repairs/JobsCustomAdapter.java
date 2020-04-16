@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -31,16 +30,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 import java.util.TimeZone;
 
-class JobsCustomerAdapter implements ListAdapter {
+class JobsCustomAdapter implements ListAdapter {
     private ArrayList<JSONObject> arrayList;
     private Context context;
-    private String result_categories = "";
     private ArrayList<String> statuses = new ArrayList<>();
-    ArrayList<String> categories = new ArrayList<>();
 
-    public JobsCustomerAdapter(Context context, ArrayList<JSONObject> jobs) {
+    public JobsCustomAdapter(Context context, ArrayList<JSONObject> jobs) {
         this.arrayList = jobs;
         this.context = context;
     }
@@ -98,7 +96,7 @@ class JobsCustomerAdapter implements ListAdapter {
             TextView status = convertView.findViewById(R.id.status);
             ConstraintLayout color = convertView.findViewById(R.id.color);
             try {
-                Integer status_enum = data.getInt("status");
+                int status_enum = data.getInt("status");
                 String status_value = null;
 
                 //Display Statuses for each swimlane
@@ -177,20 +175,20 @@ class JobsCustomerAdapter implements ListAdapter {
                         case "4":
 //                            repairType.setText("General Appliance");
                             //categories.add("General Appliance");
-                            repairType.setText("General Appliance");
+                            repairType.setText(context.getString(R.string.generalAppliance));
 
                             break;
                         case "1":
 //                            repairType.setText("HVAC");
-                            repairType.setText("HVAC");
+                            repairType.setText(context.getString(R.string.hvac));
                             break;
                         case "2":
 //                            repairType.setText("Lighting and Electrical");
-                            repairType.setText("Lighting and Electrical");
+                            repairType.setText(context.getString(R.string.lightingAndElectrical));
                             break;
                         case "3":
 //                            repairType.setText("Plumbing");
-                            repairType.setText("Plumbing");
+                            repairType.setText(context.getString(R.string.plumbing));
                             break;
                     }
 
@@ -206,7 +204,8 @@ class JobsCustomerAdapter implements ListAdapter {
 
                 //Change format of date
                 if (!(data.isNull("status_time_value") )){
-                    Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("status_time_value")));
+                    @SuppressLint("SimpleDateFormat") Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("status_time_value")));
+                    assert date1 != null;
                     timeImage.setText(date1.toString());
 
                 }
@@ -219,11 +218,13 @@ class JobsCustomerAdapter implements ListAdapter {
 
 
                 if(!statuses.contains(status_value)){
+                    assert status_value != null;
                     status.setText(status_value.toUpperCase());
                     statuses.add(status_value);
                 }
                 else
-                    status.setVisibility(View.GONE);
+                    status.setVisibility(View.INVISIBLE);
+
                 }
 
 
@@ -254,45 +255,46 @@ class JobsCustomerAdapter implements ListAdapter {
         return convertView;
     }
 
-    public static String convertToNewFormat(String dateStr) throws ParseException {
+    private static String convertToNewFormat(String dateStr) throws ParseException {
         TimeZone utc = TimeZone.getTimeZone("UTC");
-        SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        SimpleDateFormat destFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat destFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         sourceFormat.setTimeZone(utc);
         Date convertedDate = sourceFormat.parse(dateStr);
+        assert convertedDate != null;
         return destFormat.format(convertedDate);
     }
 
-    public  String timeConvert(String dateStr) throws ParseException {
+    private   String timeConvert(String dateStr) throws ParseException {
         String eta = convertToNewFormat(dateStr);
 
         //GET NOW DATE + TIME
         String now = now();
 
         String endOfToday = endOfToday();
-        String endOfTomorrow = endofTomorrow();
-        String endofWeek = endofWeek();
-        String endofNextWeek = endofNextWeek();
-        String endofThisMonth = endofThisMonth();
+        String endOfTomorrow = endOfTomorrow();
+        String endofWeek = endOfWeek();
+        String endOfNextWeek = endOfNextWeek();
+        String endOfThisMonth = endOfThisMonth();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        if (sdf.parse(eta).before(sdf.parse(now))) {
+        if (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(now))) {
             return "PAST DUE";
         }
-        else if ((sdf.parse(eta).after(sdf.parse(now))) && (sdf.parse(eta).before(sdf.parse(endOfToday))))  {
+        else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(now))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfToday))))  {
             return "TODAY";
         }
-        else if ((sdf.parse(eta).after(sdf.parse(endOfToday))) && (sdf.parse(eta).before(sdf.parse(endofTomorrow()))))  {
+        else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endOfToday))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfTomorrow()))))  {
             return "TOMORROW";
         }
-        else if ((sdf.parse(eta).after(sdf.parse(endOfTomorrow))) && (sdf.parse(eta).before(sdf.parse(endofWeek))))  {
+        else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endOfTomorrow))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endofWeek))))  {
             return "THIS WEEK";
         }
-        else if ((sdf.parse(eta).after(sdf.parse(endofWeek))) && (sdf.parse(eta).before(sdf.parse(endofNextWeek))))  {
+        else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endofWeek))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfNextWeek))))  {
             return "NEXT WEEK";
         }
-        else if ((sdf.parse(eta).after(sdf.parse(endofNextWeek))) && (sdf.parse(eta).before(sdf.parse(endofThisMonth))))  {
+        else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endOfNextWeek))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfThisMonth))))  {
             return "LATER THIS MONTH";
         }
         else{
@@ -302,7 +304,7 @@ class JobsCustomerAdapter implements ListAdapter {
     }
 
     private String endOfToday(){
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(now);
@@ -314,14 +316,14 @@ class JobsCustomerAdapter implements ListAdapter {
     }
 
     private String now(){
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         Calendar c = Calendar.getInstance();
         return df.format(c.getTime());
     }
 
-    private String endofTomorrow(){
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private String endOfTomorrow(){
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(now);
@@ -333,8 +335,8 @@ class JobsCustomerAdapter implements ListAdapter {
         return df.format(endOfTomorrow);
     }
 
-    private String endofWeek(){
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private String endOfWeek(){
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(now);
@@ -348,8 +350,8 @@ class JobsCustomerAdapter implements ListAdapter {
         return df.format(endOfWeek);
     }
 
-    private String endofNextWeek(){
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private String endOfNextWeek(){
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(now);
@@ -363,8 +365,8 @@ class JobsCustomerAdapter implements ListAdapter {
         Date endofNext = cal.getTime();
         return df.format(endofNext);
     }
-    private String endofThisMonth(){
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private String endOfThisMonth(){
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(now);

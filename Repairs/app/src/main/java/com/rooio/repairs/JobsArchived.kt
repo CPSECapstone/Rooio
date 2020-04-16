@@ -3,7 +3,6 @@ package com.rooio.repairs;
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -12,7 +11,6 @@ import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
 import com.android.volley.Request
-import kotlinx.android.synthetic.main.activity_jobs_archived.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -25,12 +23,10 @@ class JobsArchived  : NavigationBar() {
         private lateinit var cancelledList: ListView
         private lateinit var declinedList: ListView
 
-        private var archivedConstraint: ConstraintLayout? = null
-        private var cancelledConstraint: ConstraintLayout? = null
-        private var declinedConstraint: ConstraintLayout? = null
+        private lateinit var archivedConstraint: ConstraintLayout
+        private lateinit var cancelledConstraint: ConstraintLayout
+        private lateinit var declinedConstraint: ConstraintLayout
 
-
-        val statuses = arrayListOf<String>()
 
         companion object{
 
@@ -40,8 +36,9 @@ class JobsArchived  : NavigationBar() {
                 @JvmStatic private var cancelledJobs = ArrayList<JSONObject>()
         }
 
-        private var completedButton: Button? = null
+        private lateinit var completedButton: Button
 
+        //Main
         override fun onCreate(savedInstanceState: Bundle?) {
                 super.onCreate(savedInstanceState)
                 initialize()
@@ -50,10 +47,10 @@ class JobsArchived  : NavigationBar() {
                 createNavigationBar(NavigationType.JOBS)
                 onClick()
                 clearLists()
-                loadJobs()
+                loadArchivedJobs()
 
         }
-
+        //Initialize Variables
         private fun initialize(){
                 setContentView(R.layout.activity_jobs_archived)
                 completedButton = findViewById(R.id.button)
@@ -68,20 +65,21 @@ class JobsArchived  : NavigationBar() {
 
         }
 
+        //When Returning to Non-Archived Jobs Page
         private fun onClick() {
-                completedButton!!.setOnClickListener { startActivity(Intent(this@JobsArchived, Jobs::class.java)) }
+                completedButton.setOnClickListener { startActivity(Intent(this@JobsArchived, Jobs::class.java)) }
         }
 
-        private fun loadJobs(){
-                loadArchivedJobs()
-        }
 
+
+        //Load Jobs from API
         private fun loadArchivedJobs(){
-                val Archived = "?status=1&status=3&status=4&ordering=-completion_time"
-                val url = "service-locations/$userLocationID/jobs/$Archived"
+                val archived = "?status=1&status=3&status=4&ordering=-completion_time"
+                val url = "service-locations/$userLocationID/jobs/$archived"
                 requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
                         null, responseFunc, errorFunc, true))
         }
+        //Clear Swimlanes
         private fun clearLists(){
                 archivedJobs.clear()
                 completedJobs.clear()
@@ -89,55 +87,42 @@ class JobsArchived  : NavigationBar() {
                 declinedJobs.clear()
         }
 
+        //Sort Job Swimlanes
         private fun sortJobsList(list: ArrayList<JSONObject>){
 
                 Collections.sort(list, JSONComparator())
 
-                Log.e("sort", "start");
-                for (obj in list) {
-                        Log.e("sort", obj.getString("status_time_value"));
-                }
         }
+
+        //Populate the Jobs Into Each Swimlane
         private fun populateLists(responseObj: JSONArray){
                 for (i in 0 until responseObj.length()) {
                         val job = responseObj.getJSONObject(i)
 
-                        if (job.getInt("status") == 3){
-                                archivedJobs.add(job)
-                                sizes("archived")
+                        when(job.getInt("status")){
+                                3 -> {
+                                        archivedJobs.add(job)
+                                        setSize("archived")}
+                                4 -> {
+                                        cancelledJobs.add(job)
+                                        setSize("cancelled") }
+                                1 -> {
+                                        declinedJobs.add(job)
+                                        setSize("declined") }
                         }
-                        else if(job.getInt("status") == 4){
-                                cancelledJobs.add(job)
-                                sizes("cancelled")
-                        }
-                        else if(job.getInt("status") == 1){
-                                declinedJobs.add(job)
-                                sizes("declined")
-                        }
-
                 }
-                //Put each job in a list. Append all lists together to sort
-//                for (job in completedJobs){
-//                        archivedJobs.add(job)
-//                }
-//                for (job in declinedJobs){
-//                        archivedJobs.add(job)
-//                }
-//                for (job in cancelledJobs){
-//                        archivedJobs.add(job)
-//                }
 
                 sortJobsList(declinedJobs)
                 sortJobsList(archivedJobs)
                 sortJobsList(cancelledJobs)
 
-                val customAdapter = JobsCustomerAdapter(this, archivedJobs)
+                val customAdapter = JobsCustomAdapter(this, archivedJobs)
                 if (archivedJobs.size != 0) archivedList.adapter = customAdapter
 
-                val customAdapter1 = JobsCustomerAdapter(this, cancelledJobs)
+                val customAdapter1 = JobsCustomAdapter(this, cancelledJobs)
                 if (cancelledJobs.size != 0) cancelledList.adapter = customAdapter1
 
-                val customAdapter2 = JobsCustomerAdapter(this, declinedJobs)
+                val customAdapter2 = JobsCustomAdapter(this, declinedJobs)
                 if (declinedJobs.size != 0) declinedList.adapter = customAdapter2
 
         }
@@ -151,51 +136,44 @@ class JobsArchived  : NavigationBar() {
         }
         @JvmField
         var errorFunc = Function<String, Void?> { string: String? ->
-
+                completedButton.text = getResources().getString(R.string.error_server);
                 null
         }
 
 
 
-        private fun sizes(str: String) {
-                var value = 0
-                if (str in statuses) {
-                        value = 200
-                } else {
-                        statuses.add(str)
-                        value = 260
-                }
-                set_size(str, value)
-        }
 
-        //Set the sizes
-        private fun set_size(str: String, value: Int){
+        //Set the sizes of swimlanes based on # of jobs per swimlane
+        private fun setSize(str: String){
+                var value = 240
+                when(str){
+                        "archived" -> {
+                                val params = archivedConstraint.layoutParams
+                                params.height += value
+                                archivedConstraint.layoutParams = params
+                                val size = archivedList.layoutParams
+                                size.height += value
+                                archivedList.layoutParams = size
+                        }
 
-                if (str == "archived"){
-                        val params = archivedConstraint!!.layoutParams
-                        params.height += value
-                        archivedConstraint!!.layoutParams = params
-                        val size = archivedList!!.layoutParams
-                        size.height += value
-                        archivedList!!.layoutParams = size
-                }
-                else if (str == "cancelled" ){
-                        val params = cancelledConstraint!!.layoutParams
-                        params.height += value
-                        cancelledConstraint!!.layoutParams = params
-                        val size = cancelledList!!.layoutParams
-                        size.height += value
-                        cancelledList!!.layoutParams = size
-                }
-                else{
-                        val params = declinedConstraint!!.layoutParams
-                        params.height += value
-                        declinedConstraint!!.layoutParams = params
-                        val size = declinedList!!.layoutParams
-                        size.height += value
-                        declinedList!!.layoutParams = size
-                }
+                        "cancelled" -> {
+                                val params = cancelledConstraint.layoutParams
+                                params.height += value
+                                cancelledConstraint.layoutParams = params
+                                val size = cancelledList.layoutParams
+                                size.height += value
+                                cancelledList.layoutParams = size
+                        }
 
+                        "declined" -> {
+                                val params = declinedConstraint.layoutParams
+                                params.height += value
+                                declinedConstraint.layoutParams = params
+                                val size = declinedList.layoutParams
+                                size.height += value
+                                declinedList.layoutParams = size
+                        }
+                }
         }
 
         //Shifting the layout in response to navBar position
@@ -237,8 +215,6 @@ class JobsArchived  : NavigationBar() {
 
                 boxParams10.width = p3
 
-
-
                 //calling the transitions
                 archivedTitle.layoutParams = boxParams1
                 cancelledTitle.layoutParams = boxParams2
@@ -247,7 +223,5 @@ class JobsArchived  : NavigationBar() {
                 cancelled.layoutParams = boxParams5
                 declined.layoutParams = boxParams6
                 sideMover.layoutParams = boxParams10
-
-
         }
 }

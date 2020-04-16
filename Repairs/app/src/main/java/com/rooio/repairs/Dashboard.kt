@@ -1,6 +1,7 @@
 package com.rooio.repairs
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -127,7 +128,7 @@ class Dashboard : NavigationBar() {
         hvacButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
             intent.putExtra("equipmentType", EquipmentType.HVAC.getIntRepr())
-            startActivity(intent);
+            startActivity(intent)
         }
         lightingButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
@@ -142,7 +143,7 @@ class Dashboard : NavigationBar() {
         applianceButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
             intent.putExtra("equipmentType", EquipmentType.GENERAL_APPLIANCE.getIntRepr())
-            startActivity(intent);
+            startActivity(intent)
         }
     }
 
@@ -150,15 +151,15 @@ class Dashboard : NavigationBar() {
     private fun jobNumberClicked(){
         inProgressButton.setOnClickListener{
             val intent = Intent(this@Dashboard, Jobs::class.java)
-            startActivity(intent);
+            startActivity(intent)
         }
         scheduledButton.setOnClickListener{
             val intent = Intent(this@Dashboard, Jobs::class.java)
-            startActivity(intent);
+            startActivity(intent)
         }
         pendingButton.setOnClickListener{
             val intent = Intent(this@Dashboard, Jobs::class.java)
-            startActivity(intent);
+            startActivity(intent)
         }
 
     }
@@ -216,12 +217,12 @@ class Dashboard : NavigationBar() {
                 if (0 == (timeConvert(resultSort[index].getString("status_time_value")))) {
                     if(index == (resultSort.size - 1) && (i == 0)){
 
-                        jobsLayout.setVisibility(View.INVISIBLE)
-                        clockImage.setVisibility(View.GONE)
-                        noJob.setVisibility(View.VISIBLE)
-                        noJob.text = "No Jobs to Display"
-                        repairImage.setVisibility(View.GONE)
-                        color.setVisibility(View.INVISIBLE)
+                        jobsLayout.visibility = (View.INVISIBLE)
+                        clockImage.visibility = (View.GONE)
+                        noJob.visibility = (View.VISIBLE)
+                        noJob.text = getResources().getString(R.string.noJobstoDisplay);
+                        repairImage.visibility = (View.GONE)
+                        color.visibility = (View.INVISIBLE)
 
                     }
                 }
@@ -232,17 +233,18 @@ class Dashboard : NavigationBar() {
             }
         }
         else{
-            jobsLayout.setVisibility(View.INVISIBLE)
-            clockImage.setVisibility(View.GONE)
-            noJob.setVisibility(View.VISIBLE)
-            noJob.text = "No Jobs to Display"
-            repairImage.setVisibility(View.GONE)
-            color.setVisibility(View.INVISIBLE)
+            jobsLayout.visibility = (View.INVISIBLE)
+            clockImage.visibility = (View.GONE)
+            noJob.visibility = (View.VISIBLE)
+            noJob.text = getResources().getString(R.string.noJobstoDisplay);
+            repairImage.visibility = (View.GONE)
+            color.visibility = (View.INVISIBLE)
 
         }
     }
 
     //convert to proper format "yyyy-MM-dd HH:mm:ss"
+    @SuppressLint("SimpleDateFormat")
     @Throws(ParseException::class)
     fun timeConvert(dateStr: String): Int {
         val eta = convertToNewFormat(dateStr)
@@ -258,6 +260,7 @@ class Dashboard : NavigationBar() {
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun now(): String {
         val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val c = Calendar.getInstance()
@@ -265,6 +268,7 @@ class Dashboard : NavigationBar() {
     }
 
     //Load the Notable Jobs with the JsonObject info
+    @SuppressLint("SimpleDateFormat")
     private fun loadNotable(index: Int, colorStatus: Int ){
         val locationObj = resultSort[index].getJSONObject("service_location")
         val internal_client = locationObj.getJSONObject("internal_client")
@@ -277,18 +281,14 @@ class Dashboard : NavigationBar() {
         //repair type
         when (category) {
             "4" ->
-                //                            repairType.setText("General Appliance");
-                //categories.add("General Appliance");
-                repairType.text = "General Appliance"
+                //categories.add("General Appliance")
+                repairType.text = getResources().getString(R.string.generalAppliance)
             "1" ->
-                //                            repairType.setText("HVAC");
-                repairType.text = "HVAC"
+                repairType.text = getResources().getString(R.string.hvac)
             "2" ->
-                //                            repairType.setText("Lighting and Electrical");
-                repairType.text = "Lighting and Electrical"
+                repairType.text = getResources().getString(R.string.lightingAndElectrical)
             "3" ->
-                //                            repairType.setText("Plumbing");
-                repairType.text = "Plumbing"
+                repairType.text = getResources().getString(R.string.plumbing)
         }
 
         //set the date/time
@@ -315,7 +315,7 @@ class Dashboard : NavigationBar() {
             val boxParams10 = sideMover.layoutParams
             boxParams10.width = 160
             sideMover.layoutParams = boxParams10
-            image.setVisibility(View.GONE)
+            image.visibility = (View.GONE)
             image_on = "off"
         }
         else{
@@ -327,21 +327,20 @@ class Dashboard : NavigationBar() {
 
 
         //Navigate to JobDetails after a click of the job
-        notableJob.setOnClickListener(
-                { v ->
-                    try {
-                        val jobId = resultSort[index].getString("id")
+        notableJob.setOnClickListener { v ->
+            try {
+                val jobId = resultSort[index].getString("id")
 
-                        val intent = Intent(this, JobDetails::class.java)
-                        intent.putExtra("id", jobId.toString())
+                val intent = Intent(this, JobDetails::class.java)
+                intent.putExtra("id", jobId.toString())
 
-                        this.startActivity(intent)
+                this.startActivity(intent)
 
-                    } catch (e: JSONException) {
-                        Log.d("exception", e.toString())
-                    }
+            } catch (e: JSONException) {
+                Log.d("exception", e.toString())
+            }
 
-                })
+        }
 
         //Change the color of the job
         when (colorStatus) {
@@ -428,6 +427,7 @@ class Dashboard : NavigationBar() {
         newJobRequest.layoutParams = boxParams2
     }
     //Convert to new format
+    @SuppressLint("SimpleDateFormat")
     @Throws(ParseException::class)
     fun convertToNewFormat(dateStr: String): String {
         val utc = TimeZone.getTimeZone("UTC")
@@ -442,7 +442,7 @@ class Dashboard : NavigationBar() {
 
         Collections.sort(list, JSONComparator())
 
-        return list;
+        return list
     }
 
 
