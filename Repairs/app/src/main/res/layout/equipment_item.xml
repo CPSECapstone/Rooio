@@ -20,7 +20,7 @@
             android:layout_marginTop="25dp"
             android:fontFamily="@font/nunito"
             android:textAlignment="center"
-            android:textColor="@color/colorGray"
+            android:textColor="@color/lightGray"
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
