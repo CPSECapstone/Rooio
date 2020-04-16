@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ListView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -71,7 +70,7 @@ class Jobs : NavigationBar() {
     }
 
 
-
+    //Load Jobs in from API
     private fun loadJobs(){
         loadPendingJobs()
         loadScheduledJobs()
@@ -100,6 +99,7 @@ class Jobs : NavigationBar() {
     }
 
 
+    //Clear the swimlanes
     private fun clearLists(){
         pendingJobs.clear()
         scheduledJobs.clear()
@@ -109,27 +109,26 @@ class Jobs : NavigationBar() {
 
     }
 
+    //Push jobs into designated swimlanes
     private fun populateLists(responseObj: JSONArray){
         for (i in 0 until responseObj.length()) {
             val job = responseObj.getJSONObject(i)
 
-            if (job.getInt("status") == 0){
-                pendingJobs.add(job)
-                sizes("pending")
-            }
-            else if(job.getInt("status") == 2){
-                scheduledJobs.add(job)
-                sizes("scheduled")
-            }
-            else if(job.getInt("status") == 5){
-                startedJobs.add(job)
-                sizes("started")
-            }
-            else if(job.getInt("status") == 6){
-                pausedJobs.add(job)
-                sizes("paused")
-            }
 
+            when (job.getInt("status")){
+                0 ->{
+                    pendingJobs.add(job)
+                    set_size("pending")}
+                2 ->
+                {scheduledJobs.add(job)
+                    set_size("scheduled")}
+                5 ->
+                {startedJobs.add(job)
+                    set_size("started")}
+                6 -> {
+                    pausedJobs.add(job)
+                    set_size("paused") }
+            }
 
         }
 
@@ -151,6 +150,7 @@ class Jobs : NavigationBar() {
 
     }
 
+    //API response functions
     @JvmField
     var responseFunc = Function<Any, Void?> { jsonObj: Any ->
         val responseObj = jsonObj as JSONArray
@@ -164,44 +164,47 @@ class Jobs : NavigationBar() {
         null
     }
 
-    //Set the sizes for each individual block
-    private fun sizes(str: String) {
-        var value = 0
-        if (str in statuses) {
-            value = 200
-        } else {
-            statuses.add(str)
-            value = 260
-        }
-        set_size(str, value)
-    }
 
     //Set the sizes
-    private fun set_size(str: String, value: Int){
+    private fun set_size(str: String){
+        var value = 240
+        when(str){
+            "pending" -> {
+                val params = pendingConstraint!!.layoutParams
+                params.height += value
+                pendingConstraint!!.layoutParams = params
+                val size = pendingList.layoutParams
+                size.height += value
+                pendingList.layoutParams = size
+            }
 
-        if (str == "pending"){
-            val params = pendingConstraint!!.layoutParams
-            params.height += value
-            pendingConstraint!!.layoutParams = params
-            val size = pendingList!!.layoutParams
-            size.height += value
-            pendingList!!.layoutParams = size
-        }
-        else if (str == "scheduled" ){
-            val params = scheduledConstraint!!.layoutParams
-            params.height += value
-            scheduledConstraint!!.layoutParams = params
-            val size = scheduledList!!.layoutParams
-            size.height += value
-            scheduledList!!.layoutParams = size
-        }
-        else{
-            val params = inProgressConstraint!!.layoutParams
-            params.height += value
-            inProgressConstraint!!.layoutParams = params
-            val size = inProgressList!!.layoutParams
-            size.height += value
-            inProgressList!!.layoutParams = size
+            "scheduled" -> {
+                val params = scheduledConstraint!!.layoutParams
+                params.height += value
+                scheduledConstraint!!.layoutParams = params
+                val size = scheduledList.layoutParams
+                size.height += value
+                scheduledList.layoutParams = size
+            }
+
+            "started" -> {
+                val params = inProgressConstraint!!.layoutParams
+                params.height += value
+                inProgressConstraint!!.layoutParams = params
+                val size = inProgressList.layoutParams
+                size.height += value
+                inProgressList.layoutParams = size
+            }
+
+            "paused" -> {
+                val params = inProgressConstraint!!.layoutParams
+                params.height += value
+                inProgressConstraint!!.layoutParams = params
+                val size = inProgressList.layoutParams
+                size.height += value
+                inProgressList.layoutParams = size
+            }
+
         }
 
     }
