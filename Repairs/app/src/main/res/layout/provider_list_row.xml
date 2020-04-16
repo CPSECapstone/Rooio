@@ -36,8 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="59dp"
         android:fontFamily="@font/nunito_sans"
+        android:textColor="@color/darkGray"
         android:gravity="center|start"
-        android:textColor="#6D7377"
         android:textSize="24sp" />
 
 </LinearLayout>

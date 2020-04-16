@@ -263,7 +263,7 @@ class Equipment : NavigationBar() {
             editEquipmentConstraint.visibility = View.GONE
             messageText.visibility = View.VISIBLE
             messageText.text = resources.getText(R.string.select_one_of_the_equipment_items_on_the_left_to_view_details_and_analytics)
-            addEquipmentButton.setTextColor(ContextCompat.getColor(this,R.color.GrayText))
+            addEquipmentButton.setTextColor(ContextCompat.getColor(this,R.color.darkGray))
             addEquipmentButton.setBackgroundResource(R.drawable.gray_button_border)
         }
     }

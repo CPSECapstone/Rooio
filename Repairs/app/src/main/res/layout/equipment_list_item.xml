@@ -9,14 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="62dp"
         android:layout_gravity="center_vertical"
+        android:layout_margin="0dp"
         android:fontFamily="@font/nunito_sans"
         android:gravity="center"
         android:textAlignment="center"
-        android:textColor="#BEC3C7"
+        android:textColor="@color/lightGray"
         android:textSize="12sp"
         android:textStyle="italic"
-        android:visibility="visible"
-        android:layout_margin="0dp"/>
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/equipmentItem"
@@ -27,10 +27,10 @@
         android:background="@drawable/dark_gray_button_border"
         android:fontFamily="@font/nunito_sans"
         android:padding="20sp"
+        android:soundEffectsEnabled="false"
         android:textAlignment="textStart"
         android:textAllCaps="false"
-        android:textColor="#747479"
-        android:soundEffectsEnabled="false"
+        android:textColor="@color/darkGray"
         android:textSize="24sp" />
 
 </LinearLayout>

@@ -180,13 +180,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:fontFamily="@font/nunito"
+                android:soundEffectsEnabled="false"
                 android:text="Dashboard"
+                android:textColor="@color/darkGray"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.13" />
 
             <TextView
@@ -194,14 +196,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:fontFamily="@font/nunito"
+                android:soundEffectsEnabled="false"
                 android:text="Jobs"
+                android:textColor="@color/darkGray"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.36"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.19" />
 
             <TextView
@@ -209,28 +213,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:fontFamily="@font/nunito"
+                android:soundEffectsEnabled="false"
                 android:text="Equipment"
+                android:textColor="@color/darkGray"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.255" />
 
             <TextView
                 android:id="@+id/settings_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito"
+                android:soundEffectsEnabled="false"
                 android:text="Settings"
+                android:textColor="@color/darkGray"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.52"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.87" />
 
 
@@ -238,6 +246,8 @@
                 android:id="@+id/collapse_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito"
+                android:soundEffectsEnabled="false"
                 android:text="Collapse"
                 android:textColor="@color/lightGray"
                 android:textSize="20sp"
@@ -246,7 +256,6 @@
                 app:layout_constraintHorizontal_bias="0.52"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.94" />
 
             <ImageView
