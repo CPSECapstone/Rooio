@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
     private val locations: ArrayList<String> = ArrayList()
     private val applicationContext = context
 
+
     init {
         this.equipmentData.addAll(equipmentDataList)
     }
@@ -32,7 +34,6 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
     }
 
     private fun configureElements(holder: ViewHolder, position: Int){
-        holder.equipmentView.setOnClickListener{null}
         holder.equipmentName.setTextColor(Color.parseColor("#333232"))
         holder.equipmentLayout.setBackgroundResource(R.drawable.gray_button_border)
         holder.grayDropDown.visibility = View.VISIBLE
@@ -40,15 +41,22 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
         if (position == 0) {
             holder.locationDivider.visibility = View.GONE
         }
-        if (equipmentDataList[position].name == "General HVAC (No Appliance)" ||
-            equipmentDataList[position].name == "General Lighting (No Appliance)" ||
-            equipmentDataList[position].name == "General Plumbing (No Appliance)")
-        {
+
+        if (equipmentDataList[position].name.contains("No Appliance")){
                 holder.equipmentName.text = equipmentDataList[position].name
                 holder.grayDropDown.visibility = View.GONE
                 holder.locationName.visibility = View.GONE
                 val params = holder.equipmentLocationLayout.layoutParams
                 params.height = 150
+
+            holder.equipmentView.setOnClickListener{
+                val id = "null"
+                val type = equipmentDataList[position].type
+                val intent = Intent(applicationContext, ChooseServiceProvider::class.java)
+                intent.putExtra("equipment", id)
+                intent.putExtra("type", type.getIntRepr())
+                applicationContext.startActivity(intent)
+            }
         }
         else {
             equipmentExpansion(holder, position)
@@ -87,8 +95,8 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
             var p = if (holder.visible) 500 else 90
             params.height = p
             if (holder.locationSpace) {
-                val params = holder.equipmentLocationLayout.layoutParams
-                val p = if (holder.visible) 500 else 90
+                params = holder.equipmentLocationLayout.layoutParams
+                p = if (holder.visible) 500 else 90
                 params.height = p
             } else {
                 params = holder.equipmentLocationLayout.layoutParams
@@ -211,6 +219,11 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
             }
         }
         notifyDataSetChanged()
+    }
+
+    //returns the size of the list after a search
+    fun checkList(): Int {
+        return equipmentDataList.size
     }
 }
 

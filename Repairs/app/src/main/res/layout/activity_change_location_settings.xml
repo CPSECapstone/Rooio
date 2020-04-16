@@ -68,6 +68,7 @@
                     android:fontFamily="@font/nunito_sans"
                     android:text="@string/add_another_service_location"
                     android:textColor="@color/darkGray"
+                    android:soundEffectsEnabled="false"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

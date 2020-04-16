@@ -25,10 +25,13 @@ class AddLocationLogin : RestApi(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_location_login)
 
+        // gets rid of sound when the user clicks on the spinner when editing the equipment type
+        onResume()
         centerTitleBar()
         initializeVariables()
         onAddLocation()
         onCancel()
+        onPause()
     }
 
     //Initializes UI variables

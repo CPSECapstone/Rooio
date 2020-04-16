@@ -9,35 +9,35 @@
 
     <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 
-<!--    <ScrollView-->
-<!--        android:id="@+id/scrollView2"-->
-<!--        style="@android:style/Widget.ScrollView"-->
-<!--        android:layout_width="1086dp"-->
-<!--        android:layout_height="1491dp"-->
-<!--        android:overScrollMode="never"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.166"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.797">-->
+    <!--    <ScrollView-->
+    <!--        android:id="@+id/scrollView2"-->
+    <!--        style="@android:style/Widget.ScrollView"-->
+    <!--        android:layout_width="1086dp"-->
+    <!--        android:layout_height="1491dp"-->
+    <!--        android:overScrollMode="never"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.166"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.797">-->
 
-<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content" />-->
-<!--    </ScrollView>-->
+    <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content" />-->
+    <!--    </ScrollView>-->
 
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:id="@+id/detailsLayout"-->
-<!--        android:layout_width="1911dp"-->
-<!--        android:layout_height="129dp"-->
-<!--        android:background="@drawable/no_elevation"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.0"-->
-<!--        tools:visibility="visible">-->
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:id="@+id/detailsLayout"-->
+    <!--        android:layout_width="1911dp"-->
+    <!--        android:layout_height="129dp"-->
+    <!--        android:background="@drawable/no_elevation"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.0"-->
+    <!--        tools:visibility="visible">-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout7"
@@ -65,13 +65,13 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:contentDescription="@string/cancel"
+            android:soundEffectsEnabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.203"
-            android:soundEffectsEnabled="false"
             app:srcCompat="@mipmap/chevron_left" />
 
         <TextView
@@ -95,7 +95,6 @@
             android:layout_height="56dp"
             android:background="@drawable/search_bar_border"
             android:fontFamily="@font/nunito"
-            android:hint="Search Equipment..."
             android:paddingLeft="15dp"
             android:textColor="@color/lightGray"
             android:textSize="24sp"
@@ -117,6 +116,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout7"
         app:layout_constraintVertical_bias="0.07999998">
+
 
         <TextView
             android:id="@+id/errorText"
@@ -145,6 +145,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 
+        <TextView
+            android:id="@+id/noEquipment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No equipment found."
+            android:textSize="24sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.07999998" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
@@ -156,7 +169,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,11 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.arch.core.util.Function
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,12 +21,10 @@ class ChooseEquipment : RestApi() {
     private lateinit var search: EditText
     private lateinit var recyclerChooseAdapter: ChooseEquipmentAdapter
     private lateinit var loadingPanel: ProgressBar
-    //private var equipmentNameList = ArrayList<String>()
+    private lateinit var noEquipmentMessage: TextView
     private lateinit var textView: TextView
     private var equipmentObjectList: ArrayList<EquipmentData> = ArrayList()
-    //private var equipmentList = ArrayList<String>()
     private val locations = ArrayList<String>()
-    //private var savedEquipmentList = ArrayList<String>()
     private lateinit var backButton: ImageView
 
 
@@ -41,23 +37,16 @@ class ChooseEquipment : RestApi() {
         onBackClick()
         loadEquipmentElements()
         setFilter()
-        //makes it so that the divider between items is invisible inside the recyclerview
-        //list.addItemDecoration(object : DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL) {
-            //override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-            //}
-        //})
-
     }
 
     //Initializes variables that are used in loadElements()
     private fun initializeVariables() {
-        //val equipmentType = intent.getIntExtra("equipmentType", 0)
         backButton = findViewById(R.id.back_button)
         list = findViewById(R.id.list)
         textView = findViewById(R.id.errorText)
         search = findViewById(R.id.search)
         loadingPanel = findViewById(R.id.loadingPanel)
-        //equipmentNameList = ArrayList()
+        noEquipmentMessage = findViewById(R.id.noEquipment)
     }
 
     //Click to go back to Dashboard
@@ -97,31 +86,42 @@ class ChooseEquipment : RestApi() {
         loadEquipmentType(equipmentType)
         for (i in 0 until response.length()) {
             val equipment = EquipmentData(response.getJSONObject(i))
-            equipmentObjectList.add(equipment)
-        }
-        equipmentObjectList.sortWith(compareBy {it.location})
-        //adding the different equipment types to the equipmentObjectList
-        var equipmentDataList: ArrayList<EquipmentData> = ArrayList()
-        for (i in 0 until equipmentObjectList.size)
-        {
-            //savedEquipmentList.add(equipmentObjectList[i].name)
-            if (equipmentObjectList[i].type.getIntRepr() == equipmentType) {
-                equipmentDataList.add(equipmentObjectList[i])
+            if (equipment.type.getIntRepr() == equipmentType){
+                equipmentObjectList.add(equipment)
             }
         }
+        equipmentObjectList.sortWith(compareBy {it.location})
+
 
         val layoutManager = LinearLayoutManager(this)
         list.layoutManager = layoutManager
-        recyclerChooseAdapter = ChooseEquipmentAdapter(this@ChooseEquipment, equipmentDataList)
+        recyclerChooseAdapter = ChooseEquipmentAdapter(this@ChooseEquipment, equipmentObjectList)
         list.adapter = recyclerChooseAdapter
+        if (recyclerChooseAdapter.checkList() == 0)
+        {
+            //make the no equipment message visible
+            noEquipmentMessage.visibility = View.VISIBLE
+        }
+        else {
+            noEquipmentMessage.visibility = View.INVISIBLE
+        }
+        setSearchBarText(equipmentType)
+    }
 
+    private fun setSearchBarText(equipmentType: Int) {
+        when (equipmentType) {
+            1 -> search.hint = getString(R.string.search_hvac)
+            2 -> search.hint = getString(R.string.search_lighting)
+            3 -> search.hint = getString(R.string.search_plumbing)
+            4 -> search.hint = getString(R.string.search_general_appliance)
+        }
     }
     //loads the first equipment based on the enum, aka the kind of job request the user clicked on
     private fun loadEquipmentType(equipmentType: Int){
         when (equipmentType) {
             1 -> equipmentObjectList.add(EquipmentData ("General HVAC (No Appliance)", EquipmentType.HVAC))
-            3 -> equipmentObjectList.add(EquipmentData("General Plumbing (No Appliance)", EquipmentType.PLUMBING))
             2 -> equipmentObjectList.add(EquipmentData("General Lighting (No Appliance)", EquipmentType.LIGHTING_AND_ELECTRICAL))
+            3 -> equipmentObjectList.add(EquipmentData("General Plumbing (No Appliance)", EquipmentType.PLUMBING))
             else -> return
         }
     }
@@ -130,7 +130,16 @@ class ChooseEquipment : RestApi() {
         search.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                recyclerChooseAdapter.filter(charSequence.toString())
+                recyclerChooseAdapter.filter(charSequence.toString()
+                )
+                if (recyclerChooseAdapter.checkList() == 0)
+                {
+                    //make the no equipment message visible
+                    noEquipmentMessage.visibility = View.VISIBLE
+                }
+                else {
+                    noEquipmentMessage.visibility = View.INVISIBLE
+                }
             }
             override fun afterTextChanged(editable: Editable) {}
         })

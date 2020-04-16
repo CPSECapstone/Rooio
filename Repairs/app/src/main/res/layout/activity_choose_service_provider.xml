@@ -35,6 +35,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:soundEffectsEnabled="false"
             app:layout_constraintVertical_bias="0.23000002" />
 
         <Button
@@ -53,6 +54,7 @@
             app:layout_constraintHorizontal_bias="0.422"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:soundEffectsEnabled="false"
             app:layout_constraintVertical_bias="1.0" />
 
         <Button
@@ -71,6 +73,7 @@
             app:layout_constraintHorizontal_bias=".578"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:soundEffectsEnabled="false"
             app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -97,6 +100,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.50"
+            android:soundEffectsEnabled="false"
             app:srcCompat="@mipmap/chevron_left" />
 
         <TextView
@@ -150,6 +154,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:soundEffectsEnabled="false"
             app:layout_constraintVertical_bias="1.0" />
 
         <TextView
@@ -180,6 +185,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.13" />
+
+        <TextView
+            android:id="@+id/noProvider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No provider found."
+            android:textSize="24sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.07999998" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

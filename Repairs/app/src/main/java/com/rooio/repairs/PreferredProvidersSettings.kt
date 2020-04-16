@@ -5,6 +5,7 @@ import android.content.Intent
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.*
 import androidx.arch.core.util.Function
@@ -29,7 +30,9 @@ class PreferredProvidersSettings  : NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preferred_providers_settings)
 
+        // gets rid of sound when the user clicks on the spinner when editing the equipment type
         onResume()
+
         initializeVariables()
         setNavigationBar()
         setActionBar()
@@ -93,7 +96,7 @@ class PreferredProvidersSettings  : NavigationBar() {
 
     //Individually loads each provider into the custom list view and extends the layout based on number
     @Throws(JSONException::class)
-    fun loadElements(response: JSONArray) {
+    private fun loadElements(response: JSONArray) {
         preferredProviders.clear()
         for (i in 0 until response.length()) {
             val restaurant = response.getJSONObject(i)
@@ -166,26 +169,5 @@ class PreferredProvidersSettings  : NavigationBar() {
     }
 
 // gets rid of sound when the user clicks on the spinner
-    public override fun onResume() {
-        super.onResume()
-        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
-        } else {
-            am.setStreamMute(AudioManager.STREAM_MUSIC, true);
-        }
-
-    }
-
-    public override fun onPause() {
-        super.onPause()
-        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0);
-        }
-        else {
-            am.setStreamMute(AudioManager.STREAM_SYSTEM, false)
-        }
-    }
 
 }

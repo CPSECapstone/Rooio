@@ -12,7 +12,7 @@
         android:id="@+id/jobDetailScrollView"
         style="@android:style/Widget.ScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,12 +30,13 @@
                 android:id="@+id/viewEquipment"
                 android:layout_width="400dp"
                 android:layout_height="36dp"
+                android:layout_marginTop="175dp"
                 android:fontFamily="@font/nunito_sans"
                 android:text="@string/click_view_equipment"
                 android:textAlignment="center"
                 android:textColor="@color/darkGray"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
@@ -192,6 +193,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
+                    android:soundEffectsEnabled="false"
                     app:srcCompat="@drawable/details" />
 
                 <TextView
@@ -220,6 +222,7 @@
                     app:layout_constraintHorizontal_bias="0.12"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintVertical_bias="0.63" />
 
                 <TextView
@@ -234,6 +237,7 @@
                     app:layout_constraintHorizontal_bias="0.12"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintVertical_bias="0.89" />
 
                 <TextView
@@ -248,6 +252,7 @@
                     app:layout_constraintHorizontal_bias="0.895"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintVertical_bias="0.37" />
 
                 <TextView
@@ -262,6 +267,7 @@
                     app:layout_constraintHorizontal_bias="0.895"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintVertical_bias=".63" />
 
                 <TextView
@@ -276,6 +282,7 @@
                     app:layout_constraintHorizontal_bias="0.895"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintVertical_bias="0.89" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -308,6 +315,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintVertical_bias="0.93" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -336,6 +344,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:soundEffectsEnabled="false"
                         app:layout_constraintVertical_bias="0.199" />
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -354,6 +363,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:soundEffectsEnabled="false"
                         app:layout_constraintVertical_bias="0.86" />
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -372,6 +382,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:soundEffectsEnabled="false"
                         app:layout_constraintVertical_bias="0.697" />
 
                     <TextView
@@ -581,6 +592,242 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/equipmentLayout"
+                android:layout_width="620dp"
+                android:layout_height="395dp"
+                android:layout_marginTop="1370dp"
+                android:background="@drawable/green_button_border"
+                android:translationY="0dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/manufacturerText"
+                    android:layout_width="150dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/manufacturer"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.27" />
+
+                <TextView
+                    android:id="@+id/modelText"
+                    android:layout_width="150dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/model_number"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.75"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.27" />
+
+                <TextView
+                    android:id="@+id/serialText"
+                    android:layout_width="150dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/serial_number"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.75"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias=".52" />
+
+                <TextView
+                    android:id="@+id/lastServiceDateText"
+                    android:layout_width="175dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/last_service_date"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.805"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.77" />
+
+                <TextView
+                    android:id="@+id/locationText"
+                    android:layout_width="150dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/location"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias=".52" />
+
+                <TextView
+                    android:id="@+id/lastServiceByText"
+                    android:layout_width="150dp"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/last_service_by"
+                    android:textAllCaps="true"
+                    android:textColor="#BEC3C7"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.77" />
+
+                <ImageView
+                    android:id="@+id/equipmentDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:contentDescription="@string/divider"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.2"
+                    app:srcCompat="@color/colorGray" />
+
+                <TextView
+                    android:id="@+id/equipmentName"
+                    android:layout_width="400dp"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="25dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="27sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.13"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <ImageView
+                    android:id="@+id/dropDown"
+                    android:layout_width="18dp"
+                    android:layout_height="9dp"
+                    android:layout_marginTop="40dp"
+                    android:contentDescription="@string/drop_down_arrow"
+                    android:scaleX="1.25"
+                    android:scaleY="1.25"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.95"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/details" />
+
+                <TextView
+                    android:id="@+id/manufacturerInfo"
+                    android:layout_width="210dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.12"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.37" />
+
+                <TextView
+                    android:id="@+id/locationInfo"
+                    android:layout_width="210dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.12"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.63" />
+
+                <TextView
+                    android:id="@+id/lastServiceByInfo"
+                    android:layout_width="210dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.12"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.89" />
+
+                <TextView
+                    android:id="@+id/modelInfo"
+                    android:layout_width="210dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.895"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.37" />
+
+                <TextView
+                    android:id="@+id/serialInfo"
+                    android:layout_width="210dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.895"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias=".63" />
+
+                <TextView
+                    android:id="@+id/lastServiceDateInfo"
+                    android:layout_width="210dp"
+                    android:layout_height="36dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text=""
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.895"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.89" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -618,6 +865,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.50"
+            android:soundEffectsEnabled="false"
             app:srcCompat="@mipmap/chevron_left" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

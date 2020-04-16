@@ -66,7 +66,7 @@
             android:layout_height="1dp"
             android:background="#FAFFFFFF"
             android:divider="@drawable/blank_border"
-            android:dividerHeight="20dp"
+            android:dividerHeight="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +89,7 @@
             android:layout_height="1dp"
             android:background="#FAFFFFFF"
             android:divider="@drawable/blank_border"
-            android:dividerHeight="20dp"
+            android:dividerHeight="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -208,7 +208,7 @@
             android:layout_width="356dp"
             android:layout_height="1dp"
             android:divider="@drawable/blank_border"
-            android:dividerHeight="20dp"
+            android:dividerHeight="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -259,8 +259,9 @@
         android:textColor="#CA2500"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/scheduledTitleConstraint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/jobsScroll"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="1191dp" />
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

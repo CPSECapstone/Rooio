@@ -66,6 +66,9 @@ class Jobs : NavigationBar() {
         completedButton.setOnClickListener { startActivity(Intent(this@Jobs, JobsArchived::class.java)) }
     }
 
+
+    //Load Jobs in from API
+
     private fun loadJobs(){
         loadPendingJobs()
         loadScheduledJobs()
@@ -90,26 +93,42 @@ class Jobs : NavigationBar() {
                 null, responseFunc, errorFunc, true))
     }
 
+
+    //Clear the swimlanes
+    private fun clearLists(){
+        pendingJobs.clear()
+        scheduledJobs.clear()
+        inProgressJobs.clear()
+        startedJobs.clear()
+        pausedJobs.clear()
+
+    }
+
+    //Push jobs into designated swimlanes
+
     private fun populateLists(responseObj: JSONArray){
+
+        clearLists()
         for (i in 0 until responseObj.length()) {
             val job = responseObj.getJSONObject(i)
 
-            if (job.getInt("status") == StatusType.Pending.getInt()){
-                pendingJobs.add(job)
-                statusesSizing("pending")
+
+
+            when (job.getInt("status")){
+                StatusType.Pending.getInt() ->{
+                    pendingJobs.add(job)
+                    set_size("pending")}
+                StatusType.Accepted.getInt() ->
+                    {scheduledJobs.add(job)
+                    set_size("scheduled")}
+                StatusType.Started.getInt() ->
+                    {startedJobs.add(job)
+                    set_size("started")}
+                StatusType.Paused.getInt() -> {
+                    pausedJobs.add(job)
+                    set_size("paused") }
             }
-            else if(job.getInt("status") == StatusType.Accepted.getInt()){
-                scheduledJobs.add(job)
-                statusesSizing("scheduled")
-            }
-            else if(job.getInt("status") == StatusType.Started.getInt()){
-                startedJobs.add(job)
-                statusesSizing("started")
-            }
-            else if(job.getInt("status") == StatusType.Paused.getInt()){
-                pausedJobs.add(job)
-                statusesSizing("paused")
-            }
+
         }
 
         for(i in 0 until startedJobs.size){
@@ -120,16 +139,21 @@ class Jobs : NavigationBar() {
             inProgressJobs.add(pausedJobs[i])
         }
 
-        val pendingJobsCustomerAdapter = JobsCustomerAdapter(this, pendingJobs)
-        if (pendingJobs.size != 0) pendingList.adapter = pendingJobsCustomerAdapter
 
-        val scheduledJobsCustomerAdapter = JobsCustomerAdapter(this, scheduledJobs)
-        if (scheduledJobs.size != 0) scheduledList.adapter = scheduledJobsCustomerAdapter
+        val customAdapter = JobsCustomAdapter(this, pendingJobs)
+        if (pendingJobs.size != 0) pendingList.adapter = customAdapter
 
-        val inProvidersCustomAdapter = JobsCustomerAdapter(this, inProgressJobs)
+        val customAdapter1 = JobsCustomAdapter(this, scheduledJobs)
+        if (scheduledJobs.size != 0) scheduledList.adapter = customAdapter1
+
+        val customAdapter2 = JobsCustomAdapter(this, inProgressJobs)
+        if (inProgressJobs.size != 0) inProgressList.adapter = customAdapter2
+
+        val inProvidersCustomAdapter = JobsCustomAdapter(this, inProgressJobs)
         if (inProgressJobs.size != 0) inProgressList.adapter = inProvidersCustomAdapter
     }
 
+    //API response functions
 
     @JvmField
     var responseFunc = Function<Any, Void?> { jsonObj: Any ->
@@ -145,29 +169,46 @@ class Jobs : NavigationBar() {
     }
 
 
-    //Set the statusesSizing for each individual block
-    private fun statusesSizing(str: String) {
-        var value: Int
-        if (str in statuses) {
-            value = 200
-        } else {
-            statuses.add(str)
-            value = 260
-        }
-        setStatusesSizing(str, value)
-    }
+    //Set the sizes
+    private fun set_size(str: String){
+        var value = 240
+        when(str){
+            "pending" -> {
+                val params = pendingConstraint!!.layoutParams
+                params.height += value
+                pendingConstraint!!.layoutParams = params
+                val size = pendingList.layoutParams
+                size.height += value
+                pendingList.layoutParams = size
+            }
 
-    //Set the statusesSizing
-    private fun setStatusesSizing(str: String, value: Int){
+            "scheduled" -> {
+                val params = scheduledConstraint!!.layoutParams
+                params.height += value
+                scheduledConstraint!!.layoutParams = params
+                val size = scheduledList.layoutParams
+                size.height += value
+                scheduledList.layoutParams = size
+            }
 
-        if (str == "pending"){
-            setLayoutParams(value, pendingConstraint, pendingList)
-        }
-        else if (str == "scheduled" ){
-            setLayoutParams(value, scheduledConstraint, scheduledList)
-        }
-        else{
-            setLayoutParams(value, inProgressConstraint, inProgressList)
+            "started" -> {
+                val params = inProgressConstraint!!.layoutParams
+                params.height += value
+                inProgressConstraint!!.layoutParams = params
+                val size = inProgressList.layoutParams
+                size.height += value
+                inProgressList.layoutParams = size
+            }
+
+            "paused" -> {
+                val params = inProgressConstraint!!.layoutParams
+                params.height += value
+                inProgressConstraint!!.layoutParams = params
+                val size = inProgressList.layoutParams
+                size.height += value
+                inProgressList.layoutParams = size
+            }
+
         }
 
     }
