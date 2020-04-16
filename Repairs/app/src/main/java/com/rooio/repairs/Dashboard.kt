@@ -263,7 +263,6 @@ class Dashboard : NavigationBar() {
     @SuppressLint("SimpleDateFormat")
     private fun now(): String {
         val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val now = Date()
         val c = Calendar.getInstance()
         return df.format(c.time)
     }
