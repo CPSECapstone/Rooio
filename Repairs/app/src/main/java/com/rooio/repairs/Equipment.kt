@@ -153,7 +153,6 @@ class Equipment : NavigationBar() {
         val params = HashMap<Any?, Any?>()
         addButton.setOnClickListener {
 
-            addButton.visibility = View.GONE
             params["display_name"] = displayName.text.toString()
             params["serial_number"] = serialNumber.text.toString()
             params["manufacturer"] = manufacturer.text.toString()
@@ -192,6 +191,7 @@ class Equipment : NavigationBar() {
         val displayName = request.params?.get("display_name").toString()
 
         if(displayName.isNotEmpty()) {
+            addButton.visibility = View.GONE
             addLoadingPanel.visibility = View.VISIBLE
             requestJson(Request.Method.POST, JsonType.OBJECT, request)
         }
