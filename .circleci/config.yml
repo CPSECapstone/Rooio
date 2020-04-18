@@ -18,14 +18,14 @@ jobs:
           command: ./gradlew androidDependencies
       - save_cache:
           paths:
-            - ~/.gradle
+            - ~/Rooio/Repairs/.gradle
           key: jars-{{ checksum "Repairs/build.gradle" }}-{{ checksum  "Repairs/app/build.gradle" }}
       - run:
           name: Run Tests
           command: ./gradlew lint test
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/ 
-          path: app/build/reports
+          path: Repairs/app/build/reports
           destination: reports
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-          path: app/build/test-results
+          path: Repairs/app/build/test-results
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
