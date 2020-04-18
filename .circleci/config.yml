@@ -19,7 +19,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "Repairs/build.gradle" }}-{{ checksum  "Repairs/build.gradle" }}
+          key: jars-{{ checksum "Repairs/build.gradle" }}-{{ checksum  "Repairs/app/build.gradle" }}
       - run:
           name: Run Tests
           command: ./gradlew lint test
