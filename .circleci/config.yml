@@ -19,10 +19,10 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+          key: jars-{{ checksum "Repairs/build.gradle" }}-{{ checksum  "Repairs/build.gradle" }}
       - run:
           name: Run Tests
-          command: ./Repairs/gradlew lint test
+          command: ./gradlew lint test
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/ 
           path: app/build/reports
           destination: reports
