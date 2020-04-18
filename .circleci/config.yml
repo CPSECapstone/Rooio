@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/Rooio
+    working_directory: ~/Rooio/Repairs/app
     docker:
       - image: circleci/android:api-25-alpha
     environment:
