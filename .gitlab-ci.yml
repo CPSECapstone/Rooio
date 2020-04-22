@@ -38,9 +38,11 @@ assembleDebug:
   artifacts:
     paths:
     - Repairs/app/build/outputs/
-    - Repairs/app/src/
+    - Repairs/app/build/intermediates
+    - Repairs/app/build/kotlin
+    
 
 debugTests:
   stage: test
   script:
-    - ./gradlew -Pci --console=plain :app:testDebug --stacktrace
+    - ./gradlew -Pci --console=plain :app:testDebug --debug
