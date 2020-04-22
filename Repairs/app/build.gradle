@@ -71,6 +71,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    annotationProcessor "com.google.auto.service:auto-service:1.0-rc4"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //Clover dependency
     implementation 'com.clover.sdk:clover-android-sdk:latest.release'
