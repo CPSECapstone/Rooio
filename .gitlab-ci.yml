@@ -38,7 +38,7 @@ assembleDebug:
   artifacts:
     paths:
     - app/build/outputs/
-    - .android/
+    - android-sdk-linux/
 
 debugTests:
   stage: test
