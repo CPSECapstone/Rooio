@@ -15,6 +15,18 @@ import org.robolectric.Shadows.shadowOf
 import java.util.*
 
 class TestTest {
+
+
+    private var activity: Landing? = null
+
+    @Before
+    fun setUp() {
+        activity = Robolectric.buildActivity(Landing::class.java)
+                .create()
+                .resume()
+                .get()
+    }
+
     @Test
     fun hey() {
         return
