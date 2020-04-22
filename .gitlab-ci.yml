@@ -33,7 +33,7 @@ lintDebug:
 assembleDebug:
   stage: build
   script:
-    - Repairs/gradlew assembleDebug
+    - ./gradlew assembleDebug
   artifacts:
     paths:
     - Repairs/app/build/outputs/
