@@ -15,7 +15,6 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
 import java.util.*
 
-@RunWith(RobolectricTestRunner::class)
 class TestTest {
 
 
