@@ -22,10 +22,6 @@ class TestTest {
 
     @Before
     fun setUp() {
-        activity = Robolectric.buildActivity(Landing::class.java)
-                .create()
-                .resume()
-                .get()
     }
 
     @Test
