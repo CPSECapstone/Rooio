@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import CustomMarker
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -13,7 +14,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.transition.TransitionManager
 import com.android.volley.Request
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.activity_equipment.*
 import org.json.JSONArray
 import org.json.JSONException
 
@@ -76,6 +82,7 @@ class Equipment : NavigationBar() {
         onSaveClick()
         onCancelClick()
         loadEquipmentElements()
+        createGraph()
         onPause()
     }
 
@@ -129,6 +136,48 @@ class Equipment : NavigationBar() {
         editLoadingPanel = findViewById(R.id.editLoadingPanel)
     }
 
+    //Graph
+    private fun createGraph() {
+        val entries = ArrayList<Entry>()
+
+        entries.add(Entry(1f, 10f))
+        entries.add(Entry(2f, 2f))
+        entries.add(Entry(3f, 7f))
+        entries.add(Entry(4f, 20f))
+        entries.add(Entry(5f, 16f))
+
+        //assign list to LineDataSet and label it
+        val vl = LineDataSet(entries, "My Type")
+
+        vl.setDrawValues(false)
+        vl.setDrawFilled(true)
+        vl.lineWidth = 3f
+        vl.fillColor = R.color.colorGray
+        vl.fillAlpha = R.color.Red
+
+        lineChart.xAxis.labelRotationAngle = 0f
+
+        lineChart.data = LineData(vl)
+
+//Part7
+        lineChart.axisRight.isEnabled = false
+
+//Part8
+        lineChart.setTouchEnabled(true)
+        lineChart.setPinchZoom(true)
+
+//Part9
+        lineChart.description.text = "Days"
+        lineChart.setNoDataText("No forex yet!")
+
+//Part10
+        lineChart.animateX(1800, Easing.EaseInExpo)
+
+//Part11
+
+
+
+    }
 
     // show add equipment constraint and reset the UI for all other elements
     private fun onAddEquipmentClick() {
