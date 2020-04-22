@@ -15,17 +15,12 @@ steps:
     workingDirectory: 'Repairs'
     gradleWrapperFile: 'Repairs/gradlew'
     gradleOptions: '-Xmx3072m'
-    publishJUnitResults: false
-    testResultsFiles: '**/TEST-*.xml'
-    tasks: 'assembleDebug'
-- task: Gradle@2
-  inputs:
-    workingDirectory: 'Repairs'
-    gradleWrapperFile: 'Repairs/gradlew'
-    gradleOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.8'
+    jdkArchitectureOption: 'x64'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'jacocoTestReport'
+    tasks: 'assembleDebug jacocoTestReport'
 - task: PublishCodeCoverageResults@1
   inputs:
     summaryFileLocation: '**/jacocoTestReport.xml'
