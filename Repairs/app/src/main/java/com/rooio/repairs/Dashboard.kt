@@ -222,12 +222,8 @@ class Dashboard : NavigationBar() {
                     if(index == (resultSort.size - 1) && (i == 0)){
 
                         jobsLayout.visibility = (View.INVISIBLE)
-                        clockImage.visibility = (View.GONE)
                         noJob.visibility = (View.VISIBLE)
-                        noJob.text = getResources().getString(R.string.no_jobs);
-                        repairImage.visibility = (View.GONE)
-                        color.visibility = (View.INVISIBLE)
-
+                        noJob.text = getResources().getString(R.string.no_jobs)
                     }
                 }
                 else{
