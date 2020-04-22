@@ -45,4 +45,4 @@ debugTests:
     - ./gradlew -Pci --console=plain :app:testDebug
   artifacts:
     paths:
-    - app/build/reports/
+    - Repairs/app/build/reports/
