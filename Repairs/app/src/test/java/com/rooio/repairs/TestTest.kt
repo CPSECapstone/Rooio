@@ -14,6 +14,7 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import java.util.*
 
+@RunWith(AndroidJUnit4::class)
 class TestTest {
 
 
