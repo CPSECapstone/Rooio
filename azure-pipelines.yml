@@ -25,14 +25,6 @@ steps:
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'testDebugUnitTest'
-- task: Gradle@2
-  inputs:
-    workingDirectory: 'Repairs'
-    gradleWrapperFile: 'Repairs/gradlew'
-    gradleOptions: '-Xmx3072m'
-    publishJUnitResults: false
-    testResultsFiles: '**/TEST-*.xml'
     tasks: 'jacocoTestReport'
 - task: PublishCodeCoverageResults@1
   inputs:
