@@ -1,7 +1,4 @@
 image: openjdk:8-jdk
-
-default:
-  path: /Repairs
   
 variables:
   ANDROID_COMPILE_SDK: "28"
