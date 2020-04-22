@@ -18,7 +18,6 @@ import java.util.*
 class TestTest {
 
 
-    private var activity: Landing? = null
 
     @Before
     fun setUp() {
