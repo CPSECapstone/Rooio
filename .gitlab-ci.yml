@@ -44,4 +44,6 @@ debugTests:
   stage: test
   script:
     - ./gradlew -Pci --console=plain :app:testDebug
-
+  artifacts:
+    paths:
+    - app/build/reports/
