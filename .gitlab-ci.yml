@@ -37,8 +37,8 @@ assembleDebug:
     - ./gradlew assembleDebug
   artifacts:
     paths:
-    - app/build/outputs/
-    - android-sdk-linux/
+    - Repairs/app/build/outputs/
+    - Repairs/android-sdk-linux/
 
 debugTests:
   stage: test
