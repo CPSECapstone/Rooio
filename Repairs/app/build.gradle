@@ -62,8 +62,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     classDirectories.from = debugTree
 
     executionData.from = fileTree(dir: "$buildDir", includes: [
-            "jacoco/testDebugUnitTest.exec",
-            "outputs/code_coverage/debugAndroidTest/connected/*coverage.ec"
+            "jacoco/testDebugUnitTest.exec"
     ])
 
 }
@@ -87,7 +86,7 @@ dependencies {
     testImplementation 'androidx.test.ext:junit:1.1.1'
     testImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     testImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
-    testImplementation 'org.robolectric:robolectric:4.3'
+    testImplementation 'org.robolectric:robolectric:4.3.1'
     testImplementation 'org.json:json:20140107'
     //testImplementation "org.apache.httpcomponents:httpclient:4.5.5"
     //AndroidX dependencies
