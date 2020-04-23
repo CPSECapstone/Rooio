@@ -79,6 +79,7 @@ class AddPreferredProvidersLogin : RestApi() {
         val added = checkAlreadyAdded(phoneInput, jsonArray)
         addPreferredServiceProvider(added, request)
         null
+
     }
 
     //Handles an error if the API is unable to retrieve phone numbers for the account
@@ -114,11 +115,19 @@ class AddPreferredProvidersLogin : RestApi() {
 
     //Starts the preferred providers page after a provider has been added
     @JvmField
-    val providerResponseFunc = Function<Any, Void?> {
+    val providerResponseFunc = Function<Any, Void?> {response: Any ->
+        val jsonArray = response as JSONArray
         loadingPanel.visibility = View.GONE
         addProvider.visibility = View.VISIBLE
-        startActivity(Intent(this@AddPreferredProvidersLogin, PreferredProvidersLogin::class.java))
-        null
+        if (jsonArray.length() == 0)
+        {
+            errorMessage.setText(R.string.error_provider)
+        }
+        else {
+            startActivity(Intent(this@AddPreferredProvidersLogin, PreferredProvidersLogin::class.java))
+        }
+            null
+
     }
 
     //Returns an error if the provider has already been added

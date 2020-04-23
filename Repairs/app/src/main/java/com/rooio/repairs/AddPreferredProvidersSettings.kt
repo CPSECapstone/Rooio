@@ -75,10 +75,18 @@ class AddPreferredProvidersSettings  : NavigationBar() {
 
     //Starts the preferred providers page after a provider has been added
     @JvmField
-    val providerResponseFunc = Function<Any, Void?> {
+    val providerResponseFunc = Function<Any, Void?> {response: Any ->
+        val jsonArray = response as JSONArray
         loadingPanel.visibility = View.GONE
         addProvider.visibility = View.VISIBLE
-        startActivity(Intent(this@AddPreferredProvidersSettings, PreferredProvidersSettings::class.java))
+        if (jsonArray.length() == 0)
+        {
+            errorMessage.setText(R.string.error_provider)
+        }
+        else
+        {
+            startActivity(Intent(this@AddPreferredProvidersSettings, PreferredProvidersSettings::class.java))
+        }
         null
     }
 
