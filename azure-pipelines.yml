@@ -20,9 +20,18 @@ steps:
     jdkArchitectureOption: 'x64'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'assembleDebug lintDebug jacocoTestReport'
+    tasks: 'assembleDebug lintDebug testDebugUnitTest'
+- task: Gradle@2
+  inputs:
+    workingDirectory: 'Repairs'
+    gradleWrapperFile: 'Repairs/gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: false
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: 'jacocoTestReport'
 - task: PublishCodeCoverageResults@1
   inputs:
+    codeCoverageTool: 'JaCoCo'
     summaryFileLocation: '**/jacocoTestReport.xml'
-    pathToSources: 'Repairs'
+    pathToSources: 'Repairs/app/src/main/java/'
     failIfCoverageEmpty: true
