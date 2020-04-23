@@ -20,7 +20,7 @@ steps:
     jdkArchitectureOption: 'x64'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'assembleDebug jacocoTestReport -i'
+    tasks: 'assembleDebug lintDebug jacocoTestReport'
 - task: PublishCodeCoverageResults@1
   inputs:
     summaryFileLocation: '**/jacocoTestReport.xml'
