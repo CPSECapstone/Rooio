@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.transition.TransitionManager
 import com.android.volley.Request
 import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -22,6 +23,12 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_equipment.*
 import org.json.JSONArray
 import org.json.JSONException
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.formatter.ValueFormatter
+
+
 
 
 class Equipment : NavigationBar() {
@@ -140,11 +147,18 @@ class Equipment : NavigationBar() {
     private fun createGraph() {
         val entries = ArrayList<Entry>()
 
+        entries.add(Entry(0f, 1f))
         entries.add(Entry(1f, 10f))
         entries.add(Entry(2f, 2f))
         entries.add(Entry(3f, 7f))
         entries.add(Entry(4f, 20f))
         entries.add(Entry(5f, 16f))
+        entries.add(Entry(6f, 20f))
+        entries.add(Entry(7f, 30f))
+        entries.add(Entry(8f, 10f))
+        entries.add(Entry(9f, 20f))
+        entries.add(Entry(10f, 17f))
+        entries.add(Entry(11f, 13f))
 
         //assign list to LineDataSet and label it
         val vl = LineDataSet(entries, "My Type")
@@ -152,23 +166,43 @@ class Equipment : NavigationBar() {
         vl.setDrawValues(false)
         vl.setDrawFilled(true)
         vl.lineWidth = 3f
-        vl.fillColor = R.color.colorGray
-        vl.fillAlpha = R.color.Red
+        vl.fillColor = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
+        //vl.fillAlpha = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
+        vl.color = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
+        vl.setCircleColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+
+        class MonthXAxisFormatter : ValueFormatter() {
+            private val days = arrayOf("JAN","FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
+            override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+                return days.getOrNull(value.toInt()) ?: value.toString()
+            }
+        }
+        vl.valueFormatter = MonthXAxisFormatter()
+
 
         lineChart.xAxis.labelRotationAngle = 0f
-
+        lineChart.xAxis.valueFormatter = MonthXAxisFormatter()
+        lineChart.xAxis.labelCount = 11
         lineChart.data = LineData(vl)
+        lineChart.xAxis.textSize = 15f
+        lineChart.axisLeft.textSize = 15f
+        lineChart.extraBottomOffset = 5f
 
 //Part7
         lineChart.axisRight.isEnabled = false
+        lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        lineChart.axisLeft.setDrawGridLines(false)
+        lineChart.xAxis.setDrawGridLines(false)
+
 
 //Part8
         lineChart.setTouchEnabled(true)
         lineChart.setPinchZoom(true)
 
 //Part9
-        lineChart.description.text = "Days"
+        lineChart.description.isEnabled = false
         lineChart.setNoDataText("No forex yet!")
+        lineChart.legend.isEnabled = false
 
 //Part10
         lineChart.animateX(1800, Easing.EaseInExpo)

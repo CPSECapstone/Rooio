@@ -193,4 +193,18 @@
         <item>AM</item>
         <item>PM</item>
     </string-array>
+    <string-array name="job_type_analysis">
+        <item>Repair</item>
+        <item>Maintenance</item>
+        <item>Installation</item>
+        <item>All Jobs</item>
+    </string-array>
+    <string-array name="time_analysis">
+        <item>Monthly</item>
+        <item>Yearly</item>
+    </string-array>
+    <string-array name="option_analysis">
+        <item>Cost</item>
+        <item>Job Requests</item>
+    </string-array>
 </resources>
