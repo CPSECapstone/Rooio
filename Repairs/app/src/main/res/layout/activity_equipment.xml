@@ -668,18 +668,18 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
 
-            <ListView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/equipmentList"
                 android:layout_width="363dp"
                 android:layout_height="785dp"
                 android:background="#00E63528"
                 android:divider="@drawable/blank_border"
                 android:overScrollMode="never"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
@@ -721,7 +721,7 @@
         android:layout_width="885dp"
         android:layout_height="380dp"
         android:background="@drawable/shadow"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.82"
@@ -731,11 +731,11 @@
 
 
         <Spinner
-            android:id="@+id/jobTypeSpinner"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
+            android:id="@+id/jobSpinner"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
             android:background="@drawable/spinner_background"
-            android:entries="@array/job_type_analysis"
+            android:entries="@array/job_analysis"
             android:soundEffectsEnabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -746,8 +746,8 @@
 
         <Spinner
             android:id="@+id/timeSpinner"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
             android:background="@drawable/spinner_background"
             android:entries="@array/time_analysis"
             android:soundEffectsEnabled="false"
@@ -760,8 +760,8 @@
 
         <Spinner
             android:id="@+id/optionSpinner"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
             android:background="@drawable/spinner_background"
             android:entries="@array/option_analysis"
             android:soundEffectsEnabled="false"

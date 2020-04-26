@@ -142,7 +142,7 @@ class Dashboard : NavigationBar() {
         }
         applianceButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
-            intent.putExtra("equipmentType", EquipmentType.GENERAL_APPLIANCE.getIntRepr())
+            intent.putExtra("equipmentType", EquipmentType.APPLIANCE.getIntRepr())
             startActivity(intent)
         }
     }
