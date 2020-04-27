@@ -1,6 +1,16 @@
 package com.rooio.repairs
 
-class GraphType {
+enum class GraphType {
+    EQUIPMENT,
+    DASHBOARD;
+
+    fun getInt(): Int {
+        return when (this) {
+            EQUIPMENT -> 1
+            DASHBOARD -> 2
+        }
+    }
+
     enum class JobType  {
         REPAIR,
         MAINTENANCE,

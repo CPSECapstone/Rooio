@@ -12,8 +12,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.android.volley.Request
@@ -56,13 +54,6 @@ class Dashboard : Graph() {
     private lateinit var scheduledButton: Button
     private lateinit var inProgressButton: Button
 
-    private lateinit var jobSpinner : Spinner
-    private lateinit var timeSpinner : Spinner
-    private lateinit var optionSpinner : Spinner
-    private var graphJob: GraphType.JobType = GraphType.JobType.REPAIR
-    private var graphOption: GraphType.OptionType = GraphType.OptionType.TOTAL_COST
-    private var graphTime: GraphType.TimeType = GraphType.TimeType.MONTH
-
     companion object{
         @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
         @JvmStatic private var scheduledJobs = ArrayList<JSONObject>()
@@ -78,8 +69,8 @@ class Dashboard : Graph() {
         initialize()
         setNavigationBar()
         setActionBar()
-        setSpinners()
-        setAdapters()
+        setSpinners(GraphType.DASHBOARD)
+        setAdapters(GraphType.DASHBOARD)
         loadJobs()
         createNavigationBar(NavigationType.DASHBOARD)
         jobRequestsClicked()
@@ -109,77 +100,6 @@ class Dashboard : Graph() {
         inProgressButton = findViewById(R.id.inProgressButton)
         scheduledButton = findViewById(R.id.scheduledButton)
         pendingButton = findViewById(R.id.pendingButton)
-        jobSpinner = findViewById(R.id.jobSpinner)
-        timeSpinner = findViewById(R.id.timeSpinner)
-        optionSpinner = findViewById(R.id.optionSpinner)
-    }
-
-    //Handles when the graph spinners change
-    private fun setSpinners() {
-        // setting on click listeners for the spinner items
-        jobSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                when (parent.getItemAtPosition(position).toString()) {
-                    "Repair" -> graphJob = GraphType.JobType.REPAIR
-                    "Maintenance" -> graphJob = GraphType.JobType.MAINTENANCE
-                    "Installation" -> graphJob = GraphType.JobType.INSTALLATION
-                    "All" -> graphJob = GraphType.JobType.ALL
-                }
-                createGraph("", userLocationID, graphJob, graphOption, graphTime)
-            }
-        }
-        optionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                when (parent.getItemAtPosition(position).toString()) {
-                    "Total Cost" -> graphOption = GraphType.OptionType.TOTAL_COST
-                    "Total Jobs" -> graphOption = GraphType.OptionType.TOTAL_JOBS
-                }
-                createGraph("", userLocationID, graphJob, graphOption, graphTime)
-            }
-        }
-        timeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                when (parent.getItemAtPosition(position).toString()) {
-                    "Monthly" -> graphTime = GraphType.TimeType.MONTH
-                    "Yearly" -> graphTime = GraphType.TimeType.YEAR
-                }
-                createGraph("", userLocationID, graphJob, graphOption, graphTime)
-            }
-        }
-    }
-
-    //Sets the appearance and text of adapters
-    private fun setAdapters() {
-        ArrayAdapter.createFromResource(
-                this,
-                R.array.job_analysis,
-                R.layout.spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            jobSpinner.adapter = adapter
-        }
-        ArrayAdapter.createFromResource(
-                this,
-                R.array.time_analysis,
-                R.layout.spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            timeSpinner.adapter = adapter
-        }
-        ArrayAdapter.createFromResource(
-                this,
-                R.array.option_total_analysis,
-                R.layout.spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            optionSpinner.adapter = adapter
-        }
     }
 
     //LoadJobs sends a Api Get Request to get all Jobs
@@ -270,8 +190,12 @@ class Dashboard : Graph() {
 
             }
         }
-        createGraph("", userLocationID, graphJob, graphOption, graphTime)
+        setUpGraph()
         notableJobsFill()
+    }
+
+    override fun setUpGraph() {
+        createGraph("", userLocationID, graphJob, graphOption, graphTime)
     }
 
     //find number of each job swimlane to display on dashboard

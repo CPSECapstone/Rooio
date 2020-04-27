@@ -28,9 +28,6 @@ class Equipment : Graph() {
     private val equipmentIdBundle = "equipmentId"
     private var equipmentPosition: Int = -1
     private var equipmentId: String = ""
-    private var graphJob: GraphType.JobType = GraphType.JobType.REPAIR
-    private var graphOption: GraphType.OptionType = GraphType.OptionType.COST
-    private var graphTime: GraphType.TimeType = GraphType.TimeType.MONTH
 
     private lateinit var messageText: TextView
     private lateinit var equipmentListView: RecyclerView
@@ -66,9 +63,6 @@ class Equipment : Graph() {
     private lateinit var equipmentLoadingPanel: ProgressBar
     private lateinit var addLoadingPanel: ProgressBar
     private lateinit var editLoadingPanel: ProgressBar
-    private lateinit var jobSpinner : Spinner
-    private lateinit var timeSpinner : Spinner
-    private lateinit var optionSpinner : Spinner
 
     companion object {
         private val equipmentList : ArrayList<EquipmentData> = ArrayList()
@@ -85,8 +79,8 @@ class Equipment : Graph() {
         initializeVariable()
         setNavigationBar()
         setActionBar()
-        setSpinners()
-        setAdapters()
+        setSpinners(GraphType.EQUIPMENT)
+        setAdapters(GraphType.EQUIPMENT)
         createNavigationBar(NavigationType.EQUIPMENT)
         loadAfterEquipmentSave()
         loadEquipmentElements()
@@ -155,82 +149,10 @@ class Equipment : Graph() {
         // setting up spinners (drop down)
         addEquipmentType.adapter = ArrayAdapter<EquipmentType>(this, R.layout.spinner_item, EquipmentType.values())
         editEquipmentType.adapter = ArrayAdapter<EquipmentType>(this, R.layout.spinner_item, EquipmentType.values())
-        jobSpinner = findViewById(R.id.jobSpinner)
-        timeSpinner = findViewById(R.id.timeSpinner)
-        optionSpinner = findViewById(R.id.optionSpinner)
-
 
         equipmentLoadingPanel = findViewById(R.id.equipmentLoadingPanel)
         addLoadingPanel = findViewById(R.id.addLoadingPanel)
         editLoadingPanel = findViewById(R.id.editLoadingPanel)
-    }
-
-    //Handles when the graph spinners change
-    private fun setSpinners() {
-        // setting on click listeners for the spinner items
-        jobSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                when (parent.getItemAtPosition(position).toString()) {
-                    "Repair" -> graphJob = GraphType.JobType.REPAIR
-                    "Maintenance" -> graphJob = GraphType.JobType.MAINTENANCE
-                    "Installation" -> graphJob = GraphType.JobType.INSTALLATION
-                    "All" -> graphJob = GraphType.JobType.ALL
-                }
-                createGraph(equipmentId, userLocationID, graphJob, graphOption, graphTime)
-            }
-        }
-        optionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                when (parent.getItemAtPosition(position).toString()) {
-                    "Cost" -> graphOption = GraphType.OptionType.COST
-                    "Job Requests" -> graphOption = GraphType.OptionType.JOBS
-                }
-                createGraph(equipmentId, userLocationID, graphJob, graphOption, graphTime)
-            }
-        }
-        timeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                when (parent.getItemAtPosition(position).toString()) {
-                    "Monthly" -> graphTime = GraphType.TimeType.MONTH
-                    "Yearly" -> graphTime = GraphType.TimeType.YEAR
-                }
-                createGraph(equipmentId, userLocationID, graphJob, graphOption, graphTime)
-            }
-        }
-    }
-
-    //Sets the appearance and text of adapters
-    private fun setAdapters() {
-        ArrayAdapter.createFromResource(
-                this,
-                R.array.job_analysis,
-                R.layout.spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            jobSpinner.adapter = adapter
-        }
-        ArrayAdapter.createFromResource(
-                this,
-                R.array.time_analysis,
-                R.layout.spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            timeSpinner.adapter = adapter
-        }
-        ArrayAdapter.createFromResource(
-                this,
-                R.array.option_analysis,
-                R.layout.spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            optionSpinner.adapter = adapter
-        }
     }
 
     // show add equipment constraint and reset the UI for all other elements
@@ -442,10 +364,15 @@ class Equipment : Graph() {
             messageText.visibility = View.GONE
             editEquipmentDetails(Equipment.equipmentList[equipmentPosition])
             fillEquipmentDetails(Equipment.equipmentList[equipmentPosition])
-            createGraph(equipmentId, userLocationID, graphJob, graphOption, graphTime)
+            setUpGraph()
             analyticsConstraint.visibility = View.VISIBLE
             equipmentDetailsConstraint.visibility = View.VISIBLE
         }
+    }
+
+    //Sets up the graph in the way the equipment page needs
+    override fun setUpGraph() {
+        createGraph(equipmentId, userLocationID, graphJob, graphOption, graphTime)
     }
 
     // setting text fields with equipment information

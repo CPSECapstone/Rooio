@@ -1,5 +1,9 @@
 package com.rooio.repairs
 
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.AxisBase
@@ -11,6 +15,96 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlinx.android.synthetic.main.activity_equipment.*
 
 abstract class Graph  : NavigationBar() {
+
+    var graphJob: GraphType.JobType = GraphType.JobType.REPAIR
+    var graphOption: GraphType.OptionType = GraphType.OptionType.TOTAL_COST
+    var graphTime: GraphType.TimeType = GraphType.TimeType.MONTH
+
+    //Handles when the graph spinners change
+    fun setSpinners(type: GraphType) {
+        val jobSpinner = findViewById<Spinner>(R.id.jobSpinner)
+        val timeSpinner = findViewById<Spinner>(R.id.timeSpinner)
+        val optionSpinner = findViewById<Spinner>(R.id.optionSpinner)
+        // setting on click listeners for the spinner items
+        jobSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                when (parent.getItemAtPosition(position).toString()) {
+                    "Repair" -> graphJob = GraphType.JobType.REPAIR
+                    "Maintenance" -> graphJob = GraphType.JobType.MAINTENANCE
+                    "Installation" -> graphJob = GraphType.JobType.INSTALLATION
+                    "All" -> graphJob = GraphType.JobType.ALL
+                }
+                setUpGraph()
+            }
+        }
+        optionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                if (type == GraphType.EQUIPMENT)
+                    when (parent.getItemAtPosition(position).toString()) {
+                        "Cost" -> graphOption = GraphType.OptionType.COST
+                        "Job Requests" -> graphOption = GraphType.OptionType.JOBS
+                    }
+                else
+                    when (parent.getItemAtPosition(position).toString()) {
+                        "Cost" -> graphOption = GraphType.OptionType.TOTAL_COST
+                        "Job Requests" -> graphOption = GraphType.OptionType.TOTAL_JOBS
+                    }
+                setUpGraph()
+            }
+        }
+        timeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                when (parent.getItemAtPosition(position).toString()) {
+                    "Monthly" -> graphTime = GraphType.TimeType.MONTH
+                    "Yearly" -> graphTime = GraphType.TimeType.YEAR
+                }
+                setUpGraph()
+            }
+        }
+    }
+    //Sets the appearance and text of adapters
+    fun setAdapters(type: GraphType) {
+        ArrayAdapter.createFromResource(
+                this,
+                R.array.job_analysis,
+                R.layout.spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            jobSpinner.adapter = adapter
+        }
+        ArrayAdapter.createFromResource(
+                this,
+                R.array.time_analysis,
+                R.layout.spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            timeSpinner.adapter = adapter
+        }
+        if (type == GraphType.EQUIPMENT)
+            ArrayAdapter.createFromResource(
+                    this,
+                    R.array.option_analysis,
+                    R.layout.spinner_item
+            ).also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                optionSpinner.adapter = adapter
+            }
+        else
+            ArrayAdapter.createFromResource(
+                    this,
+                    R.array.option_total_analysis,
+                    R.layout.spinner_item
+            ).also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                optionSpinner.adapter = adapter
+            }
+    }
 
     class MonthXAxisFormatter : ValueFormatter() {
         private val days = arrayOf("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
@@ -146,4 +240,6 @@ abstract class Graph  : NavigationBar() {
         xArray.add(2009f)
         return xArray
     }
+
+    abstract fun setUpGraph()
 }
