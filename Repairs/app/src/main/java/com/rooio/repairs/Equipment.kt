@@ -12,22 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.android.volley.Request
-import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_equipment.*
 import org.json.JSONArray
 import org.json.JSONException
-import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.formatter.ValueFormatter
 
 
 
 
-class Equipment : NavigationBar() {
+class Equipment : Graph() {
 
     val url = "service-locations/$userLocationID/equipment/"
     private val savedEquipmentBundle = "savedEquipment"
@@ -35,6 +28,9 @@ class Equipment : NavigationBar() {
     private val equipmentIdBundle = "equipmentId"
     private var equipmentPosition: Int = -1
     private var equipmentId: String = ""
+    private var graphJob: GraphType.JobType = GraphType.JobType.REPAIR
+    private var graphOption: GraphType.OptionType = GraphType.OptionType.COST
+    private var graphTime: GraphType.TimeType = GraphType.TimeType.MONTH
 
     private lateinit var messageText: TextView
     private lateinit var equipmentListView: RecyclerView
@@ -84,26 +80,23 @@ class Equipment : NavigationBar() {
         setContentView(R.layout.activity_equipment)
 
         //gets rid of sound when the user clicks on the spinner when editing the equipment type
+        onResume()
 
         initializeVariable()
         setNavigationBar()
         setActionBar()
         setSpinners()
+        setAdapters()
         createNavigationBar(NavigationType.EQUIPMENT)
         loadAfterEquipmentSave()
         loadEquipmentElements()
-        onStart()
-        onPause()
-    }
-
-    override fun onStart() {
-        super.onStart()
         onEquipmentClick()
         onAddEquipmentClick()
         onAddClick()
         onEditClick()
         onSaveClick()
         onCancelClick()
+        onPause()
     }
 
     //Loads the correct information after a piece of equipment is added or saved
@@ -172,7 +165,48 @@ class Equipment : NavigationBar() {
         editLoadingPanel = findViewById(R.id.editLoadingPanel)
     }
 
+    //Handles when the graph spinners change
     private fun setSpinners() {
+        // setting on click listeners for the spinner items
+        jobSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                when (parent.getItemAtPosition(position).toString()) {
+                    "Repair" -> graphJob = GraphType.JobType.REPAIR
+                    "Maintenance" -> graphJob = GraphType.JobType.MAINTENANCE
+                    "Installation" -> graphJob = GraphType.JobType.INSTALLATION
+                    "All" -> graphJob = GraphType.JobType.ALL
+                }
+                createGraph(equipmentId, userLocationID, graphJob, graphOption, graphTime)
+            }
+        }
+        optionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                when (parent.getItemAtPosition(position).toString()) {
+                    "Cost" -> graphOption = GraphType.OptionType.COST
+                    "Job Requests" -> graphOption = GraphType.OptionType.JOBS
+                }
+                createGraph(equipmentId, userLocationID, graphJob, graphOption, graphTime)
+            }
+        }
+        timeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                when (parent.getItemAtPosition(position).toString()) {
+                    "Monthly" -> graphTime = GraphType.TimeType.MONTH
+                    "Yearly" -> graphTime = GraphType.TimeType.YEAR
+                }
+                createGraph(equipmentId, userLocationID, graphJob, graphOption, graphTime)
+            }
+        }
+    }
+
+    //Sets the appearance and text of adapters
+    private fun setAdapters() {
         ArrayAdapter.createFromResource(
                 this,
                 R.array.job_analysis,
@@ -197,76 +231,6 @@ class Equipment : NavigationBar() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             optionSpinner.adapter = adapter
         }
-    }
-
-    //Graph
-    private fun createGraph() {
-        val entries = ArrayList<Entry>()
-
-        entries.add(Entry(0f, 1f))
-        entries.add(Entry(1f, 10f))
-        entries.add(Entry(2f, 2f))
-        entries.add(Entry(3f, 7f))
-        entries.add(Entry(4f, 20f))
-        entries.add(Entry(5f, 16f))
-        entries.add(Entry(6f, 20f))
-        entries.add(Entry(7f, 30f))
-        entries.add(Entry(8f, 10f))
-        entries.add(Entry(9f, 20f))
-        entries.add(Entry(10f, 17f))
-        entries.add(Entry(11f, 13f))
-
-        //assign list to LineDataSet and label it
-        val vl = LineDataSet(entries, "My Type")
-
-        vl.setDrawValues(false)
-        vl.setDrawFilled(true)
-        vl.lineWidth = 3f
-        vl.fillColor = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
-        //vl.fillAlpha = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
-        vl.color = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
-        vl.setCircleColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
-
-        class MonthXAxisFormatter : ValueFormatter() {
-            private val days = arrayOf("JAN","FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
-            override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-                return days.getOrNull(value.toInt()) ?: value.toString()
-            }
-        }
-        vl.valueFormatter = MonthXAxisFormatter()
-
-
-        lineChart.xAxis.labelRotationAngle = 0f
-        lineChart.xAxis.valueFormatter = MonthXAxisFormatter()
-        lineChart.xAxis.labelCount = 11
-        lineChart.data = LineData(vl)
-        lineChart.xAxis.textSize = 15f
-        lineChart.axisLeft.textSize = 15f
-        lineChart.extraBottomOffset = 5f
-
-//Part7
-        lineChart.axisRight.isEnabled = false
-        lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        lineChart.axisLeft.setDrawGridLines(false)
-        lineChart.xAxis.setDrawGridLines(false)
-
-
-//Part8
-        lineChart.setTouchEnabled(true)
-        lineChart.setPinchZoom(true)
-
-//Part9
-        lineChart.description.isEnabled = false
-        lineChart.setNoDataText("No data yet!")
-        lineChart.legend.isEnabled = false
-
-//Part10
-        lineChart.animateX(1800, Easing.EaseInExpo)
-
-//Part11
-
-
-
     }
 
     // show add equipment constraint and reset the UI for all other elements
@@ -331,7 +295,7 @@ class Equipment : NavigationBar() {
         }
         else
             displayNameError.text = resources.getText(R.string.required)
-        }
+    }
 
     // displaying edit equipment constraint & setting all prompts to the existing information
     private fun onEditClick() {
@@ -342,6 +306,7 @@ class Equipment : NavigationBar() {
         }
     }
 
+    //Handles when the save button is clicked
     private fun onSaveClick() {
         val params = HashMap<Any?, Any?>()
         saveButton.setOnClickListener {
@@ -362,6 +327,7 @@ class Equipment : NavigationBar() {
         }
     }
 
+    //Handles when the job request is saved
     @JvmField
     var responseFuncSave = Function<Any, Void?> {
         editLoadingPanel.visibility = View.GONE
@@ -371,6 +337,7 @@ class Equipment : NavigationBar() {
         null
     }
 
+    //Handles when there is an error when the job request is saved
     @JvmField
     var errorFuncSave = Function<String, Void?> {
         editLoadingPanel.visibility = View.GONE
@@ -380,6 +347,7 @@ class Equipment : NavigationBar() {
         null
     }
 
+    //Saves the edits made to the equipment item
     private fun sendSaveEditRequest(request : JsonRequest){
         val displayName = request.params?.get("display_name").toString()
 
@@ -458,12 +426,13 @@ class Equipment : NavigationBar() {
 
             Equipment.equipmentList.sortWith(compareBy { it.location })
         }
-        val customAdapter = EquipmentAdapter(this, Equipment.equipmentList, equipmentPosition)
+        val customAdapter = EquipmentCustomAdapter(this, Equipment.equipmentList, equipmentPosition)
         val layoutManager = LinearLayoutManager(this)
         equipmentListView.layoutManager = layoutManager
         equipmentListView.adapter = customAdapter
     }
 
+    //Checks if an equipment has been clicked on
     private fun  onEquipmentClick() {
         if (equipmentPosition != -1) {
             addEquipmentConstraint.visibility = View.GONE
@@ -473,7 +442,7 @@ class Equipment : NavigationBar() {
             messageText.visibility = View.GONE
             editEquipmentDetails(Equipment.equipmentList[equipmentPosition])
             fillEquipmentDetails(Equipment.equipmentList[equipmentPosition])
-            createGraph()
+            createGraph(equipmentId, userLocationID, graphJob, graphOption, graphTime)
             analyticsConstraint.visibility = View.VISIBLE
             equipmentDetailsConstraint.visibility = View.VISIBLE
         }
@@ -491,6 +460,7 @@ class Equipment : NavigationBar() {
         equipmentType.text = equipment.type.toString()
     }
 
+    //Setting edit fields with equipment information
     private fun editEquipmentDetails(equipment: EquipmentData) {
         editDisplayName.setText(equipment.name)
         editSerialNumber.setText(equipment.serialNumber)

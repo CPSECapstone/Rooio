@@ -207,4 +207,8 @@
         <item>Cost</item>
         <item>Job Requests</item>
     </string-array>
+    <string-array name="option_total_analysis">
+        <item>Total Cost</item>
+        <item>Total Jobs</item>
+    </string-array>
 </resources>

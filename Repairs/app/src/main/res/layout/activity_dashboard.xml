@@ -16,20 +16,8 @@
     tools:context=".Dashboard">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="800dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="28dp"
-        android:background="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/allJobs">
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/notableJobs"
-        android:layout_width="806dp"
+        android:layout_width="885dp"
         android:layout_height="300dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/layout_bg_nopadding"
@@ -40,7 +28,7 @@
         <View
 
             android:id="@+id/notableJobsDivider"
-            android:layout_width="804dp"
+            android:layout_width="885dp"
             android:layout_height="1dp"
             android:layout_marginTop="72dp"
             android:background="?android:attr/listDivider"
@@ -218,7 +206,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/newJobRequest"
-        android:layout_width="800dp"
+        android:layout_width="885dp"
         android:layout_height="300dp"
         android:layout_marginTop="140dp"
         android:background="@drawable/layout_bg_nopadding"
@@ -240,7 +228,7 @@
 
         <View
             android:id="@+id/newJobDivider"
-            android:layout_width="800dp"
+            android:layout_width="885dp"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -459,7 +447,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/allJobs"
-        android:layout_width="806dp"
+        android:layout_width="885dp"
         android:layout_height="300dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/layout_bg_nopadding"
@@ -469,7 +457,7 @@
 
         <View
             android:id="@+id/allJobsDivider"
-            android:layout_width="804dp"
+            android:layout_width="885dp"
             android:layout_height="1dp"
             android:layout_marginTop="72dp"
             android:background="?android:attr/listDivider"
@@ -628,6 +616,75 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divider6"
             app:layout_constraintTop_toBottomOf="@+id/allJobsDivider" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/jobAnalytics"
+        android:layout_width="885dp"
+        android:layout_height="380dp"
+        android:layout_marginTop="1170dp"
+        android:background="@drawable/shadow"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+
+        <Spinner
+            android:id="@+id/jobSpinner"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/spinner_background"
+            android:entries="@array/job_analysis"
+            android:soundEffectsEnabled="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.050000012" />
+
+        <Spinner
+            android:id="@+id/timeSpinner"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/spinner_background"
+            android:entries="@array/time_analysis"
+            android:soundEffectsEnabled="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.050000012" />
+
+        <Spinner
+            android:id="@+id/optionSpinner"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/spinner_background"
+            android:entries="@array/option_analysis"
+            android:soundEffectsEnabled="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.050000012" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:layout_width="805dp"
+            android:layout_height="275dp"
+            android:padding="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.8" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
