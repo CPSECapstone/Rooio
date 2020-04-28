@@ -390,8 +390,8 @@ class Equipment : Graph() {
         null
     }
 
-    var errorFuncGraph = Function<String, Void?> { string: String? ->
-        Log.i("graph", string)
+    var errorFuncGraph = Function<String, Void?> {
+        Log.i("graph", it)
         null
     }
 

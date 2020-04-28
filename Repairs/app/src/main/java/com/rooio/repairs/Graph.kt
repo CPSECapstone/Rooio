@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -13,8 +14,10 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_equipment.*
 import org.json.JSONArray
+import org.json.JSONObject
 
 abstract class Graph  : NavigationBar() {
 
@@ -169,7 +172,7 @@ abstract class Graph  : NavigationBar() {
     private fun createData(response: JSONArray, job: GraphType.JobType, option: GraphType.OptionType, time: GraphType.TimeType) : LineDataSet {
         val entries = ArrayList<Entry>()
         val xArray: ArrayList<Float> = if (time == GraphType.TimeType.MONTH) createMonthlyXAxis() else createYearlyXAxis()
-        val yArray: ArrayList<Float> = createYAxis(response, job, option)
+        val yArray: ArrayList<Float> = createYAxis(response, job, option, time)
         entries.add(Entry(xArray[0], yArray[0]))
         entries.add(Entry(xArray[1], yArray[1]))
         entries.add(Entry(xArray[2], yArray[2]))
@@ -188,10 +191,58 @@ abstract class Graph  : NavigationBar() {
     }
 
     //Sets the y axis of the graph based on the type of job and the data the user would like to see
-    private fun createYAxis(reponse: JSONArray, job: GraphType.JobType, option: GraphType.OptionType) : ArrayList<Float> {
+    private fun createYAxis(response: JSONArray, job: GraphType.JobType, option: GraphType.OptionType, time: GraphType.TimeType) : ArrayList<Float> {
         //TODO!! This method is where there should be a call to the API. It might be best to split the function and use a when statement in createData() based on Job and Option Type?
         //**equipmentId can be -1 when it is called from the dashboard, where the graphs are a sum of all equipment job requests
         //Example of data formatting needed for the graphs
+        val jobMap = HashMap<String, ArrayList<JSONObject>>()
+        for(i in 0 until response.length()){
+            val obj = response.getJSONObject(i)
+            if (time == GraphType.TimeType.MONTH){
+                val completedTime = obj.getString("completed_time").split("-").get(1)
+                if (jobMap.containsKey(completedTime)){
+                    val existingList = jobMap[completedTime]
+                    existingList!!.add(obj)
+                    jobMap[completedTime] = existingList
+                }
+                else{
+                    val newList = ArrayList<JSONObject>()
+                    newList.add(obj)
+                    jobMap[completedTime] = newList
+                }
+            }
+            else {
+                val completedTime = obj.getString("completed_time").split("-").get(0)
+                if (jobMap.containsKey(completedTime)){
+                    val existingList = jobMap[completedTime]
+                    existingList!!.add(obj)
+                    jobMap[completedTime] = existingList
+                }
+                else{
+                    val newList = ArrayList<JSONObject>()
+                    newList.add(obj)
+                    jobMap[completedTime] = newList
+                }
+            }
+
+            Log.i("graph", jobMap.values.toString())
+
+//            when(job){
+//                GraphType.JobType.REPAIR -> if(obj.getInt("service_type") == GraphType.JobType.REPAIR.getInt()){
+//                    Log.i("graph", obj.toString())
+//                }
+//
+//                GraphType.JobType.MAINTENANCE -> if(obj.getInt("service_type") == GraphType.JobType.MAINTENANCE.getInt()){
+//                    Log.i("graph", obj.toString())
+//                }
+//
+//                GraphType.JobType.INSTALLATION -> if(obj.getInt("service_type") == GraphType.JobType.INSTALLATION.getInt()){
+//                    Log.i("graph", obj.toString())
+//                }
+//
+//                GraphType.JobType.ALL -> Log.i("graph", obj.toString())
+//            }
+        }
         val yArray: ArrayList<Float> = ArrayList()
         yArray.add(11f)
         yArray.add(18f)
