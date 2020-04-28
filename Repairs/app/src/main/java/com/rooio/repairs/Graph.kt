@@ -5,6 +5,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.core.content.ContextCompat
+import com.android.volley.Request
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
@@ -13,12 +14,14 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlinx.android.synthetic.main.activity_equipment.*
+import org.json.JSONArray
 
 abstract class Graph  : NavigationBar() {
 
     var graphJob: GraphType.JobType = GraphType.JobType.REPAIR
     var graphOption: GraphType.OptionType = GraphType.OptionType.TOTAL_COST
     var graphTime: GraphType.TimeType = GraphType.TimeType.MONTH
+    val url = "service-locations/$userLocationID/equipment/"
 
     //Handles when the graph spinners change
     fun setSpinners(type: GraphType) {
@@ -120,8 +123,8 @@ abstract class Graph  : NavigationBar() {
     }
 
     //Creates graph based on equipment
-    fun createGraph(equipmentId: String, serviceLocationId: String, job: GraphType.JobType, option: GraphType.OptionType, time: GraphType.TimeType) {
-        val vl = createData(equipmentId, serviceLocationId, job, option, time)
+    fun createGraph(response: JSONArray, job: GraphType.JobType, option: GraphType.OptionType, time: GraphType.TimeType) {
+        val vl = createData(response, job, option, time)
         //Initial graph settings
         vl.setDrawValues(false)
         vl.setDrawFilled(true)
@@ -163,10 +166,10 @@ abstract class Graph  : NavigationBar() {
     }
 
     //Creates data for the graph
-    private fun createData(equipmentId: String, serviceLocationId: String, job: GraphType.JobType, option: GraphType.OptionType, time: GraphType.TimeType) : LineDataSet {
+    private fun createData(response: JSONArray, job: GraphType.JobType, option: GraphType.OptionType, time: GraphType.TimeType) : LineDataSet {
         val entries = ArrayList<Entry>()
         val xArray: ArrayList<Float> = if (time == GraphType.TimeType.MONTH) createMonthlyXAxis() else createYearlyXAxis()
-        val yArray: ArrayList<Float> = createYAxis(equipmentId, serviceLocationId, job, option)
+        val yArray: ArrayList<Float> = createYAxis(response, job, option)
         entries.add(Entry(xArray[0], yArray[0]))
         entries.add(Entry(xArray[1], yArray[1]))
         entries.add(Entry(xArray[2], yArray[2]))
@@ -185,7 +188,7 @@ abstract class Graph  : NavigationBar() {
     }
 
     //Sets the y axis of the graph based on the type of job and the data the user would like to see
-    private fun createYAxis(equipmentId: String, serviceLocationId: String, job: GraphType.JobType, option: GraphType.OptionType) : ArrayList<Float> {
+    private fun createYAxis(reponse: JSONArray, job: GraphType.JobType, option: GraphType.OptionType) : ArrayList<Float> {
         //TODO!! This method is where there should be a call to the API. It might be best to split the function and use a when statement in createData() based on Job and Option Type?
         //**equipmentId can be -1 when it is called from the dashboard, where the graphs are a sum of all equipment job requests
         //Example of data formatting needed for the graphs
@@ -204,6 +207,8 @@ abstract class Graph  : NavigationBar() {
         yArray.add(28f)
         return yArray
     }
+
+
 
     //Sets the x axis to months
     private fun createMonthlyXAxis() : ArrayList<Float> {

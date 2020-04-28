@@ -22,7 +22,6 @@ import org.json.JSONException
 
 class Equipment : Graph() {
 
-    val url = "service-locations/$userLocationID/equipment/"
     private val savedEquipmentBundle = "savedEquipment"
     private val equipmentPositionBundle = "equipmentPosition"
     private val equipmentIdBundle = "equipmentId"
@@ -372,7 +371,28 @@ class Equipment : Graph() {
 
     //Sets up the graph in the way the equipment page needs
     override fun setUpGraph() {
-        createGraph(equipmentId, userLocationID, graphJob, graphOption, graphTime)
+        val params = HashMap<Any?, Any?>()
+        params["equipment_id"] = equipmentId
+        params["service_location_id"] = userLocationID
+
+        val url = "$url$equipmentId/job-history/"
+        val request = JsonRequest(false, url, params, responseFuncGraph, errorFuncGraph, true)
+        requestJson(Request.Method.GET, JsonType.ARRAY, request)
+    }
+
+    var responseFuncGraph = Function<Any, Void?> { jsonResponse: Any? ->
+        try {
+            val jsonArray = jsonResponse as JSONArray
+            createGraph(jsonArray, graphJob, graphOption, graphTime)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        null
+    }
+
+    var errorFuncGraph = Function<String, Void?> { string: String? ->
+        Log.i("graph", string)
+        null
     }
 
     // setting text fields with equipment information

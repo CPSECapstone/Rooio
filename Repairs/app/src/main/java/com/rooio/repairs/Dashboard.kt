@@ -195,7 +195,7 @@ class Dashboard : Graph() {
     }
 
     override fun setUpGraph() {
-        createGraph("", userLocationID, graphJob, graphOption, graphTime)
+        //createGraph("", graphJob, graphOption, graphTime)
     }
 
     //find number of each job swimlane to display on dashboard
