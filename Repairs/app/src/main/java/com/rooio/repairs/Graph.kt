@@ -191,7 +191,7 @@ abstract class Graph  : NavigationBar() {
     }
 
     //Sets the y axis of the graph based on the type of job and the data the user would like to see
-    private fun createYAxis(response: JSONArray, job: GraphType.JobType, option: GraphType.OptionType, time: GraphType.TimeType) : ArrayList<Float> {
+    private fun createYAxis(response: JSONArray, jobType: GraphType.JobType, option: GraphType.OptionType, time: GraphType.TimeType) : ArrayList<Float> {
         //TODO!! This method is where there should be a call to the API. It might be best to split the function and use a when statement in createData() based on Job and Option Type?
         //**equipmentId can be -1 when it is called from the dashboard, where the graphs are a sum of all equipment job requests
         //Example of data formatting needed for the graphs
@@ -224,25 +224,23 @@ abstract class Graph  : NavigationBar() {
                     jobMap[completedTime] = newList
                 }
             }
-
-            Log.i("graph", jobMap.values.toString())
-
-//            when(job){
-//                GraphType.JobType.REPAIR -> if(obj.getInt("service_type") == GraphType.JobType.REPAIR.getInt()){
-//                    Log.i("graph", obj.toString())
-//                }
-//
-//                GraphType.JobType.MAINTENANCE -> if(obj.getInt("service_type") == GraphType.JobType.MAINTENANCE.getInt()){
-//                    Log.i("graph", obj.toString())
-//                }
-//
-//                GraphType.JobType.INSTALLATION -> if(obj.getInt("service_type") == GraphType.JobType.INSTALLATION.getInt()){
-//                    Log.i("graph", obj.toString())
-//                }
-//
-//                GraphType.JobType.ALL -> Log.i("graph", obj.toString())
-//            }
         }
+
+        for(key in jobMap.keys){
+            val values = jobMap[key]
+            for(job in values!!.iterator()){
+                if(jobType == GraphType.JobType.ALL){
+                    Unit
+                }
+                else if (job.getInt("service_type") != jobType.getInt()){
+                    values.remove(job)
+                }
+            }
+            jobMap[key] = values
+        }
+
+        Log.i("graph", jobMap.values.toString())
+
         val yArray: ArrayList<Float> = ArrayList()
         yArray.add(11f)
         yArray.add(18f)
