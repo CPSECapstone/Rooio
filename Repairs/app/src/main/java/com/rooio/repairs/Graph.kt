@@ -19,12 +19,14 @@ import kotlinx.android.synthetic.main.activity_equipment.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-abstract class Graph  : NavigationBar() {
+abstract class Graph : NavigationBar() {
 
+    val url = "service-locations/$userLocationID/equipment/"
     var graphJob: GraphType.JobType = GraphType.JobType.REPAIR
     var graphOption: GraphType.OptionType = GraphType.OptionType.TOTAL_COST
     var graphTime: GraphType.TimeType = GraphType.TimeType.MONTH
-    val url = "service-locations/$userLocationID/equipment/"
+    var xAxisArrayList = ArrayList<Float>()
+    var yAxisArrayList = ArrayList<Float>()
 
     //Handles when the graph spinners change
     fun setSpinners(type: GraphType) {
@@ -35,6 +37,7 @@ abstract class Graph  : NavigationBar() {
         jobSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
+
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 when (parent.getItemAtPosition(position).toString()) {
                     "Repair" -> graphJob = GraphType.JobType.REPAIR
@@ -48,6 +51,7 @@ abstract class Graph  : NavigationBar() {
         optionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
+
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 if (type == GraphType.EQUIPMENT)
                     when (parent.getItemAtPosition(position).toString()) {
@@ -65,6 +69,7 @@ abstract class Graph  : NavigationBar() {
         timeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
+
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 when (parent.getItemAtPosition(position).toString()) {
                     "Monthly" -> graphTime = GraphType.TimeType.MONTH
@@ -74,6 +79,7 @@ abstract class Graph  : NavigationBar() {
             }
         }
     }
+
     //Sets the appearance and text of adapters
     fun setAdapters(type: GraphType) {
         ArrayAdapter.createFromResource(
@@ -169,56 +175,56 @@ abstract class Graph  : NavigationBar() {
     }
 
     //Creates data for the graph
-    private fun createData(response: JSONArray, job: GraphType.JobType, option: GraphType.OptionType, time: GraphType.TimeType) : LineDataSet {
+    private fun createData(response: JSONArray, job: GraphType.JobType, option: GraphType.OptionType, time: GraphType.TimeType): LineDataSet {
         val entries = ArrayList<Entry>()
-        val xArray: ArrayList<Float> = if (time == GraphType.TimeType.MONTH) createMonthlyXAxis() else createYearlyXAxis()
-        val yArray: ArrayList<Float> = createYAxis(response, job, option, time)
-        entries.add(Entry(xArray[0], yArray[0]))
-        entries.add(Entry(xArray[1], yArray[1]))
-        entries.add(Entry(xArray[2], yArray[2]))
-        entries.add(Entry(xArray[3], yArray[3]))
-        entries.add(Entry(xArray[4], yArray[4]))
-        entries.add(Entry(xArray[5], yArray[5]))
-        entries.add(Entry(xArray[6], yArray[6]))
-        entries.add(Entry(xArray[7], yArray[7]))
-        entries.add(Entry(xArray[8], yArray[8]))
-        entries.add(Entry(xArray[9], yArray[9]))
-        entries.add(Entry(xArray[10], yArray[10]))
-        entries.add(Entry(xArray[11], yArray[11]))
+        if (time == GraphType.TimeType.MONTH) createMonthlyXAxis() else createYearlyXAxis()
+        createYAxis(response, job, option, time)
+        entries.add(Entry(xAxisArrayList[0], yAxisArrayList[0]))
+        entries.add(Entry(xAxisArrayList[1], yAxisArrayList[1]))
+        entries.add(Entry(xAxisArrayList[2], yAxisArrayList[2]))
+        entries.add(Entry(xAxisArrayList[3], yAxisArrayList[3]))
+        entries.add(Entry(xAxisArrayList[4], yAxisArrayList[4]))
+        entries.add(Entry(xAxisArrayList[5], yAxisArrayList[5]))
+        entries.add(Entry(xAxisArrayList[6], yAxisArrayList[6]))
+        entries.add(Entry(xAxisArrayList[7], yAxisArrayList[7]))
+        entries.add(Entry(xAxisArrayList[8], yAxisArrayList[8]))
+        entries.add(Entry(xAxisArrayList[9], yAxisArrayList[9]))
+        entries.add(Entry(xAxisArrayList[10], yAxisArrayList[10]))
+        entries.add(Entry(xAxisArrayList[11], yAxisArrayList[11]))
 
         //assign list to LineDataSet and label it
         return LineDataSet(entries, "My Type")
     }
 
     //Sets the y axis of the graph based on the type of job and the data the user would like to see
-    private fun createYAxis(response: JSONArray, jobType: GraphType.JobType, option: GraphType.OptionType, time: GraphType.TimeType) : ArrayList<Float> {
+    private fun createYAxis(response: JSONArray, jobType: GraphType.JobType, option: GraphType.OptionType, time: GraphType.TimeType) {
         //TODO!! This method is where there should be a call to the API. It might be best to split the function and use a when statement in createData() based on Job and Option Type?
         //**equipmentId can be -1 when it is called from the dashboard, where the graphs are a sum of all equipment job requests
         //Example of data formatting needed for the graphs
-        val jobMap = HashMap<String, ArrayList<JSONObject>>()
-        for(i in 0 until response.length()){
+        val yArray: ArrayList<Float> = ArrayList()
+
+        val jobMap = HashMap<Float, ArrayList<JSONObject>>()
+
+        for (i in 0 until response.length()) {
             val obj = response.getJSONObject(i)
-            if (time == GraphType.TimeType.MONTH){
-                val completedTime = obj.getString("completed_time").split("-").get(1)
-                if (jobMap.containsKey(completedTime)){
+            if (time == GraphType.TimeType.MONTH) {
+                val completedTime = obj.getString("completed_time").split("-").get(1).toFloat()
+                if (jobMap.containsKey(completedTime)) {
                     val existingList = jobMap[completedTime]
                     existingList!!.add(obj)
                     jobMap[completedTime] = existingList
-                }
-                else{
+                } else {
                     val newList = ArrayList<JSONObject>()
                     newList.add(obj)
                     jobMap[completedTime] = newList
                 }
-            }
-            else {
-                val completedTime = obj.getString("completed_time").split("-").get(0)
-                if (jobMap.containsKey(completedTime)){
+            } else {
+                val completedTime = obj.getString("completed_time").split("-").get(0).toFloat()
+                if (jobMap.containsKey(completedTime)) {
                     val existingList = jobMap[completedTime]
                     existingList!!.add(obj)
                     jobMap[completedTime] = existingList
-                }
-                else{
+                } else {
                     val newList = ArrayList<JSONObject>()
                     newList.add(obj)
                     jobMap[completedTime] = newList
@@ -226,41 +232,49 @@ abstract class Graph  : NavigationBar() {
             }
         }
 
-        for(key in jobMap.keys){
+        for (key in jobMap.keys) {
             val values = jobMap[key]
-            for(job in values!!.iterator()){
-                if(jobType == GraphType.JobType.ALL){
+            for (job in values!!.iterator()) {
+                if (jobType == GraphType.JobType.ALL) {
                     Unit
-                }
-                else if (job.getInt("service_type") != jobType.getInt()){
+                } else if (job.getInt("service_type") != jobType.getInt()) {
                     values.remove(job)
                 }
             }
             jobMap[key] = values
         }
 
-        Log.i("graph", jobMap.values.toString())
+        for (x in xAxisArrayList) {
+            val jobsPerX = jobMap[x]
+            if (jobsPerX == null) {
+                yArray.add(0f)
+            } else {
+                when (option) {
+                    //TODO: it's off by one for the months
+                    GraphType.OptionType.JOBS -> yArray.add(jobsPerX.size.toFloat())
 
-        val yArray: ArrayList<Float> = ArrayList()
-        yArray.add(11f)
-        yArray.add(18f)
-        yArray.add(12f)
-        yArray.add(14f)
-        yArray.add(27f)
-        yArray.add(14f)
-        yArray.add(35f)
-        yArray.add(25f)
-        yArray.add(22f)
-        yArray.add(10f)
-        yArray.add(30f)
-        yArray.add(28f)
-        return yArray
+                    GraphType.OptionType.COST -> {
+                        var total: Float = 0f
+                        for (job in jobsPerX) {
+                            val allInvoices = job.getJSONArray("invoices")
+                            for (i in 0 until allInvoices.length()) {
+                                val invoiceTotal = allInvoices.getJSONObject(i).getString("total").toFloat()
+                                total += invoiceTotal
+                            }
+                        }
+                        yArray.add(total)
+                    }
+
+                    else -> yArray.add(0f)
+                }
+            }
+        }
+
+        yAxisArrayList = yArray
     }
 
-
-
     //Sets the x axis to months
-    private fun createMonthlyXAxis() : ArrayList<Float> {
+    private fun createMonthlyXAxis() {
         val xArray: ArrayList<Float> = ArrayList()
         xArray.add(0f)
         xArray.add(1f)
@@ -274,11 +288,11 @@ abstract class Graph  : NavigationBar() {
         xArray.add(9f)
         xArray.add(10f)
         xArray.add(11f)
-        return xArray
+        xAxisArrayList = xArray
     }
 
     //Sets the x axis to years
-    private fun createYearlyXAxis() : ArrayList<Float> {
+    private fun createYearlyXAxis() {
         val xArray: ArrayList<Float> = ArrayList()
         xArray.add(1998f)
         xArray.add(1999f)
@@ -291,8 +305,8 @@ abstract class Graph  : NavigationBar() {
         xArray.add(2006f)
         xArray.add(2007f)
         xArray.add(2008f)
-        xArray.add(2009f)
-        return xArray
+        xArray.add(2020f)
+        xAxisArrayList = xArray
     }
 
     abstract fun setUpGraph()
