@@ -6,7 +6,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.core.content.ContextCompat
-import com.android.volley.Request
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
@@ -14,7 +13,6 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_equipment.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -25,8 +23,6 @@ abstract class Graph : NavigationBar() {
     var graphJob: GraphType.JobType = GraphType.JobType.REPAIR
     var graphOption: GraphType.OptionType = GraphType.OptionType.TOTAL_COST
     var graphTime: GraphType.TimeType = GraphType.TimeType.MONTH
-    var xAxisArrayList = ArrayList<Float>()
-    var yAxisArrayList = ArrayList<Float>()
 
     //Handles when the graph spinners change
     fun setSpinners(type: GraphType) {
@@ -175,74 +171,65 @@ abstract class Graph : NavigationBar() {
     }
 
     //Creates data for the graph
-    private fun createData(response: JSONArray, job: GraphType.JobType, option: GraphType.OptionType, time: GraphType.TimeType): LineDataSet {
+    private fun createData(response: JSONArray, jobType: GraphType.JobType, optionType: GraphType.OptionType, time: GraphType.TimeType): LineDataSet {
         val entries = ArrayList<Entry>()
-        if (time == GraphType.TimeType.MONTH) createMonthlyXAxis() else createYearlyXAxis()
-        createYAxis(response, job, option, time)
-        entries.add(Entry(xAxisArrayList[0], yAxisArrayList[0]))
-        entries.add(Entry(xAxisArrayList[1], yAxisArrayList[1]))
-        entries.add(Entry(xAxisArrayList[2], yAxisArrayList[2]))
-        entries.add(Entry(xAxisArrayList[3], yAxisArrayList[3]))
-        entries.add(Entry(xAxisArrayList[4], yAxisArrayList[4]))
-        entries.add(Entry(xAxisArrayList[5], yAxisArrayList[5]))
-        entries.add(Entry(xAxisArrayList[6], yAxisArrayList[6]))
-        entries.add(Entry(xAxisArrayList[7], yAxisArrayList[7]))
-        entries.add(Entry(xAxisArrayList[8], yAxisArrayList[8]))
-        entries.add(Entry(xAxisArrayList[9], yAxisArrayList[9]))
-        entries.add(Entry(xAxisArrayList[10], yAxisArrayList[10]))
-        entries.add(Entry(xAxisArrayList[11], yAxisArrayList[11]))
+        val jobMap = sortData(response, jobType, time)
+
+        val xAxisArrayList = if (time == GraphType.TimeType.MONTH) createMonthlyXAxis() else createYearlyXAxis(jobMap)
+        val yAxisArrayList = createYAxis(jobMap, xAxisArrayList, optionType)
+
+        for (x in 0 until xAxisArrayList.size) {
+            entries.add(Entry(xAxisArrayList[x], yAxisArrayList[x]))
+        }
 
         //assign list to LineDataSet and label it
         return LineDataSet(entries, "My Type")
     }
 
-    //Sets the y axis of the graph based on the type of job and the data the user would like to see
-    private fun createYAxis(response: JSONArray, jobType: GraphType.JobType, option: GraphType.OptionType, time: GraphType.TimeType) {
-        //TODO!! This method is where there should be a call to the API. It might be best to split the function and use a when statement in createData() based on Job and Option Type?
-        //**equipmentId can be -1 when it is called from the dashboard, where the graphs are a sum of all equipment job requests
-        //Example of data formatting needed for the graphs
-        val yArray: ArrayList<Float> = ArrayList()
-
+    private fun sortData(response: JSONArray, jobType: GraphType.JobType, time: GraphType.TimeType): HashMap<Float, ArrayList<JSONObject>> {
         val jobMap = HashMap<Float, ArrayList<JSONObject>>()
 
+        // sorting the jobs by time
         for (i in 0 until response.length()) {
             val obj = response.getJSONObject(i)
-            if (time == GraphType.TimeType.MONTH) {
-                val completedTime = obj.getString("completed_time").split("-").get(1).toFloat()
-                if (jobMap.containsKey(completedTime)) {
-                    val existingList = jobMap[completedTime]
-                    existingList!!.add(obj)
-                    jobMap[completedTime] = existingList
-                } else {
-                    val newList = ArrayList<JSONObject>()
-                    newList.add(obj)
-                    jobMap[completedTime] = newList
-                }
+            val completedTime =
+                    if (time == GraphType.TimeType.MONTH)
+                        // the month number minus one so that it works with the xAxisArray
+                        obj.getString("completed_time").split("-")[1].toFloat() - 1
+                    else
+                        obj.getString("completed_time").split("-")[0].toFloat()
+
+            if (jobMap.containsKey(completedTime)) {
+                val existingList = jobMap[completedTime]
+                existingList!!.add(obj)
+                jobMap[completedTime] = existingList
             } else {
-                val completedTime = obj.getString("completed_time").split("-").get(0).toFloat()
-                if (jobMap.containsKey(completedTime)) {
-                    val existingList = jobMap[completedTime]
-                    existingList!!.add(obj)
-                    jobMap[completedTime] = existingList
-                } else {
-                    val newList = ArrayList<JSONObject>()
-                    newList.add(obj)
-                    jobMap[completedTime] = newList
-                }
+                val newList = ArrayList<JSONObject>()
+                newList.add(obj)
+                jobMap[completedTime] = newList
             }
         }
 
         for (key in jobMap.keys) {
-            val values = jobMap[key]
-            for (job in values!!.iterator()) {
-                if (jobType == GraphType.JobType.ALL) {
-                    Unit
-                } else if (job.getInt("service_type") != jobType.getInt()) {
-                    values.remove(job)
+            val jobsList = jobMap[key]
+            if (jobsList != null) {
+                // have to use an iterator because of the remove method
+                val iterator = jobsList.iterator()
+                while (iterator.hasNext()) {
+                    val job = iterator.next()
+                    if (jobType != GraphType.JobType.ALL && job.getInt("service_type") != jobType.getInt()) {
+                        iterator.remove()
+                    }
                 }
+                jobMap[key] = jobsList
             }
-            jobMap[key] = values
         }
+        return jobMap
+    }
+
+    //Sets the y axis of the graph based on the type of job and the data the user would like to see
+    private fun createYAxis(jobMap: HashMap<Float, ArrayList<JSONObject>>, xAxisArrayList: ArrayList<Float>, option: GraphType.OptionType): ArrayList<Float> {
+        val yArray: ArrayList<Float> = ArrayList()
 
         for (x in xAxisArrayList) {
             val jobsPerX = jobMap[x]
@@ -250,31 +237,29 @@ abstract class Graph : NavigationBar() {
                 yArray.add(0f)
             } else {
                 when (option) {
-                    //TODO: it's off by one for the months
                     GraphType.OptionType.JOBS -> yArray.add(jobsPerX.size.toFloat())
 
                     GraphType.OptionType.COST -> {
-                        var total: Float = 0f
+                        var totalCost = 0f
                         for (job in jobsPerX) {
                             val allInvoices = job.getJSONArray("invoices")
                             for (i in 0 until allInvoices.length()) {
                                 val invoiceTotal = allInvoices.getJSONObject(i).getString("total").toFloat()
-                                total += invoiceTotal
+                                totalCost += invoiceTotal
                             }
                         }
-                        yArray.add(total)
+                        yArray.add(totalCost)
                     }
 
                     else -> yArray.add(0f)
                 }
             }
         }
-
-        yAxisArrayList = yArray
+        return yArray
     }
 
     //Sets the x axis to months
-    private fun createMonthlyXAxis() {
+    private fun createMonthlyXAxis(): ArrayList<Float> {
         val xArray: ArrayList<Float> = ArrayList()
         xArray.add(0f)
         xArray.add(1f)
@@ -288,25 +273,23 @@ abstract class Graph : NavigationBar() {
         xArray.add(9f)
         xArray.add(10f)
         xArray.add(11f)
-        xAxisArrayList = xArray
+        return xArray
     }
 
     //Sets the x axis to years
-    private fun createYearlyXAxis() {
-        val xArray: ArrayList<Float> = ArrayList()
-        xArray.add(1998f)
-        xArray.add(1999f)
-        xArray.add(2000f)
-        xArray.add(2001f)
-        xArray.add(2002f)
-        xArray.add(2003f)
-        xArray.add(2004f)
-        xArray.add(2005f)
-        xArray.add(2006f)
-        xArray.add(2007f)
-        xArray.add(2008f)
-        xArray.add(2020f)
-        xAxisArrayList = xArray
+    private fun createYearlyXAxis(jobMap: HashMap<Float, ArrayList<JSONObject>>): ArrayList<Float> {
+        val xArray = jobMap.keys.toMutableList()
+
+        // just to make sure the graph has enough values to display if there aren't enough years
+        while (xArray.size < 12) {
+            val max = xArray.max()
+            if (max != null) {
+                xArray.add(max + 1)
+            }
+        }
+
+        // casting sorted List to ArrayList
+        return ArrayList(xArray.sorted())
     }
 
     abstract fun setUpGraph()
