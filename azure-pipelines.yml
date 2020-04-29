@@ -9,15 +9,21 @@ trigger:
 pool:
   vmImage: 'macos-latest'
 
-variables:
-  - group: PAT for API
-
 steps:
 - task: Gradle@2
   inputs:
     workingDirectory: 'Repairs'
     gradleWrapperFile: 'Repairs/gradlew'
     gradleOptions: '-Xmx3072m'
-    publishJUnitResults: false
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.8'
+    jdkArchitectureOption: 'x64'
+    publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'build'
+    tasks: 'assembleDebug lintDebug jacocoTestReport'
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'JaCoCo'
+    summaryFileLocation: '**/jacocoTestReport.xml'
+    pathToSources: 'Repairs/app/src/main/java/'
+    failIfCoverageEmpty: true

@@ -4,24 +4,24 @@ package com.rooio.repairs
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.transition.TransitionManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
+import com.android.volley.Request
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import org.json.JSONArray
-import org.json.JSONObject
-import android.util.Log
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
-import com.android.volley.Request
 import org.json.JSONException
+import org.json.JSONObject
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -277,8 +277,12 @@ class Dashboard : NavigationBar() {
 
         val equipmentObjList = resultSort[index].getJSONArray("equipment")
 
-        val equipmentObj = equipmentObjList.getJSONObject(0)
-        val category = equipmentObj.getString("service_category")
+        val equipmentObj = equipmentObjList.optJSONObject(0)
+
+        lateinit var category: String
+        category = if (equipmentObj != null) {
+            equipmentObj.getString("service_category")
+        } else { "4" }
 
         //repair type
         when (category) {
@@ -292,7 +296,6 @@ class Dashboard : NavigationBar() {
             "3" ->
                 repairType.text = getResources().getString(R.string.plumbing)
         }
-
         //set the date/time
         if (!resultSort[index].isNull("status_time_value")) {
             val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(resultSort[index].getString("status_time_value")))
