@@ -65,7 +65,7 @@ class Dashboard : NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        initialize()
+        initializePage()
         setNavigationBar()
         setActionBar()
         loadJobs()
@@ -75,7 +75,7 @@ class Dashboard : NavigationBar() {
     }
 
     //initialize variables
-    private fun initialize(){
+    private fun initializePage(){
         notableJob = findViewById(R.id.notableJob)
         repairType = findViewById(R.id.repairType)
         name = findViewById(R.id.name)
@@ -97,6 +97,7 @@ class Dashboard : NavigationBar() {
         inProgressButton = findViewById(R.id.inProgressButton)
         scheduledButton = findViewById(R.id.scheduledButton)
         pendingButton = findViewById(R.id.pendingButton)
+        name_greeting!!.text = ("Hi, " + userName + "!")
     }
 
     //LoadJobs sends a Api Get Request to get all Jobs
@@ -120,6 +121,7 @@ class Dashboard : NavigationBar() {
     @JvmField
     var errorFunc = Function<String, Void?> { string: String? ->
         name_greeting.text =string
+
         null
     }
 
@@ -302,15 +304,12 @@ class Dashboard : NavigationBar() {
 
         //name
         name.setText(internal_client.getString("name"))
-
-        //greeting
-        name_greeting!!.text = ("Hi, " + userName + "!")
+        
 
         //load logo
         val imageVal = internal_client.getString("logo")
         if (imageVal.isNullOrBlank() || imageVal == "null"){
             val viewGroup = findViewById<ViewGroup>(R.id.JobsLayout)
-            TransitionManager.beginDelayedTransition(viewGroup)
             val sideMover = viewGroup.findViewById<ViewGroup>(R.id.jobMover)
             val boxParams10 = sideMover.layoutParams
             boxParams10.width = 160
