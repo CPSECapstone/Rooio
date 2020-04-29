@@ -12,6 +12,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_equipment.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -172,7 +173,7 @@ abstract class Graph : NavigationBar() {
     //Creates data for the graph
     private fun createData(response: JSONArray, jobType: GraphType.JobType, optionType: GraphType.OptionType, time: GraphType.TimeType): LineDataSet {
         val entries = ArrayList<Entry>()
-        val jobMap = sortData(response, jobType, time)
+        val jobMap = filterData(response, jobType, time)
 
         val xAxisArrayList = if (time == GraphType.TimeType.MONTH) createMonthlyXAxis() else createYearlyXAxis(jobMap)
         val yAxisArrayList = createYAxis(jobMap, xAxisArrayList, optionType)
@@ -185,15 +186,20 @@ abstract class Graph : NavigationBar() {
         return LineDataSet(entries, "My Type")
     }
 
-    private fun sortData(response: JSONArray, jobType: GraphType.JobType, time: GraphType.TimeType): HashMap<Float, ArrayList<JSONObject>> {
+    // filtering the JSON response by time and job type
+    private fun filterData(response: JSONArray, jobType: GraphType.JobType, time: GraphType.TimeType): HashMap<Float, ArrayList<JSONObject>> {
+        return filterByJobType(filterByTime(response, time), jobType)
+    }
+
+    // filter the jobs by time
+    private fun filterByTime(response: JSONArray, time: GraphType.TimeType): HashMap<Float, ArrayList<JSONObject>>{
         val jobMap = HashMap<Float, ArrayList<JSONObject>>()
 
-        // sorting the jobs by time
         for (i in 0 until response.length()) {
             val obj = response.getJSONObject(i)
             val completedTime =
                     if (time == GraphType.TimeType.MONTH)
-                        // the month number minus one so that it works with the xAxisArray
+                    // the month number minus one so that it works with the xAxisArray
                         obj.getString("completed_time").split("-")[1].toFloat() - 1
                     else
                         obj.getString("completed_time").split("-")[0].toFloat()
@@ -208,7 +214,11 @@ abstract class Graph : NavigationBar() {
                 jobMap[completedTime] = newList
             }
         }
+        return jobMap
+    }
 
+    // filter the jobs by job type
+    private fun filterByJobType(jobMap: HashMap<Float, ArrayList<JSONObject>>, jobType: GraphType.JobType) : HashMap<Float, ArrayList<JSONObject>>{
         for (key in jobMap.keys) {
             val jobsList = jobMap[key]
             if (jobsList != null) {
@@ -228,32 +238,38 @@ abstract class Graph : NavigationBar() {
 
     //Sets the y axis of the graph based on the type of job and the data the user would like to see
     private fun createYAxis(jobMap: HashMap<Float, ArrayList<JSONObject>>, xAxisArrayList: ArrayList<Float>, option: GraphType.OptionType): ArrayList<Float> {
-        val yArray: ArrayList<Float> = ArrayList()
+        var yArray: ArrayList<Float> = ArrayList()
 
         for (x in xAxisArrayList) {
             val jobsPerX = jobMap[x]
             if (jobsPerX == null) {
                 yArray.add(0f)
             } else {
-                when (option) {
-                    GraphType.OptionType.JOBS -> yArray.add(jobsPerX.size.toFloat())
-
-                    GraphType.OptionType.COST -> {
-                        var totalCost = 0f
-                        for (job in jobsPerX) {
-                            val allInvoices = job.getJSONArray("invoices")
-                            for (i in 0 until allInvoices.length()) {
-                                val invoiceTotal = allInvoices.getJSONObject(i).getString("total").toFloat()
-                                totalCost += invoiceTotal
-                            }
-                        }
-                        yArray.add(totalCost)
-                    }
-
-                    else -> yArray.add(0f)
-                }
+                yArray = calculateYValue(yArray, option, jobsPerX)
             }
         }
+        return yArray
+    }
+
+    private fun calculateYValue(yArray: ArrayList<Float>, option: GraphType.OptionType, jobsPerX: ArrayList<JSONObject>) : ArrayList<Float>{
+        when (option) {
+            GraphType.OptionType.JOBS -> yArray.add(jobsPerX.size.toFloat())
+
+            GraphType.OptionType.COST -> {
+                var totalCost = 0f
+                for (job in jobsPerX) {
+                    val allInvoices = job.getJSONArray("invoices")
+                    for (i in 0 until allInvoices.length()) {
+                        val invoiceTotal = allInvoices.getJSONObject(i).getString("total").toFloat()
+                        totalCost += invoiceTotal
+                    }
+                }
+                yArray.add(totalCost)
+            }
+
+            else -> yArray.add(0f)
+        }
+
         return yArray
     }
 
