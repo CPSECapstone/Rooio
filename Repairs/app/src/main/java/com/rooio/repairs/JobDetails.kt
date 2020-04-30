@@ -165,8 +165,11 @@ class JobDetails: NavigationBar() {
         val category = equipmentObj.getString("service_category")
         var repairCategory = ""
         when (category) {
-            "4" ->
+            "4" -> {
                 repairCategory = "General Appliance"
+                equipmentLayout.visibility = View.GONE
+                viewEquipment.visibility = View.GONE
+            }
             "1" ->
                 repairCategory = "HVAC"
             "2" ->
@@ -175,7 +178,6 @@ class JobDetails: NavigationBar() {
                 repairCategory = "Plumbing"
         }
         serviceType.text = repairCategory
-
         restaurantLocation.text = locationObj.getString("physical_address")
         restaurantName.text = internal_client.getString("name")
         availableTechnicians.text = serviceObj.getString("name")

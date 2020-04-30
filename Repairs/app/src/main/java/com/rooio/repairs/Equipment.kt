@@ -171,13 +171,12 @@ class Equipment : Graph() {
         val params = HashMap<Any?, Any?>()
         addButton.setOnClickListener {
 
-            addButton.visibility = View.GONE
-            params["display_name"] = addDisplayName.text.toString()
-            params["serial_number"] = addSerialNumber.text.toString()
-            params["manufacturer"] = addManufacturer.text.toString()
-            params["location"] = addLocation.text.toString()
-            params["model_number"] = addModelNumber.text.toString()
-            params["type"] = (addEquipmentType.selectedItem as EquipmentType).getIntRepr()
+            params["display_name"] = displayName.text.toString()
+            params["serial_number"] = serialNumber.text.toString()
+            params["manufacturer"] = manufacturer.text.toString()
+            params["location"] = location.text.toString()
+            params["model_number"] = modelNumber.text.toString()
+            params["type"] = (equipmentType.selectedItem as EquipmentType).getIntRepr()
 
             val url = url + "equipment/"
 
@@ -212,6 +211,7 @@ class Equipment : Graph() {
         val displayName = request.params?.get("display_name").toString()
 
         if(displayName.isNotEmpty()) {
+            addButton.visibility = View.GONE
             addLoadingPanel.visibility = View.VISIBLE
             requestJson(Request.Method.POST, JsonType.OBJECT, request)
         }

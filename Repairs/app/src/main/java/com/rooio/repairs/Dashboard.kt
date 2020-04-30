@@ -66,7 +66,7 @@ class Dashboard : Graph() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        initialize()
+        initializePage()
         setNavigationBar()
         setActionBar()
         setGraphSpinners()
@@ -78,7 +78,7 @@ class Dashboard : Graph() {
     }
 
     //initialize variables
-    private fun initialize(){
+    private fun initializePage(){
         notableJob = findViewById(R.id.notableJob)
         repairType = findViewById(R.id.repairType)
         name = findViewById(R.id.name)
@@ -100,10 +100,12 @@ class Dashboard : Graph() {
         inProgressButton = findViewById(R.id.inProgressButton)
         scheduledButton = findViewById(R.id.scheduledButton)
         pendingButton = findViewById(R.id.pendingButton)
+        name_greeting!!.text = ("Hi, " + userName + "!")
     }
 
     //LoadJobs sends a Api Get Request to get all Jobs
     private fun loadJobs(){
+        jobsLayout.visibility = (View.INVISIBLE)
         val url = url + "jobs/"
         requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
                 null, responseFunc, errorFunc, true))
@@ -123,6 +125,7 @@ class Dashboard : Graph() {
     @JvmField
     var errorFunc = Function<String, Void?> { string: String? ->
         name_greeting.text =string
+
         null
     }
 
@@ -283,29 +286,32 @@ class Dashboard : Graph() {
     private fun notableJobsFill() {
         if (pendingJobs.size != 0) {
             // Sort PendingJobs and fill in
+            jobsLayout.visibility = (View.VISIBLE)
             resultSort = sortJobsList(pendingJobs)
             loadNotable(0, 3)
         }
         else if (inProgressJobs.size != 0){
             //Sort inProgressJobs and fill in
+            jobsLayout.visibility = (View.VISIBLE)
             resultSort = sortJobsList(inProgressJobs)
             loadNotable(0, 2)
         }
         else if (scheduledJobs.size != 0){
             //Check if there is a scheduled job today
             var i = 0
+            jobsLayout.visibility = (View.VISIBLE)
             resultSort = sortJobsList(scheduledJobs)
             for (index in resultSort.indices){
                 if (0 == (timeConvert(resultSort[index].getString("status_time_value")))) {
                     if(index == (resultSort.size - 1) && (i == 0)){
 
                         jobsLayout.visibility = (View.INVISIBLE)
-                        clockImage.visibility = (View.GONE)
                         noJob.visibility = (View.VISIBLE)
                         noJob.text = resources.getString(R.string.noJobstoDisplay)
                         repairImage.visibility = (View.GONE)
                         color.visibility = (View.INVISIBLE)
 
+                        noJob.text = getResources().getString(R.string.no_jobs)
                     }
                 }
                 else{
@@ -315,12 +321,11 @@ class Dashboard : Graph() {
             }
         }
         else{
-            jobsLayout.visibility = (View.INVISIBLE)
-            clockImage.visibility = (View.GONE)
             noJob.visibility = (View.VISIBLE)
             noJob.text = resources.getString(R.string.noJobstoDisplay)
             repairImage.visibility = (View.GONE)
             color.visibility = (View.INVISIBLE)
+            noJob.text = getResources().getString(R.string.no_jobs);
 
         }
     }
@@ -382,16 +387,13 @@ class Dashboard : Graph() {
         address.text = locationObj.getString("physical_address")
 
         //name
-        name.text = internalClient.getString("name")
-
-        //greeting
-        name_greeting!!.text = ("Hi, $userName!")
+        name.setText(internal_client.getString("name"))
+        
 
         //load logo
         val imageVal = internalClient.getString("logo")
         if (imageVal.isNullOrBlank() || imageVal == "null"){
             val viewGroup = findViewById<ViewGroup>(R.id.JobsLayout)
-            TransitionManager.beginDelayedTransition(viewGroup)
             val sideMover = viewGroup.findViewById<ViewGroup>(R.id.jobMover)
             val boxParams10 = sideMover.layoutParams
             boxParams10.width = 160
