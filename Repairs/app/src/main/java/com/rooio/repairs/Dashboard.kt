@@ -28,9 +28,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-
 class Dashboard : Graph() {
-    private lateinit var image_on: String
+    private lateinit var imageOn: String
     private lateinit var scheduledNum: TextView
     private lateinit var inProgressNum: TextView
     private lateinit var pendingNum: TextView
@@ -70,8 +69,8 @@ class Dashboard : Graph() {
         initialize()
         setNavigationBar()
         setActionBar()
-        setSpinners(GraphType.DASHBOARD)
-        setAdapters(GraphType.DASHBOARD)
+        setGraphSpinners()
+        setGraphAdapters(GraphType.DASHBOARD)
         loadJobs()
         createNavigationBar(NavigationType.DASHBOARD)
         jobRequestsClicked()
@@ -151,7 +150,7 @@ class Dashboard : Graph() {
 
     @JvmField
     var errorLoadAllEquipmentFunc = Function<String, Void?> {
-        Log.i("graph", it)
+        name_greeting.text = it
         null
     }
 
@@ -181,7 +180,7 @@ class Dashboard : Graph() {
             // adding each job history to a hash map to ensure there are no duplicates
             for (i in 0 until jsonArray.length()){
                 val obj = jsonArray.getJSONObject(i)
-                jobHistoryMap.put(obj.getString("id"), obj)
+                jobHistoryMap[obj.getString("id")] = obj
             }
 
             combineJobHistory()
@@ -219,12 +218,12 @@ class Dashboard : Graph() {
         lightingButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
             intent.putExtra("equipmentType", EquipmentType.LIGHTING_AND_ELECTRICAL.getIntRepr())
-            startActivity(intent);
+            startActivity(intent)
         }
         plumbingButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
             intent.putExtra("equipmentType", EquipmentType.PLUMBING.getIntRepr())
-            startActivity(intent);
+            startActivity(intent)
         }
         applianceButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
@@ -281,7 +280,7 @@ class Dashboard : Graph() {
     }
 
     //Filter notable jobs by #1 Pending Jobs, #2 inProgress Jobs, #3 scheduled jobs
-    private fun notableJobsFill(){
+    private fun notableJobsFill() {
         if (pendingJobs.size != 0) {
             // Sort PendingJobs and fill in
             resultSort = sortJobsList(pendingJobs)
@@ -303,7 +302,7 @@ class Dashboard : Graph() {
                         jobsLayout.visibility = (View.INVISIBLE)
                         clockImage.visibility = (View.GONE)
                         noJob.visibility = (View.VISIBLE)
-                        noJob.text = getResources().getString(R.string.noJobstoDisplay);
+                        noJob.text = resources.getString(R.string.noJobstoDisplay)
                         repairImage.visibility = (View.GONE)
                         color.visibility = (View.INVISIBLE)
 
@@ -319,7 +318,7 @@ class Dashboard : Graph() {
             jobsLayout.visibility = (View.INVISIBLE)
             clockImage.visibility = (View.GONE)
             noJob.visibility = (View.VISIBLE)
-            noJob.text = getResources().getString(R.string.noJobstoDisplay);
+            noJob.text = resources.getString(R.string.noJobstoDisplay)
             repairImage.visibility = (View.GONE)
             color.visibility = (View.INVISIBLE)
 
@@ -336,11 +335,7 @@ class Dashboard : Graph() {
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
         //If past due then return 0
-        if (sdf.parse(eta)!!.before(sdf.parse(now))) {
-           return 0
-        } else {
-            return 1
-        }
+        return if (sdf.parse(eta)!!.before(sdf.parse(now))) 0 else 1
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -354,7 +349,7 @@ class Dashboard : Graph() {
     @SuppressLint("SimpleDateFormat")
     private fun loadNotable(index: Int, colorStatus: Int ){
         val locationObj = resultSort[index].getJSONObject("service_location")
-        val internal_client = locationObj.getJSONObject("internal_client")
+        val internalClient = locationObj.getJSONObject("internal_client")
 
         val equipmentObjList = resultSort[index].getJSONArray("equipment")
 
@@ -369,13 +364,13 @@ class Dashboard : Graph() {
         when (category) {
             "4" ->
                 //categories.add("General Appliance")
-                repairType.text = getResources().getString(R.string.generalAppliance)
+                repairType.text = resources.getString(R.string.generalAppliance)
             "1" ->
-                repairType.text = getResources().getString(R.string.hvac)
+                repairType.text = resources.getString(R.string.hvac)
             "2" ->
-                repairType.text = getResources().getString(R.string.lightingAndElectrical)
+                repairType.text = resources.getString(R.string.lightingAndElectrical)
             "3" ->
-                repairType.text = getResources().getString(R.string.plumbing)
+                repairType.text = resources.getString(R.string.plumbing)
         }
         //set the date/time
         if (!resultSort[index].isNull("status_time_value")) {
@@ -387,13 +382,13 @@ class Dashboard : Graph() {
         address.text = locationObj.getString("physical_address")
 
         //name
-        name.setText(internal_client.getString("name"))
+        name.text = internalClient.getString("name")
 
         //greeting
-        name_greeting!!.text = ("Hi, " + userName + "!")
+        name_greeting!!.text = ("Hi, $userName!")
 
         //load logo
-        val imageVal = internal_client.getString("logo")
+        val imageVal = internalClient.getString("logo")
         if (imageVal.isNullOrBlank() || imageVal == "null"){
             val viewGroup = findViewById<ViewGroup>(R.id.JobsLayout)
             TransitionManager.beginDelayedTransition(viewGroup)
@@ -402,18 +397,17 @@ class Dashboard : Graph() {
             boxParams10.width = 160
             sideMover.layoutParams = boxParams10
             image.visibility = (View.GONE)
-            image_on = "off"
+            imageOn = "off"
         }
         else{
-            image_on = "on"
+            imageOn = "on"
             Picasso.with(this)
                     .load(imageVal)
                     .into(image)
         }
 
-
         //Navigate to JobDetails after a click of the job
-        notableJob.setOnClickListener { v ->
+        notableJob.setOnClickListener {
             try {
                 val jobId = resultSort[index].getString("id")
 
@@ -425,7 +419,6 @@ class Dashboard : Graph() {
             } catch (e: JSONException) {
                 Log.d("exception", e.toString())
             }
-
         }
 
         //Change the color of the job
@@ -499,7 +492,7 @@ class Dashboard : Graph() {
 
         boxParams7.width = notableJobsWidth
 
-        if(image_on == "off"){
+        if(imageOn == "off"){
             val textWidth = if (boolean) 330 else 160
 
             val sideMover = viewGroup.findViewById<ViewGroup>(R.id.jobMover)
@@ -524,15 +517,10 @@ class Dashboard : Graph() {
         return destFormat.format(convertedDate!!)
     }
 
-     fun sortJobsList(list: ArrayList<JSONObject>):ArrayList<JSONObject> {
+     private fun sortJobsList(list: ArrayList<JSONObject>):ArrayList<JSONObject> {
 
         Collections.sort(list, JSONComparator())
 
         return list
     }
-
-
-
-
-
 }

@@ -1,6 +1,5 @@
 package com.rooio.repairs
 
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -13,11 +12,9 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_equipment.*
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.File
 
 abstract class Graph : NavigationBar() {
 
@@ -28,7 +25,7 @@ abstract class Graph : NavigationBar() {
     var graphTime: GraphType.TimeType = GraphType.TimeType.MONTH
 
     //Handles when the graph spinners change
-    fun setSpinners(type: GraphType) {
+    fun setGraphSpinners() {
         val jobSpinner = findViewById<Spinner>(R.id.jobSpinner)
         val timeSpinner = findViewById<Spinner>(R.id.timeSpinner)
         val optionSpinner = findViewById<Spinner>(R.id.optionSpinner)
@@ -74,7 +71,7 @@ abstract class Graph : NavigationBar() {
     }
 
     //Sets the appearance and text of adapters
-    fun setAdapters(type: GraphType) {
+    fun setGraphAdapters(type: GraphType) {
         ArrayAdapter.createFromResource(
                 this,
                 R.array.job_analysis,
@@ -158,8 +155,8 @@ abstract class Graph : NavigationBar() {
         lineChart.axisLeft.setDrawGridLines(false)
         lineChart.xAxis.setDrawGridLines(false)
         //Sets the zoom on the graph
-        lineChart.setTouchEnabled(true)
-        lineChart.setPinchZoom(true)
+        lineChart.setTouchEnabled(false)
+        lineChart.setPinchZoom(false)
         //Removes unnecessary chart information
         lineChart.description.isEnabled = false
         lineChart.setNoDataText("No data yet!")
@@ -266,8 +263,6 @@ abstract class Graph : NavigationBar() {
                 }
                 yArray.add(totalCost)
             }
-
-            else -> yArray.add(0f)
         }
 
         return yArray
@@ -276,18 +271,9 @@ abstract class Graph : NavigationBar() {
     //Sets the x axis to months
     private fun createMonthlyXAxis(): ArrayList<Float> {
         val xArray: ArrayList<Float> = ArrayList()
-        xArray.add(0f)
-        xArray.add(1f)
-        xArray.add(2f)
-        xArray.add(3f)
-        xArray.add(4f)
-        xArray.add(5f)
-        xArray.add(6f)
-        xArray.add(7f)
-        xArray.add(8f)
-        xArray.add(9f)
-        xArray.add(10f)
-        xArray.add(11f)
+        for (i in 0 until 12){
+            xArray.add(i.toFloat())
+        }
         return xArray
     }
 

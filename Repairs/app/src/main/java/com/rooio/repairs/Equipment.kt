@@ -78,8 +78,8 @@ class Equipment : Graph() {
         initializeVariable()
         setNavigationBar()
         setActionBar()
-        setSpinners(GraphType.EQUIPMENT)
-        setAdapters(GraphType.EQUIPMENT)
+        setGraphSpinners()
+        setGraphAdapters(GraphType.EQUIPMENT)
         createNavigationBar(NavigationType.EQUIPMENT)
         loadAfterEquipmentSave()
         loadEquipmentElements()
@@ -99,7 +99,6 @@ class Equipment : Graph() {
         if (equipmentPosition != -1) {
             equipmentId = intent.getStringExtra(equipmentIdBundle) as String
         }
-        Log.d("myTag", equipmentId)
         if (savedEquipment != null) {
             messageText.text = "$savedEquipment successfully saved!"
         }
