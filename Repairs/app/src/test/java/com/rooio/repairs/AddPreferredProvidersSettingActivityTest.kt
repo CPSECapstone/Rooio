@@ -77,7 +77,7 @@ class AddPreferredProvidersSettingActivityTest {
 
     @Test
     fun testProviderResponseFunc() {
-        activity.providerResponseFunc.apply(JSONArray())
+        activity.providerResponseFunc.apply(JSONArray().put(JSONObject().put("phone", "123456")))
         val expectedIntent = Intent(activity, PreferredProvidersSettings::class.java)
         val actual: Intent = Shadows.shadowOf(Application()).nextStartedActivity
         Assert.assertEquals(expectedIntent.component, actual.component)
