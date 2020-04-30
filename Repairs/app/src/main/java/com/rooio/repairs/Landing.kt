@@ -3,11 +3,9 @@ package com.rooio.repairs
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
 
 //First page that will show up if a user token is not stored
-class Landing : AppCompatActivity() {
+class Landing : RestApi() {
 
     private lateinit var createAccount: Button
     private lateinit var connectAccount: Button
@@ -19,13 +17,6 @@ class Landing : AppCompatActivity() {
         initializeVariables()
         onCreateAccount()
         onConnectAccount()
-    }
-
-    //Centers "Repairs" title
-    private fun centerTitleBar() {
-        supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        supportActionBar!!.setCustomView(R.layout.action_bar)
-        supportActionBar!!.elevation = 0f
     }
 
     //Initializes UI variables

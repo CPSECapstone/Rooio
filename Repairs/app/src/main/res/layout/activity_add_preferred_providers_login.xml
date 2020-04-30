@@ -113,7 +113,7 @@
             app:layout_constraintVertical_bias=".8" />
 
         <TextView
-            android:id="@+id/addProviderErrorMessage"
+            android:id="@+id/errorMessage"
             android:layout_width="600dp"
             android:layout_height="40dp"
             android:fontFamily="@font/nunito_sans"

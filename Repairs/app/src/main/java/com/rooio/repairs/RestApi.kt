@@ -4,6 +4,7 @@ import android.content.Context
 import android.media.AudioManager
 import android.os.Build
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.*
 import com.android.volley.toolbox.JsonObjectRequest
@@ -154,6 +155,13 @@ abstract class RestApi : AppCompatActivity() {
         window.addContentView(actionbarView,
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
         supportActionBar!!.elevation = 0.0f
+    }
+
+    //Centers "Repairs" title on pages without navigation
+    fun centerTitleBar() {
+        supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
+        supportActionBar!!.setCustomView(R.layout.action_bar)
+        supportActionBar!!.elevation = 0f
     }
   
     //Functions to mute sound

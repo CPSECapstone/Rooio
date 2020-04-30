@@ -67,7 +67,7 @@
             android:layout_height="23dp"
             android:layout_marginEnd="5dp"
             android:fontFamily="@font/nunito_sans"
-            android:textColor="@color/colorGray"
+            android:textColor="@color/lightGray"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/jobMover"
             app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -78,7 +78,8 @@
             android:layout_height="23dp"
             android:layout_marginEnd="5dp"
             android:fontFamily="@font/nunito_sans"
-            android:textColor="@color/colorGray"
+            android:textAllCaps="false"
+            android:textColor="@color/lightGray"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/jobMover"
             app:layout_constraintTop_toBottomOf="@+id/repairType" />
