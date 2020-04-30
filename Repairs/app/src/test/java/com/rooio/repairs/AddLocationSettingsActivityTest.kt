@@ -68,7 +68,7 @@ class AddLocationSettingsActivityTest {
     @Test
     fun testLocationResponseFunc() {
         activity.locationResponseFunc.apply(JSONArray())
-        val expectedIntent = Intent(activity, ChangeLocationSettings::class.java)
+        val expectedIntent = Intent(activity, LocationSettings::class.java)
         val actual: Intent = Shadows.shadowOf(Application()).nextStartedActivity
         Assert.assertEquals(expectedIntent.component, actual.component)
     }
