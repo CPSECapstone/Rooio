@@ -17,13 +17,14 @@ import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_equipment.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
 
 abstract class Graph : NavigationBar() {
 
     val url = "service-locations/$userLocationID/"
 
     var graphJob: GraphType.JobType = GraphType.JobType.REPAIR
-    var graphOption: GraphType.OptionType = GraphType.OptionType.TOTAL_COST
+    var graphOption: GraphType.OptionType = GraphType.OptionType.COST
     var graphTime: GraphType.TimeType = GraphType.TimeType.MONTH
 
     //Handles when the graph spinners change
@@ -51,16 +52,10 @@ abstract class Graph : NavigationBar() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                if (type == GraphType.EQUIPMENT)
-                    when (parent.getItemAtPosition(position).toString()) {
-                        "Cost" -> graphOption = GraphType.OptionType.COST
-                        "Job Requests" -> graphOption = GraphType.OptionType.JOBS
-                    }
-                else
-                    when (parent.getItemAtPosition(position).toString()) {
-                        "Cost" -> graphOption = GraphType.OptionType.TOTAL_COST
-                        "Job Requests" -> graphOption = GraphType.OptionType.TOTAL_JOBS
-                    }
+                when (position) {
+                    0 -> graphOption = GraphType.OptionType.COST
+                    1 -> graphOption = GraphType.OptionType.JOBS
+                }
                 setUpGraph()
             }
         }
@@ -132,6 +127,7 @@ abstract class Graph : NavigationBar() {
     //Creates graph based on equipment
     fun createGraph(response: JSONArray, job: GraphType.JobType, option: GraphType.OptionType, time: GraphType.TimeType) {
         val vl = createData(response, job, option, time)
+
         //Initial graph settings
         vl.setDrawValues(false)
         vl.setDrawFilled(true)
@@ -190,7 +186,8 @@ abstract class Graph : NavigationBar() {
 
     // filtering the JSON response by time and job type
     private fun filterData(response: JSONArray, jobType: GraphType.JobType, time: GraphType.TimeType): HashMap<Float, ArrayList<JSONObject>> {
-        return filterByJobType(filterByTime(response, time), jobType)
+        val filteredByTime = filterByTime(response, time)
+        return filterByJobType(filteredByTime, jobType)
     }
 
     // filter the jobs by time
@@ -255,7 +252,6 @@ abstract class Graph : NavigationBar() {
 
     // calculating the y value based on the option type
     private fun calculateYValue(yArray: ArrayList<Float>, option: GraphType.OptionType, jobsPerX: ArrayList<JSONObject>) : ArrayList<Float>{
-        Log.i("graph", "jobsperx: " + jobsPerX.toString())
         when (option) {
             GraphType.OptionType.JOBS -> yArray.add(jobsPerX.size.toFloat())
 

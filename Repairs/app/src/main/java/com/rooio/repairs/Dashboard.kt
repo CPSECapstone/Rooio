@@ -30,7 +30,6 @@ import kotlin.collections.HashMap
 
 
 class Dashboard : Graph() {
-
     private lateinit var image_on: String
     private lateinit var scheduledNum: TextView
     private lateinit var inProgressNum: TextView
@@ -54,7 +53,7 @@ class Dashboard : Graph() {
     private lateinit var scheduledButton: Button
     private lateinit var inProgressButton: Button
 
-    private var jobHistoryJsonArray = JSONArray()
+    private var jobHistoryMap = HashMap<String, JSONObject>()
 
     companion object{
         @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
@@ -74,7 +73,6 @@ class Dashboard : Graph() {
         setSpinners(GraphType.DASHBOARD)
         setAdapters(GraphType.DASHBOARD)
         loadJobs()
-        setUpGraph()
         createNavigationBar(NavigationType.DASHBOARD)
         jobRequestsClicked()
         jobNumberClicked()
@@ -129,11 +127,8 @@ class Dashboard : Graph() {
         null
     }
 
+    // loads all the job histories for all pieces of equipment at the service location
     override fun setUpGraph() {
-        getAllEquipment()
-    }
-
-    private fun getAllEquipment(){
         val params = HashMap<Any?, Any?>()
         params["service_location_id"] = userLocationID
 
@@ -160,6 +155,7 @@ class Dashboard : Graph() {
         null
     }
 
+    // loading all job histories for each piece of equipment
     private fun loadAllJobHistory(response: JSONArray){
         val params = HashMap<Any?, Any?>()
 
@@ -181,10 +177,15 @@ class Dashboard : Graph() {
     var responseLoadJobHistoryFunc = Function<Any, Void?> { jsonResponse: Any? ->
         try {
             val jsonArray = jsonResponse as JSONArray
+
+            // adding each job history to a hash map to ensure there are no duplicates
             for (i in 0 until jsonArray.length()){
-                jobHistoryJsonArray.put(jsonArray[i])
+                val obj = jsonArray.getJSONObject(i)
+                jobHistoryMap.put(obj.getString("id"), obj)
             }
-            createGraph(jobHistoryJsonArray, graphJob, graphOption, graphTime)
+
+            combineJobHistory()
+
         } catch (e: JSONException) {
             e.printStackTrace()
         }
@@ -195,6 +196,17 @@ class Dashboard : Graph() {
     var errorLoadJobHistoryFunc = Function<String, Void?> {
         Log.i("graph", it)
         null
+    }
+
+    // turning hash map of job histories into a JSONArray for graphing
+    private fun combineJobHistory() {
+        val jsonArray = JSONArray()
+        for(i in jobHistoryMap.keys){
+            val obj = jobHistoryMap[i]
+            jsonArray.put(obj)
+        }
+
+        createGraph(jsonArray, graphJob, graphOption, graphTime)
     }
 
     //OnClick for New Job Requests to Choose Equipment Page
