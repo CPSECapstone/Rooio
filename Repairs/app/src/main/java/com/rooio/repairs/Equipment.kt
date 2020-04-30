@@ -176,7 +176,7 @@ class Equipment : Graph() {
             params["manufacturer"] = manufacturer.text.toString()
             params["location"] = location.text.toString()
             params["model_number"] = modelNumber.text.toString()
-            params["type"] = (equipmentType.selectedItem as EquipmentType).getIntRepr()
+            params["type"] = (addEquipmentType.selectedItem as EquipmentType).getIntRepr()
 
             val url = url + "equipment/"
 

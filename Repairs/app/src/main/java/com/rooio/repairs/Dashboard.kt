@@ -12,14 +12,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.android.volley.Request
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import org.json.JSONArray
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import org.json.JSONException
 import org.json.JSONObject
 import java.text.ParseException
@@ -100,7 +100,7 @@ class Dashboard : Graph() {
         inProgressButton = findViewById(R.id.inProgressButton)
         scheduledButton = findViewById(R.id.scheduledButton)
         pendingButton = findViewById(R.id.pendingButton)
-        name_greeting!!.text = ("Hi, " + userName + "!")
+        name_greeting!!.text = ("Hi, $userName!")
     }
 
     //LoadJobs sends a Api Get Request to get all Jobs
@@ -307,11 +307,10 @@ class Dashboard : Graph() {
 
                         jobsLayout.visibility = (View.INVISIBLE)
                         noJob.visibility = (View.VISIBLE)
-                        noJob.text = resources.getString(R.string.noJobstoDisplay)
+                        noJob.text = resources.getString(R.string.no_jobs)
                         repairImage.visibility = (View.GONE)
                         color.visibility = (View.INVISIBLE)
 
-                        noJob.text = getResources().getString(R.string.no_jobs)
                     }
                 }
                 else{
@@ -322,10 +321,9 @@ class Dashboard : Graph() {
         }
         else{
             noJob.visibility = (View.VISIBLE)
-            noJob.text = resources.getString(R.string.noJobstoDisplay)
+            noJob.text = resources.getString(R.string.no_jobs)
             repairImage.visibility = (View.GONE)
             color.visibility = (View.INVISIBLE)
-            noJob.text = getResources().getString(R.string.no_jobs);
 
         }
     }
@@ -387,8 +385,7 @@ class Dashboard : Graph() {
         address.text = locationObj.getString("physical_address")
 
         //name
-        name.setText(internal_client.getString("name"))
-        
+        name.text = internalClient.getString("name")
 
         //load logo
         val imageVal = internalClient.getString("logo")
