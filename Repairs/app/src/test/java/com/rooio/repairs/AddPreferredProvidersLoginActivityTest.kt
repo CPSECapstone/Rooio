@@ -79,8 +79,6 @@ class AddPreferredProvidersLoginActivityTest {
     @Test
     fun testProviderResponseFunc() {
         activity.providerResponseFunc.apply(JSONArray().put(JSONObject().put("phone", "123456")))
-//        val error = activity.findViewById(R.id.addProviderErrorMessage) as TextView
-//        assertEquals(activity.resources.getString(R.string.error_provider), error.text.toString())
         val expectedIntent = Intent(activity, PreferredProvidersLogin::class.java)
         val actual: Intent = Shadows.shadowOf(Application()).nextStartedActivity
         assertEquals(expectedIntent.component, actual.component)
@@ -89,7 +87,7 @@ class AddPreferredProvidersLoginActivityTest {
     @Test
     fun testProviderResponseFuncError() {
         activity.providerResponseFunc.apply(JSONArray())
-        val error = activity.findViewById(R.id.addProviderErrorMessage) as TextView
+        val error = activity.findViewById(R.id.errorMessage) as TextView
         assertEquals(activity.resources.getString(R.string.error_provider), error.text.toString())
     }
     @Test
