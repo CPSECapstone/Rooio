@@ -102,6 +102,7 @@ class Dashboard : NavigationBar() {
 
     //LoadJobs sends a Api Get Request to get all Jobs
     private fun loadJobs(){
+        jobsLayout.visibility = (View.INVISIBLE)
         val url = "service-locations/$userLocationID/jobs/"
         requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
                 null, responseFunc, errorFunc, true))
@@ -203,29 +204,28 @@ class Dashboard : NavigationBar() {
     private fun notableJobsFill(){
         if (pendingJobs.size != 0) {
             // Sort PendingJobs and fill in
+            jobsLayout.visibility = (View.VISIBLE)
             resultSort = sortJobsList(pendingJobs)
             loadNotable(0, 3)
         }
         else if (inProgressJobs.size != 0){
             //Sort inProgressJobs and fill in
+            jobsLayout.visibility = (View.VISIBLE)
             resultSort = sortJobsList(inProgressJobs)
             loadNotable(0, 2)
         }
         else if (scheduledJobs.size != 0){
             //Check if there is a scheduled job today
             var i = 0
+            jobsLayout.visibility = (View.VISIBLE)
             resultSort = sortJobsList(scheduledJobs)
             for (index in resultSort.indices){
                 if (0 == (timeConvert(resultSort[index].getString("status_time_value")))) {
                     if(index == (resultSort.size - 1) && (i == 0)){
 
                         jobsLayout.visibility = (View.INVISIBLE)
-                        clockImage.visibility = (View.GONE)
                         noJob.visibility = (View.VISIBLE)
-                        noJob.text = getResources().getString(R.string.noJobstoDisplay);
-                        repairImage.visibility = (View.GONE)
-                        color.visibility = (View.INVISIBLE)
-
+                        noJob.text = getResources().getString(R.string.no_jobs)
                     }
                 }
                 else{
@@ -235,12 +235,8 @@ class Dashboard : NavigationBar() {
             }
         }
         else{
-            jobsLayout.visibility = (View.INVISIBLE)
-            clockImage.visibility = (View.GONE)
             noJob.visibility = (View.VISIBLE)
-            noJob.text = getResources().getString(R.string.noJobstoDisplay);
-            repairImage.visibility = (View.GONE)
-            color.visibility = (View.INVISIBLE)
+            noJob.text = getResources().getString(R.string.no_jobs);
 
         }
     }

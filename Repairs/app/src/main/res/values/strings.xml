@@ -76,7 +76,7 @@
     <string name="archived">Archived</string>
     <string name="cancelled">Cancelled</string>
 
-    <string name="noJobstoDisplay">No Jobs to Display</string>
+    <string name="no_jobs">No jobs to display</string>
     <string name="timeFormat">yyyy-MM-dd HH:mm:ss</string>
 
 
