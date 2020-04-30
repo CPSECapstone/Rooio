@@ -33,10 +33,10 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.84"
+        app:layout_constraintHorizontal_bias="0.82"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.132">
+        app:layout_constraintVertical_bias="0.08">
 
         <TextView
             android:id="@+id/editEquipmentDetailsText"
@@ -348,7 +348,7 @@
         app:layout_constraintHorizontal_bias="0.84"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.132">
+        app:layout_constraintVertical_bias="0.08">
 
         <TextView
             android:id="@+id/addEquipmentText"
@@ -668,18 +668,18 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
 
-            <ListView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/equipmentList"
                 android:layout_width="363dp"
                 android:layout_height="785dp"
                 android:background="#00E63528"
                 android:divider="@drawable/blank_border"
                 android:overScrollMode="never"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
@@ -719,29 +719,70 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/analyticsConstraint"
         android:layout_width="885dp"
-        android:layout_height="316dp"
+        android:layout_height="380dp"
         android:background="@drawable/shadow"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.84"
+        app:layout_constraintHorizontal_bias="0.82"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9">
+        app:layout_constraintVertical_bias="0.95">
 
-        <TextView
-            android:id="@+id/equipmentPageNoSelectionText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lineSpacingExtra="8sp"
-            android:text="@string/analytics_under_construction"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            android:visibility="visible"
+
+        <Spinner
+            android:id="@+id/jobSpinner"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/spinner_background"
+            android:entries="@array/job_analysis"
+            android:soundEffectsEnabled="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.050000012" />
+
+        <Spinner
+            android:id="@+id/timeSpinner"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/spinner_background"
+            android:entries="@array/time_analysis"
+            android:soundEffectsEnabled="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.050000012" />
+
+        <Spinner
+            android:id="@+id/optionSpinner"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/spinner_background"
+            android:entries="@array/option_analysis"
+            android:soundEffectsEnabled="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.050000012" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:layout_width="805dp"
+            android:layout_height="275dp"
+            android:padding="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.8" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -752,10 +793,10 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.84"
+        app:layout_constraintHorizontal_bias="0.82"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.132">
+        app:layout_constraintVertical_bias="0.08">
 
         <TextView
             android:id="@+id/equipmentDetailsText"
@@ -968,6 +1009,7 @@
                 android:layout_height="55dp"
                 android:background="@drawable/gray_button_border"
                 android:fontFamily="@font/nunito_sans"
+                android:soundEffectsEnabled="false"
                 android:text="@string/edit"
                 android:textAllCaps="false"
                 android:textColor="#919191"
@@ -977,7 +1019,6 @@
                 app:layout_constraintHorizontal_bias="0.47"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:soundEffectsEnabled="false"
                 app:layout_constraintVertical_bias="0.935" />
 
             <TextView

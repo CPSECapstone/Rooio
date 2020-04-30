@@ -26,11 +26,10 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
-
-class Dashboard : NavigationBar() {
-
-    private lateinit var image_on: String
+class Dashboard : Graph() {
+    private lateinit var imageOn: String
     private lateinit var scheduledNum: TextView
     private lateinit var inProgressNum: TextView
     private lateinit var pendingNum: TextView
@@ -53,6 +52,8 @@ class Dashboard : NavigationBar() {
     private lateinit var scheduledButton: Button
     private lateinit var inProgressButton: Button
 
+    private var jobHistoryMap = HashMap<String, JSONObject>()
+
     companion object{
         @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
         @JvmStatic private var scheduledJobs = ArrayList<JSONObject>()
@@ -68,6 +69,8 @@ class Dashboard : NavigationBar() {
         initializePage()
         setNavigationBar()
         setActionBar()
+        setGraphSpinners()
+        setGraphAdapters(GraphType.DASHBOARD)
         loadJobs()
         createNavigationBar(NavigationType.DASHBOARD)
         jobRequestsClicked()
@@ -97,13 +100,13 @@ class Dashboard : NavigationBar() {
         inProgressButton = findViewById(R.id.inProgressButton)
         scheduledButton = findViewById(R.id.scheduledButton)
         pendingButton = findViewById(R.id.pendingButton)
-        name_greeting!!.text = ("Hi, " + userName + "!")
+        name_greeting!!.text = ("Hi, $userName!")
     }
 
     //LoadJobs sends a Api Get Request to get all Jobs
     private fun loadJobs(){
         jobsLayout.visibility = (View.INVISIBLE)
-        val url = "service-locations/$userLocationID/jobs/"
+        val url = url + "jobs/"
         requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
                 null, responseFunc, errorFunc, true))
     }
@@ -126,6 +129,88 @@ class Dashboard : NavigationBar() {
         null
     }
 
+    // loads all the job histories for all pieces of equipment at the service location
+    override fun setUpGraph() {
+        val params = HashMap<Any?, Any?>()
+        params["service_location_id"] = userLocationID
+
+        val url = url + "equipment/"
+
+        val request = JsonRequest(false, url, params, responseLoadAllEquipmentFunc, errorLoadAllEquipmentFunc, true)
+        requestJson(Request.Method.GET, JsonType.ARRAY, request)
+    }
+
+    @JvmField
+    var responseLoadAllEquipmentFunc = Function<Any, Void?> { jsonResponse: Any? ->
+        try {
+            val jsonArray = jsonResponse as JSONArray
+            loadAllJobHistory(jsonArray)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        null
+    }
+
+    @JvmField
+    var errorLoadAllEquipmentFunc = Function<String, Void?> {
+        name_greeting.text = it
+        null
+    }
+
+    // loading all job histories for each piece of equipment
+    private fun loadAllJobHistory(response: JSONArray){
+        val params = HashMap<Any?, Any?>()
+
+        for (i in 0 until response.length()){
+            val obj = response.getJSONObject(i)
+            val equipmentId = obj.getString("id")
+
+            params["service_location_id"] = userLocationID
+            params["equipment_id"] = equipmentId
+
+            val url = url + "equipment/$equipmentId/job-history"
+
+            val request = JsonRequest(false, url, params, responseLoadJobHistoryFunc, errorLoadJobHistoryFunc, true)
+            requestJson(Request.Method.GET, JsonType.ARRAY, request)
+        }
+    }
+
+    @JvmField
+    var responseLoadJobHistoryFunc = Function<Any, Void?> { jsonResponse: Any? ->
+        try {
+            val jsonArray = jsonResponse as JSONArray
+
+            // adding each job history to a hash map to ensure there are no duplicates
+            for (i in 0 until jsonArray.length()){
+                val obj = jsonArray.getJSONObject(i)
+                jobHistoryMap[obj.getString("id")] = obj
+            }
+
+            combineJobHistory()
+
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        null
+    }
+
+    @JvmField
+    var errorLoadJobHistoryFunc = Function<String, Void?> {
+        Log.i("graph", it)
+        null
+    }
+
+    // turning hash map of job histories into a JSONArray for graphing
+    private fun combineJobHistory() {
+        val jsonArray = JSONArray()
+        for(i in jobHistoryMap.keys){
+            val obj = jobHistoryMap[i]
+            jsonArray.put(obj)
+        }
+
+        createGraph(jsonArray, graphJob, graphOption, graphTime)
+    }
+
     //OnClick for New Job Requests to Choose Equipment Page
     private fun jobRequestsClicked(){
         hvacButton.setOnClickListener{
@@ -136,16 +221,16 @@ class Dashboard : NavigationBar() {
         lightingButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
             intent.putExtra("equipmentType", EquipmentType.LIGHTING_AND_ELECTRICAL.getIntRepr())
-            startActivity(intent);
+            startActivity(intent)
         }
         plumbingButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
             intent.putExtra("equipmentType", EquipmentType.PLUMBING.getIntRepr())
-            startActivity(intent);
+            startActivity(intent)
         }
         applianceButton.setOnClickListener{
             val intent = Intent(this@Dashboard, ChooseEquipment::class.java)
-            intent.putExtra("equipmentType", EquipmentType.GENERAL_APPLIANCE.getIntRepr())
+            intent.putExtra("equipmentType", EquipmentType.APPLIANCE.getIntRepr())
             startActivity(intent)
         }
     }
@@ -164,10 +249,7 @@ class Dashboard : NavigationBar() {
             val intent = Intent(this@Dashboard, Jobs::class.java)
             startActivity(intent)
         }
-
     }
-
-
 
     //Clear all lists before populating
     private fun clearLists(){
@@ -201,7 +283,7 @@ class Dashboard : NavigationBar() {
     }
 
     //Filter notable jobs by #1 Pending Jobs, #2 inProgress Jobs, #3 scheduled jobs
-    private fun notableJobsFill(){
+    private fun notableJobsFill() {
         if (pendingJobs.size != 0) {
             // Sort PendingJobs and fill in
             jobsLayout.visibility = (View.VISIBLE)
@@ -225,7 +307,10 @@ class Dashboard : NavigationBar() {
 
                         jobsLayout.visibility = (View.INVISIBLE)
                         noJob.visibility = (View.VISIBLE)
-                        noJob.text = getResources().getString(R.string.no_jobs)
+                        noJob.text = resources.getString(R.string.no_jobs)
+                        repairImage.visibility = (View.GONE)
+                        color.visibility = (View.INVISIBLE)
+
                     }
                 }
                 else{
@@ -236,7 +321,9 @@ class Dashboard : NavigationBar() {
         }
         else{
             noJob.visibility = (View.VISIBLE)
-            noJob.text = getResources().getString(R.string.no_jobs);
+            noJob.text = resources.getString(R.string.no_jobs)
+            repairImage.visibility = (View.GONE)
+            color.visibility = (View.INVISIBLE)
 
         }
     }
@@ -251,11 +338,7 @@ class Dashboard : NavigationBar() {
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
         //If past due then return 0
-        if (sdf.parse(eta)!!.before(sdf.parse(now))) {
-           return 0
-        } else {
-            return 1
-        }
+        return if (sdf.parse(eta)!!.before(sdf.parse(now))) 0 else 1
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -269,7 +352,7 @@ class Dashboard : NavigationBar() {
     @SuppressLint("SimpleDateFormat")
     private fun loadNotable(index: Int, colorStatus: Int ){
         val locationObj = resultSort[index].getJSONObject("service_location")
-        val internal_client = locationObj.getJSONObject("internal_client")
+        val internalClient = locationObj.getJSONObject("internal_client")
 
         val equipmentObjList = resultSort[index].getJSONArray("equipment")
 
@@ -284,13 +367,13 @@ class Dashboard : NavigationBar() {
         when (category) {
             "4" ->
                 //categories.add("General Appliance")
-                repairType.text = getResources().getString(R.string.generalAppliance)
+                repairType.text = resources.getString(R.string.generalAppliance)
             "1" ->
-                repairType.text = getResources().getString(R.string.hvac)
+                repairType.text = resources.getString(R.string.hvac)
             "2" ->
-                repairType.text = getResources().getString(R.string.lightingAndElectrical)
+                repairType.text = resources.getString(R.string.lightingAndElectrical)
             "3" ->
-                repairType.text = getResources().getString(R.string.plumbing)
+                repairType.text = resources.getString(R.string.plumbing)
         }
         //set the date/time
         if (!resultSort[index].isNull("status_time_value")) {
@@ -302,11 +385,10 @@ class Dashboard : NavigationBar() {
         address.text = locationObj.getString("physical_address")
 
         //name
-        name.setText(internal_client.getString("name"))
-        
+        name.text = internalClient.getString("name")
 
         //load logo
-        val imageVal = internal_client.getString("logo")
+        val imageVal = internalClient.getString("logo")
         if (imageVal.isNullOrBlank() || imageVal == "null"){
             val viewGroup = findViewById<ViewGroup>(R.id.JobsLayout)
             val sideMover = viewGroup.findViewById<ViewGroup>(R.id.jobMover)
@@ -314,18 +396,17 @@ class Dashboard : NavigationBar() {
             boxParams10.width = 160
             sideMover.layoutParams = boxParams10
             image.visibility = (View.GONE)
-            image_on = "off"
+            imageOn = "off"
         }
         else{
-            image_on = "on"
+            imageOn = "on"
             Picasso.with(this)
                     .load(imageVal)
                     .into(image)
         }
 
-
         //Navigate to JobDetails after a click of the job
-        notableJob.setOnClickListener { v ->
+        notableJob.setOnClickListener {
             try {
                 val jobId = resultSort[index].getString("id")
 
@@ -337,7 +418,6 @@ class Dashboard : NavigationBar() {
             } catch (e: JSONException) {
                 Log.d("exception", e.toString())
             }
-
         }
 
         //Change the color of the job
@@ -399,7 +479,7 @@ class Dashboard : NavigationBar() {
         val boxParams7 = jobsLayout.layoutParams
 
 
-        val widgetWidth = if (boolean) 1004 else 806
+        val widgetWidth = if (boolean) 1004 else 885
         boxParams1.width = widgetWidth
         boxParams2.width = widgetWidth
         boxParams3.width = widgetWidth
@@ -411,7 +491,7 @@ class Dashboard : NavigationBar() {
 
         boxParams7.width = notableJobsWidth
 
-        if(image_on == "off"){
+        if(imageOn == "off"){
             val textWidth = if (boolean) 330 else 160
 
             val sideMover = viewGroup.findViewById<ViewGroup>(R.id.jobMover)
@@ -436,15 +516,10 @@ class Dashboard : NavigationBar() {
         return destFormat.format(convertedDate!!)
     }
 
-     fun sortJobsList(list: ArrayList<JSONObject>):ArrayList<JSONObject> {
+     private fun sortJobsList(list: ArrayList<JSONObject>):ArrayList<JSONObject> {
 
         Collections.sort(list, JSONComparator())
 
         return list
     }
-
-
-
-
-
 }

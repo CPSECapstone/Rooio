@@ -4,7 +4,7 @@ enum class EquipmentType (private val value: String) {
     HVAC("HVAC"),
     LIGHTING_AND_ELECTRICAL("Lighting and Electrical"),
     PLUMBING("Plumbing"),
-    GENERAL_APPLIANCE("General Appliance");
+    APPLIANCE("Appliance");
 
     override fun toString(): String {
         return value
@@ -15,7 +15,7 @@ enum class EquipmentType (private val value: String) {
             HVAC -> 1
             LIGHTING_AND_ELECTRICAL -> 2
             PLUMBING -> 3
-            GENERAL_APPLIANCE -> 4
+            APPLIANCE -> 4
         }
     }
 }

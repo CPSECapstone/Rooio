@@ -1,6 +1,5 @@
 package com.rooio.repairs
 
-import org.json.JSONException
 import org.json.JSONObject
 
 class EquipmentData {
@@ -44,7 +43,7 @@ class EquipmentData {
             1 -> return EquipmentType.HVAC
             2 -> return EquipmentType.LIGHTING_AND_ELECTRICAL
             3 -> return EquipmentType.PLUMBING
-            4 -> return EquipmentType.GENERAL_APPLIANCE
+            4 -> return EquipmentType.APPLIANCE
             else -> throw IllegalArgumentException("\$i does not correspond to an equipment type")
         }
     }
