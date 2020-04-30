@@ -53,34 +53,34 @@
             android:id="@+id/repairType"
             android:layout_width="250dp"
             android:layout_height="28dp"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="5dp"
             android:fontFamily="@font/nunito_bold"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintEnd_toStartOf="@+id/jobMover"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/address"
             android:layout_width="250dp"
             android:layout_height="23dp"
-            android:layout_marginStart="25dp"
+            android:layout_marginEnd="5dp"
             android:fontFamily="@font/nunito_sans"
             android:textColor="@color/colorGray"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintEnd_toStartOf="@+id/jobMover"
             app:layout_constraintTop_toBottomOf="@+id/name" />
 
         <TextView
             android:id="@+id/name"
             android:layout_width="250dp"
             android:layout_height="23dp"
-            android:layout_marginStart="25dp"
+            android:layout_marginEnd="5dp"
             android:fontFamily="@font/nunito_sans"
             android:textColor="@color/colorGray"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintEnd_toStartOf="@+id/jobMover"
             app:layout_constraintTop_toBottomOf="@+id/repairType" />
 
         <ImageView
@@ -139,18 +139,31 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/jobMover"
+            android:layout_width="5dp"
+            android:layout_height="81dp"
+            android:layout_marginTop="21dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <Button
             android:id="@+id/jobsButton"
             android:layout_width="344dp"
             android:layout_height="161dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginBottom="1dp"
             android:background="#00FFFFFF"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@+id/timeImage"
-            app:layout_constraintEnd_toEndOf="@+id/address"
-            app:layout_constraintHorizontal_bias="0.571"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/jobMover"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

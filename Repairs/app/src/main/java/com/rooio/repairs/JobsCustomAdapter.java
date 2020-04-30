@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -92,6 +93,8 @@ class JobsCustomAdapter implements ListAdapter {
             ImageView image = convertView.findViewById(R.id.image);
             TextView timeImage = convertView.findViewById(R.id.timeImage);
             Button jobsButton = convertView.findViewById(R.id.jobsButton);
+            ConstraintLayout jobMover = convertView.findViewById(R.id.jobMover);
+
 
             TextView status = convertView.findViewById(R.id.status);
             ConstraintLayout color = convertView.findViewById(R.id.color);
@@ -210,12 +213,23 @@ class JobsCustomAdapter implements ListAdapter {
 
                 }
 
-                Picasso.with(context)
-                        .load(internal_client.getString("logo")
-                        )
-                        .into(image);
+                //Checks if Image
+                //If no Image then Move Text Over
+                String imageVal = internal_client.getString("logo");
+                if (imageVal.isEmpty() || imageVal.equals("null")){
 
+                    ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) jobMover.getLayoutParams();
+                    // change width and height to 50
+                    params.width = 35;
+                    image.setVisibility(View.GONE);
+                }
+                else{
 
+                    Picasso.with(context)
+                            .load(internal_client.getString("logo")
+                            )
+                            .into(image);
+                }
 
                 if(!statuses.contains(status_value)){
                     assert status_value != null;
