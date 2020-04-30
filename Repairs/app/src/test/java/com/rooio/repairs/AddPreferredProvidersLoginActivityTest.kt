@@ -44,7 +44,7 @@ class AddPreferredProvidersLoginActivityTest {
         input.setText("")
         val addButton = activity.findViewById<Button>(R.id.addProvider)
         addButton.performClick()
-        val errorMsg = activity.findViewById<TextView>(R.id.addProviderErrorMessage)
+        val errorMsg = activity.findViewById<TextView>(R.id.errorMessage)
         assertEquals(activity.resources.getString(R.string.error_phone), errorMsg.text.toString())
 
     }
@@ -55,7 +55,7 @@ class AddPreferredProvidersLoginActivityTest {
         input.setText("123123123123123")
         val addButton = activity.findViewById<Button>(R.id.addProvider)
         addButton.performClick()
-        val errorMsg = activity.findViewById<TextView>(R.id.addProviderErrorMessage)
+        val errorMsg = activity.findViewById<TextView>(R.id.errorMessage)
         assertEquals(activity.resources.getString(R.string.error_phone), errorMsg.text.toString())
     }
 
@@ -87,14 +87,14 @@ class AddPreferredProvidersLoginActivityTest {
     @Test
     fun testProviderErrorFunc() {
         activity.providerErrorFunc.apply("Server error")
-        val error = activity.findViewById(R.id.addProviderErrorMessage) as TextView
+        val error = activity.findViewById(R.id.errorMessage) as TextView
         assertEquals("Server error", error.text.toString())
     }
 
     @Test
     fun testDoesNotExist() {
         activity.providerErrorFunc.apply("Does not exist.")
-        val error = activity.findViewById(R.id.addProviderErrorMessage) as TextView
+        val error = activity.findViewById(R.id.errorMessage) as TextView
         assertEquals(activity.resources.getString(R.string.error_provider), error.text.toString())
     }
 
@@ -110,14 +110,14 @@ class AddPreferredProvidersLoginActivityTest {
         val phone = activity.findViewById(R.id.newProvider) as EditText
         phone.setText("123456")
         activity.checkResponseFunc.apply(JSONArray().put(JSONObject().put("phone", "123456")))
-        val error = activity.findViewById(R.id.addProviderErrorMessage) as TextView
+        val error = activity.findViewById(R.id.errorMessage) as TextView
         assertEquals(activity.resources.getString(R.string.already_added_provider), error.text.toString())
     }
 
     @Test
     fun testCheckErrorFunc() {
         activity.checkErrorFunc.apply("Server error")
-        val error = activity.findViewById(R.id.addProviderErrorMessage) as TextView
+        val error = activity.findViewById(R.id.errorMessage) as TextView
         assertEquals("Server error", error.text.toString())
     }
 }

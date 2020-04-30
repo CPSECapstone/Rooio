@@ -15,16 +15,11 @@ import org.json.JSONArray
 import org.json.JSONException
 import java.util.*
 
-class PreferredProvidersSettings  : NavigationBar() {
+class PreferredProvidersSettings  : PreferredProviders() {
 
-    private lateinit var addButton: TextView
-    private lateinit var serviceProvidersListView: ListView
-    private lateinit var errorMessage: TextView
-    private lateinit var providerBox: ConstraintLayout
-    private lateinit var loadingPanel: ProgressBar
     private lateinit var spinner: Spinner
-    private val preferredProviders = ArrayList<ServiceProviderData>()
     private val url = "service-providers/"
+    private val jsonRequest = JsonRequest(false, url, null, responseFunc, errorFunc, true)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,90 +33,17 @@ class PreferredProvidersSettings  : NavigationBar() {
         setActionBar()
         createNavigationBar(NavigationType.SETTINGS)
         setSpinner()
-        loadPreferredProviders(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+        loadPreferredProviders(jsonRequest)
         onAddAnother()
         goToPreferredProviderDetails()
         onPause()
 
     }
 
-    //goes to the PreferredProviderDetails page
-    private fun goToPreferredProviderDetails() {
-        serviceProvidersListView.setOnItemClickListener{ _, _, position, _ ->
-            val id = preferredProviders[position].id.toString()
-            val listIntent = Intent(this@PreferredProvidersSettings, PreferredProviderDetails::class.java)
-            listIntent.putExtra("addedProvider", id)
-            startActivity(listIntent)
-        }
-
-    }
-
-
     //Initializes UI variables
     private fun initializeVariables() {
-        addButton = findViewById(R.id.addAnother)
-        serviceProvidersListView = findViewById(R.id.providerListView)
-        errorMessage = findViewById(R.id.errorMessage)
-        providerBox = findViewById(R.id.providerBox)
-        loadingPanel = findViewById(R.id.loadingPanel)
+        initializeCommonVariables()
         spinner = findViewById(R.id.settings_spinner)
-    }
-
-    // Initially loads the current providers by making a call to the API
-    private fun loadPreferredProviders(request: JsonRequest) {
-        loadingPanel.visibility = View.VISIBLE
-        requestJson(Request.Method.GET, JsonType.ARRAY, request)
-    }
-
-    //Loads all the elements from the JSON array or displays an error
-    @JvmField
-    val responseFunc = Function<Any, Void?> { response : Any ->
-        loadingPanel.visibility = View.GONE
-        val jsonArray = response as JSONArray
-        try {
-            loadElements(jsonArray)
-        } catch (e: JSONException) {
-            errorMessage.setText(R.string.error_server)
-        }
-        null
-    }
-
-    //Handles error from the API if the user is not authorized
-    @JvmField
-    val errorFunc = Function<String, Void?> { error: String? ->
-        loadingPanel.visibility = View.GONE
-        errorMessage.text = error
-        null
-    }
-
-    //Individually loads each provider into the custom list view and extends the layout based on number
-    @Throws(JSONException::class)
-    private fun loadElements(response: JSONArray) {
-        preferredProviders.clear()
-        for (i in 0 until response.length()) {
-            val restaurant = response.getJSONObject(i)
-            val name = restaurant["name"] as String
-            val id = restaurant.get("id") as Int
-            var image = ""
-            try {
-                image = restaurant["logo"] as String
-            } catch (e: Exception) { // if there is no logo for the service provider
-                image = ""
-            } finally {
-                val serviceProviderData = ServiceProviderData(name, image, id)
-                preferredProviders.add(serviceProviderData)
-                if (i > 0) {
-                    val params = providerBox.layoutParams
-                    params.height += 110
-                    providerBox.layoutParams = params
-                    val size = serviceProvidersListView.layoutParams
-                    size.height += 110
-                    serviceProvidersListView.layoutParams = size
-                }
-            }
-        }
-        val customAdapter = PreferredProvidersCustomAdapter(this, preferredProviders)
-        if (preferredProviders.size != 0) serviceProvidersListView.adapter = customAdapter
     }
 
     //Handles when user wants to add another provider
@@ -142,7 +64,7 @@ class PreferredProvidersSettings  : NavigationBar() {
                 if (selectedItem == "Service Location") {
                     val spinner: Spinner = findViewById(R.id.settings_spinner)
                     spinner.onItemSelectedListener = this
-                    val mIntent = Intent(this@PreferredProvidersSettings, LocationSettings::class.java)
+                    val mIntent = Intent(this@PreferredProvidersSettings, ChangeLocationSettings::class.java)
                     mIntent.putExtra("UniqueKey", position)
                     startActivity(mIntent)
                 }
@@ -166,8 +88,7 @@ class PreferredProvidersSettings  : NavigationBar() {
     //Animates anything along with the collapsing and expanding nav bar
     override fun animateActivity(boolean: Boolean)
     {
+        //Not implemented due to no animation needed
     }
-
-// gets rid of sound when the user clicks on the spinner
 
 }
