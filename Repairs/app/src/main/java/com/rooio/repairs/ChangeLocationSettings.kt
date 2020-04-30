@@ -49,6 +49,7 @@ class ChangeLocationSettings  : NavigationBar() {
     private fun setSettingsSpinner() {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
+                //Something will always be selected
             }
 
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -108,8 +109,10 @@ class ChangeLocationSettings  : NavigationBar() {
         null
     }
 
+    //Animation function for navigation bar
     override fun animateActivity(boolean: Boolean)
     {
+        //No animation needed
     }
 
 }

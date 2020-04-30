@@ -56,7 +56,7 @@ class PreferredProvidersSettings  : PreferredProviders() {
         // setting on click listeners for the spinner items
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
+                //Something will always be selected
             }
 
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {

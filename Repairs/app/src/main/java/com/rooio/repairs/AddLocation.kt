@@ -118,7 +118,7 @@ abstract class AddLocation : NavigationBar() {
         loadingPanel.visibility = View.GONE
         addLocation.visibility = View.VISIBLE
         if (type == AddLocationType.LOGIN) startActivity(Intent(this@AddLocation, LocationLogin::class.java))
-        else startActivity(Intent(this@AddLocation, ChangeLocationSettings::class.java))
+        else startActivity(Intent(this@AddLocation, LocationSettings::class.java))
         null
     }
 
