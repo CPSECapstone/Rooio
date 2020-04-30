@@ -121,8 +121,12 @@ abstract class AddPreferredProviders : NavigationBar() {
     val providerResponseFunc = Function<Any, Void?> {
         loadingPanel.visibility = View.GONE
         addProvider.visibility = View.VISIBLE
-        if (type == AddProviderType.LOGIN) startActivity(Intent(this@AddPreferredProviders, PreferredProvidersLogin::class.java))
-        else startActivity(Intent(this@AddPreferredProviders, PreferredProvidersSettings::class.java))
+        if (jsonArray.length() == 0) errorMessage.setText(R.string.error_provider)
+        else
+        {
+            if (type == AddProviderType.LOGIN) startActivity(Intent(this@AddPreferredProviders, PreferredProvidersLogin::class.java))
+            else startActivity(Intent(this@AddPreferredProviders, PreferredProvidersSettings::class.java))
+        }
         null
     }
 }
