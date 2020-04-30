@@ -18,7 +18,6 @@ import com.android.volley.Request
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import org.json.JSONArray
-import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import org.json.JSONException
@@ -27,6 +26,7 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class Dashboard : Graph() {
@@ -54,6 +54,8 @@ class Dashboard : Graph() {
     private lateinit var scheduledButton: Button
     private lateinit var inProgressButton: Button
 
+    private var jobHistoryJsonArray = JSONArray()
+
     companion object{
         @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
         @JvmStatic private var scheduledJobs = ArrayList<JSONObject>()
@@ -72,6 +74,7 @@ class Dashboard : Graph() {
         setSpinners(GraphType.DASHBOARD)
         setAdapters(GraphType.DASHBOARD)
         loadJobs()
+        setUpGraph()
         createNavigationBar(NavigationType.DASHBOARD)
         jobRequestsClicked()
         jobNumberClicked()
@@ -104,7 +107,7 @@ class Dashboard : Graph() {
 
     //LoadJobs sends a Api Get Request to get all Jobs
     private fun loadJobs(){
-        val url = "service-locations/$userLocationID/jobs/"
+        val url = url + "jobs/"
         requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
                 null, responseFunc, errorFunc, true))
     }
@@ -123,6 +126,74 @@ class Dashboard : Graph() {
     @JvmField
     var errorFunc = Function<String, Void?> { string: String? ->
         name_greeting.text =string
+        null
+    }
+
+    override fun setUpGraph() {
+        getAllEquipment()
+    }
+
+    private fun getAllEquipment(){
+        val params = HashMap<Any?, Any?>()
+        params["service_location_id"] = userLocationID
+
+        val url = url + "equipment/"
+
+        val request = JsonRequest(false, url, params, responseLoadAllEquipmentFunc, errorLoadAllEquipmentFunc, true)
+        requestJson(Request.Method.GET, JsonType.ARRAY, request)
+    }
+
+    @JvmField
+    var responseLoadAllEquipmentFunc = Function<Any, Void?> { jsonResponse: Any? ->
+        try {
+            val jsonArray = jsonResponse as JSONArray
+            loadAllJobHistory(jsonArray)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        null
+    }
+
+    @JvmField
+    var errorLoadAllEquipmentFunc = Function<String, Void?> {
+        Log.i("graph", it)
+        null
+    }
+
+    private fun loadAllJobHistory(response: JSONArray){
+        val params = HashMap<Any?, Any?>()
+
+        for (i in 0 until response.length()){
+            val obj = response.getJSONObject(i)
+            val equipmentId = obj.getString("id")
+
+            params["service_location_id"] = userLocationID
+            params["equipment_id"] = equipmentId
+
+            val url = url + "equipment/$equipmentId/job-history"
+
+            val request = JsonRequest(false, url, params, responseLoadJobHistoryFunc, errorLoadJobHistoryFunc, true)
+            requestJson(Request.Method.GET, JsonType.ARRAY, request)
+        }
+    }
+
+    @JvmField
+    var responseLoadJobHistoryFunc = Function<Any, Void?> { jsonResponse: Any? ->
+        try {
+            val jsonArray = jsonResponse as JSONArray
+            for (i in 0 until jsonArray.length()){
+                jobHistoryJsonArray.put(jsonArray[i])
+            }
+            createGraph(jobHistoryJsonArray, graphJob, graphOption, graphTime)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        null
+    }
+
+    @JvmField
+    var errorLoadJobHistoryFunc = Function<String, Void?> {
+        Log.i("graph", it)
         null
     }
 
@@ -164,10 +235,7 @@ class Dashboard : Graph() {
             val intent = Intent(this@Dashboard, Jobs::class.java)
             startActivity(intent)
         }
-
     }
-
-
 
     //Clear all lists before populating
     private fun clearLists(){
@@ -190,12 +258,7 @@ class Dashboard : Graph() {
 
             }
         }
-        setUpGraph()
         notableJobsFill()
-    }
-
-    override fun setUpGraph() {
-        //createGraph("", graphJob, graphOption, graphTime)
     }
 
     //find number of each job swimlane to display on dashboard

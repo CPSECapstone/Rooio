@@ -180,6 +180,8 @@ class Equipment : Graph() {
             params["model_number"] = addModelNumber.text.toString()
             params["type"] = (addEquipmentType.selectedItem as EquipmentType).getIntRepr()
 
+            val url = url + "equipment/"
+
             val request = JsonRequest(false, url, params, responseFuncAdd, errorFuncAdd, true)
             sendAddEquipmentInfo(request)
         }
@@ -240,7 +242,7 @@ class Equipment : Graph() {
             params["type"] = (editEquipmentType.selectedItem as EquipmentType).getIntRepr()
 
 
-            val url = url + equipmentId + "/"
+            val url = url + "equipment/$equipmentId/"
 
             val request = JsonRequest(false, url, params, responseFuncSave, errorFuncSave, true)
             sendSaveEditRequest(request)
@@ -309,6 +311,9 @@ class Equipment : Graph() {
     private fun loadEquipmentElements() {
         addLoadingPanel.visibility = View.GONE
         editLoadingPanel.visibility = View.GONE
+
+        val url = url + "equipment/"
+
         val request = JsonRequest(false, url, null, responseFuncLoad, errorFuncLoad, true)
         requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
@@ -372,14 +377,15 @@ class Equipment : Graph() {
     //Sets up the graph in the way the equipment page needs
     override fun setUpGraph() {
         val params = HashMap<Any?, Any?>()
-        params["equipment_id"] = equipmentId
         params["service_location_id"] = userLocationID
+        params["equipment_id"] = equipmentId
 
-        val url = "$url$equipmentId/job-history/"
+        val url = url + "equipment/$equipmentId/job-history/"
         val request = JsonRequest(false, url, params, responseFuncGraph, errorFuncGraph, true)
         requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }
 
+    @JvmField
     var responseFuncGraph = Function<Any, Void?> { jsonResponse: Any? ->
         try {
             val jsonArray = jsonResponse as JSONArray
@@ -390,6 +396,7 @@ class Equipment : Graph() {
         null
     }
 
+    @JvmField
     var errorFuncGraph = Function<String, Void?> {
         Log.i("graph", it)
         null

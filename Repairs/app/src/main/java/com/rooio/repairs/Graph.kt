@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -19,7 +20,8 @@ import org.json.JSONObject
 
 abstract class Graph : NavigationBar() {
 
-    val url = "service-locations/$userLocationID/equipment/"
+    val url = "service-locations/$userLocationID/"
+
     var graphJob: GraphType.JobType = GraphType.JobType.REPAIR
     var graphOption: GraphType.OptionType = GraphType.OptionType.TOTAL_COST
     var graphTime: GraphType.TimeType = GraphType.TimeType.MONTH
@@ -251,7 +253,9 @@ abstract class Graph : NavigationBar() {
         return yArray
     }
 
+    // calculating the y value based on the option type
     private fun calculateYValue(yArray: ArrayList<Float>, option: GraphType.OptionType, jobsPerX: ArrayList<JSONObject>) : ArrayList<Float>{
+        Log.i("graph", "jobsperx: " + jobsPerX.toString())
         when (option) {
             GraphType.OptionType.JOBS -> yArray.add(jobsPerX.size.toFloat())
 
