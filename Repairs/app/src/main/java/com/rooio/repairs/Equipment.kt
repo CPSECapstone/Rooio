@@ -159,6 +159,7 @@ class Equipment : Graph() {
             clearFields()
             analyticsConstraint.visibility = View.GONE
             equipmentDetailsConstraint.visibility = View.GONE
+            editEquipmentConstraint.visibility = View.GONE
             addEquipmentConstraint.visibility = View.VISIBLE
 
             addEquipmentButton.setTextColor(ContextCompat.getColor(this,R.color.grayedOut))
@@ -170,7 +171,6 @@ class Equipment : Graph() {
     private fun onAddClick() {
         val params = HashMap<Any?, Any?>()
         addButton.setOnClickListener {
-
             params["display_name"] = displayName.text.toString()
             params["serial_number"] = serialNumber.text.toString()
             params["manufacturer"] = manufacturer.text.toString()
