@@ -17,9 +17,6 @@ import kotlinx.android.synthetic.main.activity_equipment.*
 import org.json.JSONArray
 import org.json.JSONException
 
-
-
-
 class Equipment : Graph() {
 
     private val savedEquipmentBundle = "savedEquipment"
@@ -171,11 +168,11 @@ class Equipment : Graph() {
     private fun onAddClick() {
         val params = HashMap<Any?, Any?>()
         addButton.setOnClickListener {
-            params["display_name"] = displayName.text.toString()
-            params["serial_number"] = serialNumber.text.toString()
-            params["manufacturer"] = manufacturer.text.toString()
-            params["location"] = location.text.toString()
-            params["model_number"] = modelNumber.text.toString()
+            params["display_name"] = addDisplayName.text.toString()
+            params["serial_number"] = addSerialNumber.text.toString()
+            params["manufacturer"] = addManufacturer.text.toString()
+            params["location"] = addLocation.text.toString()
+            params["model_number"] = addModelNumber.text.toString()
             params["type"] = (addEquipmentType.selectedItem as EquipmentType).getIntRepr()
 
             val url = url + "equipment/"
