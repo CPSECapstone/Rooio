@@ -132,7 +132,7 @@
     <string name="starting_cost_text"> \u0020starting cost</string>
     <string name="enter_date">Enter Date</string>
     <string name="enter_time">Enter Time</string>
-    <string name="analytics_under_construction">Analytics Under Construction...</string>
+    <string name="equipment_analytics">Equipment Analytics</string>
     <string-array name="industry_type">
         <item>Residential</item>
         <item>Commercial Business</item>
@@ -194,10 +194,10 @@
         <item>PM</item>
     </string-array>
     <string-array name="job_analysis">
+        <item>All</item>
         <item>Repair</item>
         <item>Maintenance</item>
         <item>Installation</item>
-        <item>All</item>
     </string-array>
     <string-array name="time_analysis">
         <item>Monthly</item>
