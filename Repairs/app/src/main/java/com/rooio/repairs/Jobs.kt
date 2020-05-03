@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ListView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.android.volley.Request
 import org.json.JSONArray
@@ -214,7 +215,13 @@ class Jobs : NavigationBar() {
         val viewGroup = findViewById<ViewGroup>(R.id.jobsConstraint)
 
         //changing the width of the notableJobs and newJobRequest
-        TransitionManager.beginDelayedTransition(viewGroup)
+        if (boolean) {
+            val autoTransition = AutoTransition()
+            autoTransition.duration = 1000
+            TransitionManager.beginDelayedTransition(viewGroup, autoTransition)
+        } else {
+            TransitionManager.beginDelayedTransition(viewGroup)
+        }
 
         val pending = viewGroup.findViewById<ViewGroup>(R.id.pendingConstraint)
         val scheduled = viewGroup.findViewById<ViewGroup>(R.id.scheduledConstraint)

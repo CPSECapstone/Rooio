@@ -21,7 +21,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/equipmentConstraint"
-            android:layout_width="403dp"
+            android:layout_width="650dp"
             android:layout_height="match_parent"
             android:background="@color/common_google_signin_btn_text_dark_default"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -33,7 +33,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/equipmentList"
-                android:layout_width="363dp"
+                android:layout_width="360dp"
                 android:layout_height="785dp"
                 android:background="#00E63528"
                 android:divider="@drawable/blank_border"
@@ -41,6 +41,7 @@
                 android:soundEffectsEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.93"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
@@ -71,6 +72,7 @@
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.79"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.96" />
@@ -102,7 +104,7 @@
                 android:layout_marginTop="650dp"
                 android:layout_marginBottom="120dp"
                 android:background="@drawable/shadow"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -122,7 +124,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.035" />
+                    app:layout_constraintVertical_bias="0.04" />
 
                 <ImageView
                     android:id="@+id/divider4"
@@ -222,7 +224,7 @@
 
                 <ImageView
                     android:id="@+id/divider"
-                    android:layout_width="1077dp"
+                    android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:contentDescription="@string/divider"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -898,7 +900,7 @@
 
                 <ImageView
                     android:id="@+id/divider3"
-                    android:layout_width="1077dp"
+                    android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:contentDescription="@string/divider"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -1178,9 +1180,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
-
-
 
 
     <ProgressBar
