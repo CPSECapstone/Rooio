@@ -1,11 +1,13 @@
 package com.rooio.repairs
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ListView
+import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.AutoTransition
@@ -22,12 +24,11 @@ class Jobs : NavigationBar() {
     private lateinit var scheduledList: ListView
     private lateinit var inProgressList: ListView
     private lateinit var completedButton: Button
+    private lateinit var errorMessage: TextView
 
-    val statuses = arrayListOf<String>()
-
-    private var pendingConstraint: ConstraintLayout? = null
-    private var scheduledConstraint: ConstraintLayout? = null
-    private var inProgressConstraint: ConstraintLayout? = null
+    private lateinit var pendingConstraint: ConstraintLayout
+    private lateinit var scheduledConstraint: ConstraintLayout
+    private lateinit var inProgressConstraint: ConstraintLayout
 
     companion object{
         @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
@@ -41,7 +42,6 @@ class Jobs : NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jobs)
 
-
         pendingList = findViewById<View>(R.id.pendingList) as ListView
         scheduledList = findViewById<View>(R.id.scheduledList) as ListView
         inProgressList = findViewById<View>(R.id.inProgressList) as ListView
@@ -53,10 +53,6 @@ class Jobs : NavigationBar() {
         //Set navigation bar function call
         setNavigationBar()
         setActionBar()
-
-
-
-
         createNavigationBar(NavigationType.JOBS)
 
         onClick()
@@ -70,7 +66,6 @@ class Jobs : NavigationBar() {
         completedButton.setOnClickListener { startActivity(Intent(this@Jobs, JobsArchived::class.java)) }
     }
 
-
     //Load Jobs in from API
     private fun loadJobs(){
         loadPendingJobs()
@@ -79,28 +74,28 @@ class Jobs : NavigationBar() {
     }
 
     private fun loadPendingJobs(){
-        val Pending = "?status=0"
-        val url = "service-locations/$userLocationID/jobs/$Pending"
+        val pending = "?status=0"
+        val url = "service-locations/$userLocationID/jobs/$pending"
         requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
                 null, responseFunc, errorFunc, true))
     }
 
     private fun loadScheduledJobs(){
-        val Scheduled = "?status=2"
-        val url = "service-locations/$userLocationID/jobs/$Scheduled"
+        val scheduled = "?status=2"
+        val url = "service-locations/$userLocationID/jobs/$scheduled"
         requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
                 null, responseFunc, errorFunc, true))
     }
 
     private fun loadInProgressJobs(){
-        val InProgress = "?status=5&status=6"
-        val url = "service-locations/$userLocationID/jobs/$InProgress"
+        val inProgress = "?status=5&status=6"
+        val url = "service-locations/$userLocationID/jobs/$inProgress"
         requestJson(Request.Method.GET, JsonType.ARRAY, JsonRequest(false, url,
                 null, responseFunc, errorFunc, true))
     }
 
 
-    //Clear the swimlanes
+    //Clear the swim lanes
     private fun clearLists(){
         pendingJobs.clear()
         scheduledJobs.clear()
@@ -110,25 +105,33 @@ class Jobs : NavigationBar() {
 
     }
 
-    //Push jobs into designated swimlanes
+    //Push jobs into designated swim lanes
     private fun populateLists(responseObj: JSONArray){
         for (i in 0 until responseObj.length()) {
             val job = responseObj.getJSONObject(i)
-
-
             when (job.getInt("status")){
                 0 ->{
                     pendingJobs.add(job)
-                    set_size("pending")}
+                    if (i > 0) setSize("pending", pendingConstraint)
+                    setSize("pending", pendingList)
+                }
                 2 ->
-                {scheduledJobs.add(job)
-                    set_size("scheduled")}
+                {
+                    scheduledJobs.add(job)
+                    if (i > 0) setSize("scheduled", scheduledConstraint)
+                    setSize("scheduled", scheduledList)
+                }
                 5 ->
-                {startedJobs.add(job)
-                    set_size("started")}
+                {
+                    startedJobs.add(job)
+                    if (i > 0) setSize("started", inProgressConstraint)
+                    setSize("started", inProgressList)
+                }
                 6 -> {
                     pausedJobs.add(job)
-                    set_size("paused") }
+                    if (i > 0) setSize("paused", inProgressConstraint)
+                    setSize("paused", inProgressList)
+                }
             }
 
         }
@@ -156,54 +159,41 @@ class Jobs : NavigationBar() {
     var responseFunc = Function<Any, Void?> { jsonObj: Any ->
         val responseObj = jsonObj as JSONArray
         populateLists(responseObj)
-
         null
     }
     @JvmField
-    var errorFunc = Function<String, Void?> { string: String? ->
-
+    var errorFunc = Function<String, Void?> { error: String? ->
+        errorMessage.text = error
         null
     }
 
 
     //Set the sizes
-    private fun set_size(str: String){
-        var value = 240
+    private fun setSize(str: String, constraint: ViewGroup){
+        val value = 210
         when(str){
             "pending" -> {
-                val params = pendingConstraint!!.layoutParams
+                val params = constraint.layoutParams
                 params.height += value
-                pendingConstraint!!.layoutParams = params
-                val size = pendingList.layoutParams
-                size.height += value
-                pendingList.layoutParams = size
+                constraint.layoutParams = params
             }
 
             "scheduled" -> {
-                val params = scheduledConstraint!!.layoutParams
+                val params = constraint.layoutParams
                 params.height += value
-                scheduledConstraint!!.layoutParams = params
-                val size = scheduledList.layoutParams
-                size.height += value
-                scheduledList.layoutParams = size
+                constraint.layoutParams = params
             }
 
             "started" -> {
-                val params = inProgressConstraint!!.layoutParams
+                val params = constraint.layoutParams
                 params.height += value
-                inProgressConstraint!!.layoutParams = params
-                val size = inProgressList.layoutParams
-                size.height += value
-                inProgressList.layoutParams = size
+                constraint.layoutParams = params
             }
 
             "paused" -> {
-                val params = inProgressConstraint!!.layoutParams
+                val params = constraint.layoutParams
                 params.height += value
-                inProgressConstraint!!.layoutParams = params
-                val size = inProgressList.layoutParams
-                size.height += value
-                inProgressList.layoutParams = size
+                constraint.layoutParams = params
             }
 
         }
@@ -226,47 +216,21 @@ class Jobs : NavigationBar() {
         val pending = viewGroup.findViewById<ViewGroup>(R.id.pendingConstraint)
         val scheduled = viewGroup.findViewById<ViewGroup>(R.id.scheduledConstraint)
         val inProgress = viewGroup.findViewById<ViewGroup>(R.id.inProgressConstraint)
+        val title = viewGroup.findViewById<Button>(R.id.button)
 
-        val sideMover = viewGroup.findViewById<ViewGroup>(R.id.sideMover)
-
-        val pendingTitle = viewGroup.findViewById<ViewGroup>(R.id.pendingTitleConstraint)
-        val scheduledTitle = viewGroup.findViewById<ViewGroup>(R.id.scheduledTitleConstraint)
-        val inProgressTitle = viewGroup.findViewById<ViewGroup>(R.id.inProgressTitleConstraint)
-
-        val boxParams1 = scheduledTitle.layoutParams
-        val boxParams2 = pendingTitle.layoutParams
-        val boxParams3 = inProgressTitle.layoutParams
-
-        val boxParams4 = pending.layoutParams
-        val boxParams5 = scheduled.layoutParams
-        val boxParams6 = inProgress.layoutParams
-
-        val boxParams10 = sideMover.layoutParams
-
-        val p2 = if (boolean) 478 else 454
-        boxParams1.width = p2
-        boxParams2.width = p2
-        boxParams3.width = p2
-        boxParams4.width = p2
-        boxParams5.width = p2
-        boxParams6.width = p2
-
-        val p3 = if (boolean) 85 else 20
-
-        boxParams10.width = p3
-
-
-
-        //calling the transitions
-        scheduledTitle.layoutParams = boxParams1
-        pendingTitle.layoutParams = boxParams2
-        inProgressTitle.layoutParams = boxParams3
-        pending.layoutParams = boxParams4
-        scheduled.layoutParams = boxParams5
-        inProgress.layoutParams = boxParams6
-        sideMover.layoutParams = boxParams10
-
-
+        val amount = if (boolean) -125f else 0f
+        var animation = ObjectAnimator.ofFloat(pending, "translationX", amount)
+        if (boolean) animation.duration = 900 else animation.duration = 300
+        animation.start()
+        animation = ObjectAnimator.ofFloat(scheduled, "translationX", amount)
+        if (boolean) animation.duration = 900 else animation.duration = 300
+        animation.start()
+        animation = ObjectAnimator.ofFloat(inProgress, "translationX", amount)
+        if (boolean) animation.duration = 900 else animation.duration = 300
+        animation.start()
+        animation = ObjectAnimator.ofFloat(title, "translationX", amount)
+        if (boolean) animation.duration = 900 else animation.duration = 300
+        animation.start()
     }
 
 }
