@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/declinedConstraint"
+            android:id="@+id/cancelledConstraint"
             android:layout_width="455dp"
             android:layout_height="282dp"
             android:layout_marginTop="100dp"
@@ -28,7 +28,23 @@
             app:layout_constraintVertical_bias="0.0">
 
             <TextView
-                android:id="@+id/declinedTitle"
+                android:id="@+id/cancelledText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="150dp"
+                android:fontFamily="@font/nunito_sans"
+                android:text="@string/no_cancelled_jobs"
+                android:textColor="@color/darkGray"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/cancelledTitle"
                 android:layout_width="138dp"
                 android:layout_height="35dp"
                 android:layout_marginTop="20dp"
@@ -45,7 +61,7 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <ListView
-                android:id="@+id/declinedList"
+                android:id="@+id/cancelledList"
                 android:layout_width="356dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="90dp"
@@ -74,7 +90,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cancelledConstraint"
+            android:id="@+id/declinedConstraint"
             android:layout_width="455dp"
             android:layout_height="282dp"
             android:layout_marginTop="100dp"
@@ -87,7 +103,23 @@
             app:layout_constraintVertical_bias="0.0">
 
             <TextView
-                android:id="@+id/cancelledTitle"
+                android:id="@+id/declinedText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="150dp"
+                android:fontFamily="@font/nunito_sans"
+                android:text="@string/no_declined_jobs"
+                android:textColor="@color/darkGray"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/declinedTitle"
                 android:layout_width="138dp"
                 android:layout_height="35dp"
                 android:layout_marginTop="20dp"
@@ -104,7 +136,7 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <ListView
-                android:id="@+id/cancelledList"
+                android:id="@+id/declinedList"
                 android:layout_width="356dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="90dp"
@@ -142,6 +174,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:id="@+id/archivedText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="150dp"
+                android:fontFamily="@font/nunito_sans"
+                android:text="@string/no_archived_jobs"
+                android:textColor="@color/darkGray"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:visibility="invisible" />
 
             <View
                 android:id="@+id/divider7"

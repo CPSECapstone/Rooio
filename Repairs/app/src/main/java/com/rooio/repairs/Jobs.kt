@@ -29,6 +29,9 @@ class Jobs : NavigationBar() {
     private lateinit var pendingConstraint: ConstraintLayout
     private lateinit var scheduledConstraint: ConstraintLayout
     private lateinit var inProgressConstraint: ConstraintLayout
+    private lateinit var pendingText: TextView
+    private lateinit var scheduledText: TextView
+    private lateinit var inProgressText: TextView
 
     companion object{
         @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
@@ -41,14 +44,17 @@ class Jobs : NavigationBar() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jobs)
-
-        pendingList = findViewById<View>(R.id.pendingList) as ListView
-        scheduledList = findViewById<View>(R.id.scheduledList) as ListView
-        inProgressList = findViewById<View>(R.id.inProgressList) as ListView
+        pendingText = findViewById(R.id.pendingText)
+        pendingList = findViewById(R.id.pendingList)
+        scheduledList = findViewById(R.id.scheduledList)
+        scheduledText = findViewById(R.id.scheduledText)
+        inProgressList = findViewById(R.id.inProgressList)
+        inProgressText = findViewById(R.id.inProgressText)
         completedButton = findViewById(R.id.button)
-        pendingConstraint = findViewById<View>(R.id.pendingConstraint) as ConstraintLayout
-        scheduledConstraint = findViewById<View>(R.id.scheduledConstraint) as ConstraintLayout
-        inProgressConstraint = findViewById<View>(R.id.inProgressConstraint) as ConstraintLayout
+        pendingConstraint = findViewById(R.id.pendingConstraint)
+        scheduledConstraint = findViewById(R.id.scheduledConstraint)
+        inProgressConstraint = findViewById(R.id.inProgressConstraint)
+
 
         //Set navigation bar function call
         setNavigationBar()
@@ -145,13 +151,15 @@ class Jobs : NavigationBar() {
 
         val customAdapter = JobsCustomAdapter(this, pendingJobs)
         if (pendingJobs.size != 0) pendingList.adapter = customAdapter
+        else setEmptyText(JobType.PENDING)
 
         val customAdapter1 = JobsCustomAdapter(this, scheduledJobs)
         if (scheduledJobs.size != 0) scheduledList.adapter = customAdapter1
+        else setEmptyText(JobType.SCHEDULED)
 
         val customAdapter2 = JobsCustomAdapter(this, inProgressJobs)
         if (inProgressJobs.size != 0) inProgressList.adapter = customAdapter2
-
+        else setEmptyText(JobType.IN_PROGRESS)
     }
 
     //API response functions
@@ -165,6 +173,15 @@ class Jobs : NavigationBar() {
     var errorFunc = Function<String, Void?> { error: String? ->
         errorMessage.text = error
         null
+    }
+
+    //Sets the empty list text
+    private fun setEmptyText(type: JobType) {
+        when (type) {
+            JobType.PENDING -> pendingText.visibility = View.VISIBLE
+            JobType.SCHEDULED ->  scheduledText.visibility = View.VISIBLE
+            JobType.IN_PROGRESS ->  inProgressText.visibility = View.VISIBLE
+        }
     }
 
 

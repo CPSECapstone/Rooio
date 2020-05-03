@@ -78,8 +78,12 @@
 
     <string name="no_jobs">No jobs to display</string>
     <string name="timeFormat">yyyy-MM-dd HH:mm:ss</string>
-
-
+    <string name="no_pending_jobs">No pending jobs.</string>
+    <string name="no_scheduled_jobs">No scheduled jobs.</string>
+    <string name="no_in_progress_jobs">No in progress jobs.</string>
+    <string name="no_archived_jobs">No archived jobs.</string>
+    <string name="no_cancelled_jobs">No cancelled jobs.</string>
+    <string name="no_declined_jobs">No declined jobs.</string>
     <string name="inProgress">In Progress</string>
     <string name="three">3</string>
     <string name="six">6</string>

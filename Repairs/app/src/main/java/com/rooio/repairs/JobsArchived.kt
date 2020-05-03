@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ListView
+import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.TransitionManager
@@ -26,6 +27,10 @@ class JobsArchived  : NavigationBar() {
         private lateinit var archivedConstraint: ConstraintLayout
         private lateinit var cancelledConstraint: ConstraintLayout
         private lateinit var declinedConstraint: ConstraintLayout
+
+        private lateinit var archivedText: TextView
+        private lateinit var cancelledText: TextView
+        private lateinit var declinedText: TextView
 
 
         companion object{
@@ -54,12 +59,13 @@ class JobsArchived  : NavigationBar() {
                 setContentView(R.layout.activity_jobs_archived)
                 completedButton = findViewById(R.id.button)
                 //sets the navigation bar onto the page
-                cancelledList = findViewById<View>(R.id.cancelledList) as ListView
-                cancelledConstraint = findViewById<View>(R.id.cancelledConstraint) as ConstraintLayout
-                declinedList = findViewById<View>(R.id.declinedList) as ListView
-                declinedConstraint = findViewById<View>(R.id.declinedConstraint) as ConstraintLayout
-
-
+                cancelledList = findViewById(R.id.cancelledList)
+                cancelledConstraint = findViewById(R.id.cancelledConstraint)
+                declinedList = findViewById(R.id.declinedList)
+                declinedConstraint = findViewById(R.id.declinedConstraint)
+                archivedText = findViewById(R.id.archivedText)
+                cancelledText = findViewById(R.id.cancelledText)
+                declinedText = findViewById(R.id.declinedText)
         }
 
         //When Returning to Non-Archived Jobs Page
@@ -118,13 +124,15 @@ class JobsArchived  : NavigationBar() {
 
                 val customAdapter = JobsCustomAdapter(this, archivedJobs)
                 if (archivedJobs.size != 0) archivedList.adapter = customAdapter
+                else setEmptyText(JobType.COMPLETED)
 
                 val customAdapter1 = JobsCustomAdapter(this, cancelledJobs)
                 if (cancelledJobs.size != 0) cancelledList.adapter = customAdapter1
+                else setEmptyText(JobType.CANCELLED)
 
                 val customAdapter2 = JobsCustomAdapter(this, declinedJobs)
                 if (declinedJobs.size != 0) declinedList.adapter = customAdapter2
-
+                else setEmptyText(JobType.DECLINED)
         }
 
         @JvmField
@@ -140,7 +148,14 @@ class JobsArchived  : NavigationBar() {
                 null
         }
 
-
+        //Sets the empty list text
+        private fun setEmptyText(type: JobType) {
+            when (type) {
+                JobType.COMPLETED -> archivedText.visibility = View.VISIBLE
+                JobType.CANCELLED ->  cancelledText.visibility = View.VISIBLE
+                JobType.DECLINED ->  declinedText.visibility = View.VISIBLE
+            }
+        }
 
 
         //Set the sizes of swim lanes based on # of jobs per swim lane
