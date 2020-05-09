@@ -33,7 +33,7 @@ abstract class NavigationBar : RestApi() {
     private lateinit var transitionsContainer2: ViewGroup
 
     companion object {
-        var visible = false
+        var collapsed = false
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,24 +130,24 @@ abstract class NavigationBar : RestApi() {
 
         TransitionManager.beginDelayedTransition(transitionsContainer)
 
-        if (!isCreating) visible = !visible
+        if (!isCreating) collapsed = !collapsed
 
-        val rotate = if (visible) 180f else 0f
+        val rotate = if (collapsed) 180f else 0f
         collapse.rotation = rotate
 
 
         val params = navBar.layoutParams
-        val p = if (visible) 65 else 250
+        val p = if (collapsed) 65 else 250
         params.width = p
 
         //changing width of horizontal divider
         val params2 = divider.layoutParams
-        val p2 = if (visible) 65 else 250
+        val p2 = if (collapsed) 65 else 250
         params2.width = p2
 
-        animateActivity(visible)
+        animateActivity(collapsed)
 
-        val v = if (visible) View.GONE else VISIBLE
+        val v = if (collapsed) View.GONE else VISIBLE
 
         collapseText.visibility = v
         dashboardText.visibility = v
