@@ -19,6 +19,7 @@
             android:layout_width="455dp"
             android:layout_height="282dp"
             android:layout_marginTop="100dp"
+            android:layout_marginBottom="100dp"
             android:background="@drawable/shadow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +65,7 @@
                 android:id="@+id/cancelledList"
                 android:layout_width="356dp"
                 android:layout_height="1dp"
-                android:layout_marginTop="90dp"
+                android:layout_marginTop="100dp"
                 android:background="#FAFFFFFF"
                 android:divider="@drawable/blank_border"
                 android:dividerHeight="10dp"
@@ -94,6 +95,7 @@
             android:layout_width="455dp"
             android:layout_height="282dp"
             android:layout_marginTop="100dp"
+            android:layout_marginBottom="100dp"
             android:background="@drawable/shadow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -139,7 +141,7 @@
                 android:id="@+id/declinedList"
                 android:layout_width="356dp"
                 android:layout_height="1dp"
-                android:layout_marginTop="90dp"
+                android:layout_marginTop="100dp"
                 android:background="#FAFFFFFF"
                 android:divider="@drawable/blank_border"
                 android:dividerHeight="10dp"
@@ -155,7 +157,7 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="75dp"
                 android:background="?android:attr/listDivider"
-                app:layout_constraintBottom_toBottomOf="@+id/inProgressList"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -167,6 +169,7 @@
             android:layout_width="455dp"
             android:layout_height="282dp"
             android:layout_marginTop="100dp"
+            android:layout_marginBottom="100dp"
             android:background="@drawable/shadow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -226,7 +229,7 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="100dp"
                 android:divider="@drawable/blank_border"
-                android:dividerHeight="5dp"
+                android:dividerHeight="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -270,6 +273,16 @@
             app:layout_constraintHorizontal_bias="0.55"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/loadingPanel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/cancelledConstraint"
+            app:layout_constraintStart_toStartOf="@+id/cancelledConstraint"
+            app:layout_constraintTop_toBottomOf="@+id/cancelledConstraint" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

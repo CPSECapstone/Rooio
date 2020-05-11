@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#00EC0404"
     android:clipToPadding="false">
 
@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_margin="0dp"
+        android:layout_marginBottom="30dp"
         android:fontFamily="@font/nunito_sans"
         android:gravity="center"
         android:textAlignment="center"
@@ -20,22 +21,24 @@
         android:textSize="18sp"
         android:textStyle="italic"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout5"
+        app:layout_constraintBottom_toTopOf="@+id/jobListLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout5"
+        android:id="@+id/jobListLayout"
         android:layout_width="360dp"
         android:layout_height="128dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/gray_button_border"
-        android:translationY="19dp"
+        android:translationY="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <ImageView
             android:id="@+id/image"
@@ -150,14 +153,13 @@
             android:id="@+id/jobsButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="2dp"
-            android:layout_marginBottom="1dp"
             android:background="#00FFFFFF"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

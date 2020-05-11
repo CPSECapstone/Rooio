@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ListView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -31,6 +32,7 @@ class JobsArchived  : NavigationBar() {
         private lateinit var archivedText: TextView
         private lateinit var cancelledText: TextView
         private lateinit var declinedText: TextView
+        private lateinit var loadingPanel: ProgressBar
 
 
         companion object{
@@ -66,6 +68,7 @@ class JobsArchived  : NavigationBar() {
                 archivedText = findViewById(R.id.archivedText)
                 cancelledText = findViewById(R.id.cancelledText)
                 declinedText = findViewById(R.id.declinedText)
+                loadingPanel = findViewById(R.id.loadingPanel)
         }
 
         //When Returning to Non-Archived Jobs Page
@@ -137,6 +140,7 @@ class JobsArchived  : NavigationBar() {
 
         @JvmField
         var responseFunc = Function<Any, Void?> { jsonObj: Any ->
+                loadingPanel.visibility = View.INVISIBLE
                 val responseObj = jsonObj as JSONArray
                 populateLists(responseObj)
 

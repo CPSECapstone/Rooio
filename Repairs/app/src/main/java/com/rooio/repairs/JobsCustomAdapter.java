@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -93,6 +92,7 @@ class JobsCustomAdapter implements ListAdapter {
             ImageView image = convertView.findViewById(R.id.image);
             TextView timeText = convertView.findViewById(R.id.timeText);
             Button jobsButton = convertView.findViewById(R.id.jobsButton);
+            ConstraintLayout constraint = convertView.findViewById(R.id.jobListLayout);
 
 
             TextView status = convertView.findViewById(R.id.status);
@@ -235,7 +235,7 @@ class JobsCustomAdapter implements ListAdapter {
                     statuses.add(status_value);
                 }
                 else
-                    status.setVisibility(View.INVISIBLE);
+                    status.setVisibility(View.GONE);
 
                 }
 

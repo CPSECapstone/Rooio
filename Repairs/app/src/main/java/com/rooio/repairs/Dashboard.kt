@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -52,6 +53,7 @@ class Dashboard : Graph() {
     private lateinit var inProgressButton: Button
     private lateinit var nameGreeting: TextView
     private lateinit var timeText: TextView
+    private lateinit var loadingPanel: ProgressBar
     private var imageOn = false
 
     private var jobHistoryMap = HashMap<String, JSONObject>()
@@ -103,6 +105,7 @@ class Dashboard : Graph() {
         pendingButton = findViewById(R.id.pendingButton)
         nameGreeting = findViewById(R.id.nameGreeting)
         timeText = findViewById(R.id.timeText)
+        loadingPanel = findViewById(R.id.loadingPanel)
         nameGreeting.text = ("Hi, $userName!")
     }
 
@@ -117,6 +120,7 @@ class Dashboard : Graph() {
     //Function for successful API Response
     @JvmField
     var responseFunc = Function<Any, Void?> { jsonObj: Any ->
+        loadingPanel.visibility = View.INVISIBLE
         val responseObj = jsonObj as JSONArray
         populateLists(responseObj)
         listCount()

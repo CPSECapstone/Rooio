@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ListView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -32,6 +33,7 @@ class Jobs : NavigationBar() {
     private lateinit var pendingText: TextView
     private lateinit var scheduledText: TextView
     private lateinit var inProgressText: TextView
+    private lateinit var loadingPanel: ProgressBar
 
     companion object{
         @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
@@ -54,7 +56,7 @@ class Jobs : NavigationBar() {
         pendingConstraint = findViewById(R.id.pendingConstraint)
         scheduledConstraint = findViewById(R.id.scheduledConstraint)
         inProgressConstraint = findViewById(R.id.inProgressConstraint)
-
+        loadingPanel = findViewById(R.id.loadingPanel)
 
         //Set navigation bar function call
         setNavigationBar()
@@ -118,25 +120,25 @@ class Jobs : NavigationBar() {
             when (job.getInt("status")){
                 0 ->{
                     pendingJobs.add(job)
-                    if (i > 0) setSize("pending", pendingConstraint)
-                    setSize("pending", pendingList)
+                    if (i > 0) setSize(pendingConstraint)
+                    setSize(pendingList)
                 }
                 2 ->
                 {
                     scheduledJobs.add(job)
-                    if (i > 0) setSize("scheduled", scheduledConstraint)
-                    setSize("scheduled", scheduledList)
+                    if (i > 0) setSize(scheduledConstraint)
+                    setSize(scheduledList)
                 }
                 5 ->
                 {
                     startedJobs.add(job)
-                    if (i > 0) setSize("started", inProgressConstraint)
-                    setSize("started", inProgressList)
+                    if (i > 0) setSize(inProgressConstraint)
+                    setSize(inProgressList)
                 }
                 6 -> {
                     pausedJobs.add(job)
-                    if (i > 0) setSize("paused", inProgressConstraint)
-                    setSize("paused", inProgressList)
+                    if (i > 0) setSize(inProgressConstraint)
+                    setSize(inProgressList)
                 }
             }
 
@@ -150,21 +152,31 @@ class Jobs : NavigationBar() {
         }
 
         val customAdapter = JobsCustomAdapter(this, pendingJobs)
-        if (pendingJobs.size != 0) pendingList.adapter = customAdapter
+        if (pendingJobs.size != 0) {
+            pendingList.adapter = customAdapter
+            pendingText.visibility = View.INVISIBLE
+        }
         else setEmptyText(JobType.PENDING)
 
         val customAdapter1 = JobsCustomAdapter(this, scheduledJobs)
-        if (scheduledJobs.size != 0) scheduledList.adapter = customAdapter1
+        if (scheduledJobs.size != 0){
+            scheduledList.adapter = customAdapter1
+            scheduledText.visibility = View.INVISIBLE
+        }
         else setEmptyText(JobType.SCHEDULED)
 
         val customAdapter2 = JobsCustomAdapter(this, inProgressJobs)
-        if (inProgressJobs.size != 0) inProgressList.adapter = customAdapter2
+        if (inProgressJobs.size != 0) {
+            inProgressList.adapter = customAdapter2
+            inProgressText.visibility = View.INVISIBLE
+        }
         else setEmptyText(JobType.IN_PROGRESS)
     }
 
     //API response functions
     @JvmField
     var responseFunc = Function<Any, Void?> { jsonObj: Any ->
+        loadingPanel.visibility = View.INVISIBLE
         val responseObj = jsonObj as JSONArray
         populateLists(responseObj)
         null
@@ -186,35 +198,11 @@ class Jobs : NavigationBar() {
 
 
     //Set the sizes
-    private fun setSize(str: String, constraint: ViewGroup){
+    private fun setSize(constraint: ViewGroup){
         val value = 210
-        when(str){
-            "pending" -> {
-                val params = constraint.layoutParams
-                params.height += value
-                constraint.layoutParams = params
-            }
-
-            "scheduled" -> {
-                val params = constraint.layoutParams
-                params.height += value
-                constraint.layoutParams = params
-            }
-
-            "started" -> {
-                val params = constraint.layoutParams
-                params.height += value
-                constraint.layoutParams = params
-            }
-
-            "paused" -> {
-                val params = constraint.layoutParams
-                params.height += value
-                constraint.layoutParams = params
-            }
-
-        }
-
+        val params = constraint.layoutParams
+        params.height += value
+        constraint.layoutParams = params
     }
 
     //Shifting the layout in response to navBar position
