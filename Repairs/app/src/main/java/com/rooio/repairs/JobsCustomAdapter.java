@@ -106,7 +106,8 @@ class JobsCustomAdapter implements ListAdapter {
                 switch(status_enum) {
                     //Declined Swimlane
                     case 1:
-                        status_value = "Declined";
+                    case 3:
+                    case 4:
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.lightGray)
@@ -120,22 +121,6 @@ class JobsCustomAdapter implements ListAdapter {
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.Blue)
-                        );
-                        break;
-                    case 3:
-                        status_value = "Archived";
-
-                        DrawableCompat.setTint(
-                                DrawableCompat.wrap(color.getBackground()),
-                                ContextCompat.getColor(context, R.color.lightGray)
-                        );
-                        break;
-                        //Cancelled Swimlane Status
-                    case 4:
-                        status_value = "Cancelled";
-                        DrawableCompat.setTint(
-                                DrawableCompat.wrap(color.getBackground()),
-                                ContextCompat.getColor(context, R.color.lightGray)
                         );
                         break;
                     case 5:
@@ -212,7 +197,6 @@ class JobsCustomAdapter implements ListAdapter {
                     timeImage.setText(date1.toString());
 
                 }
-
                 //Checks if Image
                 //If no Image then Move Text Over
                 String imageVal = internal_client.getString("logo");
