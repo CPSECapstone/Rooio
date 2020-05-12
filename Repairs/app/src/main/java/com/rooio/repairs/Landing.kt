@@ -110,19 +110,14 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
             override fun onServiceSuccess(result: Employee, status: ResultStatus) {
                 super.onServiceSuccess(result, status)
                 when(result.role.toString()){
-                    "ADMIN" -> {
-                        val name = result.name.toString()
-                        Toast.makeText(this@Landing, "Welcome $name!", Toast.LENGTH_SHORT).show()
-                    }
-
-                    "MANAGER" -> {
-                        val name = result.name.toString()
-                        Toast.makeText(this@Landing, "Welcome $name!", Toast.LENGTH_SHORT).show()
-                    }
-
                     "EMPLOYEE" -> {
                         Toast.makeText(this@Landing, "You do not have permissions to use this app.", Toast.LENGTH_SHORT).show()
                         finishAffinity()
+                    }
+
+                    else -> {
+                        val name = result.name.toString()
+                        Toast.makeText(this@Landing, "Welcome $name!", Toast.LENGTH_SHORT).show()
                     }
                 }
 
