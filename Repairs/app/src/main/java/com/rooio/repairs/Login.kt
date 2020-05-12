@@ -1,12 +1,8 @@
 package com.rooio.repairs
 
-import android.content.Context
 import android.content.Intent
-import android.media.AudioManager
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.ActionBar
 import androidx.arch.core.util.Function
 import com.android.volley.Request
 import org.json.JSONException
@@ -14,6 +10,7 @@ import org.json.JSONObject
 import java.util.*
 import android.widget.*
 import android.R.id.edit
+import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.core.app.ComponentActivity.ExtraData
@@ -46,13 +43,6 @@ class Login : RestApi() {
         onConnectAccount()
         onCancel()
         onPause()
-    }
-
-    //Centers "Repairs" title
-    private fun centerTitleBar() {
-        supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        supportActionBar!!.setCustomView(R.layout.action_bar)
-        supportActionBar!!.elevation = 0f
     }
 
     //Initializes UI variables

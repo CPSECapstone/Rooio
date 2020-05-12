@@ -23,7 +23,7 @@
             android:id="@+id/locationSettingsTitle"
             android:layout_width="321dp"
             android:layout_height="37dp"
-            android:fontFamily="@font/nunito_semibold"
+            android:fontFamily="@font/nunito"
             android:text="@string/service_location"
             android:textAlignment="center"
             android:textColor="@color/darkGray"

@@ -1,141 +1,119 @@
 package com.rooio.repairs
 
 
-import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
-import android.widget.AdapterView.OnItemClickListener
 import androidx.arch.core.util.Function
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.android.volley.Request
-import org.json.JSONArray
-import org.json.JSONException
-import java.util.*
+import org.json.JSONObject
 
+//Displays the current location of the user in Settings
+class ChangeLocationSettings  : NavigationBar() {
 
-class ChangeLocationSettings  : NavigationBar(), OnItemClickListener  {
-
-    private lateinit var addAnother: TextView
-    private lateinit var locationListView: ListView
+    private lateinit var currentLocation: TextView
     private lateinit var errorMessage: TextView
-    private lateinit var locationBox: ConstraintLayout
+    private lateinit var changeLocation: Button
+    private lateinit var spinner: Spinner
     private lateinit var loadingPanel: ProgressBar
-    private lateinit var backButton: ImageView
-    private lateinit var viewGroup: ViewGroup
-    private val url = "service-locations/"
-
-    //Static lists that hold the address list and location ids, move to REST API?
-    companion object {
-        @JvmStatic var addressList = ArrayList<String>()
-        @JvmStatic var locationIds = ArrayList<String>()
-    }
+    private val url = "service-locations/$userLocationID/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_change_location_settings)
+        setContentView(R.layout.activity_location_settings)
 
+        onResume()
         initializeVariables()
         setNavigationBar()
         setActionBar()
         createNavigationBar(NavigationType.SETTINGS)
-        loadLocations(JsonRequest(false, url, null, responseFunc, errorFunc, true))
-        onAddAnother()
-        onBack()
+        onChangeLocation()
+        setSettingsSpinner()
+        onPause()
+        getCurrentLocation(JsonRequest(false, url, null, responseFunc, errorFunc, true))
+        
+
+    }
+
+    //Handles when the user clicks the change location button
+    private fun onChangeLocation() {
+        changeLocation.setOnClickListener{
+            startActivity(Intent(this, LocationSettings::class.java))
+        }
+    }
+
+    //Handles clicking on the spinner items
+    private fun setSettingsSpinner() {
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                //Something will always be selected
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString()
+                if(selectedItem == "Preferred Providers") {
+                    val spinner: Spinner = findViewById(R.id.settings_spinner)
+                    spinner.onItemSelectedListener = this
+                    startActivity(Intent(this@ChangeLocationSettings, PreferredProvidersSettings::class.java))
+                }
+            }
+        }
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter.createFromResource(
+                this,
+                R.array.settings_type,
+                R.layout.spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinner.adapter = adapter
+            spinner.setSelection(Intent().getIntExtra("UniqueKey", 1))
+        }
     }
 
 
     //Initializes UI variables
     private fun initializeVariables() {
-        addAnother = findViewById(R.id.addAnother)
-        locationListView = findViewById(R.id.locationListView)
+        currentLocation = findViewById(R.id.currentLocation)
         errorMessage = findViewById(R.id.errorMessage)
-        locationBox = findViewById(R.id.locationBox)
+        changeLocation = findViewById(R.id.changeLocation)
+        spinner = findViewById(R.id.settings_spinner)
         loadingPanel = findViewById(R.id.loadingPanel)
-        locationListView.onItemClickListener = this
-        viewGroup = findViewById(R.id.background)
-        //Navigation bar collapse/expand
-        backButton = viewGroup.findViewById(R.id.backButton)
     }
 
-    //Calls the API initially to load the locations into the page
-    private fun loadLocations(request: JsonRequest) {
-        requestJson(Request.Method.GET, JsonType.ARRAY, request)
+    //Requests the current location from the API
+    private fun getCurrentLocation(request: JsonRequest){
+        loadingPanel.visibility = View.VISIBLE
+        requestJson(Request.Method.GET, JsonType.OBJECT, request)
     }
 
-    //Fills the list view with locations that the API sends back
+    //If API returns a location, sets the physical address
+    @JvmField
     var responseFunc = Function<Any, Void?> { response: Any ->
         loadingPanel.visibility = View.GONE
-        val jsonArray = response as JSONArray
-        addElements(jsonArray)
+        val responseObj = response as JSONObject
+        currentLocation.text = responseObj.getString("physical_address")
         null
     }
 
-    //Returns an error if the user is not authorized to get this information
+    //Handles error if user does not have a location set
+    @JvmField
     var errorFunc = Function<String, Void?> { error: String? ->
         loadingPanel.visibility = View.GONE
         errorMessage.text = error
         null
     }
 
-    //Sends user to add a location when the button is clicked
-    private fun onAddAnother() {
-        addAnother.setOnClickListener {
-            startActivity(Intent(this@ChangeLocationSettings, AddLocationSettings::class.java))
-        }
-    }
-
-    //Starts the next page when a location is clicked on
-    override fun onItemClick(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
-        Toast.makeText(this, "You chose " + addressList[position], Toast.LENGTH_SHORT).show()
-        val prefs = getSharedPreferences("UserData", Context.MODE_PRIVATE)
-        val editor = prefs.edit()
-        editor.putString("userLocationId", locationIds[position])
-        editor.apply()
-        userLocationID = locationIds[position]
-        startActivity(Intent(this@ChangeLocationSettings, LocationSettings::class.java))
-    }
-
-    //Adds locations to the list view using a custom adapter, and increases the size every time a
-    // location is added
-    @Throws(JSONException::class)
-    private fun addElements(response: JSONArray) {
-        addressList.clear()
-        locationIds.clear()
-        for (i in 0 until response.length()) {
-            val restaurant = response.getJSONObject(i)
-            val physicalAddress = restaurant.getString("physical_address")
-            addressList.add(physicalAddress)
-            locationIds.add(restaurant.getString("id"))
-            if (i > 0) {
-                val params = locationBox.layoutParams
-                params.height += 90
-                locationBox.layoutParams = params
-                val size = locationListView.layoutParams
-                size.height += 90
-                locationListView.layoutParams = size
-            }
-        }
-        val customAdapter = LocationCustomAdapter(this, addressList)
-        if (addressList.size != 0) locationListView.adapter = customAdapter
-    }
-
+    //Animation function for navigation bar
     override fun animateActivity(boolean: Boolean)
     {
-        val amount = if (boolean) -190f else 0f
-        val animation = ObjectAnimator.ofFloat(backButton, "translationX", amount)
-        if (boolean) animation.duration = 1300 else animation.duration = 300
-        animation.start()
-    }
-
-    //Sends the user to the Jobs page
-    private fun onBack() {
-        backButton.setOnClickListener{
-            startActivity(Intent(this@ChangeLocationSettings, LocationSettings::class.java))
-        }
+        //No animation needed
     }
 
 }

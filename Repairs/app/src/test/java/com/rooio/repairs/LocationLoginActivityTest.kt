@@ -51,8 +51,8 @@ class LocationLoginActivityTest {
                 .put("id", "1")
         activity.responseFunc.apply(JSONArray()
                 .put(jsonObj))
-        assertEquals(LocationLogin.addressList[0], "1 Grand Ave.")
-        assertEquals(LocationLogin.locationIds[0], "1")
+        assertEquals(Location.addressList[0], "1 Grand Ave.")
+        assertEquals(Location.locationIds[0], "1")
     }
 
     @Test

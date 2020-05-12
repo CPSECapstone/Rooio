@@ -35,13 +35,6 @@ class Registration : RestApi() {
         onCancel()
     }
 
-    //Centers "Repairs" title
-    private fun centerTitleBar() {
-        supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        supportActionBar!!.setCustomView(R.layout.action_bar)
-        supportActionBar!!.elevation = 0f
-    }
-
     //Initializes UI variables
     private fun initializeVariables() {
         registerButton = findViewById(R.id.register)

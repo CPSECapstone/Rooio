@@ -490,14 +490,7 @@ class Dashboard : Graph() {
 
         boxParams7.width = notableJobsWidth
 
-        if(imageOn == "off"){
-            val textWidth = if (boolean) 330 else 160
 
-            val sideMover = viewGroup.findViewById<ViewGroup>(R.id.jobMover)
-            val boxParams10 = sideMover.layoutParams
-            boxParams10.width = textWidth
-            sideMover.layoutParams = boxParams10
-        }
 
         //calling the transitions
         notableJobs.layoutParams = boxParams1
