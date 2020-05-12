@@ -200,11 +200,13 @@ class JobDetails: NavigationBar() {
             lastServiceBy.text = (equipmentObj.getString("last_service_by"))
 
         }
+        //lastServiceDate.text = ("--")
+
         if (equipmentObj.isNull("last_service_date")){
             lastServiceDate.text = ("--")
         }
         else{
-            val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(equipmentObj.getString("last_service_date")))
+            val date1 = SimpleDateFormat("yyyy-MM-dd").parse(convertToNewFormat2(equipmentObj.getString("last_service_date")))
             lastServiceDate.text = (date1!!.toString())
         }
 
@@ -344,6 +346,19 @@ class JobDetails: NavigationBar() {
         val convertedDate = sourceFormat.parse(dateStr)
         return destFormat.format(convertedDate!!)
     }
+
+    //Sets the time format
+    @SuppressLint("SimpleDateFormat")
+    @Throws(ParseException::class)
+    fun convertToNewFormat2(dateStr: String): String {
+        val utc = TimeZone.getTimeZone("UTC")
+        val sourceFormat = SimpleDateFormat("yyyy-MM-dd")
+        val destFormat = SimpleDateFormat("yyyy-MM-dd")
+        sourceFormat.timeZone = utc
+        val convertedDate = sourceFormat.parse(dateStr)
+        return destFormat.format(convertedDate!!)
+    }
+
     //Switches the visibility of Equipment UI elements
     private fun setVisibility(v: Int) {
         manufacturerText.visibility = v

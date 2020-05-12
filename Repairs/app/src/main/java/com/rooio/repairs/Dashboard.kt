@@ -29,7 +29,6 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class Dashboard : Graph() {
-    private lateinit var imageOn: String
     private lateinit var scheduledNum: TextView
     private lateinit var inProgressNum: TextView
     private lateinit var pendingNum: TextView
@@ -51,7 +50,7 @@ class Dashboard : Graph() {
     private lateinit var pendingButton: Button
     private lateinit var scheduledButton: Button
     private lateinit var inProgressButton: Button
-
+    private var imageOn = "off"
     private var jobHistoryMap = HashMap<String, JSONObject>()
 
     companion object{

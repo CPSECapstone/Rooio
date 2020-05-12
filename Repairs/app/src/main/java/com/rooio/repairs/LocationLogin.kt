@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -91,6 +92,11 @@ class LocationLogin : RestApi(), OnItemClickListener {
     //Starts the next page when a location is clicked on
     override fun onItemClick(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
         Toast.makeText(this, "You chose " + addressList[position], Toast.LENGTH_SHORT).show()
+        val prefs = getSharedPreferences("UserData", Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        editor.putString("userLocationId", locationIds[position])
+        editor.apply()
+
         userLocationID = locationIds[position]
         startActivity(Intent(this@LocationLogin, PreferredProvidersLogin::class.java))
     }
