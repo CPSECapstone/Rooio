@@ -9,14 +9,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 import android.widget.*
-import android.R.id.edit
 import android.content.Context
-import android.content.SharedPreferences
-import android.util.Log
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-
-
 
 
 // Activity that creates the login page of the application
@@ -63,7 +56,7 @@ class Login : RestApi() {
         val name = prefs.getString("name", "")
         val userLocation = prefs.getString("userLocationId", "")
 
-        if (name != null && name.length > 1 && savedToken != null && savedToken.length > 1 && userLocation != null && userLocation.length > 1) {
+        if (name != null && name.isNotEmpty() && savedToken != null && savedToken.isNotEmpty() && userLocation != null && userLocation.isNotEmpty()) {
             userToken = savedToken
             userName = name
             userLocationID = userLocation
