@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.android.volley.Request
 import com.google.android.material.textfield.TextInputEditText
@@ -425,13 +427,31 @@ class Equipment : Graph() {
         val pageConstraint = findViewById<ConstraintLayout>(R.id.equipmentPageConstraint)
 
         val equipment = pageConstraint.findViewById<ConstraintLayout>(R.id.equipmentBarConstraint)
-
-        TransitionManager.beginDelayedTransition(pageConstraint)
+        if (boolean) {
+            val autoTransition = AutoTransition()
+            autoTransition.duration = 1400
+            TransitionManager.beginDelayedTransition(pageConstraint, autoTransition)
+        } else {
+            TransitionManager.beginDelayedTransition(pageConstraint)
+        }
         val params = equipment.layoutParams
         val change = if (boolean) 463 else 649
         params.width = change
-
         equipment.layoutParams = params
+
+        val amount = if (boolean) -125f else 0f
+        var animation = ObjectAnimator.ofFloat(analyticsConstraint, "translationX", amount)
+        if (boolean) animation.duration = 1400 else animation.duration = 300
+        animation.start()
+        animation = ObjectAnimator.ofFloat(equipmentDetailsConstraint, "translationX", amount)
+        if (boolean) animation.duration = 1400 else animation.duration = 300
+        animation.start()
+        animation = ObjectAnimator.ofFloat(editEquipmentConstraint, "translationX", amount)
+        if (boolean) animation.duration = 1400 else animation.duration = 300
+        animation.start()
+        animation = ObjectAnimator.ofFloat(addEquipmentConstraint, "translationX", amount)
+        if (boolean) animation.duration = 1400 else animation.duration = 300
+        animation.start()
     }
 
 }

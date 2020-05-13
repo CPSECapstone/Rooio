@@ -1,6 +1,7 @@
 package com.rooio.repairs
 
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -17,8 +19,8 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.android.volley.Request
+import com.github.mikephil.charting.charts.LineChart
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_dashboard.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -29,13 +31,11 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class Dashboard : Graph() {
-    private lateinit var imageOn: String
     private lateinit var scheduledNum: TextView
     private lateinit var inProgressNum: TextView
     private lateinit var pendingNum: TextView
     private lateinit var image: ImageView
     private lateinit var address: TextView
-    private lateinit var time: TextView
     private lateinit var name: TextView
     private lateinit var repairType: TextView
     private lateinit var clockImage: ImageView
@@ -51,6 +51,10 @@ class Dashboard : Graph() {
     private lateinit var pendingButton: Button
     private lateinit var scheduledButton: Button
     private lateinit var inProgressButton: Button
+    private lateinit var nameGreeting: TextView
+    private lateinit var timeText: TextView
+    private lateinit var loadingPanel: ProgressBar
+    private var imageOn = false
 
     private var jobHistoryMap = HashMap<String, JSONObject>()
 
@@ -82,7 +86,6 @@ class Dashboard : Graph() {
         notableJob = findViewById(R.id.notableJob)
         repairType = findViewById(R.id.repairType)
         name = findViewById(R.id.name)
-        time = findViewById(R.id.timeImage)
         address = findViewById(R.id.address)
         image = findViewById(R.id.image)
         pendingNum = findViewById(R.id.pendingNum)
@@ -100,7 +103,10 @@ class Dashboard : Graph() {
         inProgressButton = findViewById(R.id.inProgressButton)
         scheduledButton = findViewById(R.id.scheduledButton)
         pendingButton = findViewById(R.id.pendingButton)
-        name_greeting!!.text = ("Hi, $userName!")
+        nameGreeting = findViewById(R.id.nameGreeting)
+        timeText = findViewById(R.id.timeText)
+        loadingPanel = findViewById(R.id.loadingPanel)
+        nameGreeting.text = ("Hi, $userName!")
     }
 
     //LoadJobs sends a Api Get Request to get all Jobs
@@ -111,9 +117,10 @@ class Dashboard : Graph() {
                 null, responseFunc, errorFunc, true))
     }
 
-    //Function for Successfull API Response
+    //Function for successful API Response
     @JvmField
     var responseFunc = Function<Any, Void?> { jsonObj: Any ->
+        loadingPanel.visibility = View.INVISIBLE
         val responseObj = jsonObj as JSONArray
         populateLists(responseObj)
         listCount()
@@ -124,8 +131,7 @@ class Dashboard : Graph() {
     //Function for error API Response
     @JvmField
     var errorFunc = Function<String, Void?> { string: String? ->
-        name_greeting.text =string
-
+        nameGreeting.text =string
         null
     }
 
@@ -152,8 +158,8 @@ class Dashboard : Graph() {
     }
 
     @JvmField
-    var errorLoadAllEquipmentFunc = Function<String, Void?> {
-        name_greeting.text = it
+    var errorLoadAllEquipmentFunc = Function<String, Void?> {error -> String
+        nameGreeting.text = error
         null
     }
 
@@ -304,13 +310,11 @@ class Dashboard : Graph() {
             for (index in resultSort.indices){
                 if (0 == (timeConvert(resultSort[index].getString("status_time_value")))) {
                     if(index == (resultSort.size - 1) && (i == 0)){
-
                         jobsLayout.visibility = (View.INVISIBLE)
                         noJob.visibility = (View.VISIBLE)
                         noJob.text = resources.getString(R.string.no_jobs)
                         repairImage.visibility = (View.GONE)
                         color.visibility = (View.INVISIBLE)
-
                     }
                 }
                 else{
@@ -324,7 +328,6 @@ class Dashboard : Graph() {
             noJob.text = resources.getString(R.string.no_jobs)
             repairImage.visibility = (View.GONE)
             color.visibility = (View.INVISIBLE)
-
         }
     }
 
@@ -378,7 +381,7 @@ class Dashboard : Graph() {
         //set the date/time
         if (!resultSort[index].isNull("status_time_value")) {
             val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(resultSort[index].getString("status_time_value")))
-            timeImage.text = date1!!.toString()
+            timeText.text = date1!!.toString()
 
         }
         //address
@@ -390,16 +393,14 @@ class Dashboard : Graph() {
         //load logo
         val imageVal = internalClient.getString("logo")
         if (imageVal.isNullOrBlank() || imageVal == "null"){
-            val viewGroup = findViewById<ViewGroup>(R.id.JobsLayout)
-            val sideMover = viewGroup.findViewById<ViewGroup>(R.id.jobMover)
-            val boxParams10 = sideMover.layoutParams
-            boxParams10.width = 160
-            sideMover.layoutParams = boxParams10
+            imageOn = false
+            name.translationX = -120f
+            repairType.translationX = -120f
+            address.translationX = -120f
             image.visibility = (View.GONE)
-            imageOn = "off"
         }
         else{
-            imageOn = "on"
+            imageOn = true
             Picasso.with(this)
                     .load(imageVal)
                     .into(image)
@@ -430,14 +431,14 @@ class Dashboard : Graph() {
                         ContextCompat.getColor(this, R.color.Blue))
 
             }
-            //In Progress Swimlane Status
+            //In Progress swim lane Status
             2 -> {
                 DrawableCompat.setTint(
                         DrawableCompat.wrap(color.background),
                         ContextCompat.getColor(this, R.color.colorPrimary)
                 )
             }
-            //Pending Swimlane Status
+            //Pending swim lane Status
             3 -> {
                 DrawableCompat.setTint(
                         DrawableCompat.wrap(color.background),
@@ -456,11 +457,12 @@ class Dashboard : Graph() {
         val notableJobs = viewGroup.findViewById<ViewGroup>(R.id.notableJobs)
         val newJobRequest = viewGroup.findViewById<ViewGroup>(R.id.newJobRequest)
         val allJobs = viewGroup.findViewById<ViewGroup>(R.id.allJobs)
-
+        val jobAnalytics = viewGroup.findViewById<ViewGroup>(R.id.jobAnalytics)
         val notableJobsDivider = viewGroup.findViewById<View>(R.id.notableJobsDivider)
         val newJobDivider = viewGroup.findViewById<View>(R.id.newJobDivider)
         val allJobsDivider = viewGroup.findViewById<View>(R.id.allJobsDivider)
         val jobsLayout = viewGroup.findViewById<ConstraintLayout>(R.id.JobsLayout)
+        val lineChart = viewGroup.findViewById<LineChart>(R.id.lineChart)
 
 
         if (boolean) {
@@ -477,32 +479,47 @@ class Dashboard : Graph() {
         val boxParams5 = newJobDivider.layoutParams
         val boxParams6 = allJobsDivider.layoutParams
         val boxParams7 = jobsLayout.layoutParams
+        val boxParams8 = jobAnalytics.layoutParams
+        val boxParams9 = lineChart.layoutParams
 
 
-        val widgetWidth = if (boolean) 1004 else 885
+        val widgetWidth = if (boolean) 1000 else 900
         boxParams1.width = widgetWidth
         boxParams2.width = widgetWidth
         boxParams3.width = widgetWidth
         boxParams4.width = widgetWidth
         boxParams5.width = widgetWidth
         boxParams6.width = widgetWidth
+        boxParams8.width = widgetWidth
 
-        val notableJobsWidth = if (boolean) 948 else 750
-
+        val notableJobsWidth = if (boolean) 925 else 825
         boxParams7.width = notableJobsWidth
 
-        if(imageOn == "off"){
-            val textWidth = if (boolean) 330 else 160
-
-            val sideMover = viewGroup.findViewById<ViewGroup>(R.id.jobMover)
-            val boxParams10 = sideMover.layoutParams
-            boxParams10.width = textWidth
-            sideMover.layoutParams = boxParams10
-        }
+        val analyticsWidth = if (boolean) 905 else 805
+        boxParams9.width = analyticsWidth
 
         //calling the transitions
         notableJobs.layoutParams = boxParams1
         newJobRequest.layoutParams = boxParams2
+
+        var amount = if (imageOn){
+            if (boolean) -25f else 0f
+        } else {
+            if (boolean) -145f else -120f
+        }
+        var animation = ObjectAnimator.ofFloat(name, "translationX", amount)
+        if (boolean) animation.duration = 900 else animation.duration = 300
+        animation.start()
+        animation = ObjectAnimator.ofFloat(repairType, "translationX", amount)
+        if (boolean) animation.duration = 900 else animation.duration = 300
+        animation.start()
+        animation = ObjectAnimator.ofFloat(address, "translationX", amount)
+        if (boolean) animation.duration = 900 else animation.duration = 300
+        animation.start()
+        amount = if (boolean) -15f else 0f
+        animation = ObjectAnimator.ofFloat(timeText, "translationX", amount)
+        if (boolean) animation.duration = 900 else animation.duration = 300
+        animation.start()
     }
     //Convert to new format
     @SuppressLint("SimpleDateFormat")
