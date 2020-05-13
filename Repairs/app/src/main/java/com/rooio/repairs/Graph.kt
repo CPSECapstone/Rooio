@@ -15,6 +15,9 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlinx.android.synthetic.main.activity_equipment.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 abstract class Graph : NavigationBar() {
 
@@ -294,6 +297,11 @@ abstract class Graph : NavigationBar() {
     //Sets the x axis to years
     private fun createYearlyXAxis(jobMap: HashMap<Float, ArrayList<JSONObject>>): ArrayList<Float> {
         val xArray = jobMap.keys.toMutableList()
+
+        // creates x axis starting from the current year if there are no existing jobs
+        if (xArray.isEmpty()) {
+            xArray.add(Calendar.getInstance().get(Calendar.YEAR).toFloat())
+        }
 
         // just to make sure the graph has enough values to display if there aren't enough years
         while (xArray.size < 12) {
