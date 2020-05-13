@@ -121,6 +121,12 @@ abstract class Graph : NavigationBar() {
         }
     }
 
+    class DollarYAxisFormatter : ValueFormatter() {
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+            return "$" + value.toInt().toString()
+        }
+    }
+
     //Creates graph based on equipment
     fun createGraph(response: JSONArray, job: GraphType.JobType, option: GraphType.OptionType, time: GraphType.TimeType) {
         val vl = createData(response, job, option, time)
@@ -131,6 +137,7 @@ abstract class Graph : NavigationBar() {
         vl.lineWidth = 3f
         //Sets colors of the graph
         vl.fillColor = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
+        vl.fillAlpha = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
         vl.color = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
         vl.setCircleColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
 
@@ -141,6 +148,11 @@ abstract class Graph : NavigationBar() {
         } else {
             vl.valueFormatter = YearXAxisFormatter()
             lineChart.xAxis.valueFormatter = YearXAxisFormatter()
+        }
+        if (option == GraphType.OptionType.COST) {
+            lineChart.axisLeft.valueFormatter = DollarYAxisFormatter()
+        } else {
+            lineChart.axisLeft.valueFormatter = null
         }
         //Sets the offsets, fonts, and sizes of the graph
         lineChart.xAxis.labelRotationAngle = 0f
@@ -154,9 +166,11 @@ abstract class Graph : NavigationBar() {
         lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
         lineChart.axisLeft.setDrawGridLines(false)
         lineChart.xAxis.setDrawGridLines(false)
-        //Sets the zoom on the graph
-        lineChart.setTouchEnabled(false)
+        //Sets the marker on the graph
+        lineChart.setTouchEnabled(true)
         lineChart.setPinchZoom(false)
+        val markerView = CustomMarker(this@Graph, R.layout.marker_view, option)
+        lineChart.marker = markerView
         //Removes unnecessary chart information
         lineChart.description.isEnabled = false
         lineChart.setNoDataText("No data yet!")

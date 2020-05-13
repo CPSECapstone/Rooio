@@ -5,7 +5,8 @@ import java.lang.IllegalArgumentException
 enum class JobType (private val value: String) {
 
         PENDING("Pending"),
-        SCHEDULED("Schedueld"),
+        SCHEDULED("Scheduled"),
+        IN_PROGRESS("In Progress"),
         COMPLETED("Completed"),
         CANCELLED("Cancelled"),
         DECLINED("Declined"),
@@ -26,7 +27,7 @@ enum class JobType (private val value: String) {
                 STARTED -> 5
                 PAUSED -> 6
                 CANCELLED -> 4
-
+                IN_PROGRESS -> 7
         }
         }
         }
