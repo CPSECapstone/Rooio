@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+
 import android.os.Bundle
 
 //Displays current service locations attached to the account on first login
@@ -17,6 +18,7 @@ class LocationLogin : Location() {
         loadLocations(jsonRequest)
         onAddAnother()
     }
+
 
     //Animation function for nav bar
     override fun animateActivity(boolean: Boolean) {

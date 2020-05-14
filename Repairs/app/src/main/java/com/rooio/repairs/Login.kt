@@ -9,6 +9,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 import android.widget.*
+import android.content.Context
 
 
 // Activity that creates the login page of the application
@@ -22,7 +23,6 @@ class Login : RestApi() {
     private lateinit var cancelLogin: Button
     private lateinit var errorMessage: TextView
     private lateinit var loadingPanel: ProgressBar
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -32,6 +32,7 @@ class Login : RestApi() {
 
         centerTitleBar()
         initializeVariables()
+        automaticLogin()
         onConnectAccount()
         onCancel()
         onPause()
@@ -47,12 +48,29 @@ class Login : RestApi() {
         loadingPanel = findViewById(R.id.loadingPanel)
     }
 
+    // Checks if Token and UserLocation Information Saved to Automatically Login
+    private fun automaticLogin() {
+        //Use Shared Preferences Login
+        val prefs = getSharedPreferences("UserData", Context.MODE_PRIVATE)
+        val savedToken = prefs.getString("token", "")
+        val name = prefs.getString("name", "")
+        val userLocation = prefs.getString("userLocationId", "")
+
+        if (name != null && name.isNotEmpty() && savedToken != null && savedToken.isNotEmpty() && userLocation != null && userLocation.isNotEmpty()) {
+            userToken = savedToken
+            userName = name
+            userLocationID = userLocation
+            startActivity(Intent(this@Login, Dashboard::class.java))
+        }
+    }
+
     // Attempts to log in the user after clicking Connect Account
     private fun onConnectAccount() {
         val url = "auth/login/"
         val params = HashMap<Any?, Any?>()
         loadingPanel.visibility = View.GONE
         connectAccount.visibility = View.VISIBLE
+
         connectAccount.setOnClickListener {
             params["username"] = usernameField.text.toString()
             params["password"] = passwordField.text.toString()
@@ -73,6 +91,7 @@ class Login : RestApi() {
         connectAccount.visibility = View.VISIBLE
         errorMessage.text = ""
         val jsonObj = response as JSONObject
+
         storeToken(jsonObj)
         startActivity(Intent(this@Login, LocationLogin::class.java))
         null
@@ -92,6 +111,13 @@ class Login : RestApi() {
     private fun storeToken(jsonObj: JSONObject) {
         val token = jsonObj["token"] as String
         val name = jsonObj["first_name"] as String
+
+        val prefs = getSharedPreferences("UserData", Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        editor.putString("token", token)
+        editor.putString("name", name)
+        editor.apply()
+
         userToken = token
         userName = name
     }

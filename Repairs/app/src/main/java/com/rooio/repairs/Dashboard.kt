@@ -55,7 +55,6 @@ class Dashboard : Graph() {
     private lateinit var timeText: TextView
     private lateinit var loadingPanel: ProgressBar
     private var imageOn = false
-
     private var jobHistoryMap = HashMap<String, JSONObject>()
 
     companion object{
@@ -494,6 +493,7 @@ class Dashboard : Graph() {
 
         val notableJobsWidth = if (boolean) 925 else 825
         boxParams7.width = notableJobsWidth
+
 
         val analyticsWidth = if (boolean) 905 else 805
         boxParams9.width = analyticsWidth

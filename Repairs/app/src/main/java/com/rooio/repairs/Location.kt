@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.*
@@ -79,6 +80,12 @@ abstract class Location : NavigationBar(), OnItemClickListener {
     override fun onItemClick(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
         Toast.makeText(this, "You chose " + addressList[position], Toast.LENGTH_SHORT).show()
         userLocationID = locationIds[position]
+
+        val prefs = getSharedPreferences("UserData", Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        editor.putString("userLocationId", locationIds[position])
+        editor.apply()
+
         if (type == LocationType.LOGIN) startActivity(Intent(this@Location, PreferredProvidersLogin::class.java))
         else startActivity(Intent(this@Location, PreferredProvidersSettings::class.java))
     }
