@@ -17,7 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/scheduledConstraint"
             android:layout_width="455dp"
-            android:layout_height="282dp"
+            android:layout_height="300dp"
             android:layout_marginTop="100dp"
             android:layout_marginBottom="100dp"
             android:background="@drawable/shadow"
@@ -93,7 +93,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/inProgressConstraint"
             android:layout_width="455dp"
-            android:layout_height="282dp"
+            android:layout_height="300dp"
             android:layout_marginTop="100dp"
             android:layout_marginBottom="100dp"
             android:background="@drawable/shadow"
@@ -168,7 +168,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/pendingConstraint"
             android:layout_width="455dp"
-            android:layout_height="282dp"
+            android:layout_height="300dp"
             android:layout_marginTop="100dp"
             android:layout_marginBottom="100dp"
             android:background="@drawable/shadow"

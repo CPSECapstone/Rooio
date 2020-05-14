@@ -164,7 +164,7 @@ class JobsArchived  : NavigationBar() {
 
         //Set the sizes of swim lanes based on # of jobs per swim lane
         private fun setSize(str: String, constraint: ViewGroup) {
-                val value = 210
+                val value = 175
                 when (str) {
                         "archived" -> {
                                 val params = constraint.layoutParams
