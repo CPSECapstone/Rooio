@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -91,9 +90,9 @@ class JobsCustomAdapter implements ListAdapter {
             TextView name = convertView.findViewById(R.id.name);
             TextView address = convertView.findViewById(R.id.address);
             ImageView image = convertView.findViewById(R.id.image);
-            TextView timeImage = convertView.findViewById(R.id.timeImage);
+            TextView timeText = convertView.findViewById(R.id.timeText);
             Button jobsButton = convertView.findViewById(R.id.jobsButton);
-            ConstraintLayout jobMover = convertView.findViewById(R.id.jobMover);
+            ConstraintLayout constraint = convertView.findViewById(R.id.jobListLayout);
 
 
             TextView status = convertView.findViewById(R.id.status);
@@ -102,11 +101,12 @@ class JobsCustomAdapter implements ListAdapter {
                 int status_enum = data.getInt("status");
                 String status_value = null;
 
-                //Display Statuses for each swimlane
+                //Display Statuses for each swim lane
                 switch(status_enum) {
-                    //Declined Swimlane
+                    //Declined swim lane
                     case 1:
-                        status_value = "Declined";
+                    case 3:
+                    case 4:
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.lightGray)
@@ -120,22 +120,6 @@ class JobsCustomAdapter implements ListAdapter {
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.Blue)
-                        );
-                        break;
-                    case 3:
-                        status_value = "Archived";
-
-                        DrawableCompat.setTint(
-                                DrawableCompat.wrap(color.getBackground()),
-                                ContextCompat.getColor(context, R.color.lightGray)
-                        );
-                        break;
-                        //Cancelled Swimlane Status
-                    case 4:
-                        status_value = "Cancelled";
-                        DrawableCompat.setTint(
-                                DrawableCompat.wrap(color.getBackground()),
-                                ContextCompat.getColor(context, R.color.lightGray)
                         );
                         break;
                     case 5:
@@ -209,18 +193,16 @@ class JobsCustomAdapter implements ListAdapter {
                 if (!(data.isNull("status_time_value") )){
                     @SuppressLint("SimpleDateFormat") Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("status_time_value")));
                     assert date1 != null;
-                    timeImage.setText(date1.toString());
+                    timeText.setText(date1.toString());
 
                 }
-
                 //Checks if Image
                 //If no Image then Move Text Over
                 String imageVal = internal_client.getString("logo");
                 if (imageVal.isEmpty() || imageVal.equals("null")){
-
-                    ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) jobMover.getLayoutParams();
-                    // change width and height to 50
-                    params.width = 35;
+                    name.setTranslationX(-80f);
+                    repairType.setTranslationX(-80f);
+                    address.setTranslationX(-80f);
                     image.setVisibility(View.GONE);
                 }
                 else{
@@ -237,7 +219,7 @@ class JobsCustomAdapter implements ListAdapter {
                     statuses.add(status_value);
                 }
                 else
-                    status.setVisibility(View.INVISIBLE);
+                    status.setVisibility(View.GONE);
 
                 }
 
@@ -287,7 +269,7 @@ class JobsCustomAdapter implements ListAdapter {
 
         String endOfToday = endOfToday();
         String endOfTomorrow = endOfTomorrow();
-        String endofWeek = endOfWeek();
+        String endOfWeek = endOfWeek();
         String endOfNextWeek = endOfNextWeek();
         String endOfThisMonth = endOfThisMonth();
 
@@ -302,10 +284,10 @@ class JobsCustomAdapter implements ListAdapter {
         else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endOfToday))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfTomorrow()))))  {
             return "TOMORROW";
         }
-        else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endOfTomorrow))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endofWeek))))  {
+        else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endOfTomorrow))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfWeek))))  {
             return "THIS WEEK";
         }
-        else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endofWeek))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfNextWeek))))  {
+        else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endOfWeek))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfNextWeek))))  {
             return "NEXT WEEK";
         }
         else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endOfNextWeek))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfThisMonth))))  {
@@ -331,7 +313,6 @@ class JobsCustomAdapter implements ListAdapter {
 
     private String now(){
         @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date now = new Date();
         Calendar c = Calendar.getInstance();
         return df.format(c.getTime());
     }
@@ -376,8 +357,8 @@ class JobsCustomAdapter implements ListAdapter {
         cal.set(Calendar.HOUR_OF_DAY, 23);
         cal.set(Calendar.MINUTE, 59);
         cal.set(Calendar.SECOND, 59);
-        Date endofNext = cal.getTime();
-        return df.format(endofNext);
+        Date endOfNext = cal.getTime();
+        return df.format(endOfNext);
     }
     private String endOfThisMonth(){
         @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -388,8 +369,8 @@ class JobsCustomAdapter implements ListAdapter {
         cal.set(Calendar.HOUR_OF_DAY, 23);
         cal.set(Calendar.MINUTE, 59);
         cal.set(Calendar.SECOND, 59);
-        Date endofThis = cal.getTime();
-        return df.format(endofThis);
+        Date endOfThis = cal.getTime();
+        return df.format(endOfThis);
     }
 
 

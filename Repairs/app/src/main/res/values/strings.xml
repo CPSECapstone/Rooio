@@ -1,5 +1,6 @@
 <resources>
     <string name="placesApiKey">AIzaSyDhRY5q6woF-h1LWCxkXkO5SYMI3PG1iXg</string>
+    <string name="analytics">Analytics</string>
     <string name="app_name">Repairs</string>
     <string name="connect_account">Connect Account</string>
     <string name="create_account">Create Account</string>
@@ -60,7 +61,6 @@
     <string name="preferred_service_provider">Preferred Service Providers</string>
     <string name="add_another_service_provider">+ Add Another Service Provider</string>
     <string name="newJobRequest">New Job Request</string>
-    <string name="lighting">Lighting</string>
     <string name="generalAppliance">General Appliance</string>
     <string name="lightingAndElectrical">Lighting and Electrical</string>
 
@@ -78,8 +78,12 @@
 
     <string name="no_jobs">No jobs to display</string>
     <string name="timeFormat">yyyy-MM-dd HH:mm:ss</string>
-
-
+    <string name="no_pending_jobs">No pending jobs.</string>
+    <string name="no_scheduled_jobs">No scheduled jobs.</string>
+    <string name="no_in_progress_jobs">No in progress jobs.</string>
+    <string name="no_archived_jobs">No archived jobs.</string>
+    <string name="no_cancelled_jobs">No cancelled jobs.</string>
+    <string name="no_declined_jobs">No declined jobs.</string>
     <string name="inProgress">In Progress</string>
     <string name="three">3</string>
     <string name="six">6</string>
@@ -132,7 +136,7 @@
     <string name="starting_cost_text"> \u0020starting cost</string>
     <string name="enter_date">Enter Date</string>
     <string name="enter_time">Enter Time</string>
-    <string name="analytics_under_construction">Analytics Under Construction...</string>
+    <string name="equipment_analytics">Equipment Analytics</string>
     <string-array name="industry_type">
         <item>Residential</item>
         <item>Commercial Business</item>
@@ -194,10 +198,10 @@
         <item>PM</item>
     </string-array>
     <string-array name="job_analysis">
+        <item>All</item>
         <item>Repair</item>
         <item>Maintenance</item>
         <item>Installation</item>
-        <item>All</item>
     </string-array>
     <string-array name="time_analysis">
         <item>Monthly</item>
