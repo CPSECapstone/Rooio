@@ -289,6 +289,10 @@ class Dashboard : Graph() {
 
     //Filter notable jobs by #1 Pending Jobs, #2 inProgress Jobs, #3 scheduled jobs
     private fun notableJobsFill() {
+        Log.e("pendingJobsSIZE", pendingJobs.size.toString())
+        Log.e("inProgressSIZE", inProgressJobs.size.toString())
+        Log.e("scheduledSIZE", scheduledJobs.size.toString())
+
         if (pendingJobs.size != 0) {
             // Sort PendingJobs and fill in
             jobsLayout.visibility = (View.VISIBLE)
@@ -306,21 +310,8 @@ class Dashboard : Graph() {
             var i = 0
             jobsLayout.visibility = (View.VISIBLE)
             resultSort = sortJobsList(scheduledJobs)
-            for (index in resultSort.indices){
-                if (0 == (timeConvert(resultSort[index].getString("status_time_value")))) {
-                    if(index == (resultSort.size - 1) && (i == 0)){
-                        jobsLayout.visibility = (View.INVISIBLE)
-                        noJob.visibility = (View.VISIBLE)
-                        noJob.text = resources.getString(R.string.no_jobs)
-                        repairImage.visibility = (View.GONE)
-                        color.visibility = (View.INVISIBLE)
-                    }
-                }
-                else{
-                    i = 1
-                    loadNotable(index, 1)
-                }
-            }
+            loadNotable(0, 1)
+
         }
         else{
             noJob.visibility = (View.VISIBLE)

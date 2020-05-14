@@ -159,10 +159,49 @@ class JobDetails: NavigationBar() {
         val serviceObj = response.getJSONObject("service_company")
         val equipmentObjList = response.getJSONArray("equipment")
         //ALlow multiple different Equipment Cards to be made
-        val equipmentObj = equipmentObjList.getJSONObject(0)
+        val equipmentObj = equipmentObjList.optJSONObject(0)
+
+        lateinit var category: String
+        if (equipmentObj != null) {
+            category = equipmentObj.getString("service_category")
+            equipmentName.text = (equipmentObj.getString("display_name"))
+            manufacturer.text = (equipmentObj.getString("manufacturer"))
+            serialNumber.text = (equipmentObj.getString("serial_number"))
+            modelNumber.text = (equipmentObj.getString("model_number"))
+            location.text = (equipmentObj.getString("location"))
+            lastServiceBy.text = (equipmentObj.getString("last_service_by"))
+            if (equipmentObj.isNull("last_service_by") || (equipmentObj.getString("last_service_by") == "")){
+                lastServiceBy.text = ("--")
+            }
+            else{
+                lastServiceBy.text = (equipmentObj.getString("last_service_by"))
+
+            }
+            //lastServiceDate.text = ("--")
+
+            if (equipmentObj.isNull("last_service_date")){
+                lastServiceDate.text = ("--")
+            }
+            else{
+                val date1 = SimpleDateFormat("yyyy-MM-dd").parse(convertToNewFormat2(equipmentObj.getString("last_service_date")))
+                lastServiceDate.text = (date1!!.toString())
+            }
+
+
+        } else {
+            category = "4"
+            equipmentName.text = "--"
+            equipmentName.text = "--"
+            manufacturer.text = "--"
+            serialNumber.text = "--"
+            modelNumber.text = "--"
+            location.text = "--"
+            lastServiceBy.text = "--"
+
+            lastServiceDate.text = ("--")
+            }
 
         //set serviceType
-        val category = equipmentObj.getString("service_category")
         var repairCategory = ""
         when (category) {
             "4" -> {
@@ -187,28 +226,6 @@ class JobDetails: NavigationBar() {
         }
         pointOfContact.text = (response.getString("point_of_contact_name"))
         details.text = (response.getString("details"))
-        equipmentName.text = (equipmentObj.getString("display_name"))
-        manufacturer.text = (equipmentObj.getString("manufacturer"))
-        serialNumber.text = (equipmentObj.getString("serial_number"))
-        modelNumber.text = (equipmentObj.getString("model_number"))
-        location.text = (equipmentObj.getString("location"))
-        lastServiceBy.text = (equipmentObj.getString("last_service_by"))
-        if (equipmentObj.isNull("last_service_by") || (equipmentObj.getString("last_service_by") == "")){
-            lastServiceBy.text = ("--")
-        }
-        else{
-            lastServiceBy.text = (equipmentObj.getString("last_service_by"))
-
-        }
-        //lastServiceDate.text = ("--")
-
-        if (equipmentObj.isNull("last_service_date")){
-            lastServiceDate.text = ("--")
-        }
-        else{
-            val date1 = SimpleDateFormat("yyyy-MM-dd").parse(convertToNewFormat2(equipmentObj.getString("last_service_date")))
-            lastServiceDate.text = (date1!!.toString())
-        }
 
         val statusEnum = response.getInt("status")
         var statusValue: String? = null

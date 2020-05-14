@@ -155,8 +155,14 @@ class JobsCustomAdapter implements ListAdapter {
                 //Sets the Equipment for Job: May be multiple equipment per job
                 JSONArray equipmentObjList = data.getJSONArray("equipment");
 
-                JSONObject equipmentObj = equipmentObjList.getJSONObject(0);
-                String category = equipmentObj.getString("service_category");
+                JSONObject equipmentObj = equipmentObjList.optJSONObject(0);
+                String category = "";
+                if (equipmentObj != null) {
+                    category =  equipmentObj.getString("service_category");
+                }
+                else {
+                    category = "4" ;
+                }
 
                     switch(category) {
                         case "4":
