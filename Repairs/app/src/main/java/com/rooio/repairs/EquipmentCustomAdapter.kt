@@ -33,6 +33,7 @@ class EquipmentCustomAdapter(private val applicationContext: Context, private va
             intent.putExtra("equipmentId", dataList[position].id)
             applicationContext.startActivity(intent)
         }
+
         if (equipmentId == position) {
             holder.button.setBackgroundResource(R.drawable.green_button_border)
             holder.button.setTextColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
@@ -40,6 +41,7 @@ class EquipmentCustomAdapter(private val applicationContext: Context, private va
             holder.button.setBackgroundResource(R.drawable.dark_gray_button_border)
             holder.button.setTextColor(ContextCompat.getColor(applicationContext, R.color.darkGray))
         }
+
         holder.button.text = dataList[position].name
         val location = dataList[position].location
         if (!locations.contains(location.toUpperCase(Locale.US))) {

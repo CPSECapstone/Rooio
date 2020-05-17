@@ -161,6 +161,10 @@ class Equipment : Graph() {
             editEquipmentConstraint.visibility = View.GONE
             addEquipmentConstraint.visibility = View.VISIBLE
 
+            // making sure equipment list is all grey buttons
+            equipmentPosition = -1
+            equipmentListView.adapter = EquipmentCustomAdapter(this, Equipment.equipmentList, equipmentPosition)
+
             addEquipmentButton.setTextColor(ContextCompat.getColor(this,R.color.grayedOut))
             addEquipmentButton.setBackgroundResource(R.drawable.grayed_out_button_border)
         }
@@ -244,7 +248,6 @@ class Equipment : Graph() {
 
             val request = JsonRequest(false, url, params, responseFuncSave, errorFuncSave, true)
             sendSaveEditRequest(request)
-
         }
     }
 
@@ -372,6 +375,28 @@ class Equipment : Graph() {
         }
     }
 
+    // setting text fields with equipment information
+    private fun fillEquipmentDetails(equipment: EquipmentData) {
+        displayName.text = equipment.name
+        if (equipment.serialNumber.isEmpty()) serialNumber.text = "--" else serialNumber.text = equipment.serialNumber
+        if (equipment.lastServiceDate == "null") lastServiceDate.text = "--" else lastServiceDate.text = equipment.lastServiceDate
+        if (equipment.manufacturer.isEmpty()) manufacturer.text = "--" else manufacturer.text = equipment.manufacturer
+        if (equipment.location.isEmpty()) location.text = "--" else location.text = equipment.location
+        if (equipment.modelNumber.isEmpty()) modelNumber.text = "--" else modelNumber.text = equipment.modelNumber
+        if (equipment.lastServiceBy.isEmpty()) lastServiceBy.text = "--" else lastServiceBy.text = equipment.lastServiceBy
+        equipmentType.text = equipment.type.toString()
+    }
+
+    //Setting edit fields with equipment information
+    private fun editEquipmentDetails(equipment: EquipmentData) {
+        editDisplayName.setText(equipment.name)
+        editSerialNumber.setText(equipment.serialNumber)
+        editManufacturer.setText(equipment.manufacturer)
+        editLocation.setText(equipment.location)
+        editModelNumber.setText(equipment.modelNumber)
+        editEquipmentType.setSelection(equipment.type.getIntRepr() - 1)
+    }
+
     //Sets up the graph in the way the equipment page needs
     override fun setUpGraph() {
         val params = HashMap<Any?, Any?>()
@@ -398,28 +423,6 @@ class Equipment : Graph() {
     var errorFuncGraph = Function<String, Void?> {
         Log.i("graph", it)
         null
-    }
-
-    // setting text fields with equipment information
-    private fun fillEquipmentDetails(equipment: EquipmentData) {
-        displayName.text = equipment.name
-        if (equipment.serialNumber.isEmpty()) serialNumber.text = "--" else serialNumber.text = equipment.serialNumber
-        if (equipment.lastServiceDate == "null") lastServiceDate.text = "--" else lastServiceDate.text = equipment.lastServiceDate
-        if (equipment.manufacturer.isEmpty()) manufacturer.text = "--" else manufacturer.text = equipment.manufacturer
-        if (equipment.location.isEmpty()) location.text = "--" else location.text = equipment.location
-        if (equipment.modelNumber.isEmpty()) modelNumber.text = "--" else modelNumber.text = equipment.modelNumber
-        if (equipment.lastServiceBy.isEmpty()) lastServiceBy.text = "--" else lastServiceBy.text = equipment.lastServiceBy
-        equipmentType.text = equipment.type.toString()
-    }
-
-    //Setting edit fields with equipment information
-    private fun editEquipmentDetails(equipment: EquipmentData) {
-        editDisplayName.setText(equipment.name)
-        editSerialNumber.setText(equipment.serialNumber)
-        editManufacturer.setText(equipment.manufacturer)
-        editLocation.setText(equipment.location)
-        editModelNumber.setText(equipment.modelNumber)
-        editEquipmentType.setSelection(equipment.type.getIntRepr() - 1)
     }
 
     //Animates the main page content when the navigation bar collapses/expands
