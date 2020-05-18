@@ -52,7 +52,6 @@ class Jobs : NavigationBar() {
         scheduledText = findViewById(R.id.scheduledText)
         inProgressList = findViewById(R.id.inProgressList)
         inProgressText = findViewById(R.id.inProgressText)
-        completedButton = findViewById(R.id.button)
         pendingConstraint = findViewById(R.id.pendingConstraint)
         scheduledConstraint = findViewById(R.id.scheduledConstraint)
         inProgressConstraint = findViewById(R.id.inProgressConstraint)
@@ -63,15 +62,9 @@ class Jobs : NavigationBar() {
         setActionBar()
         createNavigationBar(NavigationType.JOBS)
 
-        onClick()
         clearLists()
         loadJobs()
 
-    }
-
-    //Transition to completed items
-    private fun onClick() {
-        completedButton.setOnClickListener { startActivity(Intent(this@Jobs, JobsArchived::class.java)) }
     }
 
     //Load Jobs in from API
@@ -221,7 +214,6 @@ class Jobs : NavigationBar() {
         val pending = viewGroup.findViewById<ViewGroup>(R.id.pendingConstraint)
         val scheduled = viewGroup.findViewById<ViewGroup>(R.id.scheduledConstraint)
         val inProgress = viewGroup.findViewById<ViewGroup>(R.id.inProgressConstraint)
-        val title = viewGroup.findViewById<Button>(R.id.button)
 
         val amount = if (boolean) -125f else 0f
         var animation = ObjectAnimator.ofFloat(pending, "translationX", amount)
@@ -231,9 +223,6 @@ class Jobs : NavigationBar() {
         if (boolean) animation.duration = 900 else animation.duration = 300
         animation.start()
         animation = ObjectAnimator.ofFloat(inProgress, "translationX", amount)
-        if (boolean) animation.duration = 900 else animation.duration = 300
-        animation.start()
-        animation = ObjectAnimator.ofFloat(title, "translationX", amount)
         if (boolean) animation.duration = 900 else animation.duration = 300
         animation.start()
     }

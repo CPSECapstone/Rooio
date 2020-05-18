@@ -17,8 +17,10 @@ abstract class NavigationBar : RestApi() {
     private lateinit var collapseText: TextView
     private lateinit var dashboardText: TextView
     private lateinit var jobsText: TextView
-    private lateinit var  equipmentText: TextView
-    private lateinit var  settingsText: TextView
+    private lateinit var archivedText: TextView
+    private lateinit var equipmentText: TextView
+    private lateinit var settingsText: TextView
+    private lateinit var logoutText: TextView
     private lateinit var collapse: ImageView
     private lateinit var divider: View
     private lateinit var dashboardImage: ImageView
@@ -48,8 +50,10 @@ abstract class NavigationBar : RestApi() {
         collapseText = transitionsContainer2.findViewById(R.id.collapse_text)
         dashboardText = transitionsContainer2.findViewById(R.id.dashboard_text)
         jobsText = transitionsContainer2.findViewById(R.id.jobs_text)
+        archivedText = transitionsContainer2.findViewById(R.id.archived_text)
         equipmentText = transitionsContainer2.findViewById(R.id.equipment_text)
         settingsText = transitionsContainer2.findViewById(R.id.settings_text)
+        logoutText = transitionsContainer2.findViewById(R.id.logout_text)
         collapse = transitionsContainer.findViewById(R.id.collapse)
         divider = transitionsContainer.findViewById(R.id.nav_divider)
         dashboardImage = transitionsContainer.findViewById(R.id.dashboard)
@@ -81,6 +85,10 @@ abstract class NavigationBar : RestApi() {
         if (navType == NavigationType.JOBS){
             coloredJobs.visibility = VISIBLE
             jobsText.setTextColor(Color.parseColor("#00CA8F"))
+        }
+
+        if (navType == NavigationType.ARCHIVED){
+            archivedText.setTextColor(Color.parseColor("#00CA8F"))
         }
 
         collapse.setOnClickListener {
@@ -123,6 +131,15 @@ abstract class NavigationBar : RestApi() {
             startActivity(Intent( this, Jobs::class.java))
         }
 
+        archivedText.setOnClickListener{
+            startActivity(Intent(this, JobsArchived::class.java))
+        }
+
+        logoutText.setOnClickListener{
+            startActivity(Intent(this, Landing::class.java))
+            //Logan add logic for logging out here//
+        }
+
         collapseBar(true)
     }
 
@@ -154,6 +171,8 @@ abstract class NavigationBar : RestApi() {
         jobsText.visibility = v
         equipmentText.visibility = v
         settingsText.visibility = v
+        archivedText.visibility = v
+        logoutText.visibility = v
 
     }
 

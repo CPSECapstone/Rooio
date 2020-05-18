@@ -50,8 +50,7 @@ class JobsArchived  : NavigationBar() {
                 initialize()
                 setNavigationBar()
                 setActionBar()
-                createNavigationBar(NavigationType.JOBS)
-                onClick()
+                createNavigationBar(NavigationType.ARCHIVED)
                 clearLists()
                 loadArchivedJobs()
 
@@ -59,7 +58,6 @@ class JobsArchived  : NavigationBar() {
         //Initialize Variables
         private fun initialize(){
                 setContentView(R.layout.activity_jobs_archived)
-                completedButton = findViewById(R.id.button)
                 //sets the navigation bar onto the page
                 cancelledList = findViewById(R.id.cancelledList)
                 cancelledConstraint = findViewById(R.id.cancelledConstraint)
@@ -71,10 +69,6 @@ class JobsArchived  : NavigationBar() {
                 loadingPanel = findViewById(R.id.loadingPanel)
         }
 
-        //When Returning to Non-Archived Jobs Page
-        private fun onClick() {
-                completedButton.setOnClickListener { startActivity(Intent(this@JobsArchived, Jobs::class.java)) }
-        }
 
 
 
@@ -204,7 +198,6 @@ class JobsArchived  : NavigationBar() {
             val cancelled = viewGroup.findViewById<ViewGroup>(R.id.cancelledConstraint)
             val declined = viewGroup.findViewById<ViewGroup>(R.id.declinedConstraint)
 
-            val title = viewGroup.findViewById<Button>(R.id.button)
 
             val amount = if (boolean) -125f else 0f
             var animation = ObjectAnimator.ofFloat(archived, "translationX", amount)
@@ -214,9 +207,6 @@ class JobsArchived  : NavigationBar() {
             if (boolean) animation.duration = 900 else animation.duration = 300
             animation.start()
             animation = ObjectAnimator.ofFloat(declined, "translationX", amount)
-            if (boolean) animation.duration = 900 else animation.duration = 300
-            animation.start()
-            animation = ObjectAnimator.ofFloat(title, "translationX", amount)
             if (boolean) animation.duration = 900 else animation.duration = 300
             animation.start()
         }

@@ -120,13 +120,13 @@
                 android:layout_width="31dp"
                 android:layout_height="31dp"
                 android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.256"
-                android:soundEffectsEnabled="false"
+                app:layout_constraintVertical_bias="0.30"
                 app:srcCompat="@mipmap/equipment" />
 
             <ImageView
@@ -134,6 +134,7 @@
                 android:layout_width="31dp"
                 android:layout_height="31dp"
                 android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
                 android:tint="@color/colorPrimary"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -141,8 +142,7 @@
                 app:layout_constraintHorizontal_bias="0.1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.256"
-                android:soundEffectsEnabled="false"
+                app:layout_constraintVertical_bias="0.30"
                 app:srcCompat="@mipmap/equipment" />
 
             <ImageView
@@ -150,13 +150,13 @@
                 android:layout_width="31dp"
                 android:layout_height="31dp"
                 android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.10"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.87"
-                android:soundEffectsEnabled="false"
+                app:layout_constraintVertical_bias="0.81"
                 app:srcCompat="@mipmap/settings" />
 
             <ImageView
@@ -164,6 +164,7 @@
                 android:layout_width="31dp"
                 android:layout_height="31dp"
                 android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
                 android:tint="@color/colorPrimary"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -171,8 +172,7 @@
                 app:layout_constraintHorizontal_bias="0.10"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.87"
-                android:soundEffectsEnabled="false"
+                app:layout_constraintVertical_bias="0.81"
                 app:srcCompat="@mipmap/settings" />
 
             <TextView
@@ -209,6 +209,23 @@
                 app:layout_constraintVertical_bias="0.19" />
 
             <TextView
+                android:id="@+id/archived_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/nunito"
+                android:soundEffectsEnabled="false"
+                android:text="Archived"
+                android:textColor="@color/darkGray"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.68"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.24" />
+
+            <TextView
                 android:id="@+id/equipment_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -223,7 +240,7 @@
                 app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.255" />
+                app:layout_constraintVertical_bias="0.30" />
 
             <TextView
                 android:id="@+id/settings_text"
@@ -232,6 +249,22 @@
                 android:fontFamily="@font/nunito"
                 android:soundEffectsEnabled="false"
                 android:text="Settings"
+                android:textColor="@color/darkGray"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.52"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.81" />
+
+            <TextView
+                android:id="@+id/logout_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito"
+                android:soundEffectsEnabled="false"
+                android:text="Log Out"
                 android:textColor="@color/darkGray"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
