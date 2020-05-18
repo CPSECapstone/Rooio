@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -27,10 +28,12 @@ abstract class NavigationBar : RestApi() {
     private lateinit var settingsImage: ImageView
     private lateinit var equipmentImage: ImageView
     private lateinit var jobsImage: ImageView
+    private lateinit var archivedImage: ImageView
     private lateinit var coloredDashboard: ImageView
     private lateinit var coloredSettings: ImageView
     private lateinit var coloredJobs: ImageView
     private lateinit var coloredEquipment: ImageView
+    private lateinit var coloredArchived: ImageView
     private lateinit var transitionsContainer: ViewGroup
     private lateinit var transitionsContainer2: ViewGroup
 
@@ -60,10 +63,12 @@ abstract class NavigationBar : RestApi() {
         settingsImage = transitionsContainer.findViewById(R.id.settings)
         equipmentImage = transitionsContainer.findViewById(R.id.equipment)
         jobsImage = transitionsContainer.findViewById(R.id.jobs)
+        archivedImage = transitionsContainer.findViewById(R.id.archived_arrow)
         coloredDashboard = transitionsContainer.findViewById(R.id.clicked_dashboard)
         coloredSettings = transitionsContainer.findViewById(R.id.colored_settings)
         coloredJobs = transitionsContainer.findViewById(R.id.colored_jobs)
         coloredEquipment = transitionsContainer.findViewById(R.id.colored_equipment)
+        coloredArchived = transitionsContainer.findViewById(R.id.colored_archived_arrow)
     }
 
     fun createNavigationBar(navType: NavigationType) {
@@ -88,15 +93,17 @@ abstract class NavigationBar : RestApi() {
         }
 
         if (navType == NavigationType.ARCHIVED){
+            coloredArchived.visibility = VISIBLE
+            archivedImage.visibility = INVISIBLE
             archivedText.setTextColor(Color.parseColor("#00CA8F"))
         }
 
         collapse.setOnClickListener {
-            collapseBar(false)
+            collapseBar(false, navType)
         }
 
         collapseText.setOnClickListener{
-            collapseBar(false)
+            collapseBar(false, navType)
         }
 
         dashboardImage.setOnClickListener{
@@ -131,6 +138,10 @@ abstract class NavigationBar : RestApi() {
             startActivity(Intent( this, Jobs::class.java))
         }
 
+        archivedImage.setOnClickListener{
+            startActivity(Intent(this, JobsArchived::class.java))
+        }
+
         archivedText.setOnClickListener{
             startActivity(Intent(this, JobsArchived::class.java))
         }
@@ -140,10 +151,10 @@ abstract class NavigationBar : RestApi() {
             //Logan add logic for logging out here//
         }
 
-        collapseBar(true)
+        collapseBar(true, navType)
     }
 
-    private fun collapseBar(isCreating: Boolean){
+    private fun collapseBar(isCreating: Boolean, navType: NavigationType){
 
         TransitionManager.beginDelayedTransition(transitionsContainer)
 
@@ -173,6 +184,29 @@ abstract class NavigationBar : RestApi() {
         settingsText.visibility = v
         archivedText.visibility = v
         logoutText.visibility = v
+
+        archivedCollapse(navType)
+
+    }
+
+    //Logic for collapsing the archived jobs
+    private fun archivedCollapse(navType: NavigationType)
+    {
+        if (collapsed)
+        {
+            archivedImage.visibility = View.GONE
+            coloredArchived.visibility = View.GONE
+        }
+        else if (!collapsed && navType == NavigationType.ARCHIVED)
+        {
+            coloredArchived.visibility = VISIBLE
+            archivedImage.visibility = INVISIBLE
+        }
+        else
+        {
+            archivedImage.visibility = VISIBLE
+            coloredArchived.visibility = INVISIBLE
+        }
 
     }
 

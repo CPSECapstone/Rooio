@@ -98,6 +98,35 @@
                 app:srcCompat="@mipmap/jobs" />
 
             <ImageView
+                android:id="@+id/colored_archived_arrow"
+                android:layout_width="31dp"
+                android:layout_height="31dp"
+                android:visibility="invisible"
+                android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.24"
+                app:srcCompat="@drawable/ic_archived_arrow" />
+
+            <ImageView
+                android:id="@+id/archived_arrow"
+                android:layout_width="31dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.24"
+                app:srcCompat="@drawable/gray_archived_arrow" />
+
+            <ImageView
                 android:id="@+id/colored_jobs"
                 android:layout_width="31dp"
                 android:layout_height="31dp"
