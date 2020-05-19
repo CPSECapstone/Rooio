@@ -72,6 +72,7 @@
                 android:layout_width="31dp"
                 android:layout_height="31dp"
                 android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
                 android:tint="@color/colorPrimary"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -80,7 +81,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.13"
-                android:soundEffectsEnabled="false"
                 app:srcCompat="@mipmap/dashboard" />
 
             <ImageView
@@ -110,7 +110,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.24"
-                app:srcCompat="@drawable/ic_archived_arrow" />
+                app:srcCompat="@drawable/archived_arrow_green" />
 
             <ImageView
                 android:id="@+id/archived_arrow"
@@ -124,7 +124,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.24"
-                app:srcCompat="@drawable/gray_archived_arrow" />
+                app:srcCompat="@drawable/archived_arrow_gray" />
 
             <ImageView
                 android:id="@+id/colored_jobs"
