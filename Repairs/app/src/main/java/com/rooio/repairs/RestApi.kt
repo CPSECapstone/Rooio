@@ -172,7 +172,7 @@ abstract class RestApi : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!am.isStreamMute(AudioManager.STREAM_SYSTEM)) {
                 savedStreamMuted = true
-                am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_MUTE, 0);
+                am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_MUTE, 0)
             }
         }
     }
@@ -183,8 +183,8 @@ abstract class RestApi : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (savedStreamMuted) {
-                am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_UNMUTE, 0);
-                savedStreamMuted = false;
+                am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_UNMUTE, 0)
+                savedStreamMuted = false
             }
         }
     }
