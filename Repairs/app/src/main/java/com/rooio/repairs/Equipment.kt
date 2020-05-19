@@ -66,7 +66,6 @@ class Equipment : Graph() {
         private val equipmentList : ArrayList<EquipmentData> = ArrayList()
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_equipment)
@@ -89,6 +88,11 @@ class Equipment : Graph() {
         onSaveClick()
         onCancelClick()
         onPause()
+    }
+
+    private fun supersedeEquipmentAdapter(){
+        val customAdapter = EquipmentCustomAdapter(this, Equipment.equipmentList, equipmentPosition)
+        equipmentListView.adapter = customAdapter
     }
 
     //Loads the correct information after a piece of equipment is added or saved
@@ -163,7 +167,7 @@ class Equipment : Graph() {
 
             // making sure equipment list is all grey buttons
             equipmentPosition = -1
-            equipmentListView.adapter = EquipmentCustomAdapter(this, Equipment.equipmentList, equipmentPosition)
+            supersedeEquipmentAdapter()
 
             addEquipmentButton.setTextColor(ContextCompat.getColor(this,R.color.grayedOut))
             addEquipmentButton.setBackgroundResource(R.drawable.grayed_out_button_border)
@@ -353,10 +357,10 @@ class Equipment : Graph() {
 
             Equipment.equipmentList.sortWith(compareBy { it.location })
         }
-        val customAdapter = EquipmentCustomAdapter(this, Equipment.equipmentList, equipmentPosition)
+
+        supersedeEquipmentAdapter()
         val layoutManager = LinearLayoutManager(this)
         equipmentListView.layoutManager = layoutManager
-        equipmentListView.adapter = customAdapter
     }
 
     //Checks if an equipment has been clicked on
