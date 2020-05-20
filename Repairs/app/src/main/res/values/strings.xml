@@ -95,6 +95,8 @@
     <string name="view_completed"><u>View Archived Jobs</u></string>
     <string name="view_current"><u>View Current Jobs</u></string>
     <string name="search_service_provider">Search Service Provider..</string>
+    <string name="phone_number_error">Enter a Valid Phone Number</string>
+
     <string name="service_provider_details"> Service Provider Details</string>
     <string name="overview"> Overview</string>
     <string name="starting_cost"> starting cost</string>
