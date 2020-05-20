@@ -94,7 +94,7 @@ abstract class NavigationBar : RestApi() {
 
         if (navType == NavigationType.ARCHIVED){
             coloredArchived.visibility = VISIBLE
-            archivedImage.visibility = INVISIBLE
+            //archivedImage.visibility = INVISIBLE
             archivedText.setTextColor(Color.parseColor("#00CA8F"))
         }
 
@@ -185,30 +185,25 @@ abstract class NavigationBar : RestApi() {
         archivedText.visibility = v
         logoutText.visibility = v
 
-        archivedCollapse(navType)
+        //archivedCollapse(navType)
 
     }
 
     //Logic for collapsing the archived jobs
-    private fun archivedCollapse(navType: NavigationType)
-    {
-        if (collapsed)
-        {
-            archivedImage.visibility = View.GONE
-            coloredArchived.visibility = View.GONE
-        }
-        else if (!collapsed && navType == NavigationType.ARCHIVED)
-        {
-            coloredArchived.visibility = VISIBLE
-            archivedImage.visibility = INVISIBLE
-        }
-        else
-        {
-            archivedImage.visibility = VISIBLE
-            coloredArchived.visibility = INVISIBLE
-        }
-
-    }
+//    private fun archivedCollapse(navType: NavigationType)
+//    {
+//        if (!collapsed && navType == NavigationType.ARCHIVED)
+//        {
+//            coloredArchived.visibility = VISIBLE
+//            archivedImage.visibility = INVISIBLE
+//        }
+//        else
+//        {
+//            archivedImage.visibility = VISIBLE
+//            coloredArchived.visibility = INVISIBLE
+//        }
+//
+//    }
 
 
     abstract fun animateActivity(boolean: Boolean)

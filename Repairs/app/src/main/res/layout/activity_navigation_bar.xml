@@ -65,7 +65,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.13"
                 android:soundEffectsEnabled="false"
-                app:srcCompat="@mipmap/dashboard" />
+                app:srcCompat="@drawable/dashboard_icon" />
 
             <ImageView
                 android:id="@+id/clicked_dashboard"
@@ -95,7 +95,22 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.19"
                 android:soundEffectsEnabled="false"
-                app:srcCompat="@mipmap/jobs" />
+                app:srcCompat="@drawable/jobs_icon" />
+
+
+            <ImageView
+                android:id="@+id/archived_arrow"
+                android:layout_width="31dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.24"
+                app:srcCompat="@drawable/archived_arrow_gray" />
 
             <ImageView
                 android:id="@+id/colored_archived_arrow"
@@ -111,20 +126,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.24"
                 app:srcCompat="@drawable/archived_arrow_green" />
-
-            <ImageView
-                android:id="@+id/archived_arrow"
-                android:layout_width="31dp"
-                android:layout_height="31dp"
-                android:layout_marginStart="15dp"
-                android:soundEffectsEnabled="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.3"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.24"
-                app:srcCompat="@drawable/archived_arrow_gray" />
 
             <ImageView
                 android:id="@+id/colored_jobs"
@@ -156,7 +157,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.30"
-                app:srcCompat="@mipmap/equipment" />
+                app:srcCompat="@drawable/equipment_icon" />
 
             <ImageView
                 android:id="@+id/colored_equipment"
@@ -186,7 +187,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.81"
-                app:srcCompat="@mipmap/settings" />
+                app:srcCompat="@drawable/settings_icon" />
 
             <ImageView
                 android:id="@+id/colored_settings"
