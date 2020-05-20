@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -28,12 +27,14 @@ abstract class NavigationBar : RestApi() {
     private lateinit var settingsImage: ImageView
     private lateinit var equipmentImage: ImageView
     private lateinit var jobsImage: ImageView
+    private lateinit var logoutImage: ImageView
     private lateinit var archivedImage: ImageView
     private lateinit var coloredDashboard: ImageView
     private lateinit var coloredSettings: ImageView
     private lateinit var coloredJobs: ImageView
     private lateinit var coloredEquipment: ImageView
     private lateinit var coloredArchived: ImageView
+    private lateinit var coloredLogout: ImageView
     private lateinit var transitionsContainer: ViewGroup
     private lateinit var transitionsContainer2: ViewGroup
 
@@ -64,11 +65,13 @@ abstract class NavigationBar : RestApi() {
         equipmentImage = transitionsContainer.findViewById(R.id.equipment)
         jobsImage = transitionsContainer.findViewById(R.id.jobs)
         archivedImage = transitionsContainer.findViewById(R.id.archived_arrow)
+        logoutImage = transitionsContainer.findViewById(R.id.logout)
         coloredDashboard = transitionsContainer.findViewById(R.id.clicked_dashboard)
         coloredSettings = transitionsContainer.findViewById(R.id.colored_settings)
         coloredJobs = transitionsContainer.findViewById(R.id.colored_jobs)
         coloredEquipment = transitionsContainer.findViewById(R.id.colored_equipment)
         coloredArchived = transitionsContainer.findViewById(R.id.colored_archived_arrow)
+        coloredLogout = transitionsContainer.findViewById(R.id.colored_logout)
     }
 
     fun createNavigationBar(navType: NavigationType) {
@@ -146,6 +149,11 @@ abstract class NavigationBar : RestApi() {
             startActivity(Intent(this, JobsArchived::class.java))
         }
 
+        logoutImage.setOnClickListener{
+            startActivity(Intent(this, Landing::class.java))
+            //Logan add logic for logging out here//
+        }
+
         logoutText.setOnClickListener{
             startActivity(Intent(this, Landing::class.java))
             //Logan add logic for logging out here//
@@ -185,25 +193,7 @@ abstract class NavigationBar : RestApi() {
         archivedText.visibility = v
         logoutText.visibility = v
 
-        //archivedCollapse(navType)
-
     }
-
-    //Logic for collapsing the archived jobs
-//    private fun archivedCollapse(navType: NavigationType)
-//    {
-//        if (!collapsed && navType == NavigationType.ARCHIVED)
-//        {
-//            coloredArchived.visibility = VISIBLE
-//            archivedImage.visibility = INVISIBLE
-//        }
-//        else
-//        {
-//            archivedImage.visibility = VISIBLE
-//            coloredArchived.visibility = INVISIBLE
-//        }
-//
-//    }
 
 
     abstract fun animateActivity(boolean: Boolean)
