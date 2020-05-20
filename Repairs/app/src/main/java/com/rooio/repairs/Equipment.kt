@@ -90,11 +90,6 @@ class Equipment : Graph() {
         onPause()
     }
 
-    private fun supersedeEquipmentAdapter(){
-        val customAdapter = EquipmentCustomAdapter(this, Equipment.equipmentList, equipmentPosition)
-        equipmentListView.adapter = customAdapter
-    }
-
     //Loads the correct information after a piece of equipment is added or saved
     private fun loadAfterEquipmentSave() {
         val savedEquipment = intent.getStringExtra(savedEquipmentBundle)
@@ -167,7 +162,7 @@ class Equipment : Graph() {
 
             // making sure equipment list is all grey buttons
             equipmentPosition = -1
-            supersedeEquipmentAdapter()
+            equipmentListView.adapter = EquipmentCustomAdapter(this, Equipment.equipmentList, equipmentPosition)
 
             addEquipmentButton.setTextColor(ContextCompat.getColor(this,R.color.grayedOut))
             addEquipmentButton.setBackgroundResource(R.drawable.grayed_out_button_border)
@@ -358,7 +353,8 @@ class Equipment : Graph() {
             Equipment.equipmentList.sortWith(compareBy { it.location })
         }
 
-        supersedeEquipmentAdapter()
+        val customAdapter = EquipmentCustomAdapter(this, Equipment.equipmentList, equipmentPosition)
+        equipmentListView.adapter = customAdapter
         val layoutManager = LinearLayoutManager(this)
         equipmentListView.layoutManager = layoutManager
     }
