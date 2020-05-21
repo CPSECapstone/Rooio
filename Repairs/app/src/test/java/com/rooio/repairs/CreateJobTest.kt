@@ -41,12 +41,11 @@ class CreateJobTest {
 
     @Test
     fun testBackButton() {
-        val send = activity.findViewById(R.id.sendRequestButton) as ImageView
-       val errorMsg = activity.findViewById(R.id.errorMessage) as Button
+        val send = activity.findViewById(R.id.sendRequestButton) as Button
+       val errorMsg = activity.findViewById(R.id.errorMessage) as TextView
 
         send.performClick()
-        val expectedIntent = Intent(activity, ChooseEquipment::class.java)
-        Assert.assertEquals(errorMsg.text.toString(), "Please enter a valid phone number.")
+        Assert.assertEquals(errorMsg.text.toString(), "Please fill out all required fields.")
 
     }
 }
