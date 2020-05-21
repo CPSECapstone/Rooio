@@ -17,18 +17,24 @@ abstract class NavigationBar : RestApi() {
     private lateinit var collapseText: TextView
     private lateinit var dashboardText: TextView
     private lateinit var jobsText: TextView
-    private lateinit var  equipmentText: TextView
-    private lateinit var  settingsText: TextView
+    private lateinit var archivedText: TextView
+    private lateinit var equipmentText: TextView
+    private lateinit var settingsText: TextView
+    private lateinit var logoutText: TextView
     private lateinit var collapse: ImageView
     private lateinit var divider: View
     private lateinit var dashboardImage: ImageView
     private lateinit var settingsImage: ImageView
     private lateinit var equipmentImage: ImageView
     private lateinit var jobsImage: ImageView
+    private lateinit var logoutImage: ImageView
+    private lateinit var archivedImage: ImageView
     private lateinit var coloredDashboard: ImageView
     private lateinit var coloredSettings: ImageView
     private lateinit var coloredJobs: ImageView
     private lateinit var coloredEquipment: ImageView
+    private lateinit var coloredArchived: ImageView
+    private lateinit var coloredLogout: ImageView
     private lateinit var transitionsContainer: ViewGroup
     private lateinit var transitionsContainer2: ViewGroup
 
@@ -48,18 +54,24 @@ abstract class NavigationBar : RestApi() {
         collapseText = transitionsContainer2.findViewById(R.id.collapse_text)
         dashboardText = transitionsContainer2.findViewById(R.id.dashboard_text)
         jobsText = transitionsContainer2.findViewById(R.id.jobs_text)
+        archivedText = transitionsContainer2.findViewById(R.id.archived_text)
         equipmentText = transitionsContainer2.findViewById(R.id.equipment_text)
         settingsText = transitionsContainer2.findViewById(R.id.settings_text)
+        logoutText = transitionsContainer2.findViewById(R.id.logout_text)
         collapse = transitionsContainer.findViewById(R.id.collapse)
         divider = transitionsContainer.findViewById(R.id.nav_divider)
         dashboardImage = transitionsContainer.findViewById(R.id.dashboard)
         settingsImage = transitionsContainer.findViewById(R.id.settings)
         equipmentImage = transitionsContainer.findViewById(R.id.equipment)
         jobsImage = transitionsContainer.findViewById(R.id.jobs)
+        archivedImage = transitionsContainer.findViewById(R.id.archived_arrow)
+        logoutImage = transitionsContainer.findViewById(R.id.logout)
         coloredDashboard = transitionsContainer.findViewById(R.id.clicked_dashboard)
         coloredSettings = transitionsContainer.findViewById(R.id.colored_settings)
         coloredJobs = transitionsContainer.findViewById(R.id.colored_jobs)
         coloredEquipment = transitionsContainer.findViewById(R.id.colored_equipment)
+        coloredArchived = transitionsContainer.findViewById(R.id.colored_archived_arrow)
+        coloredLogout = transitionsContainer.findViewById(R.id.colored_logout)
     }
 
     fun createNavigationBar(navType: NavigationType) {
@@ -83,12 +95,18 @@ abstract class NavigationBar : RestApi() {
             jobsText.setTextColor(Color.parseColor("#00CA8F"))
         }
 
+        if (navType == NavigationType.ARCHIVED){
+            coloredArchived.visibility = VISIBLE
+            //archivedImage.visibility = INVISIBLE
+            archivedText.setTextColor(Color.parseColor("#00CA8F"))
+        }
+
         collapse.setOnClickListener {
-            collapseBar(false)
+            collapseBar(false, navType)
         }
 
         collapseText.setOnClickListener{
-            collapseBar(false)
+            collapseBar(false, navType)
         }
 
         dashboardImage.setOnClickListener{
@@ -123,10 +141,28 @@ abstract class NavigationBar : RestApi() {
             startActivity(Intent( this, Jobs::class.java))
         }
 
-        collapseBar(true)
+        archivedImage.setOnClickListener{
+            startActivity(Intent(this, JobsArchived::class.java))
+        }
+
+        archivedText.setOnClickListener{
+            startActivity(Intent(this, JobsArchived::class.java))
+        }
+
+        logoutImage.setOnClickListener{
+            startActivity(Intent(this, Landing::class.java))
+            //Logan add logic for logging out here//
+        }
+
+        logoutText.setOnClickListener{
+            startActivity(Intent(this, Landing::class.java))
+            //Logan add logic for logging out here//
+        }
+
+        collapseBar(true, navType)
     }
 
-    private fun collapseBar(isCreating: Boolean){
+    private fun collapseBar(isCreating: Boolean, navType: NavigationType){
 
         TransitionManager.beginDelayedTransition(transitionsContainer)
 
@@ -154,6 +190,8 @@ abstract class NavigationBar : RestApi() {
         jobsText.visibility = v
         equipmentText.visibility = v
         settingsText.visibility = v
+        archivedText.visibility = v
+        logoutText.visibility = v
 
     }
 

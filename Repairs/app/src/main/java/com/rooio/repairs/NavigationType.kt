@@ -4,5 +4,6 @@ enum class NavigationType {
     DASHBOARD,
     SETTINGS,
     EQUIPMENT,
-    JOBS;
+    JOBS,
+    ARCHIVED;
 }

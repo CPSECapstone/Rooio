@@ -1,13 +1,13 @@
 package com.rooio.repairs
 
 import android.app.Application
+import android.content.Context
 import android.content.Intent
-import android.widget.Button
-import android.widget.EditText
+import android.media.AudioManager
 import android.widget.TextView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.android.volley.RequestQueue
-import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -43,5 +43,19 @@ class PreferredProvidersSettingActivityTest {
         val actual: Intent = Shadows.shadowOf(Application()).nextStartedActivity
         assertEquals(expectedIntent.component, actual.component)
     }
+
+    @Test
+    fun testOnResume() {
+        activity.onResume()
+        assertEquals(true, RestApi.am.isStreamMute(AudioManager.STREAM_SYSTEM))
+    }
+
+    @Test
+    fun testOnPause() {
+        activity.onPause()
+        assertEquals(false, RestApi.am.isStreamMute(AudioManager.STREAM_SYSTEM))
+    }
+
+
 
 }
