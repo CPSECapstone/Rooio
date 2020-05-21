@@ -108,7 +108,6 @@ class Equipment : Graph() {
         displayNameError = findViewById(R.id.addDisplayNameError)
         editDisplayNameError = findViewById(R.id.editDisplayNameError)
 
-
         equipmentListView = findViewById(R.id.equipmentList)
         addEquipmentConstraint = findViewById(R.id.addEquipmentConstraint)
         editEquipmentConstraint = findViewById(R.id.editEquipmentConstraint)
@@ -149,6 +148,15 @@ class Equipment : Graph() {
         equipmentLoadingPanel = findViewById(R.id.equipmentLoadingPanel)
         addLoadingPanel = findViewById(R.id.addLoadingPanel)
         editLoadingPanel = findViewById(R.id.editLoadingPanel)
+    }
+
+    fun getEquipmentList() : ArrayList<EquipmentData> {
+        return Equipment.equipmentList
+    }
+
+    fun isValidEquipmentRequest(request: JsonRequest) : Boolean {
+        val displayName = request.params?.get("display_name").toString()
+        return displayName.isNotEmpty()
     }
 
     // show add equipment constraint and reset the UI for all other elements
@@ -210,9 +218,7 @@ class Equipment : Graph() {
 
     // sending JsonObject request
     private fun sendAddEquipmentInfo(request: JsonRequest) {
-        val displayName = request.params?.get("display_name").toString()
-
-        if(displayName.isNotEmpty()) {
+        if(isValidEquipmentRequest(request)) {
             addButton.visibility = View.GONE
             addLoadingPanel.visibility = View.VISIBLE
             requestJson(Request.Method.POST, JsonType.OBJECT, request)
@@ -272,12 +278,11 @@ class Equipment : Graph() {
 
     //Saves the edits made to the equipment item
     private fun sendSaveEditRequest(request : JsonRequest){
-        val displayName = request.params?.get("display_name").toString()
-
-        if(displayName.isNotEmpty()) {
+        if(isValidEquipmentRequest(request)) {
             editLoadingPanel.visibility = View.VISIBLE
             requestJson(Request.Method.PUT, JsonType.OBJECT, request)
             val intent = Intent(this, Equipment::class.java)
+            val displayName = request.params?.get("display_name").toString()
             intent.putExtra(savedEquipmentBundle, displayName)
             startActivity(intent)
         }
