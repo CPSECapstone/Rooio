@@ -1,10 +1,7 @@
 package com.rooio.repairs
 
 
-import android.content.Context
 import android.content.Intent
-import android.media.AudioManager
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -24,7 +21,7 @@ class ChangeLocationSettings  : NavigationBar() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_location_settings)
+        setContentView(R.layout.activity_change_location_settings)
 
         onResume()
         initializeVariables()

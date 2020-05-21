@@ -87,7 +87,7 @@ abstract class Location : NavigationBar(), OnItemClickListener {
         editor.apply()
 
         if (type == LocationType.LOGIN) startActivity(Intent(this@Location, PreferredProvidersLogin::class.java))
-        else startActivity(Intent(this@Location, PreferredProvidersSettings::class.java))
+        else startActivity(Intent(this@Location, ChangeLocationSettings::class.java))
     }
 
     //Adds locations to the list view using a custom adapter, and increases the size every time a

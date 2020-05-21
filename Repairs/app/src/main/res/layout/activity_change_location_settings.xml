@@ -5,211 +5,150 @@
     android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".ChangeLocationSettings">
-
-    <ScrollView
-        android:id="@+id/locationScrollView"
-        style="@android:style/Widget.ScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/locationScrollLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="100dp">
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/rightGuideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="1385dp" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/leftGuideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="535dp" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/lowerGuideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="510dp" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/upperGuideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="150dp" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/locationBox"
-                android:layout_width="843dp"
-                android:layout_height="360dp"
-                android:background="@drawable/shadow"
-                android:isScrollContainer="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
-                app:layout_constraintStart_toEndOf="@+id/leftGuideline"
-                app:layout_constraintTop_toTopOf="@+id/upperGuideline">
-
-                <TextView
-                    android:id="@+id/addAnother"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="60dp"
-                    android:fontFamily="@font/nunito_sans"
-                    android:text="@string/add_another_service_location"
-                    android:textColor="@color/darkGray"
-                    android:soundEffectsEnabled="false"
-                    android:textSize="24sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
-
-                <TextView
-                    android:id="@+id/locationTitle"
-                    android:layout_width="321dp"
-                    android:layout_height="37dp"
-                    android:layout_marginTop="25dp"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:text="@string/choose_location"
-                    android:textAlignment="center"
-                    android:textColor="@color/darkGray"
-                    android:textSize="24sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <ImageView
-                    android:id="@+id/greenBar"
-                    android:layout_width="75dp"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="75dp"
-                    android:contentDescription="@string/green_bar"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0"
-                    app:srcCompat="@color/colorAccent" />
-
-                <ListView
-                    android:id="@+id/locationListView"
-                    android:layout_width="750dp"
-                    android:layout_height="105dp"
-                    android:layout_marginTop="130dp"
-                    android:background="@drawable/blank_border"
-                    android:divider="@drawable/blank_border"
-                    android:dividerHeight="10dp"
-                    android:footerDividersEnabled="false"
-                    android:headerDividersEnabled="false"
-                    android:isScrollContainer="false"
-                    android:scrollbars="none"
-                    android:soundEffectsEnabled="false"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <TextView
-                    android:id="@+id/errorMessage"
-                    android:layout_width="462dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="90dp"
-                    android:fontFamily="@font/nunito_sans"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/errorMessage"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.89"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <TextView
-                    android:id="@+id/chooseSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="95dp"
-                    android:fontFamily="@font/nunito"
-                    android:text="@string/choose_service_location"
-                    android:textColor="@color/lightGray"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.08"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <ProgressBar
-                    android:id="@+id/loadingPanel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:indeterminate="true"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.50" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    android:background="#ECF0F1"
+    tools:context=".Login">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/titleLayout"
-        android:layout_width="1920dp"
-        android:layout_height="90dp"
-        android:background="@color/common_google_signin_btn_text_dark_default"
+        android:id="@+id/currentLocationLayout"
+        android:layout_width="850dp"
+        android:layout_height="360dp"
+        android:background="@drawable/shadow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.19999999">
 
         <TextView
-            android:id="@+id/topTitle"
+            android:id="@+id/locationSettingsTitle"
+            android:layout_width="321dp"
+            android:layout_height="37dp"
+            android:fontFamily="@font/nunito"
+            android:text="@string/service_location"
+            android:textAlignment="center"
+            android:textColor="@color/darkGray"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.060000002" />
+
+        <ImageView
+            android:id="@+id/greenBar"
+            android:layout_width="75dp"
+            android:layout_height="3dp"
+            android:contentDescription="@string/green_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.19"
+            app:srcCompat="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/currentServiceLocationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito_semibold"
-            android:text="@string/change_service_location"
+            android:fontFamily="@font/nunito"
+            android:text="@string/current_service_location"
+            android:textColor="#52161616"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3" />
+
+        <TextView
+            android:id="@+id/currentLocation"
+            android:layout_width="700dp"
+            android:layout_height="80dp"
+            android:fontFamily="@font/nunito_sans"
             android:textColor="@color/darkGray"
             android:textSize="27sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.34"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.50" />
+            app:layout_constraintVertical_bias="0.45" />
 
-        <ImageView
-            android:id="@+id/backButton"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:contentDescription="@string/cancel"
-            android:soundEffectsEnabled="false"
+        <Button
+            android:id="@+id/changeLocation"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="240dp"
+            android:layout_height="55dp"
+            android:background="@drawable/gray_button_border"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/change_location"
+            android:textAllCaps="false"
+            android:textColor="@color/darkGray"
+            android:textColorHighlight="#00F8F6F6"
+            android:textColorHint="#00FCFBFB"
+            android:textColorLink="#00FDFCFC"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias=".15"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.50"
-            app:srcCompat="@mipmap/chevron_left" />
+            app:layout_constraintVertical_bias="0.85" />
+
+        <TextView
+            android:id="@+id/errorMessage"
+            android:layout_width="344dp"
+            android:layout_height="34dp"
+            android:fontFamily="@font/nunito_sans"
+            android:textAlignment="textStart"
+            android:textColor="@color/errorMessage"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.64" />
+
+        <ProgressBar
+            android:id="@+id/loadingPanel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.45" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@drawable/no_elevation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:visibility="visible">
+
+        <Spinner
+            android:id="@+id/settings_spinner"
+            android:layout_width="510dp"
+            android:layout_height="60dp"
+            android:background="@drawable/spinner_background"
+            android:entries="@array/settings_type"
+            android:spinnerMode="dropdown"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.481"
+            android:soundEffectsEnabled="false"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
