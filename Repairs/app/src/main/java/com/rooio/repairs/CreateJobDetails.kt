@@ -260,6 +260,7 @@ class CreateJobDetails: RestApi() {
             element.text = "--"
     }
 
+
     private fun onSendRequest() {
         val params = HashMap<Any?, Any?>()
         val url = "service-locations/$userLocationID/jobs/"
@@ -309,15 +310,27 @@ class CreateJobDetails: RestApi() {
     }
 
     private fun sendJobRequest(request: JsonRequest) {
-        if(validJobRequest(request)) {
+        if(validJobRequest(request) && phoneValidate()) {
             loadingPanel.visibility = View.VISIBLE
             sendRequestButton.visibility = View.GONE
             requestJson(Request.Method.POST, JsonType.OBJECT, request)
+        }
+        else if(!phoneValidate()){
+            errorMsg.text = resources.getString(R.string.phone_number_error)
+            scrollView.fullScroll(ScrollView.FOCUS_UP)
         }
         else {
             errorMsg.text = resources.getString(R.string.fill_out_fields)
             scrollView.fullScroll(ScrollView.FOCUS_UP)
         }
+    }
+
+    private fun phoneValidate(): Boolean{
+        val phone = phoneNumber.text.toString()
+        if ((phone.length == 0) || (phone.length == 9) || (phone.length == 10)){
+            return true
+        }
+        return false
     }
 
     private fun validJobRequest(request: JsonRequest) : Boolean{
