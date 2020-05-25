@@ -65,13 +65,14 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.13"
                 android:soundEffectsEnabled="false"
-                app:srcCompat="@mipmap/dashboard" />
+                app:srcCompat="@drawable/dashboard_icon" />
 
             <ImageView
                 android:id="@+id/clicked_dashboard"
                 android:layout_width="31dp"
                 android:layout_height="31dp"
                 android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
                 android:tint="@color/colorPrimary"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -80,7 +81,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.13"
-                android:soundEffectsEnabled="false"
                 app:srcCompat="@mipmap/dashboard" />
 
             <ImageView
@@ -95,7 +95,37 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.19"
                 android:soundEffectsEnabled="false"
-                app:srcCompat="@mipmap/jobs" />
+                app:srcCompat="@drawable/jobs_icon" />
+
+
+            <ImageView
+                android:id="@+id/archived_arrow"
+                android:layout_width="31dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.24"
+                app:srcCompat="@drawable/archived_arrow_gray" />
+
+            <ImageView
+                android:id="@+id/colored_archived_arrow"
+                android:layout_width="31dp"
+                android:layout_height="31dp"
+                android:visibility="invisible"
+                android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.24"
+                app:srcCompat="@drawable/archived_arrow_green" />
 
             <ImageView
                 android:id="@+id/colored_jobs"
@@ -120,20 +150,21 @@
                 android:layout_width="31dp"
                 android:layout_height="31dp"
                 android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.256"
-                android:soundEffectsEnabled="false"
-                app:srcCompat="@mipmap/equipment" />
+                app:layout_constraintVertical_bias="0.30"
+                app:srcCompat="@drawable/equipment_icon" />
 
             <ImageView
                 android:id="@+id/colored_equipment"
                 android:layout_width="31dp"
                 android:layout_height="31dp"
                 android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
                 android:tint="@color/colorPrimary"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -141,8 +172,7 @@
                 app:layout_constraintHorizontal_bias="0.1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.256"
-                android:soundEffectsEnabled="false"
+                app:layout_constraintVertical_bias="0.30"
                 app:srcCompat="@mipmap/equipment" />
 
             <ImageView
@@ -150,20 +180,51 @@
                 android:layout_width="31dp"
                 android:layout_height="31dp"
                 android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.10"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.87"
-                android:soundEffectsEnabled="false"
-                app:srcCompat="@mipmap/settings" />
+                app:layout_constraintVertical_bias="0.81"
+                app:srcCompat="@drawable/settings_icon" />
 
             <ImageView
                 android:id="@+id/colored_settings"
                 android:layout_width="31dp"
                 android:layout_height="31dp"
                 android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
+                android:tint="@color/colorPrimary"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.10"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.81"
+                app:srcCompat="@mipmap/settings" />
+
+            <ImageView
+                android:id="@+id/logout"
+                android:layout_width="31dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.10"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.87"
+                app:srcCompat="@drawable/grey_logout" />
+
+            <ImageView
+                android:id="@+id/colored_logout"
+                android:layout_width="31dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="15dp"
+                android:soundEffectsEnabled="false"
                 android:tint="@color/colorPrimary"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -172,8 +233,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.87"
-                android:soundEffectsEnabled="false"
-                app:srcCompat="@mipmap/settings" />
+                app:srcCompat="@drawable/green_logout" />
 
             <TextView
                 android:id="@+id/dashboard_text"
@@ -209,6 +269,23 @@
                 app:layout_constraintVertical_bias="0.19" />
 
             <TextView
+                android:id="@+id/archived_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/nunito"
+                android:soundEffectsEnabled="false"
+                android:text="Archived"
+                android:textColor="@color/darkGray"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.68"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.24" />
+
+            <TextView
                 android:id="@+id/equipment_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -223,7 +300,7 @@
                 app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.255" />
+                app:layout_constraintVertical_bias="0.30" />
 
             <TextView
                 android:id="@+id/settings_text"
@@ -232,6 +309,22 @@
                 android:fontFamily="@font/nunito"
                 android:soundEffectsEnabled="false"
                 android:text="Settings"
+                android:textColor="@color/darkGray"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.52"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.81" />
+
+            <TextView
+                android:id="@+id/logout_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito"
+                android:soundEffectsEnabled="false"
+                android:text="Log Out"
                 android:textColor="@color/darkGray"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"

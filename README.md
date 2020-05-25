@@ -18,6 +18,7 @@ The information below consists of helpful tips to reference while going through 
 > The Clover hardware profile may not appear at first. Just continue refreshing the page or close and reopen Android Studio. Make sure you are under the Tablet section when looking for the added Clover profile.
 
 ### Step 4: Sideloading required Clover APKs using ADB
+Please use the Clover APKs we provided in our repository [here](https://github.com/CPSECapstone/Rooio/tree/master/Repairs/emulator).
 > The ‘adb devices’ command probably won’t work at first. You need to find the path where your adb is located. 
 
 #### Mac Users
@@ -46,6 +47,8 @@ adb devices.
 adb devices
 ```
 > While the emulator is running, do steps 5 and 6 of the installation commands.
+
+
 
 ## Testing the application
 

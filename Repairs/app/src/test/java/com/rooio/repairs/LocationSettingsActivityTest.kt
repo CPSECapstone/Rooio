@@ -42,7 +42,7 @@ class LocationSettingsActivityTest {
         activity.animateActivity(true)
         val cancelButton = activity.findViewById(R.id.backButton) as ImageView
         cancelButton.performClick()
-        val expectedIntent = Intent(activity, LocationSettings::class.java)
+        val expectedIntent = Intent(activity, ChangeLocationSettings::class.java)
         val actual: Intent = Shadows.shadowOf(Application()).nextStartedActivity
         assertEquals(expectedIntent.component, actual.component)
     }

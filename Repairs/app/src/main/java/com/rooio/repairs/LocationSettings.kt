@@ -17,7 +17,7 @@ class LocationSettings  : Location()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_change_location_settings)
+        setContentView(R.layout.activity_location_settings)
 
         initializeVariables()
         setNavigationBar()
@@ -47,7 +47,7 @@ class LocationSettings  : Location()  {
     //Sends the user to the Jobs page
     private fun onBack() {
         backButton.setOnClickListener{
-            startActivity(Intent(this@LocationSettings, LocationSettings::class.java))
+            startActivity(Intent(this@LocationSettings, ChangeLocationSettings::class.java))
         }
     }
 

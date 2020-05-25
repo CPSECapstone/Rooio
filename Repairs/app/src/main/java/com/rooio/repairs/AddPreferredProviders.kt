@@ -47,6 +47,10 @@ abstract class AddPreferredProviders : NavigationBar() {
         }
     }
 
+    fun isValidPhoneNumber(phoneInput: String) : Boolean {
+        return phoneInput.isNotEmpty() && (phoneInput.length == 10 || phoneInput.length == 11)
+    }
+
     //Checks if the phone number is already in the system, and then adds it if it is not
     @JvmField
     val checkResponseFunc = Function<Any, Void?> { response: Any ->
@@ -72,7 +76,7 @@ abstract class AddPreferredProviders : NavigationBar() {
     //Checks if the phone number given is either empty or not a phone number, and then calls the API
     //if it is neither
     private fun checkPhoneNumber(phoneInput: String, request: JsonRequest) {
-        if (phoneInput.isNotEmpty() && (phoneInput.length == 10 || phoneInput.length == 9)) {
+        if (isValidPhoneNumber(phoneInput)) {
             loadingPanel.visibility = View.VISIBLE
             addProvider.visibility = View.GONE
             requestJson(Request.Method.GET, JsonType.ARRAY, request)

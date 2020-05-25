@@ -26,7 +26,8 @@ abstract class RestApi : AppCompatActivity() {
         lateinit var userToken: String
         lateinit var userName: String
         lateinit var userLocationID: String
-        private var savedStreamMuted = true
+        var savedStreamMuted = true
+        lateinit var am : AudioManager
     }
 
 
@@ -53,6 +54,8 @@ abstract class RestApi : AppCompatActivity() {
         val errorFunc = request.errorFunc
         val headersFlag = request.headersFlag
         val params = request.params
+
+
 
         val  jsonParams : JSONObject? = if (!request.params.isNullOrEmpty()) {
             JSONObject(params)
@@ -167,7 +170,7 @@ abstract class RestApi : AppCompatActivity() {
     //Functions to mute sound
     public override fun onResume() {
         super.onResume()
-        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!am.isStreamMute(AudioManager.STREAM_SYSTEM)) {
@@ -179,7 +182,7 @@ abstract class RestApi : AppCompatActivity() {
 
     public override fun onPause() {
         super.onPause()
-        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (savedStreamMuted) {
