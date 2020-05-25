@@ -15,17 +15,16 @@ android {
         versionName "1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        buildConfigField "String", "GOOGLE_API_KEY", "\"" + getGoogleApiKey() + "\""
     }
 
     buildTypes {
         release {
-            buildConfigField("String", "GOOGLE_API_KEY", "\"" + getGoogleApiKey() + "\"")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
         }
         debug {
-            buildConfigField("String", "GOOGLE_API_KEY", "\"" + getGoogleApiKey() + "\"")
             testCoverageEnabled = true
         }
     }
@@ -48,8 +47,9 @@ def getGoogleApiKey() {
     def googleApiKey = System.getenv("GOOGLE_API_KEY")
     if (googleApiKey == null || googleApiKey.length() == 0) {
         def keysFile = file("keys.properties")
-        def keysProperties = new Properties()        keysProperties.load(new FileInputStream(keysFile))
-        googleApiKey = keysProperties['TMDB_API_KEY']
+        def keysProperties = new Properties()
+        keysProperties.load(new FileInputStream(keysFile))
+        googleApiKey = keysProperties['GOOGLE_API_KEY']
         if (googleApiKey == null) {
             logger.error("You need to either place appropriate keys.properties or set proper environment variables for API key")
         }
