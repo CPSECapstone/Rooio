@@ -2,6 +2,7 @@ package com.rooio.repairs
 
 import android.Manifest
 import android.accounts.Account
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -40,6 +41,26 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
     private fun initializeVariables() {
         createAccount = findViewById(R.id.createAccount)
         connectAccount = findViewById(R.id.connectAccount)
+    }
+
+    private fun loggedInUserCheck(empId: String): Boolean {
+        //Use Shared Preferences Login
+        val prefs = getSharedPreferences("UserData", Context.MODE_PRIVATE)
+        val savedToken = prefs.getString(empId + "__token", "")
+        val name = prefs.getString(empId + "__name", "")
+        val userLocation = prefs.getString(empId + "__userLocationId", "")
+
+        employeeId = empId
+
+        return if (name != null && name.isNotEmpty() && savedToken != null && savedToken.isNotEmpty() && userLocation != null && userLocation.isNotEmpty()) {
+            userToken = savedToken
+            userName = name
+            userLocationID = userLocation
+            startActivity(Intent(this@Landing, Dashboard::class.java))
+            true
+        } else {
+            false
+        }
     }
 
     private fun onCreateAccount() {
@@ -109,18 +130,21 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
         mEmployeeConnector?.getEmployee(object : EmployeeCallback<Employee>() {
             override fun onServiceSuccess(result: Employee, status: ResultStatus) {
                 super.onServiceSuccess(result, status)
+                val id = result.id
+                val name = result.name.toString()
+                Toast.makeText(this@Landing, "Welcome $name!", Toast.LENGTH_SHORT).show()
                 when(result.role.toString()){
                     "EMPLOYEE" -> {
-                        Toast.makeText(this@Landing, "You do not have permissions to use this app.", Toast.LENGTH_SHORT).show()
-                        finishAffinity()
+                        val hasAccount = loggedInUserCheck(id)
+                        if (!hasAccount) {
+                            startActivity(Intent(this@Landing, Login::class.java))
+                        }
                     }
 
                     else -> {
-                        val name = result.name.toString()
-                        Toast.makeText(this@Landing, "Welcome $name!", Toast.LENGTH_SHORT).show()
+                        loggedInUserCheck(id)
                     }
                 }
-
             }
         })
     }

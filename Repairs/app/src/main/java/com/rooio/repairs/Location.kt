@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.android.volley.Request
 import org.json.JSONArray
 import org.json.JSONException
-import java.util.ArrayList
+import java.util.*
 
 //Location class that shares methods
 abstract class Location : NavigationBar(), OnItemClickListener {
@@ -83,7 +83,7 @@ abstract class Location : NavigationBar(), OnItemClickListener {
 
         val prefs = getSharedPreferences("UserData", Context.MODE_PRIVATE)
         val editor = prefs.edit()
-        editor.putString("userLocationId", locationIds[position])
+        editor.putString(employeeId + "__userLocationId", locationIds[position])
         editor.apply()
 
         if (type == LocationType.LOGIN) startActivity(Intent(this@Location, PreferredProvidersLogin::class.java))

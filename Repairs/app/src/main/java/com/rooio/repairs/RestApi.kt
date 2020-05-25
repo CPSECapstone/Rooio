@@ -26,6 +26,7 @@ abstract class RestApi : AppCompatActivity() {
         lateinit var userToken: String
         lateinit var userName: String
         lateinit var userLocationID: String
+        lateinit var employeeId: String
         var savedStreamMuted = true
         lateinit var am : AudioManager
     }

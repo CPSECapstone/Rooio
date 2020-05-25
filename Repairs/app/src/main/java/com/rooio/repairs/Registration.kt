@@ -1,10 +1,13 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.*
-import androidx.appcompat.app.ActionBar
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.arch.core.util.Function
 import com.android.volley.Request
 import org.json.JSONException
@@ -95,6 +98,14 @@ class Registration : RestApi() {
     fun storeToken(responseObj: JSONObject) {
         val token = responseObj["token"] as String
         val name = responseObj["first_name"] as String
+
+        val prefs = getSharedPreferences("UserData", Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        editor.putString(employeeId + "__token", token)
+        editor.putString(employeeId + "__name", name)
+
+        editor.apply()
+
         userToken = token
         userName = name
     }

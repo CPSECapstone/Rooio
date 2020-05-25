@@ -1,15 +1,18 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.arch.core.util.Function
 import com.android.volley.Request
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
-import android.widget.*
-import android.content.Context
 
 
 // Activity that creates the login page of the application
@@ -32,7 +35,6 @@ class Login : RestApi() {
 
         centerTitleBar()
         initializeVariables()
-        automaticLogin()
         onConnectAccount()
         onCancel()
         onPause()
@@ -48,21 +50,6 @@ class Login : RestApi() {
         loadingPanel = findViewById(R.id.loadingPanel)
     }
 
-    // Checks if Token and UserLocation Information Saved to Automatically Login
-    private fun automaticLogin() {
-        //Use Shared Preferences Login
-        val prefs = getSharedPreferences("UserData", Context.MODE_PRIVATE)
-        val savedToken = prefs.getString("token", "")
-        val name = prefs.getString("name", "")
-        val userLocation = prefs.getString("userLocationId", "")
-
-        if (name != null && name.isNotEmpty() && savedToken != null && savedToken.isNotEmpty() && userLocation != null && userLocation.isNotEmpty()) {
-            userToken = savedToken
-            userName = name
-            userLocationID = userLocation
-            startActivity(Intent(this@Login, Dashboard::class.java))
-        }
-    }
 
     // Attempts to log in the user after clicking Connect Account
     private fun onConnectAccount() {
@@ -114,8 +101,9 @@ class Login : RestApi() {
 
         val prefs = getSharedPreferences("UserData", Context.MODE_PRIVATE)
         val editor = prefs.edit()
-        editor.putString("token", token)
-        editor.putString("name", name)
+        editor.putString(employeeId + "__token", token)
+        editor.putString(employeeId + "__name", name)
+
         editor.apply()
 
         userToken = token
