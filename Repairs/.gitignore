@@ -15,3 +15,6 @@
 
 # Firebase analytics API key
 google-services.json
+
+# Files with sensitive info
+/app/keys.properties

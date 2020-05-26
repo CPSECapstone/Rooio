@@ -1,5 +1,4 @@
 <resources>
-    <string name="placesApiKey">AIzaSyDhRY5q6woF-h1LWCxkXkO5SYMI3PG1iXg</string>
     <string name="analytics">Analytics</string>
     <string name="app_name">Repairs</string>
     <string name="connect_account">Connect Account</string>
