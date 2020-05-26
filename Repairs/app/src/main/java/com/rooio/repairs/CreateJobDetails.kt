@@ -3,12 +3,16 @@ package com.rooio.repairs
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.transition.TransitionManager
 import com.android.volley.Request
 import com.google.android.material.textfield.TextInputEditText
@@ -35,6 +39,7 @@ class CreateJobDetails: RestApi() {
     private lateinit var time: TimePicker
     private lateinit var contact: TextInputEditText
     private lateinit var phoneNumber: TextInputEditText
+    private lateinit var phoneNumberText: TextView
     private lateinit var sendRequestButton: Button
     private lateinit var errorMsg: TextView
     private lateinit var errorMsgTime: TextView
@@ -84,16 +89,23 @@ class CreateJobDetails: RestApi() {
         time = findViewById(R.id.timeInput)
         contact = findViewById(R.id.contactInput)
         phoneNumber = findViewById(R.id.phoneNumberInput)
+        phoneNumberText = findViewById(R.id.phoneNumberText)
 
+        var phoneNumberTextString = "What\\'s their phone number? (optional)"
+        var ss = SpannableString(phoneNumberTextString.toUpperCase())
+        ss.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorGray)), 27, phoneNumberTextString.length,
+                Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        phoneNumberText.setText(ss)
+/*
         // changing UI to display contact name in the prompt
         contact.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            val phoneNumberText: TextView = findViewById(R.id.phoneNumberText)
+           // val phoneNumberText: TextView = findViewById(R.id.phoneNumberText)
             val name = contact.text
             if(!hasFocus && !name!!.isBlank()){
                 phoneNumberText.text = "What's $name's phone number?"
             }
         }
-
+*/
         errorMsg = findViewById(R.id.errorMessage)
         errorMsgTime = findViewById(R.id.errorMessageTime)
         sendRequestButton = findViewById(R.id.sendRequestButton)
