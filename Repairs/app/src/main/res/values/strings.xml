@@ -69,7 +69,7 @@
     <string name="hvac">HVAC</string>
     <string name="appliance">Appliance</string>
     <string name="notableJobs">Notable Jobs</string>
-    <string name="allJobs">All Jobs</string>
+    <string name="allJobs">Jobs</string>
     <string name="pending">Pending</string>
     <string name="scheduled">Scheduled</string>
     <string name="declined">Declined</string>
