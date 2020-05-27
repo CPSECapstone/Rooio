@@ -3,7 +3,6 @@ package com.rooio.repairs
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -110,7 +109,6 @@ class CreateJobDetails: RestApi() {
         // initializing date picker
         date.minDate = Calendar.getInstance().timeInMillis
         date.setOnClickListener {
-            Log.i("try", "here")
             errorMsgTime.visibility = View.GONE
             val datetimeInput = Calendar.getInstance()
             val curCalendar = Calendar.getInstance()
