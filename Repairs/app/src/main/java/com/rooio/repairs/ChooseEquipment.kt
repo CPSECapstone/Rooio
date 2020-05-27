@@ -36,7 +36,6 @@ class ChooseEquipment : RestApi() {
         initializeVariables()
         onBackClick()
         loadEquipmentElements()
-        setFilter()
     }
 
     //Initializes variables that are used in loadElements()
@@ -106,6 +105,7 @@ class ChooseEquipment : RestApi() {
             noEquipmentMessage.visibility = View.INVISIBLE
         }
         setSearchBarText(equipmentType)
+        setFilter()
     }
 
     private fun setSearchBarText(equipmentType: Int) {
