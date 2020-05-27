@@ -1,5 +1,4 @@
 <resources>
-    <string name="placesApiKey">AIzaSyDhRY5q6woF-h1LWCxkXkO5SYMI3PG1iXg</string>
     <string name="analytics">Analytics</string>
     <string name="app_name">Repairs</string>
     <string name="connect_account">Connect Account</string>
@@ -69,7 +68,7 @@
     <string name="hvac">HVAC</string>
     <string name="appliance">Appliance</string>
     <string name="notableJobs">Notable Jobs</string>
-    <string name="allJobs">All Jobs</string>
+    <string name="allJobs">Jobs</string>
     <string name="pending">Pending</string>
     <string name="scheduled">Scheduled</string>
     <string name="declined">Declined</string>

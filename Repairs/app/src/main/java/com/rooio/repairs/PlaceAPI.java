@@ -17,9 +17,10 @@ class PlaceAPI {
         ArrayList<String> arrayList = new ArrayList<>();
         HttpURLConnection connection = null;
         StringBuilder jsonResult = new StringBuilder();
+
         try {
             String sb = "https://maps.googleapis.com/maps/api/place/autocomplete/json?" + "input=" + input +
-                    "&key=AIzaSyDhRY5q6woF-h1LWCxkXkO5SYMI3PG1iXg";
+                    "&key=" + BuildConfig.GOOGLE_API_KEY;
             URL url = new URL(sb);
             connection = (HttpURLConnection) url.openConnection();
             InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream());

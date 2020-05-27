@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import java.util.*
 import kotlin.collections.ArrayList
@@ -85,7 +86,13 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
         }
 
         holder.equipmentView.setOnClickListener {
-            TransitionManager.beginDelayedTransition(holder.transitionsContainer)
+            if (holder.visible) {
+                val autoTransition = AutoTransition()
+                autoTransition.duration = 0
+                TransitionManager.beginDelayedTransition(holder.transitionsContainer, autoTransition)
+            } else {
+                TransitionManager.beginDelayedTransition(holder.transitionsContainer)
+            }
             holder.visible = !holder.visible
             val v = if (holder.visible) View.VISIBLE else View.GONE
             setVisibility(holder, v)

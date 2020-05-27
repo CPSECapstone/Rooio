@@ -47,7 +47,6 @@ class ChooseServiceProvider : RestApi() {
         initializeVariables()
         setActionBar()
         populateList()
-        setFilter()
         onPreferred()
         onNetwork()
         onBackClick()
@@ -153,6 +152,8 @@ class ChooseServiceProvider : RestApi() {
         else {
             noProviderMessage.visibility = View.INVISIBLE
         }
+
+        setFilter()
     }
 
     //Sets the filter on the list
