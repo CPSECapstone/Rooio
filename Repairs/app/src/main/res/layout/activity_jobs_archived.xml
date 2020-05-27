@@ -63,7 +63,7 @@
 
             <ListView
                 android:id="@+id/cancelledList"
-                android:layout_width="356dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="100dp"
                 android:background="#FAFFFFFF"
@@ -139,7 +139,7 @@
 
             <ListView
                 android:id="@+id/declinedList"
-                android:layout_width="356dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="100dp"
                 android:background="#FAFFFFFF"
