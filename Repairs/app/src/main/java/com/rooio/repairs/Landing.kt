@@ -132,6 +132,10 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
                 super.onServiceSuccess(result, status)
                 val name = result.name.toString()
                 Toast.makeText(this@Landing, "Welcome $name!", Toast.LENGTH_SHORT).show()
+                val hasAccount = loggedInUserCheck(id)
+                if (!hasAccount) {
+                     startActivity(Intent(this@Landing, Login::class.java))
+                }
             }
         })
     }
