@@ -91,21 +91,18 @@ class CreateJobDetails: RestApi() {
         phoneNumber = findViewById(R.id.phoneNumberInput)
         phoneNumberText = findViewById(R.id.phoneNumberText)
 
-        var phoneNumberTextString = "What\\'s their phone number? (optional)"
-        var ss = SpannableString(phoneNumberTextString.toUpperCase())
-        ss.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorGray)), 27, phoneNumberTextString.length,
-                Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
-        phoneNumberText.setText(ss)
-/*
+        var phoneNumberTextString = "What's their phone number?"
+        setOptionalTextGray(phoneNumberTextString, phoneNumberTextString.length)
+
         // changing UI to display contact name in the prompt
         contact.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-           // val phoneNumberText: TextView = findViewById(R.id.phoneNumberText)
             val name = contact.text
             if(!hasFocus && !name!!.isBlank()){
-                phoneNumberText.text = "What's $name's phone number?"
+                phoneNumberTextString = "What's $name's phone number?"
+                setOptionalTextGray(phoneNumberTextString, phoneNumberTextString.length)
             }
         }
-*/
+
         errorMsg = findViewById(R.id.errorMessage)
         errorMsgTime = findViewById(R.id.errorMessageTime)
         sendRequestButton = findViewById(R.id.sendRequestButton)
@@ -143,6 +140,17 @@ class CreateJobDetails: RestApi() {
 
         // resetting error message
         time.setOnTimeChangedListener { _, _, _ ->  errorMsgTime.visibility = View.GONE }
+    }
+
+    private fun setOptionalTextGray(phoneTextString: String, startGrayIndex: Int) {
+        var stringWithOpt = "$phoneTextString (optional)"
+        var phoneSpannableString = SpannableString(stringWithOpt.toUpperCase())
+        phoneSpannableString.setSpan(
+                ForegroundColorSpan(ContextCompat.getColor(this, R.color.darkGray)),
+                startGrayIndex,
+                stringWithOpt.length,
+                Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        phoneNumberText.text = phoneSpannableString
     }
 
     // sets time picker to show 15 minute intervals
