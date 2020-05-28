@@ -1,16 +1,15 @@
 package com.rooio.repairs
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import java.util.*
 import kotlin.collections.ArrayList
@@ -28,8 +27,7 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view =
-                LayoutInflater.from(applicationContext).inflate(R.layout.equipment_item, parent, false)
+        val view = LayoutInflater.from(applicationContext).inflate(R.layout.equipment_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -85,7 +83,13 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
         }
 
         holder.equipmentView.setOnClickListener {
-            TransitionManager.beginDelayedTransition(holder.transitionsContainer)
+            if (holder.visible) {
+                val autoTransition = AutoTransition()
+                autoTransition.duration = 0
+                TransitionManager.beginDelayedTransition(holder.transitionsContainer, autoTransition)
+            } else {
+                TransitionManager.beginDelayedTransition(holder.transitionsContainer)
+            }
             holder.visible = !holder.visible
             val v = if (holder.visible) View.VISIBLE else View.GONE
             setVisibility(holder, v)

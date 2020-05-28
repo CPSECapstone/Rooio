@@ -46,6 +46,7 @@ class PreferredProvidersLoginActivityTest {
 
     @Test
     fun testContinue() {
+        activity.animateActivity(false)
         val continueButton = activity.findViewById<TextView>(R.id.done)
         continueButton.performClick()
         val expectedIntent = Intent(activity, Dashboard::class.java)

@@ -18,7 +18,7 @@ enum class JobType (private val value: String) {
         }
 
         fun
-        getIntRepr(): Int {
+        getInt(): Int {
         return when (this) {
                 PENDING -> 0
                 DECLINED -> 1
@@ -28,6 +28,6 @@ enum class JobType (private val value: String) {
                 PAUSED -> 6
                 CANCELLED -> 4
                 IN_PROGRESS -> 7
+                }
         }
-        }
-        }
+}

@@ -4,8 +4,10 @@ import android.app.Application
 import android.content.Intent
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.android.volley.RequestQueue
+import org.json.JSONObject
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -41,6 +43,30 @@ class PreferredProviderDetailsActivityTest {
         val expectedIntent = Intent(activity, PreferredProvidersSettings::class.java)
         val actual: Intent = Shadows.shadowOf(Application()).nextStartedActivity
         Assert.assertEquals(expectedIntent.component, actual.component)
+    }
+
+    @Test
+    fun testProviderRemoveErrorFunc() {
+        activity.removeErrorFunc.apply("Server error")
+        val error = activity.findViewById(R.id.errorMessage) as TextView
+        Assert.assertEquals(error.text.toString(), "Server error")
+    }
+
+    @Test
+    fun testProviderRemoveResponseFunc() {
+        //activity.providerResponseFunc.apply(JSONObject())
+    }
+
+    @Test
+    fun testProviderDetailErrorFunc() {
+        activity.providerErrorFunc.apply("Server error")
+        val error = activity.findViewById(R.id.errorMessage) as TextView
+        Assert.assertEquals(error.text.toString(), "Server error")
+    }
+
+    @Test
+    fun testProviderDetailResponseFunc() {
+       // activity.providerResponseFunc.apply(JSONObject())
     }
 
 }

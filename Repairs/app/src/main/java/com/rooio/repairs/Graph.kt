@@ -37,7 +37,7 @@ abstract class Graph : NavigationBar() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 when (parent.getItemAtPosition(position).toString()) {
                     "Repair" -> graphJob = GraphType.JobType.REPAIR
                     "Maintenance" -> graphJob = GraphType.JobType.MAINTENANCE
@@ -51,7 +51,7 @@ abstract class Graph : NavigationBar() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 when (position) {
                     0 -> graphOption = GraphType.OptionType.COST
                     1 -> graphOption = GraphType.OptionType.JOBS
@@ -63,7 +63,7 @@ abstract class Graph : NavigationBar() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 when (parent.getItemAtPosition(position).toString()) {
                     "Monthly" -> graphTime = GraphType.TimeType.MONTH
                     "Yearly" -> graphTime = GraphType.TimeType.YEAR

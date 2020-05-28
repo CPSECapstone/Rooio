@@ -1,13 +1,13 @@
 package com.rooio.repairs
 
 enum class StatusType(private val value: Int) {
-    Pending(0),
-    Declined(1),
-    Accepted(2),
-    Completed(3),
-    Cancelled(4),
-    Started(5),
-    Paused(6);
+    PENDING(0),
+    DECLINED(1),
+    ACCEPTED(2),
+    COMPLETED(3),
+    CANCELLED(4),
+    STARTED(5),
+    PAUSED(6);
 
     fun getInt() : Int{
         return value
@@ -15,13 +15,13 @@ enum class StatusType(private val value: Int) {
 
     override fun toString(): String {
         return when(this){
-            Pending -> "Pending"
-            Declined -> "Declined"
-            Accepted -> "Accepted"
-            Completed -> "Completed"
-            Cancelled -> "Cancelled"
-            Started -> "Started"
-            Paused -> "Paused"
+            PENDING -> "Pending"
+            DECLINED -> "Declined"
+            ACCEPTED -> "Accepted"
+            COMPLETED -> "Completed"
+            CANCELLED -> "Cancelled"
+            STARTED -> "Started"
+            PAUSED -> "Paused"
         }
     }
 }

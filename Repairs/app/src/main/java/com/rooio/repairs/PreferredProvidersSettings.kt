@@ -59,7 +59,7 @@ class PreferredProvidersSettings  : PreferredProviders() {
                 //Something will always be selected
             }
 
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
                 if (selectedItem == "Service Location") {
                     val spinner: Spinner = findViewById(R.id.settings_spinner)
