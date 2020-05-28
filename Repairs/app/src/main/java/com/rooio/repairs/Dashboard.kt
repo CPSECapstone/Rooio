@@ -371,7 +371,9 @@ class Dashboard : Graph() {
         //set the date/time
         if (!resultSort[index].isNull("status_time_value")) {
             val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(resultSort[index].getString("status_time_value")))
-            timeText.text = date1!!.toString()
+            @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
+
+            timeText.text = dateFormatter.format(date1)!!.toString()
 
         }
         //address
