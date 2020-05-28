@@ -27,6 +27,12 @@ class LandingActivityTest {
         scenario = ActivityScenario.launch(Landing::class.java)
     }
 
+    //Tests the auto generated build config class
+    @Test
+    fun testBuildConfig() {
+        BuildConfig()
+    }
+
     @Test
     fun testConnectAccount() {
         scenario.onActivity {activity ->

@@ -269,11 +269,11 @@ class Dashboard : Graph() {
         for (i in 0 until responseObj.length()) {
             val job = responseObj.getJSONObject(i)
             when(job.getInt("status")) {
-                JobType.PENDING.getIntRepr() -> pendingJobs.add(job)
-                JobType.SCHEDULED.getIntRepr()-> scheduledJobs.add(job)
-                JobType.STARTED.getIntRepr() -> inProgressJobs.add(job)
-                JobType.PAUSED.getIntRepr() -> inProgressJobs.add(job)
-                JobType.COMPLETED.getIntRepr() -> archivedJobs.add(job)
+                JobType.PENDING.getInt() -> pendingJobs.add(job)
+                JobType.SCHEDULED.getInt()-> scheduledJobs.add(job)
+                JobType.STARTED.getInt() -> inProgressJobs.add(job)
+                JobType.PAUSED.getInt() -> inProgressJobs.add(job)
+                JobType.COMPLETED.getInt() -> archivedJobs.add(job)
 
             }
         }

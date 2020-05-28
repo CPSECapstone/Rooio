@@ -41,11 +41,7 @@ abstract class PreferredProviders : NavigationBar() {
     val responseFunc = Function<Any, Void?> { response : Any ->
         loadingPanel.visibility = View.GONE
         val jsonArray = response as JSONArray
-        try {
-            loadElements(jsonArray)
-        } catch (e: JSONException) {
-            errorMessage.setText(R.string.error_server)
-        }
+        loadElements(jsonArray)
         null
     }
 
@@ -64,7 +60,7 @@ abstract class PreferredProviders : NavigationBar() {
         for (i in 0 until response.length()) {
             val restaurant = response.getJSONObject(i)
             val name = restaurant["name"] as String
-            val id = restaurant.get("id") as Int
+            val id = restaurant["id"] as Int
             var image = ""
             try {
                 image = restaurant["logo"] as String

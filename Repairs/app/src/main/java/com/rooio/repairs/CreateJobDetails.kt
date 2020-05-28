@@ -270,7 +270,7 @@ class CreateJobDetails: RestApi() {
                 params["equipment"] = arrayOf(intent.getStringExtra("equipment"))
             params["service_company"] = intent.getIntExtra("company", 0)
             params["service_category"] = intent.getIntExtra("type", 0)
-            params["service_type"] = (serviceTypeSpinner.selectedItem as ServiceType).getIntRepr()
+            params["service_type"] = (serviceTypeSpinner.selectedItem as ServiceType).getInt()
             params["details"] = whatHappened.text.toString()
             params["point_of_contact_name"] = contact.text.toString()
             params["point_of_contact_phone"] = phoneNumber.text.toString()

@@ -33,8 +33,8 @@ class ChooseServiceProvider : RestApi() {
     private lateinit var loadingPanel: ProgressBar
     private var providerDataList: ArrayList<ProviderData> = ArrayList()
     private lateinit var adapter: ChooseServiceProviderAdapter
-    lateinit var equipmentId: String
-    private var equipmentType: Int = 0
+    private var equipmentId: String = "1"
+    private var equipmentType: Int = 1
     private lateinit var noProviderMessage: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,11 +78,10 @@ class ChooseServiceProvider : RestApi() {
     //Populates a list from API call
     private fun populateList() {
         loadingPanel.visibility = View.VISIBLE
-        val bundle: Bundle? = intent.extras
-        if (bundle != null) {
-            equipmentId = bundle.getString("equipment") as String
-            equipmentType = bundle.getInt("type")
-        }
+        val id = intent.getStringExtra("equipment")
+        if (id != null) equipmentId = id
+        else equipmentId = ""
+        equipmentType = intent.getIntExtra("type", 1)
         val request = JsonRequest(false, "service-providers/?servicable_equipment_type_id=$equipmentType", null, providerResponseFunc, providerErrorFunc, true)
         requestJson(Request.Method.GET, JsonType.ARRAY, request)
     }

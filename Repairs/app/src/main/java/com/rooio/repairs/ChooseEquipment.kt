@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.arch.core.util.Function
@@ -24,14 +23,13 @@ class ChooseEquipment : RestApi() {
     private lateinit var noEquipmentMessage: TextView
     private lateinit var textView: TextView
     private var equipmentObjectList: ArrayList<EquipmentData> = ArrayList()
-    private val locations = ArrayList<String>()
     private lateinit var backButton: ImageView
+    var pageType = 1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_equipment)
-
         setActionBar()
         initializeVariables()
         onBackClick()
@@ -81,7 +79,7 @@ class ChooseEquipment : RestApi() {
 
     // getting all the equipment for the equipment list and passing the equipment list to custom ChooseAdapter
     private fun loadEquipment(response: JSONArray) {
-        val equipmentType = intent.getIntExtra("equipmentType", 0)
+        val equipmentType = intent.getIntExtra("equipmentType", pageType)
         loadEquipmentType(equipmentType)
         for (i in 0 until response.length()) {
             val equipment = EquipmentData(response.getJSONObject(i))
@@ -89,8 +87,7 @@ class ChooseEquipment : RestApi() {
                 equipmentObjectList.add(equipment)
             }
         }
-        equipmentObjectList.sortWith(compareBy {it.location})
-
+        //equipmentObjectList.sortWith(compareBy {it.location })
 
         val layoutManager = LinearLayoutManager(this)
         list.layoutManager = layoutManager
@@ -130,8 +127,7 @@ class ChooseEquipment : RestApi() {
         search.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                recyclerChooseAdapter.filter(charSequence.toString()
-                )
+                recyclerChooseAdapter.filter(charSequence.toString())
                 if (recyclerChooseAdapter.checkList() == 0)
                 {
                     //make the no equipment message visible
