@@ -220,14 +220,13 @@ class JobsCustomAdapter implements ListAdapter {
                             .into(image);
                 }
 
-                if(!statuses.contains(status_value)){
+                if(!statuses.contains(status_value) && status_value != ""){
                     assert status_value != null;
                     status.setText(status_value.toUpperCase());
                     statuses.add(status_value);
                 }
                 else
                     status.setVisibility(View.GONE);
-
                 }
 
 
