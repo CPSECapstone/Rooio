@@ -35,10 +35,10 @@ class JobsArchived  : NavigationBar() {
 
 
         companion object{
-                @JvmStatic private var archivedJobs = ArrayList<JSONObject>()
-                @JvmStatic private var completedJobs = ArrayList<JSONObject>()
-                @JvmStatic private var declinedJobs = ArrayList<JSONObject>()
-                @JvmStatic private var cancelledJobs = ArrayList<JSONObject>()
+                @JvmStatic private var archivedJobs = ArrayList<JobData>()
+                @JvmStatic private var completedJobs = ArrayList<JobData>()
+                @JvmStatic private var declinedJobs = ArrayList<JobData>()
+                @JvmStatic private var cancelledJobs = ArrayList<JobData>()
         }
 
         //Main
@@ -86,37 +86,27 @@ class JobsArchived  : NavigationBar() {
                 declinedJobs.clear()
         }
 
-        //Sort Job swim lanes
-        private fun sortJobsList(list: ArrayList<JSONObject>){
-
-                Collections.sort(list, JSONComparator())
-
-        }
-
         //Populate the Jobs Into Each Swimlane
         private fun populateLists(responseObj: JSONArray){
                 for (i in 0 until responseObj.length()) {
-                        val job = responseObj.getJSONObject(i)
+                        val job = JobData(responseObj.getJSONObject(i))
 
-                        when(job.getInt("status")){
-                                3 -> {
+                        when(job.status){
+                                JobType.COMPLETED -> {
                                         archivedJobs.add(job)
                                         if (i > 1) setSize(archivedConstraint)
                                         setSize(archivedList)}
-                                4 -> {
+                                JobType.CANCELLED -> {
                                         cancelledJobs.add(job)
                                         if (i > 1) setSize(cancelledConstraint)
                                         setSize(cancelledList) }
-                                1 -> {
+                                JobType.DECLINED -> {
                                         declinedJobs.add(job)
                                         if (i > 1) setSize(declinedConstraint)
                                         setSize(declinedList) }
                         }
                 }
 
-                sortJobsList(declinedJobs)
-                sortJobsList(archivedJobs)
-                sortJobsList(cancelledJobs)
 
                 val customAdapter = JobsCustomAdapter(this, archivedJobs)
                 if (archivedJobs.size != 0) archivedList.adapter = customAdapter
