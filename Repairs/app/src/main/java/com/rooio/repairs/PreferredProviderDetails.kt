@@ -129,12 +129,8 @@ class PreferredProviderDetails: NavigationBar() {
 
     @Throws(JSONException::class)
     fun loadElements(response: JSONObject) {
-        val image = try {
-            response.get("logo") as String
-        } catch (e: Exception) {
-            // if there is no logo for the service provider
-            ""
-        }
+        val provider = ProviderData(response)
+        val image = provider.logo
         if(image.isNotEmpty())
             Picasso.with(applicationContext)
                 .load(image)
@@ -143,28 +139,37 @@ class PreferredProviderDetails: NavigationBar() {
            logo.visibility = View.GONE
         }
 
-        setElementTexts(overview, response, getString(R.string.overview_text))
-        setElementTexts(email, response, getString(R.string.email))
-        setElementTexts(skills, response, getString(R.string.skills))
-        setElementTexts(licenseNumber, response, getString(R.string.contractor_license_number))
-        setElementTexts(phone, response, getString(R.string.phone))
-        setElementTexts(name, response, getString(R.string.name))
+        setElementTexts(overview, provider.bio)
+        setElementTexts(email, provider.email)
+        setElementTexts(skills, setSkills(provider.skills))
+        setElementTexts(licenseNumber, provider.contractor_license_number)
+        setElementTexts(phone, provider.phone)
+        setElementTexts(name, provider.name)
 
         setPriceElement(price, response, "starting_hourly_rate")
     }
 
-    private fun setElementTexts(element: TextView, response: JSONObject, elementName: String){
+    private fun setElementTexts(element: TextView, elementValue: String){
         try {
-            val jsonStr = response.get(elementName) as String
-            if(jsonStr.isEmpty() || jsonStr == "null")
+            if(elementValue.isEmpty() || elementValue == "null")
                 element.text = "--"
             else
-                element.text = jsonStr
+                element.text = elementValue
 
         }
         catch (e: Exception) {
             element.text = "--"
         }
+    }
+
+    //Sets the skills text for the item by parsing an array of skills
+    private fun setSkills(skills: ArrayList<String>): String {
+        var text = ""
+        val comma = ", "
+        for (skill in skills) {
+            text += "$skill$comma"
+        }
+        return text.subSequence(0, text.length - 2) as String
     }
 
     private fun setPriceElement(element: TextView, response: JSONObject, elementName: String){
