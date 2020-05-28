@@ -107,6 +107,7 @@ class JobsCustomAdapter implements ListAdapter {
                     case 1:
                     case 3:
                     case 4:
+                        status_value = "";
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.lightGray)

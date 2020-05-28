@@ -41,8 +41,6 @@ class JobsArchived  : NavigationBar() {
                 @JvmStatic private var cancelledJobs = ArrayList<JSONObject>()
         }
 
-        private lateinit var completedButton: Button
-
         //Main
         override fun onCreate(savedInstanceState: Bundle?) {
                 super.onCreate(savedInstanceState)
@@ -58,6 +56,8 @@ class JobsArchived  : NavigationBar() {
         private fun initialize(){
                 setContentView(R.layout.activity_jobs_archived)
                 //sets the navigation bar onto the page
+                archivedConstraint = findViewById(R.id.archivedConstraint)
+                archivedList = findViewById(R.id.archivedList)
                 cancelledList = findViewById(R.id.cancelledList)
                 cancelledConstraint = findViewById(R.id.cancelledConstraint)
                 declinedList = findViewById(R.id.declinedList)
@@ -141,7 +141,6 @@ class JobsArchived  : NavigationBar() {
         }
         @JvmField
         var errorFunc = Function<String, Void?> { error: String? ->
-                completedButton.text = error
                 null
         }
 
