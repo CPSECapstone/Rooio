@@ -114,6 +114,7 @@ class JobsCustomAdapter implements ListAdapter {
                     case 1:
                     case 3:
                     case 4:
+                        status_value = "";
                         DrawableCompat.setTint(
                                 DrawableCompat.wrap(color.getBackground()),
                                 ContextCompat.getColor(context, R.color.lightGray)
@@ -236,15 +237,14 @@ class JobsCustomAdapter implements ListAdapter {
                             )
                             .into(image);
                 }
-
-                if(!statuses.contains(status_value) &&  status_value != null){
+              
+                if(!statuses.contains(status_value) && status_value != ""){
                     assert status_value != null;
                     status.setText(status_value.toUpperCase());
                     statuses.add(status_value);
                 }
                 else
                     status.setVisibility(View.GONE);
-
                 }
 
 

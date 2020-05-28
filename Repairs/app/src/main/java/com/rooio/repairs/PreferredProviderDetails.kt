@@ -63,6 +63,7 @@ class PreferredProviderDetails: NavigationBar() {
         backButton = findViewById(R.id.back_button_details)
         removeButton = findViewById(R.id.removeProvider)
         loadingPanel = findViewById(R.id.loadingPanel)
+        message = findViewById(R.id.errorMessage)
     }
 
     private fun onBackClick() {
@@ -74,15 +75,13 @@ class PreferredProviderDetails: NavigationBar() {
 
     private fun loadProvider(){
         loadingPanel.visibility = View.VISIBLE
-        val bundle: Bundle ?= intent.extras
-        if (bundle!=null){
-            val theId = bundle.getString("addedProvider")
-            
-            //set url to an empty string, as a private val
-            url = "service-providers/" + theId.toString() + "/"
-            requestJson(Request.Method.GET, JsonType.OBJECT, JsonRequest(false, url, null,
-                    providerResponseFunc, providerErrorFunc, true))
-        }
+        val theId = intent.getStringExtra("addedProvider")
+        val string = if (theId == null) "" else theId.toString()
+        //set url to an empty string, as a private val
+        url = "service-providers/" + string + "/"
+        requestJson(Request.Method.GET, JsonType.OBJECT, JsonRequest(false, url, null,
+                providerResponseFunc, providerErrorFunc, true))
+
     }
 
     @JvmField
@@ -96,11 +95,7 @@ class PreferredProviderDetails: NavigationBar() {
     val providerResponseFunc = Function<Any, Void?> { response : Any ->
         loadingPanel.visibility = View.GONE
         val jsonObject = response as JSONObject
-        try {
-            loadElements(jsonObject)
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
+        loadElements(jsonObject)
         null
     }
 

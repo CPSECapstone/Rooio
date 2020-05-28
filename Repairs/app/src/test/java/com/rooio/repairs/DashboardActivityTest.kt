@@ -30,8 +30,9 @@ class DashboardActivityTest {
     @Before
     @Throws(Exception::class)
     fun setup() {
+        RestApi.userName = "luke"
         RestApi.queue = queue
-        RestApi.userLocationID = "eeffba"
+        RestApi.userLocationID = "downtown"
         activity = Robolectric.buildActivity(Dashboard::class.java)
                 .create()
                 .resume()

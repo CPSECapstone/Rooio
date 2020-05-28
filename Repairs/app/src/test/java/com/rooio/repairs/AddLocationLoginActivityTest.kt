@@ -38,6 +38,7 @@ class AddLocationLoginActivityTest {
 
     @Test
     fun testCancelLocation() {
+        activity.animateActivity(false)
         val button = activity.findViewById(R.id.cancel) as Button
         button.performClick()
         val expectedIntent = Intent(activity, LocationLogin::class.java)
@@ -45,59 +46,4 @@ class AddLocationLoginActivityTest {
         Assert.assertEquals(expectedIntent.component, actual.component)
     }
 
-    @Test
-    fun testEmptyLocation() {
-        val button = activity.findViewById(R.id.addLocation) as Button
-        val location = activity.findViewById(R.id.autocomplete_login) as AutoCompleteTextView
-        location.setText("")
-        button.performClick()
-        val error = activity.findViewById(R.id.errorMessage) as TextView
-        Assert.assertEquals("Not a valid address.", error.text.toString())
-    }
-
-    @Test
-    fun testLocation() {
-        val button = activity.findViewById(R.id.addLocation) as Button
-        val location = activity.findViewById(R.id.autocomplete_login) as AutoCompleteTextView
-        location.setText("5988 E Weaver Circle")
-        button.performClick()
-    }
-
-    @Test
-    fun testLocationResponseFunc() {
-        activity.locationResponseFunc.apply(JSONArray())
-        val expectedIntent = Intent(activity, LocationLogin::class.java)
-        val actual: Intent = Shadows.shadowOf(Application()).nextStartedActivity
-        Assert.assertEquals(expectedIntent.component, actual.component)
-    }
-
-    @Test
-    fun testLocationErrorFunc() {
-        activity.locationErrorFunc.apply("Server error")
-        val error = activity.findViewById(R.id.errorMessage) as TextView
-        Assert.assertEquals("Server error", error.text.toString())
-    }
-
-    @Test
-    fun testCheckResponseFunc() {
-        val location = activity.findViewById(R.id.autocomplete_login) as AutoCompleteTextView
-        location.setText("5988 E Weaver Circle")
-        activity.checkResponseFunc.apply(JSONArray().put(JSONObject().put("physical_address", "12345")))
-    }
-
-    @Test
-    fun testAlreadyAdded() {
-        val location = activity.findViewById(R.id.autocomplete_login) as AutoCompleteTextView
-        location.setText("12345")
-        activity.checkResponseFunc.apply(JSONArray().put(JSONObject().put("physical_address", "12345")))
-        val error = activity.findViewById(R.id.errorMessage) as TextView
-        Assert.assertEquals("You have already added this location.", error.text.toString())
-    }
-
-    @Test
-    fun testCheckErrorFunc() {
-        activity.checkErrorFunc.apply("Server error")
-        val error = activity.findViewById(R.id.errorMessage) as TextView
-        Assert.assertEquals("Server error", error.text.toString())
-    }
 }

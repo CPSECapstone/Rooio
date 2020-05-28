@@ -44,4 +44,34 @@ class AddPreferredProvidersLoginActivityTest {
         val actual: Intent = Shadows.shadowOf(Application()).nextStartedActivity
         assertEquals(expectedIntent.component, actual.component)
     }
+
+    @Test
+    fun testIsValidPhoneNumber() {
+        val phoneInput = "1231231234"
+        assertEquals(true, activity.isValidPhoneNumber(phoneInput))
+    }
+
+    @Test
+    fun testIsAnotherValidPhoneNumber() {
+        val phoneInput = "11231231234"
+        assertEquals(true, activity.isValidPhoneNumber(phoneInput))
+    }
+
+    @Test
+    fun testTooLongPhoneNumber() {
+        val phoneInput = "112312312345"
+        assertEquals(false, activity.isValidPhoneNumber(phoneInput))
+    }
+
+    @Test
+    fun testTooShortPhoneNumber() {
+        val phoneInput = "123123123"
+        assertEquals(false, activity.isValidPhoneNumber(phoneInput))
+    }
+
+    @Test
+    fun testEmptyPhoneNumber() {
+        val phoneInput = ""
+        assertEquals(false, activity.isValidPhoneNumber(phoneInput))
+    }
 }
