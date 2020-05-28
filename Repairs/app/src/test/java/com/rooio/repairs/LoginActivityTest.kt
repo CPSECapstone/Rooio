@@ -28,6 +28,7 @@ class LoginActivityTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
+        RestApi.employeeId = "1"
         RestApi.queue = queue
         activity = Robolectric.buildActivity(Login::class.java)
                 .create()

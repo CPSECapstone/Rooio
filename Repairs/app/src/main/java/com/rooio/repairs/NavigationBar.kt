@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -158,14 +159,25 @@ abstract class NavigationBar : RestApi() {
         logoutImage.setOnClickListener{
             startActivity(Intent(this, Landing::class.java))
             //Logan add logic for logging out here//
+            logout()
         }
 
         logoutText.setOnClickListener{
             startActivity(Intent(this, Landing::class.java))
             //Logan add logic for logging out here//
+            logout()
         }
 
         collapseBar(true, navType)
+    }
+
+    private fun logout(){
+        val prefs = getSharedPreferences("UserData", Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        editor.remove(employeeId + "__token")
+        editor.remove(employeeId + "__name")
+        editor.remove(employeeId + "__userLocationId")
+        editor.apply()
     }
 
     private fun collapseBar(isCreating: Boolean, navType: NavigationType){
