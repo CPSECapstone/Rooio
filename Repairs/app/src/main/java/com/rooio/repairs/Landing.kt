@@ -131,6 +131,7 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
             override fun onServiceSuccess(result: Employee, status: ResultStatus) {
                 super.onServiceSuccess(result, status)
                 val name = result.name.toString()
+                val id = result.id
                 Toast.makeText(this@Landing, "Welcome $name!", Toast.LENGTH_SHORT).show()
                 val hasAccount = loggedInUserCheck(id)
                 if (!hasAccount) {
