@@ -269,11 +269,11 @@ class Dashboard : Graph() {
         for (i in 0 until responseObj.length()) {
             val job = responseObj.getJSONObject(i)
             when(job.getInt("status")) {
-                JobType.PENDING.getIntRepr() -> pendingJobs.add(job)
-                JobType.SCHEDULED.getIntRepr()-> scheduledJobs.add(job)
-                JobType.STARTED.getIntRepr() -> inProgressJobs.add(job)
-                JobType.PAUSED.getIntRepr() -> inProgressJobs.add(job)
-                JobType.COMPLETED.getIntRepr() -> archivedJobs.add(job)
+                JobType.PENDING.getInt() -> pendingJobs.add(job)
+                JobType.SCHEDULED.getInt()-> scheduledJobs.add(job)
+                JobType.STARTED.getInt() -> inProgressJobs.add(job)
+                JobType.PAUSED.getInt() -> inProgressJobs.add(job)
+                JobType.COMPLETED.getInt() -> archivedJobs.add(job)
 
             }
         }
@@ -371,7 +371,9 @@ class Dashboard : Graph() {
         //set the date/time
         if (!resultSort[index].isNull("status_time_value")) {
             val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(resultSort[index].getString("status_time_value")))
-            timeText.text = date1!!.toString()
+            @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
+
+            timeText.text = dateFormatter.format(date1)!!.toString()
 
         }
         //address

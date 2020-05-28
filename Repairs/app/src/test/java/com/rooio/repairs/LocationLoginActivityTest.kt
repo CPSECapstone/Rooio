@@ -2,6 +2,7 @@ package com.rooio.repairs
 
 import android.app.Application
 import android.content.Intent
+import android.widget.ListView
 import android.widget.TextView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.android.volley.RequestQueue
@@ -37,6 +38,7 @@ class LocationLoginActivityTest {
 
     @Test
     fun testAddAnotherLocation() {
+        activity.animateActivity(false)
         val button = activity.findViewById(R.id.addAnother) as TextView
         button.performClick()
         val expectedIntent = Intent(activity, AddLocationLogin::class.java)
@@ -45,20 +47,21 @@ class LocationLoginActivityTest {
     }
 
     @Test
-    fun testResponseFunc() {
-        val jsonObj = JSONObject()
+    fun testLocationResponseFuncIntent() {
+        val jsonObj1 = JSONObject()
+                .put("physical_address", "1 Grand Ave.")
+                .put("id", "1")
+        val jsonObj2 = JSONObject()
                 .put("physical_address", "1 Grand Ave.")
                 .put("id", "1")
         activity.responseFunc.apply(JSONArray()
-                .put(jsonObj))
-        assertEquals(Location.addressList[0], "1 Grand Ave.")
-        assertEquals(Location.locationIds[0], "1")
+                .put(jsonObj1).put(jsonObj2))
+        val list = activity.findViewById(R.id.locationListView) as ListView
+        list.performItemClick(list.adapter.getView(0, null, null),
+                0, list.adapter.getItemId(0))
+        val expectedIntent = Intent(activity, PreferredProvidersLogin::class.java)
+        val actual: Intent = Shadows.shadowOf(Application()).nextStartedActivity
+        assertEquals(expectedIntent.component, actual.component)
     }
 
-    @Test
-    fun testErrorFunc() {
-        activity.errorFunc.apply("Server error")
-        val error = activity.findViewById(R.id.errorMessage) as TextView
-        assertEquals(error.text.toString(), "Server error")
-    }
 }

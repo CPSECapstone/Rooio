@@ -71,7 +71,7 @@ class PreferredProvidersCustomAdapter implements ListAdapter {
             ImageView imag = convertView.findViewById(R.id.list_image);
             String name = data.name;
             tittle.setText(name);
-            if(!data.image.isEmpty()) {
+            if(!data.image.equals("")) {
                 Picasso.with(context)
                         .load(data.image)
                         .into(imag);

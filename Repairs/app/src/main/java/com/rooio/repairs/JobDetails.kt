@@ -18,7 +18,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.marginBottom
 import kotlinx.android.synthetic.main.activity_job_details.*
+import android.view.ViewGroup.MarginLayoutParams
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+
+
 
 
 //Job details can be viewed when clicking on a job request found under the Jobs tab
@@ -50,6 +56,8 @@ class JobDetails: NavigationBar() {
     private lateinit var dropDown: ImageView
     private lateinit var equipmentDivider: ImageView
     private lateinit var equipmentLayout: ConstraintLayout
+    private lateinit var jobDetailsInfoLayout: ConstraintLayout
+
     private lateinit var viewEquipment: TextView
     private lateinit var transitionsContainer: ViewGroup
     private lateinit var viewGroup: ViewGroup
@@ -121,6 +129,7 @@ class JobDetails: NavigationBar() {
     private fun initializeAnimationVariables() {
         //Equipment dropdown
         equipmentLayout = transitionsContainer.findViewById(R.id.equipmentLayout)
+        jobDetailsInfoLayout = transitionsContainer.findViewById(R.id.jobDetailInfoLayout)
         equipmentName = transitionsContainer.findViewById(R.id.equipmentName)
         dropDown = transitionsContainer.findViewById(R.id.dropDown)
         manufacturer = transitionsContainer.findViewById(R.id.manufacturerInfo)
@@ -190,15 +199,10 @@ class JobDetails: NavigationBar() {
 
         } else {
             category = "4"
-            equipmentName.text = "--"
-            equipmentName.text = "--"
-            manufacturer.text = "--"
-            serialNumber.text = "--"
-            modelNumber.text = "--"
-            location.text = "--"
-            lastServiceBy.text = "--"
-
-            lastServiceDate.text = ("--")
+            equipmentLayout.visibility = View.GONE
+            viewEquipment.visibility = View.GONE
+            val params = jobDetailsInfoLayout.getLayoutParams() as MarginLayoutParams
+            params.bottomMargin = 20
             }
 
         //set serviceType
@@ -206,8 +210,8 @@ class JobDetails: NavigationBar() {
         when (category) {
             "4" -> {
                 repairCategory = "General Appliance"
-                equipmentLayout.visibility = View.GONE
-                viewEquipment.visibility = View.GONE
+                //equipmentLayout.visibility = View.GONE
+                //viewEquipment.visibility = View.GONE
             }
             "1" ->
                 repairCategory = "HVAC"
@@ -220,10 +224,26 @@ class JobDetails: NavigationBar() {
         restaurantLocation.text = locationObj.getString("physical_address")
         restaurantName.text = internal_client.getString("name")
         availableTechnicians.text = serviceObj.getString("name")
-        if(!response.isNull("status_time_value")){
-            val date2 = (SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(convertToNewFormat(response.getString("status_time_value")))
-            startedOn.text = (date2!!.toString())
+
+
+        if (response.getInt("status") == 5 || response.getInt("status") == 6) {
+            if (!response.isNull("estimated_arrival_time")) {
+                val date2 = (SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(convertToNewFormat(response.getString("estimated_arrival_time")))
+                @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
+
+                startedOn.text = (dateFormatter.format(date2).toString())
+            }
         }
+        else {
+            if (!response.isNull("status_time_value")) {
+                val date2 = (SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(convertToNewFormat(response.getString("status_time_value")))
+                @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
+                startedOn.text = (dateFormatter.format(date2).toString())
+
+            }
+        }
+
+
         pointOfContact.text = (response.getString("point_of_contact_name"))
         details.text = (response.getString("details"))
 
@@ -357,7 +377,7 @@ class JobDetails: NavigationBar() {
     @Throws(ParseException::class)
     fun convertToNewFormat(dateStr: String): String {
         val utc = TimeZone.getTimeZone("UTC")
-        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         sourceFormat.timeZone = utc
         val convertedDate = sourceFormat.parse(dateStr)

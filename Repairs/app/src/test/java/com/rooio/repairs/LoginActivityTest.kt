@@ -90,4 +90,5 @@ class LoginActivityTest {
         val error = activity.findViewById(R.id.errorMessage) as TextView
         assertEquals(error.text.toString(), "Server error")
     }
+
 }

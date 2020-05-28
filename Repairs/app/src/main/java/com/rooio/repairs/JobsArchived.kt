@@ -1,7 +1,6 @@
 package com.rooio.repairs
 
 import android.animation.ObjectAnimator
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -42,8 +41,6 @@ class JobsArchived  : NavigationBar() {
                 @JvmStatic private var cancelledJobs = ArrayList<JSONObject>()
         }
 
-        private lateinit var completedButton: Button
-
         //Main
         override fun onCreate(savedInstanceState: Bundle?) {
                 super.onCreate(savedInstanceState)
@@ -59,6 +56,8 @@ class JobsArchived  : NavigationBar() {
         private fun initialize(){
                 setContentView(R.layout.activity_jobs_archived)
                 //sets the navigation bar onto the page
+                archivedConstraint = findViewById(R.id.archivedConstraint)
+                archivedList = findViewById(R.id.archivedList)
                 cancelledList = findViewById(R.id.cancelledList)
                 cancelledConstraint = findViewById(R.id.cancelledConstraint)
                 declinedList = findViewById(R.id.declinedList)
@@ -102,16 +101,16 @@ class JobsArchived  : NavigationBar() {
                         when(job.getInt("status")){
                                 3 -> {
                                         archivedJobs.add(job)
-                                        if (i > 0) setSize("archived", archivedConstraint)
-                                        setSize("archived", archivedList)}
+                                        if (i > 1) setSize(archivedConstraint)
+                                        setSize(archivedList)}
                                 4 -> {
                                         cancelledJobs.add(job)
-                                        if (i > 0) setSize("cancelled", cancelledConstraint)
-                                        setSize("cancelled", cancelledList) }
+                                        if (i > 1) setSize(cancelledConstraint)
+                                        setSize(cancelledList) }
                                 1 -> {
                                         declinedJobs.add(job)
-                                        if (i > 0) setSize("declined", declinedConstraint)
-                                        setSize("declined", declinedList) }
+                                        if (i > 1) setSize(declinedConstraint)
+                                        setSize(declinedList) }
                         }
                 }
 
@@ -142,7 +141,6 @@ class JobsArchived  : NavigationBar() {
         }
         @JvmField
         var errorFunc = Function<String, Void?> { error: String? ->
-                completedButton.text = error
                 null
         }
 
@@ -157,34 +155,11 @@ class JobsArchived  : NavigationBar() {
 
 
         //Set the sizes of swim lanes based on # of jobs per swim lane
-        private fun setSize(str: String, constraint: ViewGroup) {
-                val value = 175
-                when (str) {
-                        "archived" -> {
-                                val params = constraint.layoutParams
-                                params.height += value
-                                constraint.layoutParams = params
-                        }
-
-                        "cancelled" -> {
-                                val params = constraint.layoutParams
-                                params.height += value
-                                constraint.layoutParams = params
-                        }
-
-                        "started" -> {
-                                val params = constraint.layoutParams
-                                params.height += value
-                                constraint.layoutParams = params
-                        }
-
-                        "declined" -> {
-                                val params = constraint.layoutParams
-                                params.height += value
-                                constraint.layoutParams = params
-                        }
-
-                }
+        private fun setSize(constraint: ViewGroup) {
+                val value = 172
+                val params = constraint.layoutParams
+                params.height += value
+                constraint.layoutParams = params
         }
 
         //Shifting the layout in response to navBar position

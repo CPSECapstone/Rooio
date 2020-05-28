@@ -4,10 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.arch.core.util.Function
 import com.android.volley.Request
 import org.json.JSONException
@@ -27,7 +24,7 @@ class Registration : RestApi() {
     private lateinit var cancelButton: Button
     private lateinit var errorMessage: TextView
     private lateinit var loadingPanel: ProgressBar
-    private var industryInt: Int? = null
+    private var industryInt: Int = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +48,6 @@ class Registration : RestApi() {
         restaurantName = findViewById(R.id.restaurantName)
         errorMessage = findViewById(R.id.errorMessage)
         loadingPanel = findViewById(R.id.loadingPanel)
-        industryInt = 2
     }
     // Sends required information to API and loads the next screen.
     // Error if information is invalid or incorrect
@@ -76,13 +72,9 @@ class Registration : RestApi() {
     val responseFunc = Function<Any, Void?> { response: Any ->
         loadingPanel.visibility = View.GONE
         registerButton.visibility = View.VISIBLE
-        try {
-            val jsonObj = response as JSONObject
-            storeToken(jsonObj)
-            startActivity(Intent(this@Registration, LocationLogin::class.java))
-        } catch (e: JSONException) {
-            errorMessage.setText(R.string.error_server)
-        }
+        val jsonObj = response as JSONObject
+        storeToken(jsonObj)
+        startActivity(Intent(this@Registration, LocationLogin::class.java))
         null
     }
 
@@ -94,8 +86,9 @@ class Registration : RestApi() {
         null
     }
 
+    //Stores the username and password in system
     @Throws(JSONException::class)
-    fun storeToken(responseObj: JSONObject) {
+    private fun storeToken(responseObj: JSONObject) {
         val token = responseObj["token"] as String
         val name = responseObj["first_name"] as String
 
@@ -117,8 +110,7 @@ class Registration : RestApi() {
             return userPassword.length >= 6 &&
                     digitCasePattern.matcher(userPassword).find()
         }
-        else
-            return false
+        else return false
     }
 
     // validates email
@@ -142,9 +134,8 @@ class Registration : RestApi() {
     private fun onRegister() {
         loadingPanel.visibility = View.GONE
         registerButton.visibility = View.VISIBLE
+        errorMessage.text = ""
         registerButton.setOnClickListener {
-            errorMessage.text = ""
-
             if (isFilled)
                 if (isValidEmail(email.text.toString()))
                     if (isValidPassword(passwordVerify.text.toString(), password.text.toString())) {
@@ -156,6 +147,7 @@ class Registration : RestApi() {
         }
     }
 
+    //When the user presses the cancel button to return to the landing page
     private fun onCancel() {
         cancelButton.setOnClickListener { startActivity(Intent(this@Registration, Landing::class.java)) }
     }

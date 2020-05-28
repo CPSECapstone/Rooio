@@ -36,12 +36,37 @@ class RegistrationActivityTest {
     }
 
     @Test
-    fun testCancelLogin() {
+    fun testCancelRegistration() {
         val button = activity.findViewById(R.id.cancelRegistration) as Button
         button.performClick()
         val expectedIntent = Intent(activity, Landing::class.java)
         val actual: Intent = Shadows.shadowOf(Application()).nextStartedActivity
         assertEquals(expectedIntent.component, actual.component)
+    }
+
+
+    @Test
+    fun testRegistrationResponseFunc() {
+        val jsonObj = JSONObject()
+                .put("token","1")
+                .put("first_name","luke")
+        activity.responseFunc.apply(jsonObj)
+        assertEquals(RestApi.userName, "luke")
+    }
+
+
+    @Test
+    fun testRegistrationErrorFunc() {
+        activity.errorFunc.apply("Server error")
+        val error = activity.findViewById(R.id.errorMessage) as TextView
+        assertEquals(error.text.toString(), "Server error")
+    }
+
+    @Test
+    fun testAlreadyRegisteredErrorFunc() {
+        activity.errorFunc.apply("Does not exist.")
+        val error = activity.findViewById(R.id.errorMessage) as TextView
+        assertEquals(error.text.toString(), "Email is already registered with a Roopairs account.")
     }
 
     @Test
@@ -54,7 +79,6 @@ class RegistrationActivityTest {
         val verifyPassword = activity.findViewById(R.id.verifyPassword) as TextView
         val restaurantName = activity.findViewById(R.id.restaurantName) as TextView
 
-
         firstName.text = "Yusuf"
         lastName.text = "Baha"
         email.text = "ybahaduer@calpoly.edu"
@@ -66,8 +90,27 @@ class RegistrationActivityTest {
         assertEquals(error.text.toString(), "Invalid password.")
     }
 
-
     @Test
+    fun testDifferentPasswords() {
+        val button = activity.findViewById(R.id.register) as Button
+        val firstName = activity.findViewById(R.id.firstName) as TextView
+        val lastName = activity.findViewById(R.id.lastName) as TextView
+        val email = activity.findViewById(R.id.email) as TextView
+        val password = activity.findViewById(R.id.password) as TextView
+        val verifyPassword = activity.findViewById(R.id.verifyPassword) as TextView
+        val restaurantName = activity.findViewById(R.id.restaurantName) as TextView
+
+        firstName.text = "Yusuf"
+        lastName.text = "Baha"
+        email.text = "ybahaduer@calpoly.edu"
+        password.text = "123456788"
+        verifyPassword.text = "123456789"
+        restaurantName.text = "bobby"
+        button.performClick()
+        val error = activity.findViewById(R.id.errorMessage) as TextView
+        assertEquals(error.text.toString(), "Invalid password.")
+    }
+
     fun testInvalidEmail() {
         val button = activity.findViewById(R.id.register) as Button
         val firstName = activity.findViewById(R.id.firstName) as TextView
@@ -94,7 +137,6 @@ class RegistrationActivityTest {
     fun testUnfilledFields() {
         val button = activity.findViewById(R.id.register) as Button
         val firstName = activity.findViewById(R.id.firstName) as TextView
-        val lastName = activity.findViewById(R.id.lastName) as TextView
         val email = activity.findViewById(R.id.email) as TextView
         val password = activity.findViewById(R.id.password) as TextView
         val verifyPassword = activity.findViewById(R.id.verifyPassword) as TextView
@@ -129,7 +171,6 @@ class RegistrationActivityTest {
         verifyPassword.text = "Red120poer!o"
         restaurantName.text = "bobby2"
         button.performClick()
-
     }
 
 
