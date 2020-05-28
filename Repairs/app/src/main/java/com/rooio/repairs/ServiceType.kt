@@ -13,7 +13,7 @@ enum class ServiceType(private val value: Int) {
         }
     }
 
-    fun getIntRepr(): Int{
-        return value;
+    fun getInt(): Int{
+        return value
     }
 }

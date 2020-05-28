@@ -82,6 +82,7 @@ RecyclerView.Adapter<ChooseServiceProviderAdapter.MyViewHolder>() {
 
     //Sets the skills text for the item by parsing an array of skills
     private fun setSkills(skills: ArrayList<String>): String {
+        if (skills.isEmpty()) return ""
         var text = ""
         val comma = ", "
         for (skill in skills) {

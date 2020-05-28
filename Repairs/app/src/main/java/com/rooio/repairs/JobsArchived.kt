@@ -1,7 +1,6 @@
 package com.rooio.repairs
 
 import android.animation.ObjectAnimator
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -102,16 +101,16 @@ class JobsArchived  : NavigationBar() {
                         when(job.getInt("status")){
                                 3 -> {
                                         archivedJobs.add(job)
-                                        if (i > 0) setSize("archived", archivedConstraint)
-                                        setSize("archived", archivedList)}
+                                        if (i > 0) setSize(archivedConstraint)
+                                        setSize(archivedList)}
                                 4 -> {
                                         cancelledJobs.add(job)
-                                        if (i > 0) setSize("cancelled", cancelledConstraint)
-                                        setSize("cancelled", cancelledList) }
+                                        if (i > 0) setSize(cancelledConstraint)
+                                        setSize(cancelledList) }
                                 1 -> {
                                         declinedJobs.add(job)
-                                        if (i > 0) setSize("declined", declinedConstraint)
-                                        setSize("declined", declinedList) }
+                                        if (i > 0) setSize(declinedConstraint)
+                                        setSize(declinedList) }
                         }
                 }
 
@@ -157,34 +156,11 @@ class JobsArchived  : NavigationBar() {
 
 
         //Set the sizes of swim lanes based on # of jobs per swim lane
-        private fun setSize(str: String, constraint: ViewGroup) {
+        private fun setSize(constraint: ViewGroup) {
                 val value = 175
-                when (str) {
-                        "archived" -> {
-                                val params = constraint.layoutParams
-                                params.height += value
-                                constraint.layoutParams = params
-                        }
-
-                        "cancelled" -> {
-                                val params = constraint.layoutParams
-                                params.height += value
-                                constraint.layoutParams = params
-                        }
-
-                        "started" -> {
-                                val params = constraint.layoutParams
-                                params.height += value
-                                constraint.layoutParams = params
-                        }
-
-                        "declined" -> {
-                                val params = constraint.layoutParams
-                                params.height += value
-                                constraint.layoutParams = params
-                        }
-
-                }
+                val params = constraint.layoutParams
+                params.height += value
+                constraint.layoutParams = params
         }
 
         //Shifting the layout in response to navBar position
