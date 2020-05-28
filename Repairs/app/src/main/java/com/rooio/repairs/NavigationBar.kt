@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -79,24 +80,29 @@ abstract class NavigationBar : RestApi() {
         initializePage()
         if (navType == NavigationType.DASHBOARD) {
             coloredDashboard.visibility = VISIBLE
+            dashboardImage.visibility = GONE
             dashboardText.setTextColor(Color.parseColor("#00CA8F"))
         }
         if (navType == NavigationType.SETTINGS){
             coloredSettings.visibility = VISIBLE
+            settingsImage.visibility = GONE
             settingsText.setTextColor(Color.parseColor("#00CA8F"))
 
         }
         if (navType == NavigationType.EQUIPMENT){
             coloredEquipment.visibility = VISIBLE
+            equipmentImage.visibility = GONE
             equipmentText.setTextColor(Color.parseColor("#00CA8F"))
         }
         if (navType == NavigationType.JOBS){
             coloredJobs.visibility = VISIBLE
+            jobsImage.visibility = GONE
             jobsText.setTextColor(Color.parseColor("#00CA8F"))
         }
 
         if (navType == NavigationType.ARCHIVED){
             coloredArchived.visibility = VISIBLE
+            archivedImage.visibility = GONE
             //archivedImage.visibility = INVISIBLE
             archivedText.setTextColor(Color.parseColor("#00CA8F"))
         }
