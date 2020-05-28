@@ -3,11 +3,16 @@ package com.rooio.repairs
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.arch.core.util.Function
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.transition.TransitionManager
 import com.android.volley.Request
 import com.google.android.material.textfield.TextInputEditText
@@ -34,6 +39,7 @@ class CreateJobDetails: RestApi() {
     private lateinit var time: TimePicker
     private lateinit var contact: TextInputEditText
     private lateinit var phoneNumber: TextInputEditText
+    private lateinit var phoneNumberText: TextView
     private lateinit var sendRequestButton: Button
     private lateinit var errorMsg: TextView
     private lateinit var errorMsgTime: TextView
@@ -83,13 +89,17 @@ class CreateJobDetails: RestApi() {
         time = findViewById(R.id.timeInput)
         contact = findViewById(R.id.contactInput)
         phoneNumber = findViewById(R.id.phoneNumberInput)
+        phoneNumberText = findViewById(R.id.phoneNumberText)
+
+        var phoneNumberTextString = "What's their phone number?"
+        setOptionalTextGray(phoneNumberTextString, phoneNumberTextString.length)
 
         // changing UI to display contact name in the prompt
         contact.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            val phoneNumberText: TextView = findViewById(R.id.phoneNumberText)
             val name = contact.text
             if(!hasFocus && !name!!.isBlank()){
-                phoneNumberText.text = "What's $name's phone number?"
+                phoneNumberTextString = "What's $name's phone number?"
+                setOptionalTextGray(phoneNumberTextString, phoneNumberTextString.length)
             }
         }
 
@@ -129,6 +139,17 @@ class CreateJobDetails: RestApi() {
 
         // resetting error message
         time.setOnTimeChangedListener { _, _, _ ->  errorMsgTime.visibility = View.GONE }
+    }
+
+    private fun setOptionalTextGray(phoneTextString: String, startGrayIndex: Int) {
+        var stringWithOpt = "$phoneTextString (optional)"
+        var phoneSpannableString = SpannableString(stringWithOpt.toUpperCase())
+        phoneSpannableString.setSpan(
+                ForegroundColorSpan(ContextCompat.getColor(this, R.color.darkGray)),
+                startGrayIndex,
+                stringWithOpt.length,
+                Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        phoneNumberText.text = phoneSpannableString
     }
 
     // sets time picker to show 15 minute intervals

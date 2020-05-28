@@ -488,7 +488,6 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito"
                         android:text="@string/what_s_their_phone_number"
-                        android:textAllCaps="true"
                         android:textColor="@color/colorPrimary"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
