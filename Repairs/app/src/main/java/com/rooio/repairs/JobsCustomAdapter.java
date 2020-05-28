@@ -202,16 +202,26 @@ class JobsCustomAdapter implements ListAdapter {
 
                 if(status_enum == 5 || status_enum == 6){
                     if (!(data.isNull("estimated_arrival_time") )){
-                        @SuppressLint("SimpleDateFormat") Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("estimated_arrival_time")));
+                        @SuppressLint("SimpleDateFormat") Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("estimated_arrival_time"), false));
                         @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz");
 
                         assert date1 != null;
                         timeText.setText(dateFormatter.format(date1).toString());
                     }
                 }
+                else if (status_enum == 1 || status_enum == 3 || status_enum == 4) {
+                    if (!(data.isNull("status_time_value") )){
+                        @SuppressLint("SimpleDateFormat") Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("status_time_value"), true));
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz");
+
+                        assert date1 != null;
+                        timeText.setText(dateFormatter.format(date1).toString());
+
+                    }
+                }
                 else{
                     if (!(data.isNull("status_time_value") )){
-                        @SuppressLint("SimpleDateFormat") Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("status_time_value")));
+                        @SuppressLint("SimpleDateFormat") Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("status_time_value"), false));
                         @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz");
 
                         assert date1 != null;
@@ -275,9 +285,14 @@ class JobsCustomAdapter implements ListAdapter {
         return convertView;
     }
 
-    private static String convertToNewFormat(String dateStr) throws ParseException {
+    private static String convertToNewFormat(String dateStr, boolean status ) throws ParseException {
         TimeZone utc = TimeZone.getTimeZone("UTC");
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat sourceFormat;
+        if (status) {
+            sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        }else {
+            sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        }
         @SuppressLint("SimpleDateFormat") SimpleDateFormat destFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         sourceFormat.setTimeZone(utc);
         Date convertedDate = sourceFormat.parse(dateStr);
@@ -285,8 +300,8 @@ class JobsCustomAdapter implements ListAdapter {
         return destFormat.format(convertedDate);
     }
 
-    private   String timeConvert(String dateStr) throws ParseException {
-        String eta = convertToNewFormat(dateStr);
+    private String timeConvert(String dateStr) throws ParseException {
+        String eta = convertToNewFormat(dateStr, false);
 
         //GET NOW DATE + TIME
         String now = now();

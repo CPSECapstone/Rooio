@@ -377,7 +377,7 @@ class JobDetails: NavigationBar() {
     @Throws(ParseException::class)
     fun convertToNewFormat(dateStr: String): String {
         val utc = TimeZone.getTimeZone("UTC")
-        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         sourceFormat.timeZone = utc
         val convertedDate = sourceFormat.parse(dateStr)
