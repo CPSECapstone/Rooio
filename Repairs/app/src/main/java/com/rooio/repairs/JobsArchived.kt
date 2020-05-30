@@ -104,6 +104,7 @@ class JobsArchived  : NavigationBar() {
                                         declinedJobs.add(job)
                                         if (i > 1) setSize(declinedConstraint)
                                         setSize(declinedList) }
+                                else -> Unit
                         }
                 }
 

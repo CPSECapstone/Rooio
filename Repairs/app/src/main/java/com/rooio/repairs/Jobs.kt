@@ -134,6 +134,7 @@ class Jobs : NavigationBar() {
                     if (i > 0) setSize(inProgressConstraint)
                     setSize(inProgressList)
                 }
+                else -> Unit
             }
 
         }
