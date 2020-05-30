@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
+import kotlinx.android.synthetic.main.activity_choose_equipment.*
 import org.json.JSONArray
 
 class ChooseEquipment : RestApi() {
@@ -24,6 +25,7 @@ class ChooseEquipment : RestApi() {
     private lateinit var textView: TextView
     private var equipmentObjectList: ArrayList<EquipmentData> = ArrayList()
     private lateinit var backButton: ImageView
+    private lateinit var chooseEquipmentText: TextView
     var pageType = 1
 
 
@@ -44,6 +46,7 @@ class ChooseEquipment : RestApi() {
         search = findViewById(R.id.search)
         loadingPanel = findViewById(R.id.loadingPanel)
         noEquipmentMessage = findViewById(R.id.noEquipment)
+        chooseEquipmentText = findViewById(R.id.chooseEquipmentTitle)
     }
 
     //Click to go back to Dashboard
@@ -102,6 +105,7 @@ class ChooseEquipment : RestApi() {
             noEquipmentMessage.visibility = View.INVISIBLE
         }
         setSearchBarText(equipmentType)
+        setChooseEquipmentText(equipmentType)
         setFilter()
     }
 
@@ -111,6 +115,15 @@ class ChooseEquipment : RestApi() {
             2 -> search.hint = getString(R.string.search_lighting)
             3 -> search.hint = getString(R.string.search_plumbing)
             4 -> search.hint = getString(R.string.search_general_appliance)
+        }
+    }
+
+    private fun setChooseEquipmentText(equipmentType: Int) {
+        when (equipmentType) {
+            1 -> chooseEquipmentTitle.text = "Choose HVAC Equipment"
+            2 -> chooseEquipmentTitle.text = "Choose Lighting Equipment"
+            3 -> chooseEquipmentTitle.text = "Choose Plumbing Equipment"
+            4 -> chooseEquipmentTitle.text = "Choose Appliance Equipment"
         }
     }
     //loads the first equipment based on the enum, aka the kind of job request the user clicked on
