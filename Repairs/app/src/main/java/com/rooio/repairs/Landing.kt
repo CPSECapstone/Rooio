@@ -71,6 +71,7 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
     }
 
     private fun onConnectAccount() {
+        employeeId= "1"
         connectAccount.setOnClickListener {
             val login = Intent(this@Landing, Login::class.java)
             startActivity(login)
