@@ -101,16 +101,16 @@ class JobsArchived  : NavigationBar() {
                         when(job.getInt("status")){
                                 3 -> {
                                         archivedJobs.add(job)
-                                        if (i > 1) setSize(archivedConstraint)
-                                        setSize(archivedList)}
+                                        if (i > 1) setSize(160, archivedConstraint)
+                                        setSize(172, archivedList)}
                                 4 -> {
                                         cancelledJobs.add(job)
-                                        if (i > 1) setSize(cancelledConstraint)
-                                        setSize(cancelledList) }
+                                        if (i > 1) setSize(160, cancelledConstraint)
+                                        setSize(172, cancelledList) }
                                 1 -> {
                                         declinedJobs.add(job)
-                                        if (i > 1) setSize(declinedConstraint)
-                                        setSize(declinedList) }
+                                        if (i > 1) setSize(160, declinedConstraint)
+                                        setSize(172, declinedList) }
                         }
                 }
 
@@ -155,8 +155,7 @@ class JobsArchived  : NavigationBar() {
 
 
         //Set the sizes of swim lanes based on # of jobs per swim lane
-        private fun setSize(constraint: ViewGroup) {
-                val value = 172
+        private fun setSize(value: Int, constraint: ViewGroup) {
                 val params = constraint.layoutParams
                 params.height += value
                 constraint.layoutParams = params

@@ -113,29 +113,30 @@ class Jobs : NavigationBar() {
             when (job.getInt("status")){
                 0 ->{
                     pendingJobs.add(job)
-                    if (i > 0) setSize(pendingConstraint)
-                    setSize(pendingList)
+                    if (i > 0) setSize(160, pendingConstraint)
+                    setSize(172, pendingList)
                 }
                 2 ->
                 {
                     scheduledJobs.add(job)
-                    if (i > 0) setSize(scheduledConstraint)
-                    setSize(scheduledList)
+                    if (i > 0) setSize(160, scheduledConstraint)
+                    setSize(172, scheduledList)
                 }
                 5 ->
                 {
                     startedJobs.add(job)
-                    if (i > 0) setSize(inProgressConstraint)
-                    setSize(inProgressList)
+                    if (i > 0) setSize(160, inProgressConstraint)
+                    setSize(172, inProgressList)
                 }
                 6 -> {
                     pausedJobs.add(job)
-                    if (i > 0) setSize(inProgressConstraint)
-                    setSize(inProgressList)
+                    if (i > 0) setSize(160, inProgressConstraint)
+                    setSize(172, inProgressList)
                 }
             }
 
         }
+
 
         for(i in 0 until startedJobs.size){
             inProgressJobs.add(startedJobs[i])
@@ -191,8 +192,7 @@ class Jobs : NavigationBar() {
 
 
     //Set the sizes
-    private fun setSize(constraint: ViewGroup){
-        val value = 172
+    private fun setSize(value: Int, constraint: ViewGroup){
         val params = constraint.layoutParams
         params.height += value
         constraint.layoutParams = params
