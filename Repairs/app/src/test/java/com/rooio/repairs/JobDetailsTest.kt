@@ -32,9 +32,13 @@ class JobDetailsTest {
 
     @Test
     fun convertToNewFormat() {
+        val date = ""
+        assertEquals(activity.convertToNewFormat(date), "")
     }
 
     @Test
     fun convertToNewFormat2() {
+        val date = ""
+        assertEquals(activity.convertToNewFormat2(date), "")
     }
 }
