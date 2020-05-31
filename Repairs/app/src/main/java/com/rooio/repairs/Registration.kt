@@ -29,10 +29,12 @@ class Registration : RestApi() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
+        onResume()
         centerTitleBar()
         initializeVariables()
         onRegister()
         onCancel()
+        onPause()
     }
 
     //Initializes UI variables

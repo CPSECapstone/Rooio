@@ -40,6 +40,7 @@ class PreferredProviderDetails: NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preferred_providers_details)
 
+        onResume()
         //initializes variables that are used in loadElements()
         initializeVariables()
         setNavigationBar()
@@ -48,6 +49,7 @@ class PreferredProviderDetails: NavigationBar() {
         onBackClick()
         loadProvider()
         onRemoveClick()
+        onPause()
 
     }
     //Initializes UI variables

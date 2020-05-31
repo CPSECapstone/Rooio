@@ -19,6 +19,7 @@ class LocationSettings  : Location()  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_settings)
 
+        onResume()
         initializeVariables()
         setNavigationBar()
         setActionBar()
@@ -26,6 +27,7 @@ class LocationSettings  : Location()  {
         loadLocations(jsonRequest)
         onAddAnother()
         onBack()
+        onPause()
     }
 
     //Initializes UI variables

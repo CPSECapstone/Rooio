@@ -31,10 +31,12 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
+        onResume()
         centerTitleBar()
         initializeVariables()
         onCreateAccount()
         onConnectAccount()
+        onPause()
     }
 
     //Initializes UI variables
@@ -71,7 +73,7 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
     }
 
     private fun onConnectAccount() {
-        employeeId= "1"
+        //employeeId= "1"
         connectAccount.setOnClickListener {
             val login = Intent(this@Landing, Login::class.java)
             startActivity(login)

@@ -32,10 +32,12 @@ class ChooseEquipment : RestApi() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_equipment)
+        onResume()
         setActionBar()
         initializeVariables()
         onBackClick()
         loadEquipmentElements()
+        onPause()
     }
 
     //Initializes variables that are used in loadElements()
