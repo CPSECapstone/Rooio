@@ -3,7 +3,6 @@ package com.rooio.repairs
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +24,7 @@ class DashboardCustomAdapter (private val context: Context, private val dataList
 
     //notable_job_list view
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val repairType = itemView.findViewById<TextView>(R.id.repairType)
+        val repairType: TextView = itemView.findViewById(R.id.repairType)
         var name: TextView = itemView.findViewById(R.id.name)
         var address: TextView = itemView.findViewById(R.id.address)
         var image: ImageView = itemView.findViewById(R.id.image)
@@ -42,12 +41,12 @@ class DashboardCustomAdapter (private val context: Context, private val dataList
 
     //Updates the view for the correct item information based on position
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val data: JobData = dataList.get(position)
+        val data: JobData = dataList[position]
         try {
             val jobStatus = data.status
             // set color for each job widget
             DrawableCompat.setTint(
-                    DrawableCompat.wrap(holder.color.getBackground()),
+                    DrawableCompat.wrap(holder.color.background),
                     ContextCompat.getColor(context, jobStatus.getColor())
             )
 
@@ -57,54 +56,51 @@ class DashboardCustomAdapter (private val context: Context, private val dataList
             if (equipmentObjList.size != 0) {
                 val equipmentObj = equipmentObjList[0]
                 val str1 = equipmentObj.name + " " + data.serviceType.toString()
-                holder.repairType.setText(str1)
+                holder.repairType.text = str1
             } else {
                 val str = "General " + data.strRepr
-                holder.repairType.setText(str)
+                holder.repairType.text = str
             }
 
             //Get Service Location
             val locationObj = data.serviceLocation
-            holder.address.setText(locationObj.getString("physical_address"))
+            holder.address.text = locationObj.getString("physical_address")
 
             //Get Restaurant Name
-            val internal_client = locationObj.getJSONObject("internal_client")
-            holder.name.setText(internal_client.getString("name"))
+            val internalClient = locationObj.getJSONObject("internal_client")
+            holder.name.text = internalClient.getString("name")
 
             // Setting time text
             if (jobStatus === JobType.STARTED || jobStatus === JobType.PAUSED) {
-                if (!data.estimatedArrivalTime.isEmpty()) {
+                if (data.estimatedArrivalTime.isNotEmpty()) {
                     @SuppressLint("SimpleDateFormat") val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.estimatedArrivalTime, false))
                     @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
-                    assert(date1 != null)
-                    holder.timeText.setText(dateFormatter.format(date1))
+                    holder.timeText.text = dateFormatter.format(date1!!)
                 }
             } else if (jobStatus === JobType.DECLINED || jobStatus === JobType.COMPLETED || jobStatus === JobType.CANCELLED) {
-                if (!data.statusTimeValue.isEmpty()) {
+                if (data.statusTimeValue.isNotEmpty()) {
                     @SuppressLint("SimpleDateFormat") val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.statusTimeValue, true))
                     @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
-                    assert(date1 != null)
-                    holder.timeText.setText(dateFormatter.format(date1))
+                    holder.timeText.text = dateFormatter.format(date1!!)
                 }
             } else {
-                if (!data.statusTimeValue.isEmpty()) {
+                if (data.statusTimeValue.isNotEmpty()) {
                     @SuppressLint("SimpleDateFormat") val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.statusTimeValue, false))
                     @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
-                    assert(date1 != null)
-                    holder.timeText.setText(dateFormatter.format(date1))
+                    holder.timeText.text = dateFormatter.format(date1!!)
                 }
             }
             //Checks if Image
             // If no Image then Move Text Over
-            val imageVal = internal_client.getString("logo")
+            val imageVal = internalClient.getString("logo")
             if (imageVal.isEmpty() || imageVal == "null") {
-                holder.name.setTranslationX(-80f)
-                holder.repairType.setTranslationX(-80f)
-                holder.address.setTranslationX(-80f)
-                holder.image.setVisibility(View.GONE)
+                holder.name.translationX = -80f
+                holder.repairType.translationX = -80f
+                holder.address.translationX = -80f
+                holder.image.visibility = View.GONE
             } else {
                 Picasso.with(context)
-                        .load(internal_client.getString("logo")
+                        .load(internalClient.getString("logo")
                         )
                         .into(holder.image)
             }
@@ -115,12 +111,12 @@ class DashboardCustomAdapter (private val context: Context, private val dataList
         }
 
         //JobId Holds the JobId. ** Displays on UI as a string for testing purposes**
-        holder.jobsButton.setOnClickListener(View.OnClickListener { v: View? ->
+        holder.jobsButton.setOnClickListener {
             val jobId = data.id
             val intent = Intent(context, JobDetails::class.java)
             intent.putExtra("id", jobId)
             context.startActivity(intent)
-        })
+        }
     }
 
     //Gets number of providers
@@ -131,8 +127,7 @@ class DashboardCustomAdapter (private val context: Context, private val dataList
     @Throws(ParseException::class)
     private fun convertToNewFormat(dateStr: String, status: Boolean): String {
         val utc = TimeZone.getTimeZone("UTC")
-        val sourceFormat: SimpleDateFormat
-        sourceFormat = if (status) {
+        val sourceFormat: SimpleDateFormat = if (status) {
             SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         } else {
             SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
