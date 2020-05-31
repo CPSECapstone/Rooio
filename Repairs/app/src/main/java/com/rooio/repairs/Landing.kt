@@ -133,13 +133,21 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
                 val name = result.name.toString()
                 val id = result.id
                 Toast.makeText(this@Landing, "Welcome $name!", Toast.LENGTH_SHORT).show()
-                val hasAccount = loggedInUserCheck(id)
-                if (!hasAccount) {
-                     startActivity(Intent(this@Landing, Login::class.java))
+                when(result.role.toString()){
+                    "EMPLOYEE" -> {
+                        val hasAccount = loggedInUserCheck(id)
+                        if (!hasAccount) {
+                            startActivity(Intent(this@Landing, Login::class.java))
+                        }
+                    }
+                    else -> {
+                        loggedInUserCheck(id)
+                    }
                 }
             }
         })
     }
+
 
     override fun onActiveEmployeeChanged(employee: Employee?) {}
 
