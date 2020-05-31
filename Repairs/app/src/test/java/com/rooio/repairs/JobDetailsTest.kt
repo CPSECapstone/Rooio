@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.widget.TextView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.android.volley.RequestQueue
 import org.junit.Test
@@ -31,14 +32,30 @@ class JobDetailsTest {
     }
 
     @Test
-    fun convertToNewFormat() {
-        val date = ""
-        assertEquals(activity.convertToNewFormat(date), "")
+    fun testConvertToNewFormat() {
+        val date = "2020-01-23T20:23:45.123Z"
+        val formattedDate = "2020-01-23 12:23:45"
+        assertEquals(formattedDate, activity.convertToNewFormat(date))
     }
 
     @Test
-    fun convertToNewFormat2() {
-        val date = ""
-        assertEquals(activity.convertToNewFormat2(date), "")
+    fun test2ConvertToNewFormat() {
+        val date = "2020-01-23T20:23:45Z"
+        val formattedDate = "2020-01-23 12:23:45"
+        assertEquals(formattedDate, activity.convertToNewFormat(date))
+    }
+
+    @Test
+    fun testConvertToNewFormat2() {
+        val date = "2020-01-23"
+        val formattedDate = "2020-01-22"
+        assertEquals(formattedDate, activity.convertToNewFormat2(date))
+    }
+
+    @Test
+    fun testErrorFunc() {
+        activity.errorFunc.apply("Server error")
+        val error = activity.findViewById(R.id.errorMessage) as TextView
+        assertEquals(error.text.toString(), "Server error")
     }
 }
