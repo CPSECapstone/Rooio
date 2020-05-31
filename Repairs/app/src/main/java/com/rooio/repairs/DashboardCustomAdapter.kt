@@ -53,14 +53,15 @@ class DashboardCustomAdapter (private val context: Context, private val dataList
             //Sets the Equipment for Job: May be multiple equipment per job
             // Only handling one equipment per job right now
             val equipmentObjList = data.equipmentList
+            var jobTitle = "General " + data.strRepr
+
             if (equipmentObjList.size != 0) {
                 val equipmentObj = equipmentObjList[0]
-                val str1 = equipmentObj.name + " " + data.serviceType.toString()
-                holder.repairType.text = str1
-            } else {
-                val str = "General " + data.strRepr
-                holder.repairType.text = str
+                jobTitle = equipmentObj.name + " " + data.serviceType.toString()
             }
+
+            holder.repairType.text = jobTitle
+
 
             //Get Service Location
             val locationObj = data.serviceLocation
@@ -93,7 +94,7 @@ class DashboardCustomAdapter (private val context: Context, private val dataList
             //Checks if Image
             // If no Image then Move Text Over
             val imageVal = internalClient.getString("logo")
-            if (imageVal.isEmpty() || imageVal == "null") {
+            if (imageVal.isEmpty()) {
                 holder.name.translationX = -80f
                 holder.repairType.translationX = -80f
                 holder.address.translationX = -80f
@@ -104,9 +105,7 @@ class DashboardCustomAdapter (private val context: Context, private val dataList
                         )
                         .into(holder.image)
             }
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        } catch (e: ParseException) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
