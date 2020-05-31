@@ -1,6 +1,5 @@
 package com.rooio.repairs
 
-
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -58,11 +57,11 @@ class Dashboard : Graph() {
     private var jobHistoryMap = HashMap<String, JSONObject>()
 
     companion object{
-        @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
-        @JvmStatic private var scheduledJobs = ArrayList<JSONObject>()
-        @JvmStatic private var inProgressJobs = ArrayList<JSONObject>()
-        @JvmStatic private var archivedJobs = ArrayList<JSONObject>()
-        @JvmStatic private var resultSort = ArrayList<JSONObject>()
+        @JvmStatic private var pendingJobs = ArrayList<JobData>()
+        @JvmStatic private var scheduledJobs = ArrayList<JobData>()
+        @JvmStatic private var inProgressJobs = ArrayList<JobData>()
+        @JvmStatic private var archivedJobs = ArrayList<JobData>()
+        @JvmStatic private var resultSort = ArrayList<JobData>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -267,14 +266,16 @@ class Dashboard : Graph() {
     private fun populateLists(responseObj: JSONArray){
         clearLists()
         for (i in 0 until responseObj.length()) {
-            val job = responseObj.getJSONObject(i)
-            when(job.getInt("status")) {
-                JobType.PENDING.getInt() -> pendingJobs.add(job)
-                JobType.SCHEDULED.getInt()-> scheduledJobs.add(job)
-                JobType.STARTED.getInt() -> inProgressJobs.add(job)
-                JobType.PAUSED.getInt() -> inProgressJobs.add(job)
-                JobType.COMPLETED.getInt() -> archivedJobs.add(job)
-
+            val job = JobData(responseObj.getJSONObject(i))
+            //val job = responseObj.getJSONObject(i)
+            when(job.status) {
+                JobType.PENDING -> pendingJobs.add(job)
+                JobType.SCHEDULED -> scheduledJobs.add(job)
+                JobType.STARTED -> inProgressJobs.add(job)
+                JobType.PAUSED-> inProgressJobs.add(job)
+                JobType.COMPLETED -> archivedJobs.add(job)
+                // else do nothing
+                else -> Unit
             }
         }
         notableJobsFill()
@@ -289,31 +290,29 @@ class Dashboard : Graph() {
 
     //Filter notable jobs by #1 Pending Jobs, #2 inProgress Jobs, #3 scheduled jobs
     private fun notableJobsFill() {
-        Log.e("pendingJobsSIZE", pendingJobs.size.toString())
-        Log.e("inProgressSIZE", inProgressJobs.size.toString())
-        Log.e("scheduledSIZE", scheduledJobs.size.toString())
+        Log.i("pendingJobsSIZE", pendingJobs.size.toString())
+        Log.i("inProgressSIZE", inProgressJobs.size.toString())
+        Log.i("scheduledSIZE", scheduledJobs.size.toString())
+
+        jobsLayout.visibility = (View.VISIBLE)
 
         if (pendingJobs.size != 0) {
             // Sort PendingJobs and fill in
-            jobsLayout.visibility = (View.VISIBLE)
             resultSort = sortJobsList(pendingJobs)
-            loadNotable(0, 3)
+            loadNotable()
         }
         else if (inProgressJobs.size != 0){
             //Sort inProgressJobs and fill in
-            jobsLayout.visibility = (View.VISIBLE)
             resultSort = sortJobsList(inProgressJobs)
-            loadNotable(0, 2)
+            loadNotable()
         }
         else if (scheduledJobs.size != 0){
             //Check if there is a scheduled job today
-            var i = 0
-            jobsLayout.visibility = (View.VISIBLE)
             resultSort = sortJobsList(scheduledJobs)
-            loadNotable(0, 1)
-
+            loadNotable()
         }
         else{
+            jobsLayout.visibility = (View.GONE)
             noJob.visibility = (View.VISIBLE)
             noJob.text = resources.getString(R.string.no_jobs)
             repairImage.visibility = (View.GONE)
@@ -343,43 +342,38 @@ class Dashboard : Graph() {
 
     //Load the Notable Jobs with the JsonObject info
     @SuppressLint("SimpleDateFormat")
-    private fun loadNotable(index: Int, colorStatus: Int ){
-        val locationObj = resultSort[index].getJSONObject("service_location")
-        val internalClient = locationObj.getJSONObject("internal_client")
+    private fun loadNotable(){
+        val jobData = resultSort[0]
 
-        val equipmentObjList = resultSort[index].getJSONArray("equipment")
-
-        val equipmentObj = equipmentObjList.optJSONObject(0)
-
-        lateinit var category: String
-        category = if (equipmentObj != null) {
-            equipmentObj.getString("service_category")
-        } else { "4" }
-
-        //repair type
-        when (category) {
-            "4" ->
-                //categories.add("General Appliance")
-                repairType.text = resources.getString(R.string.generalAppliance)
-            "1" ->
-                repairType.text = resources.getString(R.string.hvac)
-            "2" ->
-                repairType.text = resources.getString(R.string.lightingAndElectrical)
-            "3" ->
-                repairType.text = resources.getString(R.string.plumbing)
+        val equipmentObjList = jobData.equipmentList
+        if (equipmentObjList.size != 0) {
+            val equipmentObj = equipmentObjList[0]
+            val str1 = equipmentObj.name + " " + jobData.serviceType.toString()
+            repairType.text = str1
+        } else {
+            val str = "General " + jobData.strRepr
+            repairType.text = str
         }
+
+        // set color for each job widget
+        // set color for each job widget
+        DrawableCompat.setTint(
+                DrawableCompat.wrap(color.background),
+                ContextCompat.getColor(this, jobData.status.getColor())
+        )
+
         //set the date/time
-        if (!resultSort[index].isNull("status_time_value")) {
-            val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(resultSort[index].getString("status_time_value")))
+        if (jobData.statusTimeValue.isNotEmpty()) {
+            val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(jobData.statusTimeValue))
             @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
 
-            timeText.text = dateFormatter.format(date1)!!.toString()
+            timeText.text = dateFormatter.format(date1).toString()
 
         }
-        //address
-        address.text = locationObj.getString("physical_address")
 
-        //name
+        val locationObj = jobData.serviceLocation
+        val internalClient = locationObj.getJSONObject("internal_client")
+        address.text = locationObj.getString("physical_address")
         name.text = internalClient.getString("name")
 
         //load logo
@@ -400,45 +394,11 @@ class Dashboard : Graph() {
 
         //Navigate to JobDetails after a click of the job
         notableJob.setOnClickListener {
-            try {
-                val jobId = resultSort[index].getString("id")
-
-                val intent = Intent(this, JobDetails::class.java)
-                intent.putExtra("id", jobId.toString())
-
-                this.startActivity(intent)
-
-            } catch (e: JSONException) {
-                Log.d("exception", e.toString())
-            }
+            val jobId = jobData.id
+            val intent = Intent(this, JobDetails::class.java)
+            intent.putExtra("id", jobId)
+            this.startActivity(intent)
         }
-
-        //Change the color of the job
-        when (colorStatus) {
-            //Scheduled
-            1 -> {
-                //Time Based Statuses
-                DrawableCompat.setTint(
-                        DrawableCompat.wrap(color.background),
-                        ContextCompat.getColor(this, R.color.Blue))
-
-            }
-            //In Progress swim lane Status
-            2 -> {
-                DrawableCompat.setTint(
-                        DrawableCompat.wrap(color.background),
-                        ContextCompat.getColor(this, R.color.colorPrimary)
-                )
-            }
-            //Pending swim lane Status
-            3 -> {
-                DrawableCompat.setTint(
-                        DrawableCompat.wrap(color.background),
-                        ContextCompat.getColor(this, R.color.Purple)
-                )
-            }
-        }
-
     }
 
     //Animate dashboard for navigation bar expand
@@ -514,6 +474,7 @@ class Dashboard : Graph() {
         if (boolean) animation.duration = 900 else animation.duration = 300
         animation.start()
     }
+
     //Convert to new format
     @SuppressLint("SimpleDateFormat")
     @Throws(ParseException::class)
@@ -526,10 +487,10 @@ class Dashboard : Graph() {
         return destFormat.format(convertedDate!!)
     }
 
-     private fun sortJobsList(list: ArrayList<JSONObject>):ArrayList<JSONObject> {
+     private fun sortJobsList(list: ArrayList<JobData>):ArrayList<JobData> {
 
-        Collections.sort(list, JSONComparator())
-
-        return list
+//        Collections.sort(list, JSONComparator())
+         list.sortWith(compareBy { it.statusTimeValue })
+         return list
     }
 }
