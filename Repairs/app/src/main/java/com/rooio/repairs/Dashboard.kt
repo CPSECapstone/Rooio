@@ -1,6 +1,5 @@
 package com.rooio.repairs
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -18,9 +17,6 @@ import com.github.mikephil.charting.charts.LineChart
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -38,7 +34,6 @@ class Dashboard : Graph() {
     private lateinit var inProgressButton: Button
     private lateinit var nameGreeting: TextView
     private lateinit var loadingPanel: ProgressBar
-    private var imageOn = false
     private var jobHistoryMap = HashMap<String, JSONObject>()
 
     private lateinit var notableJobView: RecyclerView
@@ -317,26 +312,6 @@ class Dashboard : Graph() {
         }
     }
 
-    //convert to proper format "yyyy-MM-dd HH:mm:ss"
-    @SuppressLint("SimpleDateFormat")
-    @Throws(ParseException::class)
-    fun timeConvert(dateStr: String): Int {
-        val eta = convertToNewFormat(dateStr)
-        //GET NOW DATE + TIME
-        val now = now()
-        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-
-        //If past due then return 0
-        return if (sdf.parse(eta)!!.before(sdf.parse(now))) 0 else 1
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun now(): String {
-        val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val c = Calendar.getInstance()
-        return df.format(c.time)
-    }
-
     //Animate dashboard for navigation bar expand
     override fun animateActivity(boolean: Boolean){
         val viewGroup = findViewById<ViewGroup>(R.id.dashboardConstraint)
@@ -391,18 +366,6 @@ class Dashboard : Graph() {
         //calling the transitions
         notableJobs.layoutParams = notableJobsParams
         newJobRequest.layoutParams = newJobRequestParams
-    }
-
-    //Convert to new format
-    @SuppressLint("SimpleDateFormat")
-    @Throws(ParseException::class)
-    fun convertToNewFormat(dateStr: String): String {
-        val utc = TimeZone.getTimeZone("UTC")
-        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-        val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        sourceFormat.timeZone = utc
-        val convertedDate = sourceFormat.parse(dateStr)
-        return destFormat.format(convertedDate!!)
     }
 
      private fun sortJobsList(list: ArrayList<JobData>):ArrayList<JobData> {
