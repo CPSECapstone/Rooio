@@ -371,7 +371,7 @@ class Dashboard : Graph() {
         //set the date/time
         if (!resultSort[index].isNull("status_time_value")) {
             val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(resultSort[index].getString("status_time_value")))
-            @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
+            @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("MMMM d, y hh:mm a zzz")
 
             timeText.text = dateFormatter.format(date1)!!.toString()
 
@@ -514,16 +514,28 @@ class Dashboard : Graph() {
         if (boolean) animation.duration = 900 else animation.duration = 300
         animation.start()
     }
-    //Convert to new format
+
     @SuppressLint("SimpleDateFormat")
     @Throws(ParseException::class)
     fun convertToNewFormat(dateStr: String): String {
         val utc = TimeZone.getTimeZone("UTC")
-        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-        val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        sourceFormat.timeZone = utc
-        val convertedDate = sourceFormat.parse(dateStr)
-        return destFormat.format(convertedDate!!)
+        try{
+
+            val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            sourceFormat.timeZone = utc
+            val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val convertedDate = sourceFormat.parse(dateStr)
+            return destFormat.format(convertedDate!!)
+
+        }
+        catch(e: ParseException  ){
+            val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+            sourceFormat.timeZone = utc
+            val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val convertedDate = sourceFormat.parse(dateStr)
+            return destFormat.format(convertedDate!!)
+
+        }
     }
 
      private fun sortJobsList(list: ArrayList<JSONObject>):ArrayList<JSONObject> {
