@@ -101,15 +101,15 @@ class JobsArchived  : NavigationBar() {
                         when(job.getInt("status")){
                                 3 -> {
                                         archivedJobs.add(job)
-                                        if (i > 1) setSize(archivedConstraint)
+                                        if (i > 0) setSize(archivedConstraint)
                                         setSize(archivedList)}
                                 4 -> {
                                         cancelledJobs.add(job)
-                                        if (i > 1) setSize(cancelledConstraint)
+                                        if (i > 0) setSize(cancelledConstraint)
                                         setSize(cancelledList) }
                                 1 -> {
                                         declinedJobs.add(job)
-                                        if (i > 1) setSize(declinedConstraint)
+                                        if (i > 0) setSize(declinedConstraint)
                                         setSize(declinedList) }
                         }
                 }
