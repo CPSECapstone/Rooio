@@ -45,6 +45,7 @@ class Jobs : NavigationBar() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jobs)
+        onResume()
         pendingText = findViewById(R.id.pendingText)
         pendingList = findViewById(R.id.pendingList)
         scheduledList = findViewById(R.id.scheduledList)
@@ -63,6 +64,7 @@ class Jobs : NavigationBar() {
 
         clearLists()
         loadJobs()
+        onPause()
 
     }
 

@@ -56,6 +56,7 @@ class JobsArchived  : NavigationBar() {
         private fun initialize(){
                 setContentView(R.layout.activity_jobs_archived)
                 //sets the navigation bar onto the page
+                onResume()
                 archivedConstraint = findViewById(R.id.archivedConstraint)
                 archivedList = findViewById(R.id.archivedList)
                 cancelledList = findViewById(R.id.cancelledList)
@@ -66,6 +67,7 @@ class JobsArchived  : NavigationBar() {
                 cancelledText = findViewById(R.id.cancelledText)
                 declinedText = findViewById(R.id.declinedText)
                 loadingPanel = findViewById(R.id.loadingPanel)
+                onPause()
         }
 
 
