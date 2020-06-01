@@ -17,7 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cancelledConstraint"
             android:layout_width="455dp"
-            android:layout_height="300dp"
+            android:layout_height="310dp"
             android:layout_marginTop="100dp"
             android:layout_marginBottom="100dp"
             android:background="@drawable/shadow"
@@ -96,7 +96,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/declinedConstraint"
             android:layout_width="455dp"
-            android:layout_height="300dp"
+            android:layout_height="310dp"
             android:layout_marginTop="100dp"
             android:layout_marginBottom="100dp"
             android:background="@drawable/shadow"
@@ -173,7 +173,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/archivedConstraint"
             android:layout_width="455dp"
-            android:layout_height="300dp"
+            android:layout_height="310dp"
             android:layout_marginTop="100dp"
             android:layout_marginBottom="100dp"
             android:background="@drawable/shadow"

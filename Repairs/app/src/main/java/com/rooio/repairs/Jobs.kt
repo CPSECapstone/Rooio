@@ -24,7 +24,6 @@ class Jobs : NavigationBar() {
     private lateinit var pendingList: ListView
     private lateinit var scheduledList: ListView
     private lateinit var inProgressList: ListView
-    private lateinit var completedButton: Button
     private lateinit var errorMessage: TextView
 
     private lateinit var pendingConstraint: ConstraintLayout
@@ -36,16 +35,17 @@ class Jobs : NavigationBar() {
     private lateinit var loadingPanel: ProgressBar
 
     companion object{
-        @JvmStatic private var pendingJobs = ArrayList<JSONObject>()
-        @JvmStatic private var scheduledJobs = ArrayList<JSONObject>()
-        @JvmStatic private var inProgressJobs = ArrayList<JSONObject>()
-        @JvmStatic private var startedJobs = ArrayList<JSONObject>()
-        @JvmStatic private var pausedJobs = ArrayList<JSONObject>()
+        @JvmStatic private var pendingJobs = ArrayList<JobData>()
+        @JvmStatic private var scheduledJobs = ArrayList<JobData>()
+        @JvmStatic private var inProgressJobs = ArrayList<JobData>()
+        @JvmStatic private var startedJobs = ArrayList<JobData>()
+        @JvmStatic private var pausedJobs = ArrayList<JobData>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jobs)
+        onResume()
         pendingText = findViewById(R.id.pendingText)
         pendingList = findViewById(R.id.pendingList)
         scheduledList = findViewById(R.id.scheduledList)
@@ -64,6 +64,7 @@ class Jobs : NavigationBar() {
 
         clearLists()
         loadJobs()
+        onPause()
 
     }
 
@@ -109,30 +110,33 @@ class Jobs : NavigationBar() {
     //Push jobs into designated swim lanes
     private fun populateLists(responseObj: JSONArray){
         for (i in 0 until responseObj.length()) {
-            val job = responseObj.getJSONObject(i)
-            when (job.getInt("status")){
-                0 ->{
+//            val job = responseObj.getJSONObject(i)
+            val job = JobData(responseObj.getJSONObject(i))
+
+            when (job.status){
+                JobType.PENDING ->{
                     pendingJobs.add(job)
                     if (i > 0) setSize(pendingConstraint)
                     setSize(pendingList)
                 }
-                2 ->
+                JobType.SCHEDULED ->
                 {
                     scheduledJobs.add(job)
                     if (i > 0) setSize(scheduledConstraint)
                     setSize(scheduledList)
                 }
-                5 ->
+                JobType.STARTED ->
                 {
                     startedJobs.add(job)
                     if (i > 0) setSize(inProgressConstraint)
                     setSize(inProgressList)
                 }
-                6 -> {
+                JobType.PAUSED -> {
                     pausedJobs.add(job)
                     if (i > 0) setSize(inProgressConstraint)
                     setSize(inProgressList)
                 }
+                else -> Unit
             }
 
         }
@@ -192,7 +196,7 @@ class Jobs : NavigationBar() {
 
     //Set the sizes
     private fun setSize(constraint: ViewGroup){
-        val value = 172
+        val value = 170
         val params = constraint.layoutParams
         params.height += value
         constraint.layoutParams = params

@@ -71,6 +71,7 @@ class CreateJobDetails: RestApi() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_job_details)
 
+        onResume()
         initializeVariables()
         initializeAnimationVariables()
         setActionBar()
@@ -78,6 +79,7 @@ class CreateJobDetails: RestApi() {
         onSendRequest()
         onBack()
         onDropDown()
+        onPause()
     }
 
     //Initializes variables that are used in loadElements()
