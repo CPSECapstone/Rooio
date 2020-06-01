@@ -18,11 +18,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.view.marginBottom
 import kotlinx.android.synthetic.main.activity_job_details.*
 import android.view.ViewGroup.MarginLayoutParams
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
 
 
 
@@ -228,10 +225,11 @@ class JobDetails: NavigationBar() {
         availableTechnicians.text = serviceObj.getString("name")
 
 
+        @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("MMMM d, y hh:mm a zzz")
+
         if (response.getInt("status") == 5 || response.getInt("status") == 6) {
             if (!response.isNull("estimated_arrival_time")) {
                 val date2 = (SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(convertToNewFormat(response.getString("estimated_arrival_time")))
-                @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
 
                 startedOn.text = (dateFormatter.format(date2).toString())
             }
@@ -239,7 +237,6 @@ class JobDetails: NavigationBar() {
         else {
             if (!response.isNull("status_time_value")) {
                 val date2 = (SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(convertToNewFormat(response.getString("status_time_value")))
-                @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
                 startedOn.text = (dateFormatter.format(date2).toString())
 
             }
@@ -374,17 +371,7 @@ class JobDetails: NavigationBar() {
         }
     }
 
-    //Sets the time format
-    @SuppressLint("SimpleDateFormat")
-    @Throws(ParseException::class)
-    fun convertToNewFormat(dateStr: String): String {
-        val utc = TimeZone.getTimeZone("UTC")
-        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        sourceFormat.timeZone = utc
-        val convertedDate = sourceFormat.parse(dateStr)
-        return destFormat.format(convertedDate!!)
-    }
+
 
     //Sets the time format
     @SuppressLint("SimpleDateFormat")

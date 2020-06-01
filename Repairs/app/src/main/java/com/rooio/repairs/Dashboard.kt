@@ -369,7 +369,7 @@ class Dashboard : Graph() {
         notableJobs.layoutParams = notableJobsParams
         newJobRequest.layoutParams = newJobRequestParams
     }
-
+  
      private fun sortJobsList(list: ArrayList<JobData>):ArrayList<JobData> {
          list.sortWith(compareBy { it.statusTimeValue })
          return list
