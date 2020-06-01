@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import org.json.JSONException
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -94,7 +93,7 @@ class DashboardCustomAdapter (private val context: Context, private val dataList
             //Checks if Image
             // If no Image then Move Text Over
             val imageVal = internalClient.getString("logo")
-            if (imageVal.isEmpty()) {
+            if (imageVal == "null") {
                 holder.name.translationX = -80f
                 holder.repairType.translationX = -80f
                 holder.address.translationX = -80f
