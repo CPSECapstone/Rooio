@@ -365,9 +365,10 @@ class Dashboard : Graph() {
         )
 
         //set the date/time
+
         if (jobData.statusTimeValue.isNotEmpty()) {
             val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(jobData.statusTimeValue))
-            @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
+            @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("MMMM d, y hh:mm a zzz")
 
             timeText.text = dateFormatter.format(date1).toString()
 
@@ -477,17 +478,7 @@ class Dashboard : Graph() {
         animation.start()
     }
 
-    //Convert to new format
-    @SuppressLint("SimpleDateFormat")
-    @Throws(ParseException::class)
-    fun convertToNewFormat(dateStr: String): String {
-        val utc = TimeZone.getTimeZone("UTC")
-        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-        val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        sourceFormat.timeZone = utc
-        val convertedDate = sourceFormat.parse(dateStr)
-        return destFormat.format(convertedDate!!)
-    }
+
 
      private fun sortJobsList(list: ArrayList<JobData>):ArrayList<JobData> {
 

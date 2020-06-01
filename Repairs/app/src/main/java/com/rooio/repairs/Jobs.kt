@@ -196,7 +196,7 @@ class Jobs : NavigationBar() {
 
     //Set the sizes
     private fun setSize(constraint: ViewGroup){
-        val value = 172
+        val value = 170
         val params = constraint.layoutParams
         params.height += value
         constraint.layoutParams = params
