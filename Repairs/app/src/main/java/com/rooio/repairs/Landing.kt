@@ -52,7 +52,7 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
         val name = prefs.getString(empId + "__name", "")
         val userLocation = prefs.getString(empId + "__userLocationId", "")
 
-        employeeId = "1"
+        employeeId = empId
 
         return if (name != null && name.isNotEmpty() && savedToken != null && savedToken.isNotEmpty() && userLocation != null && userLocation.isNotEmpty()) {
             userToken = savedToken
@@ -134,7 +134,7 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
             override fun onServiceSuccess(result: Employee, status: ResultStatus) {
                 super.onServiceSuccess(result, status)
                 val name = result.name.toString()
-                val id = "1"
+                val id = result.id
                 Toast.makeText(this@Landing, "Welcome $name!", Toast.LENGTH_SHORT).show()
                 when(result.role.toString()){
                     "EMPLOYEE" -> {

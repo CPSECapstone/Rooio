@@ -99,7 +99,6 @@ class Login : RestApi() {
         val token = jsonObj["token"] as String
         val name = jsonObj["first_name"] as String
 
-        employeeId = "1"
         val prefs = getSharedPreferences("UserData", Context.MODE_PRIVATE)
         val editor = prefs.edit()
         editor.putString(employeeId + "__token", token)
