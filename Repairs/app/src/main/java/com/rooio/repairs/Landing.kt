@@ -31,10 +31,12 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
+        onResume()
         centerTitleBar()
         initializeVariables()
         onCreateAccount()
         onConnectAccount()
+        onPause()
     }
 
     //Initializes UI variables
@@ -50,7 +52,7 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
         val name = prefs.getString(empId + "__name", "")
         val userLocation = prefs.getString(empId + "__userLocationId", "")
 
-        employeeId = empId
+        employeeId = "1"
 
         return if (name != null && name.isNotEmpty() && savedToken != null && savedToken.isNotEmpty() && userLocation != null && userLocation.isNotEmpty()) {
             userToken = savedToken
@@ -71,6 +73,7 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
     }
 
     private fun onConnectAccount() {
+        //employeeId= "1"
         connectAccount.setOnClickListener {
             val login = Intent(this@Landing, Login::class.java)
             startActivity(login)
@@ -131,7 +134,7 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
             override fun onServiceSuccess(result: Employee, status: ResultStatus) {
                 super.onServiceSuccess(result, status)
                 val name = result.name.toString()
-                val id = result.id
+                val id = "1"
                 Toast.makeText(this@Landing, "Welcome $name!", Toast.LENGTH_SHORT).show()
                 when(result.role.toString()){
                     "EMPLOYEE" -> {
