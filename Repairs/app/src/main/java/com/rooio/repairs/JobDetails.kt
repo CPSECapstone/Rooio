@@ -66,6 +66,7 @@ class JobDetails: NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_job_details)
 
+        onResume()
         initializeVariables()
         initializeAnimationVariables()
         setNavigationBar()
@@ -76,6 +77,7 @@ class JobDetails: NavigationBar() {
         onDropDown()
         getJobId()
         loadJobs()
+        onPause()
     }
 
     //Get the JobId from the previous page

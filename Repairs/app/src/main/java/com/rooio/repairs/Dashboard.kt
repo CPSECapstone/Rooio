@@ -49,6 +49,7 @@ class Dashboard : Graph() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
+        onResume()
         initializePage()
         setNavigationBar()
         setActionBar()
@@ -58,6 +59,7 @@ class Dashboard : Graph() {
         createNavigationBar(NavigationType.DASHBOARD)
         jobRequestsClicked()
         jobNumberClicked()
+        onPause()
     }
 
     //initialize variables
