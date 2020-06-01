@@ -519,21 +519,21 @@ class Dashboard : Graph() {
     @Throws(ParseException::class)
     fun convertToNewFormat(dateStr: String): String {
         val utc = TimeZone.getTimeZone("UTC")
+        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        sourceFormat.timeZone = utc
+        val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         try{
 
-            val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-            sourceFormat.timeZone = utc
-            val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             val convertedDate = sourceFormat.parse(dateStr)
             return destFormat.format(convertedDate!!)
 
         }
         catch(e: ParseException  ){
-            val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-            sourceFormat.timeZone = utc
-            val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-            val convertedDate = sourceFormat.parse(dateStr)
-            return destFormat.format(convertedDate!!)
+            val sourceFormat2 = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+            sourceFormat2.timeZone = utc
+
+            val convertedDate2 = sourceFormat2.parse(dateStr)
+            return destFormat.format(convertedDate2!!)
 
         }
     }
