@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,32 +20,24 @@ import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
 
-import static java.util.Objects.isNull;
-
 class JobsCustomAdapter implements ListAdapter {
-    private ArrayList<JSONObject> arrayList;
+    private ArrayList<JobData> arrayList;
     private Context context;
     private ArrayList<String> statuses = new ArrayList<>();
     private TextView  timeText;
 
-    public JobsCustomAdapter(Context context, ArrayList<JSONObject> jobs) {
+    public JobsCustomAdapter(Context context, ArrayList<JobData> jobs) {
         this.arrayList = jobs;
         this.context = context;
     }
@@ -56,6 +47,7 @@ class JobsCustomAdapter implements ListAdapter {
     public boolean areAllItemsEnabled() {
         return false;
     }
+
     @Override
     public boolean isEnabled(int position) {
         return true;
@@ -64,6 +56,7 @@ class JobsCustomAdapter implements ListAdapter {
     @Override
     public void registerDataSetObserver(DataSetObserver observer) {
     }
+
     @Override
     public void unregisterDataSetObserver(DataSetObserver observer) {
     }
@@ -72,14 +65,17 @@ class JobsCustomAdapter implements ListAdapter {
     public int getCount() {
         return arrayList.size();
     }
+
     @Override
     public Object getItem(int position) {
         return position;
     }
+
     @Override
     public long getItemId(int position) {
         return position;
     }
+
     @Override
     public boolean hasStableIds() {
         return false;
@@ -89,9 +85,8 @@ class JobsCustomAdapter implements ListAdapter {
     @SuppressLint("ResourceAsColor")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        JSONObject data = arrayList.get(position);
-        if(convertView == null) {
-            //Set
+        JobData data = arrayList.get(position);
+        if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
             convertView = layoutInflater.inflate(R.layout.job_list_row, parent, false);
             TextView repairType = convertView.findViewById(R.id.repairType);
@@ -100,122 +95,80 @@ class JobsCustomAdapter implements ListAdapter {
             ImageView image = convertView.findViewById(R.id.image);
             timeText = convertView.findViewById(R.id.timeText);
             Button jobsButton = convertView.findViewById(R.id.jobsButton);
-            ConstraintLayout constraint = convertView.findViewById(R.id.jobListLayout);
-
-
             TextView status = convertView.findViewById(R.id.status);
             ConstraintLayout color = convertView.findViewById(R.id.color);
+
             try {
-                int status_enum = data.getInt("status");
-                String status_value = null;
+                JobType jobStatus = data.getStatus();
+                String jobStatusText = jobStatus.toString();
 
-                //Display Statuses for each swim lane
-                switch(status_enum) {
-                    //Declined swim lane
-                    case 1:
-                    case 3:
-                    case 4:
-                        status_value = "";
-                        DrawableCompat.setTint(
-                                DrawableCompat.wrap(color.getBackground()),
-                                ContextCompat.getColor(context, R.color.lightGray)
-                        );
+                // set color for each job widget
+                DrawableCompat.setTint(
+                        DrawableCompat.wrap(color.getBackground()),
+                        ContextCompat.getColor(context, jobStatus.getColor())
+                );
+
+                //Display text for each swim lane
+                switch (jobStatus) {
+                    case PENDING:
+                        jobStatusText = "Awaiting Response";
                         break;
-                        //Scheduled swimlane uses time as status
-                    case 2:
-                        //Time Based Statuses
-                        status_value = timeConvert(data.getString("status_time_value"));
 
-                        DrawableCompat.setTint(
-                                DrawableCompat.wrap(color.getBackground()),
-                                ContextCompat.getColor(context, R.color.Blue)
-                        );
-                        break;
-                    case 5:
-                        //In Progress Swimlane Status
-                        status_value = "Started";
-
-                        DrawableCompat.setTint(
-                                DrawableCompat.wrap(color.getBackground()),
-                                ContextCompat.getColor(context, R.color.colorPrimary)
-                        );
-                        break;
-                        //In Progress Swimlane Status
-                    case 6:
-                        status_value = "Paused";
-
-                        DrawableCompat.setTint(
-                                DrawableCompat.wrap(color.getBackground()),
-                                ContextCompat.getColor(context, R.color.Yellow)
-                        );
-
-                        break;
-                        //Pending Swimlane Status
-                    case 0:
-                        status_value = "Awaiting Response";
-
-                        DrawableCompat.setTint(
-                                DrawableCompat.wrap(color.getBackground()),
-                                ContextCompat.getColor(context, R.color.Purple)
-                        );
+                    case SCHEDULED:
+                        jobStatusText = timeConvert(data.getStatusTimeValue());
                         break;
                 }
 
-                //Sets the Equipment for Job: May be multiple equipment per job
-                JSONArray equipmentObjList = data.getJSONArray("equipment");
 
-                JSONObject equipmentObj = equipmentObjList.optJSONObject(0);
-                String category = "";
-                if (equipmentObj != null) {
-                    category =  equipmentObj.getString("service_category");
+                if (!statuses.contains(jobStatusText)) {
+                    status.setText(jobStatusText.toUpperCase());
+                    statuses.add(jobStatusText);
+                } else status.setVisibility(View.GONE);
+
+                if (jobStatus == JobType.DECLINED || jobStatus == JobType.CANCELLED || jobStatus == JobType.COMPLETED) {
+                    status.setVisibility(View.GONE);
                 }
+
+                //Sets the Equipment for Job: May be multiple equipment per job\
+                //Only handling one equipment per job right now
+                ArrayList<EquipmentData> equipmentObjList = data.getEquipmentList();
+                if (equipmentObjList.size() != 0) {
+                    EquipmentData equipmentObj = equipmentObjList.get(0);
+                    String str1 = equipmentObj.getName() + " " + data.getServiceType().toString();
+                    repairType.setText(str1);
+                }
+                //For a general equipment job request
                 else {
-                    category = "4" ;
+                    String str = "General " + data.getStrRepr();
+                    repairType.setText(str);
                 }
-
-                    switch(category) {
-                        case "4":
-                            repairType.setText(context.getString(R.string.generalAppliance));
-
-                            break;
-                        case "1":
-                            repairType.setText(context.getString(R.string.hvac));
-                            break;
-                        case "2":
-                            repairType.setText(context.getString(R.string.lightingAndElectrical));
-                            break;
-                        case "3":
-                            repairType.setText(context.getString(R.string.plumbing));
-                            break;
-                    }
-
 
                 //Get Service Location
-                JSONObject locationObj = data.getJSONObject("service_location");
-
-
+                JSONObject locationObj = data.getServiceLocation();
                 address.setText(locationObj.getString("physical_address"));
 
-                //Get Restraunt Name
+                //Get Restaurant Name
                 JSONObject internal_client = locationObj.getJSONObject("internal_client");
                 name.setText(internal_client.getString("name"));
 
-                if(isNull(data.getString("status_time_value"))  || data.getString("status_time_value").length() < 1  ){
+                if((data.getStatusTimeValue().isEmpty()) ){
                     timeText.setText((R.string.no_time));
                 }
-                if(status_enum == 5 || status_enum == 6){
-                    if (!(data.isNull("estimated_arrival_time") )){
-                        @SuppressLint("SimpleDateFormat") Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("estimated_arrival_time")));
+                else if(jobStatus == JobType.STARTED || jobStatus == JobType.PAUSED){
+                    if (!(data.getEstimatedArrivalTime().isEmpty())){
+                        @SuppressLint("SimpleDateFormat") Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getEstimatedArrivalTime()));
                         @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM d, y hh:mm a zzz");
+
 
                         assert date1 != null;
                         timeText.setText(dateFormatter.format(date1));
                     }
                 }
-                else if (status_enum == 1 || status_enum == 3 || status_enum == 4) {
-                    if (!(data.isNull("status_time_value") )){
-                        @SuppressLint("SimpleDateFormat") Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("status_time_value")));
+                else if (jobStatus == JobType.DECLINED || jobStatus == JobType.COMPLETED || jobStatus == JobType.CANCELLED) {
+                    if (!(data.getStatusTimeValue().isEmpty())){
+                        @SuppressLint("SimpleDateFormat") Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getStatusTimeValue()));
                         @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM d, y hh:mm a zzz");
+
 
                         assert date1 != null;
                         timeText.setText(dateFormatter.format(date1));
@@ -223,65 +176,47 @@ class JobsCustomAdapter implements ListAdapter {
                     }
                 }
                 else{
-                    if (!(data.isNull("status_time_value") )){
-                        @SuppressLint("SimpleDateFormat") Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getString("status_time_value")));
+                    if (!(data.getStatusTimeValue().isEmpty())){
+                        @SuppressLint("SimpleDateFormat") Date date1 =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getStatusTimeValue()));
                         @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM d, y hh:mm a zzz");
+
 
                         assert date1 != null;
                         timeText.setText(dateFormatter.format(date1));
 
                     }
                 }
-
 
                 //Checks if Image
                 //If no Image then Move Text Over
                 String imageVal = internal_client.getString("logo");
-                if (imageVal.isEmpty() || imageVal.equals("null") || isNull(imageVal)){
+                if (imageVal.isEmpty() || imageVal.equals("null")) {
                     name.setTranslationX(-80f);
                     repairType.setTranslationX(-80f);
                     address.setTranslationX(-80f);
                     image.setVisibility(View.GONE);
-                }
-                else{
-
+                } else {
                     Picasso.with(context)
                             .load(internal_client.getString("logo")
                             )
                             .into(image);
                 }
-              
-                if(!statuses.contains(status_value) && status_value != ""){
-                    assert status_value != null;
-                    status.setText(status_value.toUpperCase());
-                    statuses.add(status_value);
-                }
-                else
-                    status.setVisibility(View.INVISIBLE);
-                }
 
 
-            catch (JSONException e) {
-                Log.d("exception", e.toString());
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
             //JobId Holds the JobId. ** Displays on UI as a string for testing purposes**
             jobsButton.setOnClickListener(v -> {
-                try {
-                    String jobId = data.getString("id");
-
-                    Intent intent = new Intent(context, JobDetails.class);
-                    intent.putExtra("id", jobId);
-
-                    context.startActivity(intent);
-
-                }
-                catch (JSONException e) {
-                    Log.d("exception", e.toString());
-                }
-
+                String jobId = data.getId();
+                Intent intent = new Intent(context, JobDetails.class);
+                intent.putExtra("id", jobId);
+                context.startActivity(intent);
             });
 
         }
@@ -304,6 +239,7 @@ class JobsCustomAdapter implements ListAdapter {
         catch(ParseException e){
             TimeZone utc = TimeZone.getTimeZone("UTC");
             SimpleDateFormat sourceFormat;
+
             sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
             @SuppressLint("SimpleDateFormat") SimpleDateFormat destFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             sourceFormat.setTimeZone(utc);
@@ -332,29 +268,23 @@ class JobsCustomAdapter implements ListAdapter {
             timeText.setTextColor(Color.RED);
 
             return "PAST DUE";
-        }
-        else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(now))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfToday))))  {
+        } else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(now))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfToday)))) {
             return "TODAY";
-        }
-        else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endOfToday))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfTomorrow()))))  {
+        } else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endOfToday))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfTomorrow())))) {
             return "TOMORROW";
-        }
-        else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endOfTomorrow))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfWeek))))  {
+        } else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endOfTomorrow))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfWeek)))) {
             return "THIS WEEK";
-        }
-        else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endOfWeek))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfNextWeek))))  {
+        } else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endOfWeek))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfNextWeek)))) {
             return "NEXT WEEK";
-        }
-        else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endOfNextWeek))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfThisMonth))))  {
+        } else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(endOfNextWeek))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfThisMonth)))) {
             return "LATER THIS MONTH";
-        }
-        else{
+        } else {
             return "FUTURE";
         }
 
     }
 
-    private String endOfToday(){
+    private String endOfToday() {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         Calendar cal = Calendar.getInstance();
@@ -366,13 +296,13 @@ class JobsCustomAdapter implements ListAdapter {
         return df.format(endOfToday);
     }
 
-    private String now(){
+    private String now() {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar c = Calendar.getInstance();
         return df.format(c.getTime());
     }
 
-    private String endOfTomorrow(){
+    private String endOfTomorrow() {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         Calendar cal = Calendar.getInstance();
@@ -385,7 +315,7 @@ class JobsCustomAdapter implements ListAdapter {
         return df.format(endOfTomorrow);
     }
 
-    private String endOfWeek(){
+    private String endOfWeek() {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         Calendar cal = Calendar.getInstance();
@@ -400,7 +330,7 @@ class JobsCustomAdapter implements ListAdapter {
         return df.format(endOfWeek);
     }
 
-    private String endOfNextWeek(){
+    private String endOfNextWeek() {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         Calendar cal = Calendar.getInstance();
@@ -415,7 +345,8 @@ class JobsCustomAdapter implements ListAdapter {
         Date endOfNext = cal.getTime();
         return df.format(endOfNext);
     }
-    private String endOfThisMonth(){
+
+    private String endOfThisMonth() {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         Calendar cal = Calendar.getInstance();
@@ -433,10 +364,12 @@ class JobsCustomAdapter implements ListAdapter {
     public int getItemViewType(int position) {
         return position;
     }
+
     @Override
     public int getViewTypeCount() {
         return 1;
     }
+
     @Override
     public boolean isEmpty() {
         return false;

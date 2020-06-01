@@ -14,11 +14,13 @@ class PreferredProvidersLogin : PreferredProviders() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preferred_providers_login)
+        onResume()
         centerTitleBar()
         initializeVariables()
         loadPreferredProviders(jsonRequest)
         onAddAnother()
         onContinue()
+        onPause()
     }
 
     //Initializes UI variables

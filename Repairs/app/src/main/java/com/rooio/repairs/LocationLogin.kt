@@ -13,10 +13,12 @@ class LocationLogin : Location() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_login)
 
+        onResume()
         centerTitleBar()
         initializeCommonVariables(LocationType.LOGIN)
         loadLocations(jsonRequest)
         onAddAnother()
+        onPause()
     }
 
 

@@ -65,7 +65,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.13"
-                app:srcCompat="@mipmap/dashboard" />
+                app:srcCompat="@drawable/smaller_dashboard" />
 
             <ImageView
                 android:id="@+id/clicked_dashboard"
@@ -81,7 +81,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.13"
-                app:srcCompat="@mipmap/dashboard" />
+                app:srcCompat="@drawable/green_dashboard_2" />
 
             <ImageView
                 android:id="@+id/jobs"
@@ -95,7 +95,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.19"
-                app:srcCompat="@drawable/jobs_icon" />
+                app:srcCompat="@drawable/grey_jobs_2" />
 
 
             <ImageView
@@ -140,7 +140,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.19"
-                app:srcCompat="@drawable/jobs_icon_green"
+                app:srcCompat="@drawable/green_jobs_2"
 
                 />
 
@@ -156,7 +156,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.30"
-                app:srcCompat="@drawable/equipment_icon" />
+                app:srcCompat="@drawable/grey_equipment_2" />
 
             <ImageView
                 android:id="@+id/colored_equipment"
@@ -171,7 +171,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.30"
-                app:srcCompat="@drawable/equipment_icon_green" />
+                app:srcCompat="@drawable/green_equipment_2" />
 
             <ImageView
                 android:id="@+id/settings"
@@ -185,7 +185,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.81"
-                app:srcCompat="@drawable/settings_icon" />
+                app:srcCompat="@drawable/grey_settings_2" />
 
             <ImageView
                 android:id="@+id/colored_settings"
@@ -200,7 +200,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.81"
-                app:srcCompat="@drawable/settings_icon_green" />
+                app:srcCompat="@drawable/green_settings_2" />
 
             <ImageView
                 android:id="@+id/logout"

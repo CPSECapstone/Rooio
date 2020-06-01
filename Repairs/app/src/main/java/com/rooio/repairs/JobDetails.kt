@@ -63,6 +63,7 @@ class JobDetails: NavigationBar() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_job_details)
 
+        onResume()
         initializeVariables()
         initializeAnimationVariables()
         setNavigationBar()
@@ -73,6 +74,7 @@ class JobDetails: NavigationBar() {
         onDropDown()
         getJobId()
         loadJobs()
+        onPause()
     }
 
     //Get the JobId from the previous page
@@ -223,10 +225,11 @@ class JobDetails: NavigationBar() {
         availableTechnicians.text = serviceObj.getString("name")
 
 
+        @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("MMMM d, y hh:mm a zzz")
+
         if (response.getInt("status") == 5 || response.getInt("status") == 6) {
             if (!response.isNull("estimated_arrival_time")) {
                 val date2 = (SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(convertToNewFormat(response.getString("estimated_arrival_time")))
-                @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("MMMM d, y hh:mm a zzz")
 
                 startedOn.text = (dateFormatter.format(date2).toString())
             }
@@ -234,7 +237,6 @@ class JobDetails: NavigationBar() {
         else {
             if (!response.isNull("status_time_value")) {
                 val date2 = (SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(convertToNewFormat(response.getString("status_time_value")))
-                @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("MMMM d, y hh:mm a zzz")
                 startedOn.text = (dateFormatter.format(date2).toString())
 
             }
@@ -369,29 +371,7 @@ class JobDetails: NavigationBar() {
         }
     }
 
-    //Sets the time format
-    @SuppressLint("SimpleDateFormat")
-    @Throws(ParseException::class)
-    fun convertToNewFormat(dateStr: String): String {
-        val utc = TimeZone.getTimeZone("UTC")
-        try{
 
-            val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-            sourceFormat.timeZone = utc
-            val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-            val convertedDate = sourceFormat.parse(dateStr)
-            return destFormat.format(convertedDate!!)
-
-        }
-        catch(e: ParseException  ){
-            val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-            sourceFormat.timeZone = utc
-            val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-            val convertedDate = sourceFormat.parse(dateStr)
-            return destFormat.format(convertedDate!!)
-
-        }
-    }
 
     //Sets the time format
     @SuppressLint("SimpleDateFormat")

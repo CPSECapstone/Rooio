@@ -1,5 +1,6 @@
 package com.rooio.repairs
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.media.AudioManager
 import android.os.Build
@@ -11,6 +12,8 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONArray
 import org.json.JSONObject
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -190,6 +193,30 @@ abstract class RestApi : AppCompatActivity() {
                 am.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_UNMUTE, 0)
                 savedStreamMuted = false
             }
+        }
+    }
+
+
+    @SuppressLint("SimpleDateFormat")
+    @Throws(ParseException::class)
+    fun convertToNewFormat(dateStr: String): String {
+        val utc = TimeZone.getTimeZone("UTC")
+        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        sourceFormat.timeZone = utc
+        val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        try{
+
+            val convertedDate = sourceFormat.parse(dateStr)
+            return destFormat.format(convertedDate!!)
+
+        }
+        catch(e: ParseException){
+            val sourceFormat2 = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+            sourceFormat2.timeZone = utc
+
+            val convertedDate2 = sourceFormat2.parse(dateStr)
+            return destFormat.format(convertedDate2!!)
+
         }
     }
 
