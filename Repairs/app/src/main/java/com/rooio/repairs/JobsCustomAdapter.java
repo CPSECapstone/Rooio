@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -35,6 +35,7 @@ class JobsCustomAdapter implements ListAdapter {
     private ArrayList<JobData> arrayList;
     private Context context;
     private ArrayList<String> statuses = new ArrayList<>();
+    private TextView  timeText;
 
     public JobsCustomAdapter(Context context, ArrayList<JobData> jobs) {
         this.arrayList = jobs;
@@ -92,7 +93,7 @@ class JobsCustomAdapter implements ListAdapter {
             TextView name = convertView.findViewById(R.id.name);
             TextView address = convertView.findViewById(R.id.address);
             ImageView image = convertView.findViewById(R.id.image);
-            TextView timeText = convertView.findViewById(R.id.timeText);
+            timeText = convertView.findViewById(R.id.timeText);
             Button jobsButton = convertView.findViewById(R.id.jobsButton);
             TextView status = convertView.findViewById(R.id.status);
             ConstraintLayout color = convertView.findViewById(R.id.color);
@@ -150,29 +151,35 @@ class JobsCustomAdapter implements ListAdapter {
                 JSONObject internal_client = locationObj.getJSONObject("internal_client");
                 name.setText(internal_client.getString("name"));
 
+                if((data.getStatusTimeValue().isEmpty()) ){
+                    timeText.setText((R.string.no_time));
+                }
+                else if(jobStatus == JobType.STARTED || jobStatus == JobType.PAUSED){
+                    if (!(data.getEstimatedArrivalTime().isEmpty())){
+                        @SuppressLint("SimpleDateFormat") Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getEstimatedArrivalTime()));
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM d, y hh:mm a zzz");
 
-                // Setting time text
-                if (jobStatus == JobType.STARTED || jobStatus == JobType.PAUSED) {
-                    if (!(data.getEstimatedArrivalTime().isEmpty())) {
-                        @SuppressLint("SimpleDateFormat") Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getEstimatedArrivalTime(), false));
-                        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz");
 
                         assert date1 != null;
                         timeText.setText(dateFormatter.format(date1));
                     }
-                } else if (jobStatus == JobType.DECLINED || jobStatus == JobType.COMPLETED || jobStatus == JobType.CANCELLED) {
-                    if (!(data.getStatusTimeValue().isEmpty())) {
-                        @SuppressLint("SimpleDateFormat") Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getStatusTimeValue(), true));
-                        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz");
+                }
+                else if (jobStatus == JobType.DECLINED || jobStatus == JobType.COMPLETED || jobStatus == JobType.CANCELLED) {
+                    if (!(data.getStatusTimeValue().isEmpty())){
+                        @SuppressLint("SimpleDateFormat") Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getStatusTimeValue()));
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM d, y hh:mm a zzz");
+
 
                         assert date1 != null;
                         timeText.setText(dateFormatter.format(date1));
 
                     }
-                } else {
-                    if (!(data.getStatusTimeValue().isEmpty())) {
-                        @SuppressLint("SimpleDateFormat") Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getStatusTimeValue(), false));
-                        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz");
+                }
+                else{
+                    if (!(data.getStatusTimeValue().isEmpty())){
+                        @SuppressLint("SimpleDateFormat") Date date1 =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.getStatusTimeValue()));
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM d, y hh:mm a zzz");
+
 
                         assert date1 != null;
                         timeText.setText(dateFormatter.format(date1));
@@ -195,6 +202,9 @@ class JobsCustomAdapter implements ListAdapter {
                             .into(image);
                 }
 
+
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (ParseException e) {
@@ -213,23 +223,35 @@ class JobsCustomAdapter implements ListAdapter {
         return convertView;
     }
 
-    private static String convertToNewFormat(String dateStr, boolean status) throws ParseException {
-        TimeZone utc = TimeZone.getTimeZone("UTC");
-        SimpleDateFormat sourceFormat;
-        if (status) {
+    private static String convertToNewFormat(String dateStr) throws ParseException {
+        try{
+            TimeZone utc = TimeZone.getTimeZone("UTC");
+            SimpleDateFormat sourceFormat;
             sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        } else {
-            sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat destFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sourceFormat.setTimeZone(utc);
+            Date convertedDate = sourceFormat.parse(dateStr);
+            assert convertedDate != null;
+            return destFormat.format(convertedDate);
+
+
         }
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat destFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sourceFormat.setTimeZone(utc);
-        Date convertedDate = sourceFormat.parse(dateStr);
-        assert convertedDate != null;
-        return destFormat.format(convertedDate);
+        catch(ParseException e){
+            TimeZone utc = TimeZone.getTimeZone("UTC");
+            SimpleDateFormat sourceFormat;
+
+            sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat destFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sourceFormat.setTimeZone(utc);
+            Date convertedDate = sourceFormat.parse(dateStr);
+            assert convertedDate != null;
+            return destFormat.format(convertedDate);
+
+        }
     }
 
     private String timeConvert(String dateStr) throws ParseException {
-        String eta = convertToNewFormat(dateStr, false);
+        String eta = convertToNewFormat(dateStr);
 
         //GET NOW DATE + TIME
         String now = now();
@@ -243,6 +265,8 @@ class JobsCustomAdapter implements ListAdapter {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         if (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(now))) {
+            timeText.setTextColor(Color.RED);
+
             return "PAST DUE";
         } else if ((Objects.requireNonNull(sdf.parse(eta)).after(sdf.parse(now))) && (Objects.requireNonNull(sdf.parse(eta)).before(sdf.parse(endOfToday)))) {
             return "TODAY";

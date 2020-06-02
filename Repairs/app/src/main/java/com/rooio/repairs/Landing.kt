@@ -31,10 +31,12 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
+        onResume()
         centerTitleBar()
         initializeVariables()
         onCreateAccount()
         onConnectAccount()
+        onPause()
     }
 
     //Initializes UI variables
@@ -71,6 +73,7 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
     }
 
     private fun onConnectAccount() {
+        //employeeId= "1"
         connectAccount.setOnClickListener {
             val login = Intent(this@Landing, Login::class.java)
             startActivity(login)
@@ -133,13 +136,21 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
                 val name = result.name.toString()
                 val id = result.id
                 Toast.makeText(this@Landing, "Welcome $name!", Toast.LENGTH_SHORT).show()
-                val hasAccount = loggedInUserCheck(id)
-                if (!hasAccount) {
-                     startActivity(Intent(this@Landing, Login::class.java))
+                when(result.role.toString()){
+                    "EMPLOYEE" -> {
+                        val hasAccount = loggedInUserCheck(id)
+                        if (!hasAccount) {
+                            startActivity(Intent(this@Landing, Login::class.java))
+                        }
+                    }
+                    else -> {
+                        loggedInUserCheck(id)
+                    }
                 }
             }
         })
     }
+
 
     override fun onActiveEmployeeChanged(employee: Employee?) {}
 

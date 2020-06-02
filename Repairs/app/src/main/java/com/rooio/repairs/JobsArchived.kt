@@ -56,6 +56,7 @@ class JobsArchived  : NavigationBar() {
         private fun initialize(){
                 setContentView(R.layout.activity_jobs_archived)
                 //sets the navigation bar onto the page
+                onResume()
                 archivedConstraint = findViewById(R.id.archivedConstraint)
                 archivedList = findViewById(R.id.archivedList)
                 cancelledList = findViewById(R.id.cancelledList)
@@ -66,6 +67,7 @@ class JobsArchived  : NavigationBar() {
                 cancelledText = findViewById(R.id.cancelledText)
                 declinedText = findViewById(R.id.declinedText)
                 loadingPanel = findViewById(R.id.loadingPanel)
+                onPause()
         }
 
 
@@ -94,15 +96,15 @@ class JobsArchived  : NavigationBar() {
                         when(job.status){
                                 JobType.COMPLETED -> {
                                         archivedJobs.add(job)
-                                        if (i > 1) setSize(archivedConstraint)
+                                        if (i > 0) setSize(archivedConstraint)
                                         setSize(archivedList)}
                                 JobType.CANCELLED -> {
                                         cancelledJobs.add(job)
-                                        if (i > 1) setSize(cancelledConstraint)
+                                        if (i > 0) setSize(cancelledConstraint)
                                         setSize(cancelledList) }
                                 JobType.DECLINED -> {
                                         declinedJobs.add(job)
-                                        if (i > 1) setSize(declinedConstraint)
+                                        if (i > 0) setSize(declinedConstraint)
                                         setSize(declinedList) }
                                 else -> Unit
                         }
@@ -147,7 +149,7 @@ class JobsArchived  : NavigationBar() {
 
         //Set the sizes of swim lanes based on # of jobs per swim lane
         private fun setSize(constraint: ViewGroup) {
-                val value = 172
+                val value = 170
                 val params = constraint.layoutParams
                 params.height += value
                 constraint.layoutParams = params
