@@ -3,7 +3,6 @@ package com.rooio.repairs
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.arch.core.util.Function
@@ -152,6 +151,15 @@ class Equipment : Graph() {
 
     fun getEquipmentList() : ArrayList<EquipmentData> {
         return Equipment.equipmentList
+    }
+
+    fun setEquipmentList(list : ArrayList<EquipmentData>) {
+        Equipment.equipmentList.clear()
+        for(i in 0 until list.size){
+            Equipment.equipmentList.add(list[i])
+        }
+
+        equipmentListView.adapter = EquipmentCustomAdapter(this, Equipment.equipmentList, 0)
     }
 
     fun isValidEquipmentRequest(request: JsonRequest) : Boolean {
@@ -426,7 +434,6 @@ class Equipment : Graph() {
 
     @JvmField
     var errorFuncGraph = Function<String, Void?> {
-        Log.i("graph", it)
         null
     }
 
