@@ -13,6 +13,9 @@ class JobData(jsonObject: JSONObject) {
     var strRepr: String
     var serviceLocation: JSONObject
     var estimatedArrivalTime: String
+    var serviceCompany: JSONObject
+    var pointOfContact: String
+    var details: String
 
     init {
         this.id = jsonObject.getString("id")
@@ -23,6 +26,9 @@ class JobData(jsonObject: JSONObject) {
         this.strRepr = jsonObject.getString("__str__")
         this.serviceLocation = jsonObject.getJSONObject("service_location")
         this.estimatedArrivalTime = jsonObject.getString("estimated_arrival_time")
+        this.serviceCompany = jsonObject.getJSONObject("service_company")
+        this.pointOfContact = jsonObject.getString("point_of_contact_name")
+        this.details = jsonObject.getString("details")
     }
 
     private fun createJobType(i: Int): JobType {

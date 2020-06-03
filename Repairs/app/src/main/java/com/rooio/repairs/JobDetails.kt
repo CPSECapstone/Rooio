@@ -21,11 +21,8 @@ import androidx.core.graphics.drawable.DrawableCompat
 import kotlinx.android.synthetic.main.activity_job_details.*
 import android.view.ViewGroup.MarginLayoutParams
 
-
-
-
 //Job details can be viewed when clicking on a job request found under the Jobs tab
-class JobDetails: NavigationBar() {
+class JobDetails : NavigationBar() {
 
     private lateinit var jobId: String
     private lateinit var restaurantName: TextView
@@ -56,6 +53,7 @@ class JobDetails: NavigationBar() {
     private lateinit var jobDetailsInfoLayout: ConstraintLayout
 
     private lateinit var viewEquipment: TextView
+    private lateinit var jobStatus: TextView
     private lateinit var transitionsContainer: ViewGroup
     private lateinit var viewGroup: ViewGroup
 
@@ -78,14 +76,14 @@ class JobDetails: NavigationBar() {
     }
 
     //Get the JobId from the previous page
-    private fun getJobId(){
+    private fun getJobId() {
         val incomingIntent = intent
         jobId = (incomingIntent?.getStringExtra("id")).toString()
     }
 
     //Request JobDetails from API
     @JvmField
-    val responseFunc = Function<Any, Void?> { response : Any ->
+    val responseFunc = Function<Any, Void?> { response: Any ->
         val jsonObject1 = response as JSONObject
 
         try {
@@ -98,20 +96,20 @@ class JobDetails: NavigationBar() {
     }
 
     @JvmField
-    var errorFunc = Function<String, Void?> {  string: String? ->
+    var errorFunc = Function<String, Void?> { string: String? ->
         error.text = string
         null
 
     }
-    private fun loadJobs(){
-        val url =  "service-locations/$userLocationID/jobs/$jobId/"
+
+    private fun loadJobs() {
+        val url = "service-locations/$userLocationID/jobs/$jobId/"
         requestJson(Request.Method.GET, JsonType.OBJECT, JsonRequest(false, url, null, responseFunc, errorFunc, true))
     }
 
-
-
     //Initializes variables that are used in loadElements()
     private fun initializeVariables() {
+        jobStatus = findViewById(R.id.jobStatus)
         restaurantName = findViewById(R.id.restaurantName)
         restaurantLocation = findViewById(R.id.restaurantLocation)
         serviceType = findViewById(R.id.serviceInfo)
@@ -151,7 +149,7 @@ class JobDetails: NavigationBar() {
     }
 
     //Animates the main page content when the navigation bar collapses/expands
-    override fun animateActivity(boolean: Boolean){
+    override fun animateActivity(boolean: Boolean) {
         val amount = if (boolean) -190f else 0f
         val animation = ObjectAnimator.ofFloat(backButton, "translationX", amount)
         if (boolean) animation.duration = 1300 else animation.duration = 300
@@ -160,192 +158,68 @@ class JobDetails: NavigationBar() {
 
     //Sets the text views in the user interface, with "--" if null
     @SuppressLint("SimpleDateFormat")
-    private fun loadElements(response: JSONObject) {
+    private fun loadElements(r: JSONObject) {
+        val jobData = JobData(r)
 
-        val locationObj = response.getJSONObject("service_location")
-        val internal_client = locationObj.getJSONObject("internal_client")
-        val serviceObj = response.getJSONObject("service_company")
-        val equipmentObjList = response.getJSONArray("equipment")
-        //ALlow multiple different Equipment Cards to be made
-        val equipmentObj = equipmentObjList.optJSONObject(0)
+        val status = jobData.status
+        jobStatus.text = status.toString()
+        DrawableCompat.setTint(
+                DrawableCompat.wrap(activeLayout.background),
+                ContextCompat.getColor(this, status.getColor())
+        )
 
-        lateinit var category: String
-        if (equipmentObj != null) {
-            category = equipmentObj.getString("service_category")
-            equipmentName.text = (equipmentObj.getString("display_name"))
-            manufacturer.text = (equipmentObj.getString("manufacturer"))
-            serialNumber.text = (equipmentObj.getString("serial_number"))
-            modelNumber.text = (equipmentObj.getString("model_number"))
-            location.text = (equipmentObj.getString("location"))
-            lastServiceBy.text = (equipmentObj.getString("last_service_by"))
-            if (equipmentObj.isNull("last_service_by") || (equipmentObj.getString("last_service_by") == "")){
+        pointOfContact.text = jobData.pointOfContact
+        details.text = jobData.details
+        serviceType.text = jobData.serviceType.toString()
+        restaurantLocation.text = jobData.serviceLocation.getString("physical_address")
+        restaurantName.text = jobData.serviceLocation.getJSONObject("internal_client").getString("name")
+        availableTechnicians.text = jobData.serviceCompany.getString("name")
+
+        val equipmentList = jobData.equipmentList
+        if (equipmentList.size != 0) {
+            val equipmentData = equipmentList[0]
+            equipmentName.text = equipmentData.name
+            manufacturer.text = equipmentData.manufacturer
+            serialNumber.text = equipmentData.serialNumber
+            modelNumber.text = equipmentData.modelNumber
+            location.text = equipmentData.location
+
+            if (equipmentData.lastServiceBy == "") {
                 lastServiceBy.text = ("--")
+            } else {
+                lastServiceBy.text = equipmentData.lastServiceBy
             }
-            else{
-                lastServiceBy.text = (equipmentObj.getString("last_service_by"))
 
-            }
-            //lastServiceDate.text = ("--")
-
-            if (equipmentObj.isNull("last_service_date")){
+            if (equipmentData.lastServiceDate == "") {
                 lastServiceDate.text = ("--")
-            }
-            else{
-                val date1 = SimpleDateFormat("yyyy-MM-dd").parse(convertToNewFormat2(equipmentObj.getString("last_service_date")))
+            } else {
+                val date1 = SimpleDateFormat("yyyy-MM-dd").parse(convertToNewFormat2(equipmentData.lastServiceDate))
                 lastServiceDate.text = (date1!!.toString())
             }
-
-
         } else {
-            category = "4"
             equipmentLayout.visibility = View.GONE
             viewEquipment.visibility = View.GONE
-            val params = jobDetailsInfoLayout.getLayoutParams() as MarginLayoutParams
-            params.bottomMargin = 20
-            }
-
-        //set serviceType
-        var repairCategory = ""
-        when (category) {
-            "4" -> {
-                repairCategory = "General Appliance"
-                //equipmentLayout.visibility = View.GONE
-                //viewEquipment.visibility = View.GONE
-            }
-            "1" ->
-                repairCategory = "HVAC"
-            "2" ->
-                repairCategory = "Lighting and Electrical"
-            "3" ->
-                repairCategory = "Plumbing"
+            val params = jobDetailsInfoLayout.layoutParams as MarginLayoutParams
+            params.bottomMargin = 50
         }
-        serviceType.text = repairCategory
-        restaurantLocation.text = locationObj.getString("physical_address")
-        restaurantName.text = internal_client.getString("name")
-        availableTechnicians.text = serviceObj.getString("name")
-
 
         @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("MMMM d, y hh:mm a zzz")
-
-        if (response.getInt("status") == 5 || response.getInt("status") == 6) {
-            if (!response.isNull("estimated_arrival_time")) {
-                val date2 = (SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(convertToNewFormat(response.getString("estimated_arrival_time")))
-
+        if (status == JobType.STARTED || status == JobType.PAUSED) {
+            if (jobData.estimatedArrivalTime != "") {
+                val date2 = (SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(convertToNewFormat(jobData.estimatedArrivalTime))
                 startedOn.text = (dateFormatter.format(date2).toString())
             }
-        }
-        else {
-            if (!response.isNull("status_time_value")) {
-                val date2 = (SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(convertToNewFormat(response.getString("status_time_value")))
+        } else {
+            if (jobData.statusTimeValue != "") {
+                val date2 = (SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(convertToNewFormat(jobData.statusTimeValue))
                 startedOn.text = (dateFormatter.format(date2).toString())
-
-            }
-        }
-
-
-        pointOfContact.text = (response.getString("point_of_contact_name"))
-        details.text = (response.getString("details"))
-
-        val statusEnum = response.getInt("status")
-        var statusValue: String? = null
-
-        //Display Statuses for each swimlane
-        when (statusEnum) {
-            //Declined Swimlane
-            1 -> {
-                statusValue = "Declined"
-                DrawableCompat.setTint(
-                        DrawableCompat.wrap(activeLayout.getBackground()),
-                        ContextCompat.getColor(this, R.color.lightGray)
-                )
-            }
-            //Scheduled swimlane uses time as status
-            2 -> {
-                //Time Based Statuses
-                statusValue = "Scheduled"
-            }
-            3 -> {
-                statusValue = "Archived"
-            }
-            //Cancelled Swimlane Status
-            4 -> {
-                statusValue = "Cancelled"
-            }
-            5 -> {
-                //In Progress Swimlane Status
-                statusValue = "Started"
-            }
-            //In Progress Swimlane Status
-            6 -> {
-                statusValue = "Paused"
-            }
-            //Pending Swimlane Status
-            0 -> {
-                statusValue = "Awaiting Response"
-
-            }
-        }
-        changeHeaderColor(statusEnum)
-        restaurantLocation2.text = statusValue
-    }
-
-    //Change the HeaderColor
-    private fun changeHeaderColor(statusEnum: Int){
-        when (statusEnum) {
-            //Declined Swimlane
-            1 -> {
-                DrawableCompat.setTint(
-                        DrawableCompat.wrap(activeLayout.getBackground()),
-                        ContextCompat.getColor(this, R.color.lightGray)
-                )
-            }
-            //Scheduled swimlane uses time as status
-            2 -> {
-                DrawableCompat.setTint(
-                        DrawableCompat.wrap(activeLayout.getBackground()),
-                        ContextCompat.getColor(this, R.color.Blue)
-                )
-            }
-            3 -> {
-                DrawableCompat.setTint(
-                        DrawableCompat.wrap(activeLayout.getBackground()),
-                        ContextCompat.getColor(this, R.color.lightGray)
-                )
-            }
-            //Cancelled Swimlane Status
-            4 -> {
-                DrawableCompat.setTint(
-                        DrawableCompat.wrap(activeLayout.getBackground()),
-                        ContextCompat.getColor(this, R.color.lightGray)
-                )
-            }
-            5 -> {
-                //In Progress Swimlane Status
-                DrawableCompat.setTint(
-                        DrawableCompat.wrap(activeLayout.getBackground()),
-                        ContextCompat.getColor(this, R.color.colorPrimary)
-                )
-            }
-            //In Progress Swimlane Status
-            6 -> {
-                DrawableCompat.setTint(
-                        DrawableCompat.wrap(activeLayout.getBackground()),
-                        ContextCompat.getColor(this, R.color.Yellow)
-                )
-            }
-            //Pending Swimlane Status
-            0 -> {
-                DrawableCompat.setTint(
-                        DrawableCompat.wrap(activeLayout.getBackground()),
-                        ContextCompat.getColor(this, R.color.Purple)
-                )
             }
         }
     }
 
     //Sends the user to the Jobs page
     private fun onBack() {
-        backButton.setOnClickListener{
+        backButton.setOnClickListener {
             super.onBackPressed()
         }
     }
@@ -356,7 +230,7 @@ class JobDetails: NavigationBar() {
         setVisibility(View.GONE)
         val initial = equipmentLayout.layoutParams
         initial.height = 90
-        dropDown.setOnClickListener{
+        dropDown.setOnClickListener {
             TransitionManager.beginDelayedTransition(transitionsContainer)
             visible = !visible
             val v = if (visible) View.VISIBLE else View.GONE
@@ -370,7 +244,6 @@ class JobDetails: NavigationBar() {
             params.height = p
         }
     }
-
 
 
     //Sets the time format
