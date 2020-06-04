@@ -98,15 +98,9 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
             var params = holder.equipmentLayout.layoutParams
             var p = if (holder.visible) 500 else 90
             params.height = p
-            if (holder.locationSpace) {
-                params = holder.equipmentLocationLayout.layoutParams
-                p = if (holder.visible) 500 else 90
-                params.height = p
-            } else {
-                params = holder.equipmentLocationLayout.layoutParams
-                p = if (holder.visible) 600 else 190
-                params.height = p
-            }
+            params = holder.equipmentLocationLayout.layoutParams
+            p = if (holder.visible) 500 else 90
+            params.height = p
             if (holder.visible) {
                 holder.equipmentName.setTextColor(Color.parseColor("#00CA8F"))
                 holder.equipmentLayout.setBackgroundResource(R.drawable.green_button_border)
@@ -136,11 +130,7 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
         }
 
         initial = holder.equipmentLocationLayout.layoutParams
-        if (holder.locationSpace) {
-            initial.height = 90
-        } else {
-            initial.height = 190
-        }
+        initial.height = 90
         configureElements(holder, position)
     }
     private fun setElementTexts(element: TextView, str: String){

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relativeLayout"
@@ -8,38 +8,44 @@
     android:layout_height="wrap_content"
     android:padding="10dp">
 
+    <ImageView
+        android:id="@+id/locationDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:contentDescription="@string/divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@color/lightGray" />
+
+    <TextView
+        android:id="@+id/location_name"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/nunito"
+        android:textAlignment="center"
+        android:textColor="@color/lightGray"
+        android:textSize="17sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/equipmentLocationLayout"
         android:layout_width="490dp"
-        android:layout_height="600dp">
-
-        <TextView
-            android:id="@+id/location_name"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="25dp"
-            android:fontFamily="@font/nunito"
-            android:textAlignment="center"
-            android:textColor="@color/lightGray"
-            android:textSize="17sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <ImageView
-            android:id="@+id/locationDivider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:contentDescription="@string/divider"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@color/colorGray" />
+        android:layout_height="500dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location_name"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/equipmentLayout"
@@ -51,8 +57,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.7">
+            app:layout_constraintTop_toTopOf="parent">
 
             <Button
                 android:id="@+id/select"
@@ -61,6 +66,7 @@
                 android:layout_height="55dp"
                 android:background="@drawable/green_button_border"
                 android:fontFamily="@font/nunito_sans"
+                android:soundEffectsEnabled="false"
                 android:text="Select"
                 android:textAllCaps="false"
                 android:textColor="#00CA8F"
@@ -68,7 +74,6 @@
                 android:textColorHint="#00FCFBFB"
                 android:textColorLink="#00FDFCFC"
                 android:textSize="24sp"
-                android:soundEffectsEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -343,4 +348,4 @@
     <!--        android:textSize="18sp"-->
     <!--        android:textStyle="bold" />-->
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
