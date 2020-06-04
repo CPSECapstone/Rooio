@@ -326,7 +326,8 @@ class CreateJobDetails: RestApi() {
     val errorFuncSendRequest = Function<String, Void?> {
         loadingPanel.visibility = View.GONE
         sendRequestButton.visibility = View.VISIBLE
-        errorMsg.text = it
+        errorMsg.text = "Error while sending job request. Please try again later."
+        scrollView.fullScroll(ScrollView.FOCUS_UP)
         null
     }
 
@@ -348,10 +349,7 @@ class CreateJobDetails: RestApi() {
 
     private fun phoneValidate(): Boolean{
         val phone = phoneNumber.text.toString()
-        if ((phone.length == 0) || (phone.length == 9) || (phone.length == 10)){
-            return true
-        }
-        return false
+        return (phone.isEmpty()) || (phone.length == 9) || (phone.length == 10)
     }
 
     private fun validJobRequest(request: JsonRequest) : Boolean{
