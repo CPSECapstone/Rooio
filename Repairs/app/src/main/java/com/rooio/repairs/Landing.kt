@@ -58,7 +58,7 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
             userToken = savedToken
             userName = name
             userLocationID = userLocation
-            startActivity(Intent(this@Landing, Dashboard::class.java))
+            //startActivity(Intent(this@Landing, Dashboard::class.java))
             true
         } else {
             false
@@ -140,7 +140,7 @@ class Landing : RestApi(), ServiceConnector.OnServiceConnectedListener, Employee
                     "EMPLOYEE" -> {
                         val hasAccount = loggedInUserCheck(id)
                         if (!hasAccount) {
-                            startActivity(Intent(this@Landing, Login::class.java))
+                            //startActivity(Intent(this@Landing, Login::class.java))
                         }
                     }
                     else -> {
