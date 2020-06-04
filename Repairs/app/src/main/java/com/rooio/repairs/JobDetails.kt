@@ -190,7 +190,7 @@ class JobDetails : NavigationBar() {
                 lastServiceBy.text = equipmentData.lastServiceBy
             }
 
-            if (equipmentData.lastServiceDate == "") {
+            if (equipmentData.lastServiceDate == "null") {
                 lastServiceDate.text = ("--")
             } else {
                 val date1 = SimpleDateFormat("yyyy-MM-dd").parse(convertToNewFormat2(equipmentData.lastServiceDate))
