@@ -52,19 +52,8 @@ adb devices
 
 ## Testing the application
 
-Once the emulator is working, the application can be built and installed by clicking the green run button. By right clicking on a runnable class, such a unit test class, it is possible to check for failing tests based on modules as well as coverage for unit tests.  To create a combined code coverage report, the following command can be used in the Android Studio terminal.
-```
-gradlew connectedDebugAndroidTest jacocoTestReport
-```
-This will create individual unit and UI test reports at the following location.
-```
-Rooio\Repairs\app\build\reports\tests\testDebugUnitTest
-Rooio\Repairs\app\build\reports\androidTests\connected
-```
-Finally, there will be a code coverage report at the following location.
-```
-Rooio\Repairs\app\build\reports\jacoco\jacocoTestReport\html\index.html
-```
+Once the emulator is working, the application can be built and installed by clicking the green run button. By right clicking on a runnable class, such a unit test class, it is possible to check for failing tests based on modules as well as coverage for unit tests.  
+
 To create a debug APK, use the following command.
 ```
 gradlew assembleDebug
