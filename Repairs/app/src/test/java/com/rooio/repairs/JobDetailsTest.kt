@@ -34,21 +34,21 @@ class JobDetailsTest {
     @Test
     fun testConvertToNewFormat() {
         val date = "2020-01-23T20:23:45.123Z"
-        val formattedDate = "2020-01-23 12:23:45"
+        val formattedDate = "2020-01-23 20:23:45"
         assertEquals(formattedDate, activity.convertToNewFormat(date))
     }
 
     @Test
     fun test2ConvertToNewFormat() {
         val date = "2020-01-23T20:23:45Z"
-        val formattedDate = "2020-01-23 12:23:45"
+        val formattedDate = "2020-01-23 20:23:45"
         assertEquals(formattedDate, activity.convertToNewFormat(date))
     }
 
     @Test
     fun testConvertToNewFormat2() {
         val date = "2020-01-23"
-        val formattedDate = "2020-01-22"
+        val formattedDate = "2020-01-23"
         assertEquals(formattedDate, activity.convertToNewFormat2(date))
     }
 
