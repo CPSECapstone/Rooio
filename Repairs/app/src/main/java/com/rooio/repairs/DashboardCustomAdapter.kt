@@ -70,24 +70,49 @@ class DashboardCustomAdapter (private val context: Context, private val dataList
             val internalClient = locationObj.getJSONObject("internal_client")
             holder.name.text = internalClient.getString("name")
 
-            // Setting time text
-            if (jobStatus === JobType.STARTED || jobStatus === JobType.PAUSED) {
-                if (data.estimatedArrivalTime.isNotEmpty()) {
-                    @SuppressLint("SimpleDateFormat") val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.estimatedArrivalTime, false))
-                    @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
-                    holder.timeText.text = dateFormatter.format(date1!!)
+//            // Setting time text
+//            if (jobStatus === JobType.STARTED || jobStatus === JobType.PAUSED) {
+//                if (data.estimatedArrivalTime.isNotEmpty()) {
+//                    @SuppressLint("SimpleDateFormat") val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.estimatedArrivalTime, false))
+//                    @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
+//                    holder.timeText.text = dateFormatter.format(date1!!)
+//                }
+//            } else if (jobStatus === JobType.DECLINED || jobStatus === JobType.COMPLETED || jobStatus === JobType.CANCELLED) {
+//                if (data.statusTimeValue.isNotEmpty()) {
+//                    @SuppressLint("SimpleDateFormat") val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.statusTimeValue, true))
+//                    @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
+//                    holder.timeText.text = dateFormatter.format(date1!!)
+//                }
+//            } else {
+//                if (data.statusTimeValue.isNotEmpty()) {
+//                    @SuppressLint("SimpleDateFormat") val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.statusTimeValue, false))
+//                    @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
+//                    holder.timeText.text = dateFormatter.format(date1!!)
+//                }
+//            }
+
+            if (data.statusTimeValue.isEmpty()) {
+                holder.timeText.setText(R.string.no_time)
+            } else if (jobStatus === JobType.STARTED || jobStatus === JobType.PAUSED) {
+                if (!data.estimatedArrivalTime.isEmpty()) {
+                    @SuppressLint("SimpleDateFormat") val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.estimatedArrivalTime))
+                    @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("MMMM d, y hh:mm a zzz")
+                    assert(date1 != null)
+                    holder.timeText.text = dateFormatter.format(date1)
                 }
             } else if (jobStatus === JobType.DECLINED || jobStatus === JobType.COMPLETED || jobStatus === JobType.CANCELLED) {
-                if (data.statusTimeValue.isNotEmpty()) {
-                    @SuppressLint("SimpleDateFormat") val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.statusTimeValue, true))
-                    @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
-                    holder.timeText.text = dateFormatter.format(date1!!)
+                if (!data.statusTimeValue.isEmpty()) {
+                    @SuppressLint("SimpleDateFormat") val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.statusTimeValue))
+                    @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("MMMM d, y hh:mm a zzz")
+                    assert(date1 != null)
+                    holder.timeText.text = dateFormatter.format(date1)
                 }
             } else {
-                if (data.statusTimeValue.isNotEmpty()) {
-                    @SuppressLint("SimpleDateFormat") val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.statusTimeValue, false))
-                    @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("EEEE, MMMM d, hh:mm a zzz")
-                    holder.timeText.text = dateFormatter.format(date1!!)
+                if (!data.statusTimeValue.isEmpty()) {
+                    @SuppressLint("SimpleDateFormat") val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(convertToNewFormat(data.statusTimeValue))
+                    @SuppressLint("SimpleDateFormat") val dateFormatter = SimpleDateFormat("MMMM d, y hh:mm a zzz")
+                    assert(date1 != null)
+                    holder.timeText.text = dateFormatter.format(date1)
                 }
             }
             //Checks if Image
@@ -123,16 +148,23 @@ class DashboardCustomAdapter (private val context: Context, private val dataList
     }
 
     @Throws(ParseException::class)
-    private fun convertToNewFormat(dateStr: String, status: Boolean): String {
-        val utc = TimeZone.getTimeZone("UTC")
-        val sourceFormat: SimpleDateFormat = if (status) {
-            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        } else {
-            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+    private fun convertToNewFormat(dateStr: String): String? {
+        return try {
+            val utc = TimeZone.getTimeZone("UTC")
+            val sourceFormat: SimpleDateFormat
+            sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            @SuppressLint("SimpleDateFormat") val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            sourceFormat.timeZone = utc
+            val convertedDate = sourceFormat.parse(dateStr)!!
+            destFormat.format(convertedDate)
+        } catch (e: ParseException) {
+            val utc = TimeZone.getTimeZone("UTC")
+            val sourceFormat: SimpleDateFormat
+            sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+            @SuppressLint("SimpleDateFormat") val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            sourceFormat.timeZone = utc
+            val convertedDate = sourceFormat.parse(dateStr)!!
+            destFormat.format(convertedDate)
         }
-        @SuppressLint("SimpleDateFormat") val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        sourceFormat.timeZone = utc
-        val convertedDate = sourceFormat.parse(dateStr)!!
-        return destFormat.format(convertedDate)
     }
 }
