@@ -147,16 +147,10 @@ class PreferredProviderDetails: NavigationBar() {
     }
 
     private fun setElementTexts(element: TextView, elementValue: String){
-        try {
-            if(elementValue.isEmpty() || elementValue == "null")
-                element.text = "--"
-            else
-                element.text = elementValue
-
-        }
-        catch (e: Exception) {
+        if(elementValue.isEmpty() || elementValue == "null")
             element.text = "--"
-        }
+        else
+            element.text = elementValue
     }
 
     //Sets the skills text for the item by parsing an array of skills
@@ -170,14 +164,10 @@ class PreferredProviderDetails: NavigationBar() {
     }
 
     private fun setPriceElement(element: TextView, response: JSONObject, elementName: String){
-        try {
-            val hoursText = getString((R.string.details_price_exception_message),response.get(elementName) as String)
-            val standardText = SpannableStringBuilder(getString(R.string.starting_cost_text))
-            standardText.setSpan(ForegroundColorSpan(ContextCompat.getColor(applicationContext, R.color.colorAccent)), 0, 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-            element.text = standardText.insert(1, "$hoursText ")
-        } catch (e: Exception) {
-            element.text = getString(R.string.empty_field)
-        }
+        val hoursText = getString((R.string.details_price_exception_message),response.get(elementName) as String)
+        val standardText = SpannableStringBuilder(getString(R.string.starting_cost_text))
+        standardText.setSpan(ForegroundColorSpan(ContextCompat.getColor(applicationContext, R.color.colorAccent)), 0, 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+        element.text = standardText.insert(1, "$hoursText ")
     }
 
 
