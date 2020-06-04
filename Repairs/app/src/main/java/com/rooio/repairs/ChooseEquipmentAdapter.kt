@@ -104,7 +104,7 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
                 params.height = p
             } else {
                 params = holder.equipmentLocationLayout.layoutParams
-                p = if (holder.visible) 600 else 190
+                p = if (holder.visible) 500 else 90
                 params.height = p
             }
             if (holder.visible) {
@@ -138,8 +138,9 @@ class ChooseEquipmentAdapter(context: Context, dataList: ArrayList<EquipmentData
         initial = holder.equipmentLocationLayout.layoutParams
         if (holder.locationSpace) {
             initial.height = 90
+            holder.equipmentLayout
         } else {
-            initial.height = 190
+            initial.height = 90
         }
         configureElements(holder, position)
     }

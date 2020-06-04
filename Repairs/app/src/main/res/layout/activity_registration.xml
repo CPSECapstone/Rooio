@@ -177,7 +177,7 @@
 
         <TextView
             android:id="@+id/errorMessage"
-            android:layout_width="363dp"
+            android:layout_width="700dp"
             android:layout_height="25dp"
             android:textAlignment="center"
             android:textColor="@color/errorMessage"
