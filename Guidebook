@@ -1,20 +1,81 @@
-Repository Information: The current repository is the Repairs project for the Clover Station 2018 and the Clover Station Pro. Download instructions can be found in the README file for configuring and running the application.
+Repository Information: The current repository is the Repairs application for the Clover Station 2018 and the Clover Station Pro. 
+Download instructions can be found in the README file for configuring and running the application.
+The Clover application can be run in three different manners:
 
-Application Information:
+  1) Cloning this repository and running the application in Android Studio, with the correct emulator profile
+  2) Sideloading (clicking and dragging) the APK onto a running Android emulator with the correct profile
+  3) Installing the application on the emulator via WIFI and a Clover account.
+  
+The first two are more significant for testing and developer purposes, while the last is significant for mimicking the Clover
+environment and actual production standards. All three require the Clover APKs, found under the emulator folder in this repo, 
+to be installed onto the emulator and a Clover developer account to be logged into on the emulator as well, as the application
+requires info from the user permissions of a Clover system.
+
+The third method is the trickiest of the three as well, although it gives the best option of accurately testing the application.
+It requires you to have a Clover developer account, log on to the Clover Sandbox Dashboard 
+(https://sandbox.dev.clover.com/developer-home/create-account), upload a signed APK of the application, download the application for
+the correct test merchant after it provides the option to after uploading, and finally installing all of the required Clover apps onto 
+the emulator and allowing the Repairs application to be downloaded automatically as well from the App Updater (prone to errors using
+other Clover APKs other than the ones specified in our folder).
+
+---------------------
+
+Application Information -
 
 The main Java and Kotlin files of the application are under Repairs/app/src/main/java/com/rooio/repairs/
 
-The test files of the application can also be found under Repairs/app/src/test/java/com/rooio/repairs/
+The test files of the application can be found under Repairs/app/src/test/java/com/rooio/repairs/
 
 The image and layout files are under Repairs/app/src/res/
 
 Each XML layout for class can be found by looking at the corresponding Kotlin file under the onCreate() method.
 (i.e. Login.kt corresponds to activity_login.xml)
 
-Class Information:
+Class Information -
 
-RestAPI: Overarching API abstract class that all activities inherit from to access the API functions and other necessary functions involving sound (under the onResume and onPause) and storing important user information
+RestApi: Overarching API abstract class that all activities inherit from to access the API functions and other necessary functions 
+involving sound (under the onResume and onPause) and storing important user information. The API is called through the Volley library
+and is a function accessible to all classes where the call can be customized depending on what information needs to be sent/received.
 
-AddLocation, AddLocationLogin, AddLocationSettings: Classes that are for the add location pages that can be found during the login or settings flow (after pressing the + Add Location button) AddLocation is an abstract class that the two remaining classes inherit common functionality from.
+NavigationBar: An abstract class that allows the navigation bar to appear on each page that needs it. Inherits from RestApi and is subclassed
+by any activity not involved in the login flow. This was made an abstract class so each activity had access to animateActivity to
+coincide any necessary page animations at the same time as the navigation bar expanding and collapsing.
 
-AddPreferredProviders, AddPreferredProvidersLogin, AddPreferredProvidersSettings: Classes that are for the add preferred providers pages that can be found during the login or settings flow (After pressing the Add Preferred Provder button). AddPreferredProviders is an abstract class that the two remaining classes inherit common functionality from.
+Graph: A library called MPAndroidChart found here (https://github.com/PhilJay/MPAndroidChart) was used to make the charts and is stored
+in this abstract class.
+
+CustomMarker: A class involved with the graphs and MPAndroidChart that shows a custom marker value at any point along the graph.
+
+AddLocation, AddLocationLogin, AddLocationSettings: Classes that are for the add location pages that can be found during the login or 
+settings flow (after pressing the + Add Location button) AddLocation is an abstract class that the two remaining classes inherit 
+common functionality from.
+
+AddPreferredProviders, AddPreferredProvidersLogin, AddPreferredProvidersSettings: Classes that are for the add preferred providers pages
+that can be found during the login or settings flow (After pressing the Add Preferred Provder button). AddPreferredProviders is an 
+abstract class that the two remaining classes inherit common functionality from.
+
+The rest of the classes are self-explanatory based on names, comments, or usage.
+
+---------------------
+
+Testing -
+
+To the poor soul who is reading this, good luck with testing in Android. There are two types of testing in Android: unit tests and
+instrumentation tests. Unit tests are just like any other application, whereas instrumented tests are UI tests that have to have
+the emulator running, and usually are seen as integration tests. The application testing currently uses Robolectric and Mockito
+to unit test the activity code without having to run the emulator. Mockito is used as a way to mock the Roopairs REST API. 
+There are no integration tests currently, but they would be made using the Espresso library. However, there are some major bugs with 
+using Robolectric to unit test the code. Firstly, JaCoCo does not like creating a code coverage report from the results of Robolectric 
+tests as of this moment, and the same applies with Continuous Integration services. Secondly, the code coverage report from Android 
+has to be used (and sometimes has to require the developer to run each test class separately and compile all the coverage reports 
+one by one) due to this, and is unreliable at best. Finally, Robolectric is useful but errors out in the new way of testing (using the 
+Espresso libraries for unit tests) and thus we had to resort to old but not deprecated ways of testing, which are supposedly not as great
+as they mock a lot of functionality that needs to actually be tested. With that being said, the files containing all the tests are 
+pretty straightforward and should still work for writing and editing both new and old tests. The only outwithstanding issue is that in 
+the AddLocation tests, the Places API has not been mocked andutilizes Googles Places API auto complete (we were unable to find 
+documentation on how to mock this dependency).
+
+
+CI/CD: Azure Devops is currently used for continuous integration but does not work well with Android applications and would most likely
+be a pain to deploy a Clover application from. SonarCloud was used for code quality and was very helpful for keeping our code clean.
+
